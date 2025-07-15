@@ -29,23 +29,7 @@ export const metadata: Metadata = {
     "Tarun Vuppala, Full Stack Developer, React, Next.js, Web Development, JavaScript, TypeScript, Frontend, Backend",
   authors: [{ name: "Tarun Vuppala" }],
   creator: "Tarun Vuppala",
-  openGraph: {
-    title: "Tarun Vuppala - Full Stack Developer",
-    description: "Full Stack Developer crafting digital experiences that solve real problems and scale beautifully.",
-    type: "website",
-    locale: "en_In",
-    // url: "https://tarunvuppala.in",
-    siteName: "Tarun Vuppala Portfolio",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Tarun Vuppala - Full Stack Developer",
-    description: "Full Stack Developer crafting digital experiences that solve real problems and scale beautifully.",
-    creator: "@tarunvuppala",
-  },
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
-  // metadataBase: new URL("https://tarunvuppala.in")
 }
 
 export default function RootLayout({
