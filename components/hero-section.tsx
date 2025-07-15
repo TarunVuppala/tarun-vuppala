@@ -19,7 +19,7 @@ export default function HeroSection() {
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* 3D Background Animation */}
       <div className="absolute inset-0">
-        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+        <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
           <NetworkAnimation />
         </Canvas>
       </div>
