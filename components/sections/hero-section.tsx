@@ -344,7 +344,7 @@ export default function HeroSection() {
                   duration: 2,
                   repeat: isInView ? Number.POSITIVE_INFINITY : 0,
                 }}
-                className="w-3 h-3 bg-green-500 rounded-full"
+                className="w-2 h-2 bg-green-500 rounded-full"
               />
               <span className="text-xs sm:text-sm font-medium">Available for opportunities</span>
             </motion.div>
