@@ -36,195 +36,158 @@ interface Project {
 }
 
 const projects: Project[] = [
-	{
-		id: "streamsync",
-		title: "StreamSync",
-		subtitle: "Real-time Video Syncing Platform",
-		problem: "Remote teams couldn't watch videos together seamlessly during virtual meetings.",
-		solution: "Built with React, Node.js, and WebSockets for <50ms synchronization accuracy.",
-		impact: "98% sync accuracy, setup reduced from 5 minutes to 30 seconds.",
-		tech: ["React", "Node.js", "WebSockets", "MongoDB", "Redis"],
-		image: "/placeholder.svg?height=400&width=600",
-		liveUrl: "https://streamsync-demo.vercel.app",
-		githubUrl: "https://github.com/tarunvuppala/streamsync",
-		date: "2024",
-		featured: true,
-		stats: {
-			users: "1K+",
-			performance: "<50ms",
-			rating: "4.8/5",
-		},
-		details: {
-			challenge:
-				"Creating real-time synchronization across multiple clients with minimal latency while handling network inconsistencies.",
-			approach:
-				"Implemented a custom WebSocket protocol with heartbeat monitoring and automatic reconnection. Used Redis for session management.",
-			results: [
-				"Achieved <50ms synchronization latency",
-				"Supports up to 100 concurrent users per room",
-				"Zero data loss during network interruptions",
-				"99.9% uptime in production",
-			],
-			learnings:
-				"Learned the importance of graceful degradation and how to optimize WebSocket connections for different network conditions.",
-		},
-	},
-	{
-		id: "taskflow",
-		title: "TaskFlow AI",
-		subtitle: "AI-Powered Project Management",
-		problem: "Teams struggled with task prioritization and deadline management across projects.",
-		solution: "Integrated machine learning for smart task scheduling and priority recommendations.",
-		impact: "40% improvement in project delivery times, 60% reduction in missed deadlines.",
-		tech: ["Next.js", "Python", "TensorFlow", "PostgreSQL", "OpenAI"],
-		image: "/placeholder.svg?height=400&width=600",
-		liveUrl: "https://taskflow-ai.vercel.app",
-		githubUrl: "https://github.com/tarunvuppala/taskflow",
-		date: "2024",
-		featured: true,
-		stats: {
-			users: "500+",
-			performance: "40%↑",
-			rating: "4.9/5",
-		},
-		details: {
-			challenge:
-				"Building an intelligent system that could learn from team patterns and predict optimal task scheduling.",
-			approach:
-				"Developed a hybrid recommendation system combining collaborative filtering with time-series analysis for deadline prediction.",
-			results: [
-				"40% faster project completion",
-				"60% fewer missed deadlines",
-				"85% user satisfaction rate",
-				"Reduced planning time by 3 hours/week per team",
-			],
-			learnings:
-				"Understanding user behavior patterns is crucial for building effective AI recommendations in productivity tools.",
-		},
-	},
-	{
-		id: "codereviewer",
-		title: "CodeReviewer Pro",
-		subtitle: "Automated Code Quality Analysis",
-		problem: "Manual code reviews were time-consuming and inconsistent across team members.",
-		solution: "Built an automated system using AST parsing and custom rules engine for instant feedback.",
-		impact: "70% reduction in review time, 50% fewer bugs in production.",
-		tech: ["TypeScript", "AST Parser", "Docker", "GitHub API", "ML"],
-		image: "/placeholder.svg?height=400&width=600",
-		liveUrl: "https://codereviewer-pro.vercel.app",
-		githubUrl: "https://github.com/tarunvuppala/codereviewer",
-		date: "2023",
-		featured: false,
-		stats: {
-			users: "200+",
-			performance: "70%↓",
-			rating: "4.7/5",
-		},
-		details: {
-			challenge:
-				"Creating a system that could understand code context and provide meaningful suggestions beyond basic linting.",
-			approach:
-				"Built custom AST parsers for multiple languages and implemented a rules engine with configurable quality gates.",
-			results: [
-				"70% faster code review process",
-				"50% reduction in production bugs",
-				"Standardized code quality across teams",
-				"Integrated with 15+ popular IDEs",
-			],
-			learnings: "The importance of balancing automation with human insight in code quality processes.",
-		},
-	},
-	{
-		id: "ecommerce",
-		title: "ShopFlow",
-		subtitle: "Modern E-commerce Platform",
-		problem: "Small businesses needed an affordable, feature-rich e-commerce solution.",
-		solution: "Built a scalable platform with inventory management, payment processing, and analytics.",
-		impact: "Helped 50+ businesses increase online sales by 200% on average.",
-		tech: ["Next.js", "Stripe", "PostgreSQL", "Prisma", "Tailwind"],
-		image: "/placeholder.svg?height=400&width=600",
-		liveUrl: "https://shopflow-demo.vercel.app",
-		githubUrl: "https://github.com/tarunvuppala/shopflow",
-		date: "2023",
-		featured: true,
-		stats: {
-			users: "2K+",
-			performance: "200%↑",
-			rating: "4.6/5",
-		},
-		details: {
-			challenge: "Creating a comprehensive e-commerce solution that's both powerful and easy to use.",
-			approach: "Focused on user experience while building robust backend systems for inventory and payments.",
-			results: [
-				"50+ businesses onboarded",
-				"200% average sales increase",
-				"99.9% payment success rate",
-				"Mobile-first responsive design",
-			],
-			learnings: "The importance of understanding business needs beyond just technical requirements.",
-		},
-	},
-	{
-		id: "portfolio",
-		title: "Personal Portfolio",
-		subtitle: "Interactive Developer Portfolio",
-		problem: "Needed a unique way to showcase projects and skills that stands out.",
-		solution: "Built with Next.js, Three.js, and Framer Motion for immersive 3D experiences.",
-		impact: "Increased client inquiries by 300% and improved professional visibility.",
-		tech: ["Next.js", "Three.js", "Framer Motion", "Tailwind", "TypeScript"],
-		image: "/placeholder.svg?height=400&width=600",
-		liveUrl: "https://tarunvuppala.dev",
-		githubUrl: "https://github.com/tarunvuppala/portfolio",
-		date: "2024",
-		featured: true,
-		stats: {
-			users: "5K+",
-			performance: "Fast",
-			rating: "4.9/5",
-		},
-		details: {
-			challenge: "Creating a portfolio that showcases both technical skills and creative design thinking.",
-			approach: "Combined modern web technologies with interactive 3D elements and smooth animations.",
-			results: [
-				"300% increase in client inquiries",
-				"Featured in design showcases",
-				"Improved professional network",
-				"Enhanced personal brand",
-			],
-			learnings: "The importance of balancing creativity with usability in portfolio design.",
-		},
-	},
-	{
-		id: "analytics",
-		title: "DataViz Pro",
-		subtitle: "Advanced Analytics Dashboard",
-		problem: "Companies needed better ways to visualize complex data sets and trends.",
-		solution: "Built interactive dashboards with real-time data processing and custom visualizations.",
-		impact: "Reduced data analysis time by 80% and improved decision-making speed.",
-		tech: ["React", "D3.js", "Python", "FastAPI", "WebSockets"],
-		image: "/placeholder.svg?height=400&width=600",
-		liveUrl: "https://dataviz-pro.vercel.app",
-		githubUrl: "https://github.com/tarunvuppala/dataviz",
-		date: "2023",
-		featured: true,
-		stats: {
-			users: "800+",
-			performance: "80%↓",
-			rating: "4.7/5",
-		},
-		details: {
-			challenge: "Creating intuitive visualizations for complex data while maintaining performance.",
-			approach: "Used D3.js for custom charts and WebSockets for real-time updates with optimized rendering.",
-			results: [
-				"80% faster data analysis",
-				"Real-time dashboard updates",
-				"Custom visualization library",
-				"Improved business insights",
-			],
-			learnings: "The importance of user-centered design in data visualization tools.",
-		},
-	},
-]
+  {
+    id: "acethletics",
+    title: "Acethletics",
+    subtitle: "All-in-One College Sports Management",
+    problem: "College sports events lacked centralized scheduling, team coordination, and transparent results tracking.",
+    solution: "Built a platform for event scheduling, participant management, and real-time score updates.",
+    impact: "Digitized 10+ sports events and improved communication across 15+ colleges.",
+    tech: ["Next.js", "MongoDB", "Node.js", "Tailwind", "Socket.io"],
+    image: "/placeholder.svg?height=400&width=600",
+    liveUrl: "https://acethletics.vercel.app",
+    githubUrl: "https://github.com/tarunvuppala/acethletics",
+    date: "2024",
+    featured: true,
+    stats: {
+      users: "1.5K+",
+      performance: "Instant Sync",
+      rating: "4.8/5",
+    },
+    details: {
+      challenge: "Coordinating live match updates and team logistics during a multi-day, multi-sport event.",
+      approach: "Used WebSockets for live scores and built an intuitive admin panel for real-time control.",
+      results: [
+        "Live updates with 0 delays during 30+ matches",
+        "300+ participants registered via platform",
+        "10K+ page views during event days",
+        "Reduced miscommunication across teams",
+      ],
+      learnings: "Handled production stress during live events and optimized real-time data flows.",
+    },
+  },
+  {
+    id: "quickfuel",
+    title: "QuickFuel",
+    subtitle: "Smart Fuel Station Locator & Tracker",
+    problem: "Users often faced long queues or dry pumps at fuel stations without real-time status.",
+    solution: "Built a crowdsourced fuel availability tracker with GPS-based smart station finder.",
+    impact: "Saved users 30+ mins/day and reduced congestion at fuel pumps.",
+    tech: ["React Native", "Firebase", "Google Maps API", "Express.js"],
+    image: "/placeholder.svg?height=400&width=600",
+    liveUrl: "https://quickfuel.vercel.app",
+    githubUrl: "https://github.com/tarunvuppala/quickfuel",
+    date: "2024",
+    featured: false,
+    stats: {
+      users: "700+",
+      performance: "30min saved",
+      rating: "4.6/5",
+    },
+    details: {
+      challenge: "Crowdsourcing accurate real-time data and ensuring geolocation accuracy.",
+      approach: "Implemented upvoting for station status and used Firestore for real-time updates.",
+      results: [
+        "95% accuracy in fuel status predictions",
+        "500+ stations mapped",
+        "Geo-alerts based on fuel availability",
+        "Reduced user wait time significantly",
+      ],
+      learnings: "The power of community data and the importance of trust systems in public-facing apps.",
+    },
+  },
+  {
+    id: "tedxaceec",
+    title: "TEDxACEEC 2024",
+    subtitle: "Event Website & Collaborator Portal",
+    problem: "Managing TEDx outreach, ticketing, and team coordination lacked a centralized solution.",
+    solution: "Developed a portal for team management, collaborator onboarding, and attendee engagement.",
+    impact: "Streamlined operations for 20+ teams, 50+ collaborators, and 300+ attendees.",
+    tech: ["Next.js", "Supabase", "Tailwind", "Framer Motion"],
+    image: "/placeholder.svg?height=400&width=600",
+    liveUrl: "https://tedxaceec.vercel.app",
+    githubUrl: "https://github.com/tarunvuppala/tedxaceec",
+    date: "2024",
+    featured: true,
+    stats: {
+      users: "500+",
+      performance: "High Engagement",
+      rating: "5.0/5",
+    },
+    details: {
+      challenge: "Orchestrating multiple roles (design, outreach, speakers) via one digital interface.",
+      approach: "Built modular components for team dashboards, ticket verification, and mail flows.",
+      results: [
+        "Onboarded 50+ collaborators",
+        "Processed 300+ tickets",
+        "Improved outreach through built-in analytics",
+        "Ensured smooth coordination across all teams",
+      ],
+      learnings: "The value of internal tooling in large-scale event success.",
+    },
+  },
+  {
+    id: "trimlyai",
+    title: "Trimly.ai",
+    subtitle: "AI-Powered Video Trimming",
+    problem: "Content creators spent hours manually trimming and editing raw footage for highlights.",
+    solution: "Developed an AI-driven tool that auto-detects key moments and trims videos with one click.",
+    impact: "Reduced editing time by 80%, empowering creators to publish faster.",
+    tech: ["Next.js", "Python", "OpenAI API", "FFmpeg"],
+    image: "/placeholder.svg?height=400&width=600",
+    liveUrl: "https://trimly.ai",
+    githubUrl: "https://github.com/tarunvuppala/trimlyai",
+    date: "2025",
+    featured: true,
+    stats: {
+      users: "1K+",
+      performance: "5x faster",
+      rating: "4.7/5",
+    },
+    details: {
+      challenge: "Automatically identifying contextually important clips without false positives.",
+      approach: "Built a machine-learning pipeline using scene detection and audio cues to locate highlights.",
+      results: [
+        "Processed 500+ videos in beta",
+        "90% user satisfaction in trimming accuracy",
+        "Cut average edit time from 2h to 15m",
+        "Integrated with YouTube API for direct uploads",
+      ],
+      learnings: "Tuned ML thresholds for precision-recall balance and optimized FFmpeg performance in serverless functions.",
+    },
+  },
+  {
+    id: "autopodcast",
+    title: "AutoPodcast",
+    subtitle: "Automated Podcast Editing & Publishing",
+    problem: "Podcasters spent hours removing silence, leveling audio, and segmenting episodes manually.",
+    solution: "Created an end-to-end pipeline that auto-detects silence, balances sound, and publishes with metadata.",
+    impact: "Saved creators 70% of post-production time and standardized quality across episodes.",
+    tech: ["React", "Node.js", "FFmpeg", "Adobe CEP", "MongoDB"],
+    image: "/placeholder.svg?height=400&width=600",
+    liveUrl: "https://autopodcast.vercel.app",
+    githubUrl: "https://github.com/tarunvuppala/autopodcast",
+    date: "2025",
+    featured: false,
+    stats: {
+      users: "200+",
+      performance: "8min/process",
+      rating: "4.9/5",
+    },
+    details: {
+      challenge: "Integrating with multiple audio formats and ensuring lossless editing in batch jobs.",
+      approach: "Leveraged FFmpeg filters for silence removal, custom gain control algorithms, and CEP scripting for Adobe workflows.",
+      results: [
+        "Automated editing of 150+ podcast episodes",
+        "Maintained audio fidelity with <1% bitrate loss",
+        "Reduced manual editing hours by 70%",
+        "Seamless publishing to RSS feeds",
+      ],
+      learnings: "Balanced server load for concurrent FFmpeg tasks and improved UX for workflow customization.",
+    },
+  },
+];
+
 
 type ProjectCardProps = {
 	project: Project;
@@ -482,11 +445,11 @@ export default function ProjectsSection() {
 						>
 							<span>Scroll to explore projects horizontally</span>
 							<motion.div
-								animate={{ y: [0, 5, 0] }}
+								animate={{ y: [-5, 15, 0] }}
 								transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-								className="text-primary"
+								className="text-primary text-md border border-secondary rounded-full w-5 h-5"
 							>
-								↓
+								<span className="relative -top-0.5">↓</span>
 							</motion.div>
 						</motion.div>
 					</motion.div>

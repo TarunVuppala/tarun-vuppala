@@ -26,17 +26,22 @@ export default function ContactSection() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      const json = await res.json()
+      if (!json.success) throw new Error(json.error || 'Unknown error')
+    } catch (err) {
+      console.error(err)
+      setIsSubmitting(false)
+      return
+    }
 
     setIsSubmitted(true)
     setIsSubmitting(false)
-
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({ name: "", email: "", subject: "", message: "" })
-    }, 3000)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -62,23 +67,7 @@ export default function ContactSection() {
       description: "Available for remote work globally",
       href: null,
       color: "text-green-400",
-    },
-    {
-      icon: Clock,
-      title: "Response Time",
-      value: "Within 24 hours",
-      description: "Usually much faster!",
-      href: null,
-      color: "text-purple-400",
-    },
-    {
-      icon: Phone,
-      title: "Availability",
-      value: "Mon - Fri, 9AM - 6PM IST",
-      description: "Flexible for different time zones",
-      href: null,
-      color: "text-orange-400",
-    },
+    }
   ]
 
   return (

@@ -135,7 +135,7 @@ export default function Footer() {
 
           <div className="flex items-center gap-4">
             <p className="text-muted-foreground text-sm flex items-center gap-2">
-              Made with <Heart className="w-4 h-4 text-red-500" /> using Next.js & Tailwind CSS
+              Made with <Heart className="w-4 h-4 text-red-500" /> by Tarun
             </p>
 
             <Button variant="ghost" size="sm" onClick={scrollToTop} className="w-8 h-8 p-0 rounded-full hover:bg-muted">

@@ -1,169 +1,506 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import { useRouter } from "next/navigation"
-
-// Condensed skill data for home page
-const featuredSkills = [
-  { name: "React", category: "Frontend", level: "Expert", icon: "⚛️" },
-  { name: "Next.js", category: "Framework", level: "Advanced", icon: "▲" },
-  { name: "TypeScript", category: "Language", level: "Expert", icon: "🔷" },
-  { name: "Node.js", category: "Backend", level: "Advanced", icon: "🟢" },
-  { name: "Python", category: "Language", level: "Proficient", icon: "🐍" },
-  { name: "MongoDB", category: "Database", level: "Advanced", icon: "🍃" },
-]
+import { useState, useEffect, useRef } from "react"
+import { motion } from "framer-motion"
+import { Code, Database, Wrench, Sparkles, Star } from "lucide-react"
 
 const skillCategories = [
-  { name: "Frontend", count: 8, color: "bg-blue-500" },
-  { name: "Backend", count: 6, color: "bg-green-500" },
-  { name: "Database", count: 4, color: "bg-purple-500" },
-  { name: "Tools", count: 10, color: "bg-orange-500" },
+  {
+    title: "Frontend Development",
+    icon: Code,
+    color: "#3B82F6", // Original color, but we'll override text/icon color for visibility
+    bgGradient: "linear-gradient(135deg, #3B82F6, #1D4ED8)",
+    skills: [
+      {
+        name: "React.js",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        color: "#61DAFB",
+      },
+      {
+        name: "Next.js",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+        color: "#ffffff",
+      },
+      {
+        name: "TypeScript",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+        color: "#3178C6",
+      },
+      {
+        name: "JavaScript",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+        color: "#F7DF1E",
+      },
+      {
+        name: "HTML5",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+        color: "#E34F26",
+      },
+      {
+        name: "CSS3",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+        color: "#1572B6",
+      },
+      {
+        name: "Tailwind CSS",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+        color: "#06B6D4",
+      },
+      {
+        name: "Motion",
+        logo: "https://www.google.com/imgres?q=motion.dev%20logo%20png&imgurl=https%3A%2F%2Fuser-images.githubusercontent.com%2F7850794%2F164965509-2a8dc49e-2ed7-4243-a2c9-481b03bbc31a.png&imgrefurl=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fmotion%2Fv%2F10.17.0&docid=zImfgnQYGoA8kM&tbnid=vGCqJeOBJjfS8M&vet=12ahUKEwjDvcz568aOAxXr3jgGHSgWJDcQM3oECBAQAA..i&w=300&h=300&hcb=2&ved=2ahUKEwjDvcz568aOAxXr3jgGHSgWJDcQM3oECBAQAA",
+        color: "#ECF806FF",
+      },
+    ],
+  },
+  {
+    title: "Backend & Database",
+    icon: Database,
+    color: "#10B981",
+    bgGradient: "linear-gradient(135deg, #10B981, #059669)",
+    skills: [
+      {
+        name: "Node.js",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+        color: "#339933",
+      },
+      {
+        name: "Express.js",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+        color: "#ffffff",
+      },
+      {
+        name: "MongoDB",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+        color: "#47A248",
+      },
+      {
+        name: "PostgreSQL",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+        color: "#336791",
+      },
+      {
+        name: "Firebase",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+        color: "#FFCA28",
+      },
+      {
+        name: "Prisma",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-plain.svg",
+        color: "#ffffff",
+      }
+    ],
+  },
+  {
+    title: "Tools & Design",
+    icon: Wrench,
+    color: "#8B5CF6",
+    bgGradient: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+    skills: [
+      {
+        name: "Git",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        color: "#F05032",
+      },
+      {
+        name: "GitHub",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+        color: "#ffffff",
+      },
+      {
+        name: "VS Code",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+        color: "#007ACC",
+      },
+      {
+        name: "Figma",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+        color: "#F24E1E",
+      }
+    ],
+  },
 ]
 
-function SkillCard({ skill, index, isVisible }: { skill: any; index: number; isVisible: boolean }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-      animate={isVisible ? { opacity: 1, scale: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ scale: 1.05, y: -5 }}
-      className="group"
-    >
-      <Card className="border-border/50 hover:border-border transition-all duration-300 bg-card/50 backdrop-blur-sm">
-        <CardContent className="p-4 text-center">
-          <motion.div
-            className="text-2xl mb-2 group-hover:scale-110 transition-transform"
-            whileHover={{ rotate: [0, -10, 10, 0] }}
-          >
-            {skill.icon}
-          </motion.div>
-          <h4 className="font-medium mb-1">{skill.name}</h4>
-          <Badge variant="secondary" className="text-xs mb-2">
-            {skill.category}
-          </Badge>
-          <div
-            className={`text-xs font-medium ${
-              skill.level === "Expert"
-                ? "text-green-500"
-                : skill.level === "Advanced"
-                  ? "text-blue-500"
-                  : "text-yellow-500"
-            }`}
-          >
-            {skill.level}
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  )
-}
-
-export default function SkillsSection() {
+export default function TechStackFull() {
+  const [mounted, setMounted] = useState(false)
+  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: true, margin: "-20%" })
-  const router = useRouter()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isInView = true
+
+  if (!mounted) {
+    return (
+      <div style={{ backgroundColor: "#0a0a0a", padding: "60px 20px", minHeight: "600px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center", color: "white" }}>
+          <h2 style={{ fontSize: "32px", marginBottom: "40px" }}>Loading Skills...</h2>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", justifyContent: "center" }}>
+            {Array.from({ length: 18 }).map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  height: "40px",
+                  width: "120px",
+                  backgroundColor: "#333",
+                  borderRadius: "20px",
+                  animation: `pulse ${1 + (i % 3) * 0.2}s ease-in-out infinite alternate`,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <section id="skills" ref={containerRef} className="py-16 sm:py-20 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
-            backgroundSize: "20px 20px",
-          }}
-        />
-      </div>
+    <>
+      <style jsx global>{`
+        @keyframes pulse {
+          0% {
+            opacity: 0.4;
+          }
+          100% {
+            opacity: 0.8;
+          }
+        }
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-15px) rotate(5deg);
+          }
+        }
+        @keyframes glow {
+          0%,
+          100% {
+            box-shadow: 0 0 10px currentColor;
+          }
+          50% {
+            box-shadow: 0 0 25px currentColor, 0 0 35px currentColor;
+          }
+        }
+        @keyframes sparkle {
+          0%,
+          100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.2);
+          }
+        }
+      `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16"
-        >
-          <motion.div
-            initial={{ width: 0 }}
-            animate={isInView ? { width: "200px" } : {}}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6 sm:mb-8"
+      <div
+        ref={containerRef}
+        style={{
+          padding: "60px 20px",
+          minHeight: "600px",
+          position: "relative",
+          overflow: "hidden",
+          boxShadow: "0 0 30px rgba(0, 0, 0, 0.8)", // Stronger shadow
+        }}
+      >
+        {/* Animated Background Elements */}
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: "15%",
+              left: "10%",
+              width: "150px",
+              height: "150px",
+              background: "radial-gradient(circle, #3B82F615, transparent)",
+              borderRadius: "50%",
+              animation: "float 8s ease-in-out infinite",
+            }}
           />
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-            Skills &{" "}
-            <motion.span
-              className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
-              whileHover={{ scale: 1.05 }}
-            >
-              Expertise
-            </motion.span>
-          </h2>
-
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
-            Core technologies I use to build exceptional digital experiences
-          </p>
-        </motion.div>
-
-        {/* Featured Skills Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
-          {featuredSkills.map((skill, index) => (
-            <SkillCard key={skill.name} skill={skill} index={index} isVisible={isInView} />
-          ))}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20%",
+              right: "15%",
+              width: "120px",
+              height: "120px",
+              background: "radial-gradient(circle, #8B5CF615, transparent)",
+              borderRadius: "50%",
+              animation: "float 10s ease-in-out infinite reverse",
+            }}
+          />
+          <Sparkles
+            style={{
+              position: "absolute",
+              top: "25%",
+              right: "20%",
+              width: "24px",
+              height: "24px",
+              color: "#3B82F6",
+              animation: "sparkle 3s ease-in-out infinite",
+            }}
+          />
+          <Sparkles
+            style={{
+              position: "absolute",
+              bottom: "30%",
+              left: "25%",
+              width: "20px",
+              height: "20px",
+              color: "#8B5CF6",
+              animation: "sparkle 4s ease-in-out infinite 1s",
+            }}
+          />
         </div>
 
-        {/* Categories Overview */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
-        >
-          {skillCategories.map((category, index) => (
+        <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 10 }}>
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            style={{ textAlign: "center", marginBottom: "60px" }}
+          >
             <motion.div
-              key={category.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+              initial={{ width: 0 }}
+              animate={isInView ? { width: "200px" } : { width: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6 sm:mb-8"
+            />
+            <motion.h2
+              style={{
+                fontSize: "48px",
+                fontWeight: "bold",
+                background: "linear-gradient(135deg, #ffffff, #3B82F6, #8B5CF6, #10B981)",
+                backgroundSize: "300% 300%",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                color: "white",
+                marginBottom: "20px",
+              }}
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+              }}
+            >
+              Tech Stack & {" "}
+              <motion.span
+                className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+                whileHover={{ scale: 1.05, rotateY: 10 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                Expertise
+              </motion.span>
+            </motion.h2>
+            <motion.p
+              style={{
+                color: "#FFFFFF",
+                fontSize: "18px",
+                marginBottom: "24px",
+                maxWidth: "600px",
+                margin: "0 auto 24px",
+              }}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+            >
+              Technologies I'm passionate about
+            </motion.p>
+          </motion.div>
+
+          {/* Categories */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "50px" }}>
+            {skillCategories.map((category, categoryIndex) => (
+              <motion.div
+                key={category.title}
+                initial={{ opacity: 0, x: categoryIndex % 2 === 0 ? -100 : 100 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: categoryIndex % 2 === 0 ? -100 : 100 }}
+                transition={{
+                  delay: categoryIndex * 0.3,
+                  duration: 0.8,
+                  type: "spring",
+                  stiffness: 100,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "24px" }}>
+                  <motion.div
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "15px",
+                      background: category.bgGradient,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: `0 8px 25px ${category.color}40`,
+                    }}
+                    whileHover={{
+                      scale: 1.1,
+                      rotate: 10,
+                      boxShadow: `0 12px 35px ${category.color}60`,
+                    }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <category.icon style={{ width: "24px", height: "24px", color: "white" }} />
+                  </motion.div>
+                  <div>
+                    <h3 style={{ fontSize: "24px", fontWeight: "700", color: "#FFFFFF", margin: 0 }}>
+                      {category.title}
+                    </h3>
+                    <p style={{ fontSize: "14px", color: "#CCCCCC", margin: 0 }}>
+                      {category.skills.length} technologies
+                    </p>
+                  </div>
+                  <motion.div
+                    style={{
+                      flex: 1,
+                      height: "3px",
+                      background: `linear-gradient(90deg, ${category.color}80, ${category.color}20, transparent)`,
+                      borderRadius: "2px",
+                    }}
+                    initial={{ scaleX: 0 }}
+                    animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+                    transition={{ delay: categoryIndex * 0.3 + 0.5, duration: 1 }}
+                  />
+                </div>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
+                  {category.skills.map((skill, skillIndex) => (
+                    <motion.button
+                      key={skill.name}
+                      initial={{ opacity: 0, scale: 0.5, y: 30 }}
+                      animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.5, y: 30 }}
+                      transition={{
+                        delay: categoryIndex * 0.3 + skillIndex * 0.1,
+                        duration: 0.6,
+                        type: "spring",
+                        stiffness: 200,
+                      }}
+                      whileHover={{
+                        scale: 1.08,
+                        y: -5,
+                        transition: { duration: 0.2 },
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      onMouseEnter={() => setHoveredSkill(skill.name)}
+                      onMouseLeave={() => setHoveredSkill(null)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        padding: "12px 20px",
+                        borderRadius: "30px",
+                        fontSize: "15px",
+                        fontWeight: "600",
+                        height: "auto",
+                        border: `2px solid #ADD8E6`,
+                        backgroundColor: `#ADD8E620`,
+                        cursor: "pointer",
+                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                        position: "relative",
+                        overflow: "hidden",
+                        boxShadow:
+                          hoveredSkill === skill.name
+                            ? `0 12px 30px #ADD8E650, 0 0 0 2px #ADD8E630`
+                            : `0 4px 15px #ADD8E620`,
+                        animation:
+                          hoveredSkill === skill.name
+                            ? "glow 1.5s ease-in-out"
+                            : "none",
+                      }}
+                    >
+                      {/* Animated background */}
+                      <motion.div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background: `linear-gradient(135deg, #ADD8E620, #ADD8E605)`,
+                          opacity: 0,
+                        }}
+                        animate={{
+                          opacity: hoveredSkill === skill.name ? 1 : 0,
+                        }}
+                        transition={{ duration: 0.3 }}
+                      />
+
+                      <motion.img
+                        src={skill.logo || "/placeholder.svg"}
+                        alt={skill.name}
+                        style={{
+                          width: "22px",
+                          height: "22px",
+                          objectFit: "contain",
+                          zIndex: 1,
+                          filter: "none", // Ensure logos are not grayscale
+                        }}
+                        animate={{
+                          rotate: hoveredSkill === skill.name ? [0, -15, 15, 0] : 0,
+                          scale: hoveredSkill === skill.name ? 1.1 : 1,
+                        }}
+                        transition={{ duration: 0.6 }}
+                        onError={(e) => {
+                          e.currentTarget.src = "/placeholder.svg?height=22&width=22"
+                        }}
+                      />
+                      <span style={{ zIndex: 1 }}>{skill.name}</span>
+                      <motion.div
+                        style={{ zIndex: 1 }}
+                        animate={{
+                          opacity: hoveredSkill === skill.name ? 1 : 0,
+                          x: hoveredSkill === skill.name ? 0 : -10,
+                          rotate: hoveredSkill === skill.name ? 360 : 0,
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
+                      </motion.div>
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{ delay: 2, duration: 1 }}
+            style={{
+              textAlign: "center",
+              marginTop: "80px",
+              paddingTop: "50px",
+              borderTop: "1px solid #374151",
+            }}
+          >
+            <motion.div
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-card/50 backdrop-blur-sm border border-primary/20"
               whileHover={{ scale: 1.05 }}
             >
-              <Card className="border-border/50 hover:border-border transition-all duration-300">
-                <CardContent className="p-4 text-center">
-                  <div className={`w-3 h-3 ${category.color} rounded-full mx-auto mb-2`} />
-                  <h4 className="font-medium mb-1">{category.name}</h4>
-                  <p className="text-sm text-muted-foreground">{category.count} technologies</p>
-                </CardContent>
-              </Card>
+              <motion.div
+                className="w-2 h-2 bg-primary rounded-full"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+              />
+              <Star className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Always Learning & Growing</span>
+              <motion.div
+                className="w-2 h-2 bg-primary rounded-full"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, delay: 0.5 }}
+              />
             </motion.div>
-          ))}
-        </motion.div>
-
-        {/* View All Skills Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center"
-        >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => router.push("/about")}
-              className="px-6 sm:px-8 py-3 text-base sm:text-lg rounded-full bg-transparent backdrop-blur-sm"
-            >
-              View All Skills & Experience
-              <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
-            </Button>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
-    </section>
+    </>
   )
 }

@@ -12,8 +12,8 @@ export default function HeroSection() {
 
   // Track if the hero section is in view
   const isInView = useInView(containerRef, {
-    once: false, // This allows animations to retrigger
-    margin: "-20% 0px -20% 0px", // Trigger when 20% of the section is visible
+    once: false,
+    margin: "-20% 0px -20% 0px",
   })
 
   const { scrollYProgress } = useScroll({
@@ -46,15 +46,8 @@ export default function HeroSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.15,
         delayChildren: 0.1,
-      },
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        staggerChildren: 0.1,
-        staggerDirection: -1,
       },
     },
   }
@@ -62,25 +55,16 @@ export default function HeroSection() {
   const itemVariants = {
     hidden: {
       opacity: 0,
-      y: 100,
-      scale: 0.8,
+      y: 60,
+      scale: 0.9,
     },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        duration: 0.8,
+        duration: 0.6,
         ease: "easeOut",
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: -50,
-      scale: 0.9,
-      transition: {
-        duration: 0.5,
-        ease: "easeIn",
       },
     },
   }
@@ -88,28 +72,16 @@ export default function HeroSection() {
   const profileVariants = {
     hidden: {
       opacity: 0,
-      scale: 0.6,
-      x: -100,
-      rotate: -10,
+      scale: 0.7,
+      x: -50,
     },
     visible: {
       opacity: 1,
       scale: 1,
       x: 0,
-      rotate: 0,
       transition: {
-        duration: 1.2,
+        duration: 0.8,
         ease: "easeOut",
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.8,
-      x: -100,
-      rotate: 10,
-      transition: {
-        duration: 0.6,
-        ease: "easeIn",
       },
     },
   }
@@ -117,25 +89,14 @@ export default function HeroSection() {
   const titleVariants = {
     hidden: {
       opacity: 0,
-      y: 80,
-      skewY: 5,
+      y: 40,
     },
     visible: {
       opacity: 1,
       y: 0,
-      skewY: 0,
       transition: {
-        duration: 1,
+        duration: 0.7,
         ease: "easeOut",
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: -40,
-      skewY: -3,
-      transition: {
-        duration: 0.5,
-        ease: "easeIn",
       },
     },
   }
@@ -143,54 +104,16 @@ export default function HeroSection() {
   const badgeVariants = {
     hidden: {
       scale: 0,
-      rotate: -180,
       opacity: 0,
     },
     visible: {
       scale: 1,
-      rotate: 0,
       opacity: 1,
       transition: {
         type: "spring",
         stiffness: 200,
         damping: 15,
-        duration: 0.8,
-      },
-    },
-    exit: {
-      scale: 0,
-      rotate: 180,
-      opacity: 0,
-      transition: {
-        duration: 0.4,
-        ease: "easeIn",
-      },
-    },
-  }
-
-  const buttonVariants = {
-    hidden: {
-      opacity: 0,
-      y: 60,
-      scale: 0.8,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-        delay: 0.2,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: -30,
-      scale: 0.9,
-      transition: {
-        duration: 0.4,
-        ease: "easeIn",
+        duration: 0.6,
       },
     },
   }
@@ -199,15 +122,14 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen min-w-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-20 pb-16"
     >
       {/* Enhanced Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background" />
-
         {/* Floating Particles */}
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(15)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-primary/30 rounded-full"
@@ -233,43 +155,6 @@ export default function HeroSection() {
             />
           ))}
         </div>
-
-        {/* Animated Mesh */}
-        <motion.div
-          className="absolute inset-0 opacity-20"
-          animate={isInView ? { opacity: 0.2 } : { opacity: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="meshGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.1" />
-                <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.1" />
-              </linearGradient>
-            </defs>
-            <motion.path
-              d="M0,50 Q25,20 50,50 T100,30 V100 H0 Z"
-              fill="url(#meshGradient)"
-              animate={
-                isInView
-                  ? {
-                    d: [
-                      "M0,50 Q25,20 50,50 T100,30 V100 H0 Z",
-                      "M0,30 Q25,60 50,30 T100,50 V100 H0 Z",
-                      "M0,50 Q25,20 50,50 T100,30 V100 H0 Z",
-                    ],
-                  }
-                  : {}
-              }
-              transition={{
-                duration: 8,
-                repeat: isInView ? Number.POSITIVE_INFINITY : 0,
-                ease: "easeInOut",
-              }}
-            />
-          </svg>
-        </motion.div>
       </div>
 
       {/* Interactive Cursor Effect */}
@@ -286,13 +171,151 @@ export default function HeroSection() {
       {/* Content */}
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6"
+        className="relative z-10 w-full max-w-7xl mx-auto"
         variants={containerVariants}
         initial="hidden"
-        animate={isInView ? "visible" : "exit"}
+        animate={isInView ? "visible" : "hidden"}
       >
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Profile Picture */}
+        {/* Mobile Layout - Vertical */}
+        <div className="flex flex-col items-center text-center space-y-4 sm:space-y-6 lg:hidden">
+          {/* Profile Picture - Mobile */}
+          <motion.div variants={profileVariants} className="flex justify-center">
+            <div className="relative">
+              <motion.div
+                animate={isInView ? { rotate: 360 } : { rotate: 0 }}
+                transition={{
+                  duration: 20,
+                  repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+                  ease: "linear",
+                }}
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-primary/50 to-primary opacity-20 blur-xl"
+              />
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-2 sm:border-4 border-primary/20 shadow-2xl"
+              >
+                <img
+                  src="/image.png"
+                  alt="Tarun Vuppala"
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
+              </motion.div>
+              {/* Floating Elements */}
+              <motion.div
+                animate={isInView ? { y: [0, -8, 0] } : { y: 0 }}
+                transition={{
+                  duration: 2,
+                  repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+                }}
+                className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-card/80 backdrop-blur-sm rounded-full p-1.5 sm:p-2 border border-border/50"
+              >
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Status Badge - Mobile */}
+          <motion.div
+            variants={badgeVariants}
+            className="inline-flex items-center gap-2 sm:gap-3 bg-card/80 backdrop-blur-xl rounded-full px-3 sm:px-4 py-1.5 sm:py-2 border border-border/50 shadow-2xl"
+          >
+            <motion.div
+              animate={isInView ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+              transition={{
+                duration: 2,
+                repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+              }}
+              className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full"
+            />
+            <span className="text-xs sm:text-sm font-medium">Available for opportunities</span>
+          </motion.div>
+
+          {/* Main Title - Mobile */}
+          <motion.h1 variants={titleVariants} className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
+            <motion.span
+              className="inline-block bg-gradient-to-r from-foreground via-foreground/80 to-foreground bg-clip-text text-transparent"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              Tarun
+            </motion.span>
+            <br />
+            <motion.span
+              className="inline-block bg-gradient-to-r from-foreground/60 to-foreground bg-clip-text text-transparent"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              Vuppala
+            </motion.span>
+          </motion.h1>
+
+          {/* Typewriter Subtitle - Mobile */}
+          <motion.div
+            variants={itemVariants}
+            className="text-lg sm:text-xl md:text-2xl text-muted-foreground min-h-[1.5rem] sm:min-h-[2rem] md:min-h-[2.5rem] flex items-center justify-center"
+          >
+            <TypewriterText
+              texts={[
+                "Full Stack Developer",
+                "System Architect",
+                "Problem Solver",
+                "Code Craftsman",
+                "Digital Innovator",
+              ]}
+              speed={80}
+              deleteSpeed={40}
+              pauseTime={2500}
+              key={isInView ? "active" : "inactive"}
+            />
+          </motion.div>
+
+          {/* CTA Buttons - Mobile */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col gap-3 justify-center items-center w-full max-w-sm pt-2"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full">
+              <Button
+                onClick={handleScrollToProjects}
+                size="lg"
+                className="w-full px-6 py-2.5 text-sm font-semibold rounded-full shadow-2xl"
+              >
+                View My Work
+                <motion.div
+                  animate={isInView ? { y: [0, 3, 0] } : { y: 0 }}
+                  transition={{
+                    duration: 2,
+                    repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+                  }}
+                >
+                  <ArrowDown className="ml-2 w-3 h-3" />
+                </motion.div>
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full px-6 py-2.5 text-sm rounded-full bg-transparent backdrop-blur-sm"
+                onClick={handleScrollToContact}
+              >
+                Get In Touch
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full">
+              <Button variant="ghost" size="lg" className="w-full px-6 py-2.5 text-sm rounded-full">
+                <Download className="mr-2 w-3 h-3" />
+                Resume
+              </Button>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Desktop Layout - Horizontal */}
+        <div className="hidden lg:grid lg:grid-cols-2 gap-12 items-center">
+          {/* Profile Picture - Desktop */}
           <motion.div variants={profileVariants} className="order-2 lg:order-1 flex justify-center">
             <div className="relative">
               <motion.div
@@ -306,17 +329,16 @@ export default function HeroSection() {
               />
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl"
+                className="relative w-64 h-64 xl:w-80 xl:h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl"
               >
                 <img
-                  src="/placeholder.svg?height=320&width=320"
+                  src="/image.png"
                   alt="Tarun Vuppala"
                   className="w-full h-full object-cover"
                   draggable={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
               </motion.div>
-
               {/* Floating Elements */}
               <motion.div
                 animate={isInView ? { y: [0, -10, 0] } : { y: 0 }}
@@ -331,12 +353,12 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Text Content */}
-          <div className="order-1 lg:order-2 text-center lg:text-left">
-            {/* Status Badge */}
+          {/* Text Content - Desktop */}
+          <div className="order-1 lg:order-2 text-center lg:text-left space-y-6">
+            {/* Status Badge - Desktop */}
             <motion.div
               variants={badgeVariants}
-              className="inline-flex items-center gap-3 bg-card/80 backdrop-blur-xl rounded-full px-4 sm:px-6 py-2 sm:py-3 mb-6 sm:mb-8 border border-border/50 shadow-2xl"
+              className="inline-flex items-center gap-3 bg-card/80 backdrop-blur-xl rounded-full px-6 py-3 border border-border/50 shadow-2xl"
             >
               <motion.div
                 animate={isInView ? { scale: [1, 1.2, 1] } : { scale: 1 }}
@@ -346,14 +368,11 @@ export default function HeroSection() {
                 }}
                 className="w-2 h-2 bg-green-500 rounded-full"
               />
-              <span className="text-xs sm:text-sm font-medium">Available for opportunities</span>
+              <span className="text-sm font-medium">Available for opportunities</span>
             </motion.div>
 
-            {/* Main Title */}
-            <motion.h1
-              variants={titleVariants}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
-            >
+            {/* Main Title - Desktop */}
+            <motion.h1 variants={titleVariants} className="text-5xl xl:text-7xl 2xl:text-8xl font-bold leading-tight">
               <motion.span
                 className="inline-block bg-gradient-to-r from-foreground via-foreground/80 to-foreground bg-clip-text text-transparent"
                 whileHover={{ scale: 1.05 }}
@@ -371,10 +390,10 @@ export default function HeroSection() {
               </motion.span>
             </motion.h1>
 
-            {/* Typewriter Subtitle */}
+            {/* Typewriter Subtitle - Desktop */}
             <motion.div
               variants={itemVariants}
-              className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-4 sm:mb-6 h-12 sm:h-16 flex items-center justify-center lg:justify-start"
+              className="text-xl xl:text-2xl 2xl:text-3xl text-muted-foreground min-h-[3rem] flex items-center justify-center lg:justify-start"
             >
               <TypewriterText
                 texts={[
@@ -387,29 +406,20 @@ export default function HeroSection() {
                 speed={80}
                 deleteSpeed={40}
                 pauseTime={2500}
-                key={isInView ? "active" : "inactive"} // Reset typewriter when view changes
+                key={isInView ? "active" : "inactive"}
               />
             </motion.div>
 
-            {/* Description */}
-            <motion.p
-              variants={itemVariants}
-              className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
-            >
-              I craft digital experiences that solve real problems and scale beautifully. From concept to deployment, I
-              build systems that are efficient today and adaptable tomorrow.
-            </motion.p>
-
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Desktop */}
             <motion.div
-              variants={buttonVariants}
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start"
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4"
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   onClick={handleScrollToProjects}
                   size="lg"
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 text-base sm:text-lg font-semibold rounded-full shadow-2xl"
+                  className="px-8 py-3 text-base font-semibold rounded-full shadow-2xl min-w-[160px]"
                 >
                   View My Work
                   <motion.div
@@ -419,7 +429,7 @@ export default function HeroSection() {
                       repeat: isInView ? Number.POSITIVE_INFINITY : 0,
                     }}
                   >
-                    <ArrowDown className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+                    <ArrowDown className="ml-2 w-4 h-4" />
                   </motion.div>
                 </Button>
               </motion.div>
@@ -427,19 +437,15 @@ export default function HeroSection() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 text-base sm:text-lg rounded-full bg-transparent backdrop-blur-sm"
+                  className="px-8 py-3 text-base rounded-full bg-transparent backdrop-blur-sm min-w-[160px]"
                   onClick={handleScrollToContact}
                 >
                   Get In Touch
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  variant="ghost"
-                  size="lg"
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 text-base sm:text-lg rounded-full"
-                >
-                  <Download className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
+                <Button variant="ghost" size="lg" className="px-8 py-3 text-base rounded-full min-w-[160px]">
+                  <Download className="mr-2 w-4 h-4" />
                   Resume
                 </Button>
               </motion.div>
@@ -449,26 +455,29 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Enhanced Scroll Indicator */}
-      <motion.div variants={itemVariants} className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2">
+      <motion.div
+        variants={itemVariants}
+        className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 transform -translate-x-1/2"
+      >
         <motion.div
-          animate={isInView ? { y: [0, 8, 0] } : { y: 0 }}
+          animate={isInView ? { y: [0, 6, 0] } : { y: 0 }}
           transition={{
             duration: 2,
             repeat: isInView ? Number.POSITIVE_INFINITY : 0,
             ease: "easeInOut",
           }}
-          className="flex flex-col items-center gap-2"
+          className="flex flex-col items-center gap-1 sm:gap-2"
         >
           <span className="text-xs text-muted-foreground hidden sm:block">Scroll to explore</span>
-          <div className="w-5 h-8 border-2 border-border rounded-full flex justify-center">
+          <div className="w-4 h-6 sm:w-5 sm:h-8 border-2 border-border rounded-full flex justify-center">
             <motion.div
-              animate={isInView ? { y: [0, 10, 0] } : { y: 0 }}
+              animate={isInView ? { y: [0, 8, 0] } : { y: 0 }}
               transition={{
                 duration: 2,
                 repeat: isInView ? Number.POSITIVE_INFINITY : 0,
                 ease: "easeInOut",
               }}
-              className="w-1 h-3 bg-foreground rounded-full mt-1"
+              className="w-0.5 h-2 sm:w-1 sm:h-3 bg-foreground rounded-full mt-0.5 sm:mt-1"
             />
           </div>
         </motion.div>

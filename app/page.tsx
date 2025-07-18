@@ -17,22 +17,19 @@ export default function HomePage() {
   return (
     <>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-      <div ref={containerRef} className="min-h-screen min-w-full bg-background text-foreground">
+        <div ref={containerRef} className="min-h-screen min-w-screen bg-background text-foreground">
 
-        <Navigation />
+          <Navigation />
 
-        <motion.div
-          className="fixed inset-0 bg-linear-to-br from-background via-background/95 to-background -z-10"
-        />
-
-        <main className="min-h-screen">
-          <HeroSection />
-          <AboutSection />
-          <SkillsSection />
-          <ProjectsSection />
-          <ContactSection />
-          <Footer />
-        </main>
+          <motion.div
+            className="fixed inset-0 bg-linear-to-br from-background via-background/95 to-background -z-10"
+          />
+            <HeroSection />
+            <AboutSection />
+            <SkillsSection />
+            <ProjectsSection />
+            <ContactSection />
+            <Footer />
         </div>
       </ThemeProvider>
     </>
