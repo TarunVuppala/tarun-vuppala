@@ -161,8 +161,8 @@ export default function HeroSection() {
       <motion.div
         className="fixed w-4 h-4 bg-primary/20 rounded-full pointer-events-none z-50 mix-blend-difference hidden lg:block"
         animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
+          x: mousePosition.x,
+          y: mousePosition.y,
           scale: isInView ? 1 : 0,
         }}
         transition={{ type: "spring", stiffness: 500, damping: 28 }}

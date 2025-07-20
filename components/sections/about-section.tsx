@@ -6,79 +6,10 @@ import {
   Code, Coffee, Lightbulb, Target, Zap, Quote, Sparkles, Terminal, ClipboardList, Briefcase, Users, Rocket, CheckCircle
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-
-const codingQuotes = [
-  "Software is the sculptor's clay of the digital age, and I mold functionality with every keystroke.",
-  "Algorithms are the melodies of machines, and I compose symphonies of efficiency.",
-  "Every function I write is a bridge between human intent and machine execution.",
-  "In the binary forest, I plant seeds of logic that grow into powerful applications.",
-  "Code is the canvas; I'm the painter turning ideas into interactive masterpieces.",
-  "Debugging is my meditation—finding serenity in the art of problem elimination.",
-  "APIs are the languages of collaboration, and I speak fluently across every endpoint.",
-  "Data structures are the architecture of thought, and I build skyscrapers of speed and scale.",
-  "Variables are my characters; together they enact the story of your software.",
-  "A clean codebase is a clear mind—both reveal clarity and purpose.",
-  "Version control is the time machine of development; I travel back to fix mistakes and forward to deliver innovations.",
-  "Every pull request is a conversation, and I code to contribute value to the dialogue.",
-  "Front-end is my stage, and I choreograph every animation and interaction.",
-  "Back-end logic is the engine room, and I engineer horsepower for your application.",
-  "Testing isn't optional—it's the guardian ensuring promises in code never break.",
-  "Continuous integration is the heartbeat of progress, and I keep it strong and steady.",
-  "Branches in Git are the forks in the road, and I navigate them toward the closest merge.",
-  "A well-written algorithm is a riddle solved with elegant simplicity.",
-  "Refactoring is my way of polishing rough diamonds into gleaming gems.",
-  "Deployments are my launchpads—one click and your vision soars into users' hands.",
-  "Code is poetry written in logic, and I'm here to craft verses that solve real problems."
-];
-
-
-const codingStats = [
-  { icon: Coffee, text: "200 cups of coffee fueling on-time MVP builds. ☕" },
-  { icon: Lightbulb, text: "5 class ideas turned into startups this semester. 💡" },
-  { icon: Terminal, text: "Automated 5,000 commands to streamline workflows. 💻" },
-  { icon: ClipboardList, text: "Published 20 project case studies for credibility. 📝" },
-  { icon: Code, text: "25K lines of production-ready code delivered. ✍️" },
-  { icon: Zap, text: "Fixed 150 critical bugs as the go-to problem-solver. ⚡" },
-  { icon: Briefcase, text: "Completed 3 freelance gigs on scope and budget. 💼" },
-  { icon: Users, text: "Led 4-person hackathon teams to investor-ready MVPs. 👥" },
-  { icon: Rocket, text: "Deployed 8 webapps—shipping end-to-end flawlessly. 🚀" },
-  { icon: CheckCircle, text: "100% on-time delivery across all projects. ✔️" }
-]
+import { codingQuotes, codingStats, highlights, stats, journeyTimeline } from "@/lib/data"
 
 const codingQuote = codingQuotes[Math.floor(Math.random() * codingQuotes.length)]
 const codingStat = codingStats[Math.floor(Math.random() * codingStats.length)]
-
-const highlights = [
-  {
-    icon: Code,
-    title: "Clean Architecture",
-    description: "Crafting code that's elegant, maintainable, and built to scale with future needs.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovative Solutions",
-    description: "Turning complex problems into creative, efficient breakthroughs.",
-  },
-  {
-    icon: Target,
-    title: "Impact-Driven",
-    description: "Delivering solutions that create real value for users and businesses.",
-  },
-]
-
-const stats = [
-  { number: "10+", label: "Projects Completed" },
-  { number: "2+", label: "Years Experience" },
-  { number: "10+", label: "Technologies" },
-  { number: "80%", label: "Client Satisfaction" },
-]
-
-const journeyTimeline = [
-  { year: "2018", event: "Discovered passion for coding in high school." },
-  { year: "2023", event: "Built my first web app and started honing my skills." },
-  { year: "2024", event: "First internship: Built real-world web apps." },
-  { year: "2025", event: "Launched personal projects and open-source contributions." },
-]
 
 const containerVariants = {
   initial: { opacity: 0, y: 50 },

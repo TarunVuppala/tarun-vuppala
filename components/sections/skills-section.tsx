@@ -3,125 +3,9 @@
 import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Code, Database, Wrench, Sparkles, Star } from "lucide-react"
+import { skillsByDomain as skills } from "@/lib/data";
 
-const skillCategories = [
-  {
-    title: "Frontend Development",
-    icon: Code,
-    color: "#3B82F6", // Original color, but we'll override text/icon color for visibility
-    bgGradient: "linear-gradient(135deg, #3B82F6, #1D4ED8)",
-    skills: [
-      {
-        name: "React.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-        color: "#61DAFB",
-      },
-      {
-        name: "Next.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-        color: "#ffffff",
-      },
-      {
-        name: "TypeScript",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-        color: "#3178C6",
-      },
-      {
-        name: "JavaScript",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-        color: "#F7DF1E",
-      },
-      {
-        name: "HTML5",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-        color: "#E34F26",
-      },
-      {
-        name: "CSS3",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-        color: "#1572B6",
-      },
-      {
-        name: "Tailwind CSS",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
-        color: "#06B6D4",
-      },
-      {
-        name: "Motion",
-        logo: "https://www.google.com/imgres?q=motion.dev%20logo%20png&imgurl=https%3A%2F%2Fuser-images.githubusercontent.com%2F7850794%2F164965509-2a8dc49e-2ed7-4243-a2c9-481b03bbc31a.png&imgrefurl=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fmotion%2Fv%2F10.17.0&docid=zImfgnQYGoA8kM&tbnid=vGCqJeOBJjfS8M&vet=12ahUKEwjDvcz568aOAxXr3jgGHSgWJDcQM3oECBAQAA..i&w=300&h=300&hcb=2&ved=2ahUKEwjDvcz568aOAxXr3jgGHSgWJDcQM3oECBAQAA",
-        color: "#ECF806FF",
-      },
-    ],
-  },
-  {
-    title: "Backend & Database",
-    icon: Database,
-    color: "#10B981",
-    bgGradient: "linear-gradient(135deg, #10B981, #059669)",
-    skills: [
-      {
-        name: "Node.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-        color: "#339933",
-      },
-      {
-        name: "Express.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
-        color: "#ffffff",
-      },
-      {
-        name: "MongoDB",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-        color: "#47A248",
-      },
-      {
-        name: "PostgreSQL",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-        color: "#336791",
-      },
-      {
-        name: "Firebase",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-        color: "#FFCA28",
-      },
-      {
-        name: "Prisma",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-plain.svg",
-        color: "#ffffff",
-      }
-    ],
-  },
-  {
-    title: "Tools & Design",
-    icon: Wrench,
-    color: "#8B5CF6",
-    bgGradient: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
-    skills: [
-      {
-        name: "Git",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-        color: "#F05032",
-      },
-      {
-        name: "GitHub",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
-        color: "#ffffff",
-      },
-      {
-        name: "VS Code",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
-        color: "#007ACC",
-      },
-      {
-        name: "Figma",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
-        color: "#F24E1E",
-      }
-    ],
-  },
-]
-
-export default function TechStackFull() {
+export default function SkillsSection() {
   const [mounted, setMounted] = useState(false)
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -205,7 +89,7 @@ export default function TechStackFull() {
           minHeight: "600px",
           position: "relative",
           overflow: "hidden",
-          boxShadow: "0 0 30px rgba(0, 0, 0, 0.8)", // Stronger shadow
+          boxShadow: "0 0 30px rgba(0, 0, 0, 0.8)",
         }}
       >
         {/* Animated Background Elements */}
@@ -319,7 +203,7 @@ export default function TechStackFull() {
 
           {/* Categories */}
           <div style={{ display: "flex", flexDirection: "column", gap: "50px" }}>
-            {skillCategories.map((category, categoryIndex) => (
+            {skills.map((category, categoryIndex) => (
               <motion.div
                 key={category.title}
                 initial={{ opacity: 0, x: categoryIndex % 2 === 0 ? -100 : 100 }}
@@ -397,11 +281,11 @@ export default function TechStackFull() {
                         display: "flex",
                         alignItems: "center",
                         gap: "10px",
-                        padding: "12px 20px",
+                        padding: "12px 18px",
                         borderRadius: "30px",
                         fontSize: "15px",
                         fontWeight: "600",
-                        height: "auto",
+                        height: "",
                         border: `2px solid #ADD8E6`,
                         backgroundColor: `#ADD8E620`,
                         cursor: "pointer",
@@ -440,7 +324,7 @@ export default function TechStackFull() {
                           height: "22px",
                           objectFit: "contain",
                           zIndex: 1,
-                          filter: "none", // Ensure logos are not grayscale
+                          filter: "none",
                         }}
                         animate={{
                           rotate: hoveredSkill === skill.name ? [0, -15, 15, 0] : 0,

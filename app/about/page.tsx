@@ -8,228 +8,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, MapPin, Mail, Download, Code, Coffee, Lightbulb, Rocket } from "lucide-react"
+import { skillsByMastery, masteryLevels, journeyExpanded, highlights } from '@/lib/data'
 
 export default function AboutPage() {
-  const skillsByMastery = {
-    expert: [
-      {
-        name: "React",
-        category: "Frontend",
-        years: "3+",
-        icon: "⚛️",
-        description: "Building complex UIs with hooks, context, and performance optimization",
-      },
-      {
-        name: "JavaScript",
-        category: "Language",
-        years: "4+",
-        icon: "🟨",
-        description: "ES6+, async/await, closures, prototypes, and modern JS patterns",
-      },
-      {
-        name: "TypeScript",
-        category: "Language",
-        years: "2+",
-        icon: "🔷",
-        description: "Advanced types, generics, utility types, and strict type safety",
-      },
-      {
-        name: "HTML/CSS",
-        category: "Frontend",
-        years: "4+",
-        icon: "🎨",
-        description: "Semantic HTML, CSS Grid, Flexbox, animations, and responsive design",
-      },
-    ],
-    advanced: [
-      {
-        name: "Next.js",
-        category: "Framework",
-        years: "2+",
-        icon: "▲",
-        description: "SSR, SSG, API routes, middleware, and App Router",
-      },
-      {
-        name: "Node.js",
-        category: "Backend",
-        years: "2+",
-        icon: "🟢",
-        description: "Express, REST APIs, middleware, authentication, and server optimization",
-      },
-      {
-        name: "Tailwind CSS",
-        category: "Styling",
-        years: "2+",
-        icon: "💨",
-        description: "Utility-first CSS, custom components, and design systems",
-      },
-      {
-        name: "Git",
-        category: "Tools",
-        years: "3+",
-        icon: "🌿",
-        description: "Version control, branching strategies, and collaborative workflows",
-      },
-      {
-        name: "MongoDB",
-        category: "Database",
-        years: "2+",
-        icon: "🍃",
-        description: "Document modeling, aggregation pipelines, and performance optimization",
-      },
-      {
-        name: "PostgreSQL",
-        category: "Database",
-        years: "1+",
-        icon: "🐘",
-        description: "Relational design, complex queries, and database optimization",
-      },
-    ],
-    proficient: [
-      {
-        name: "Python",
-        category: "Language",
-        years: "2+",
-        icon: "🐍",
-        description: "Django, Flask, data analysis, and automation scripts",
-      },
-      {
-        name: "Docker",
-        category: "DevOps",
-        years: "1+",
-        icon: "🐳",
-        description: "Containerization, multi-stage builds, and deployment strategies",
-      },
-      {
-        name: "AWS",
-        category: "Cloud",
-        years: "1+",
-        icon: "☁️",
-        description: "EC2, S3, Lambda, RDS, and cloud architecture patterns",
-      },
-      {
-        name: "Redis",
-        category: "Database",
-        years: "1+",
-        icon: "🔴",
-        description: "Caching strategies, pub/sub messaging, and session management",
-      },
-    ],
-    learning: [
-      {
-        name: "Kubernetes",
-        category: "DevOps",
-        years: "Learning",
-        icon: "⚙️",
-        description: "Container orchestration, deployments, and cluster management",
-      },
-      {
-        name: "GraphQL",
-        category: "API",
-        years: "Learning",
-        icon: "🔗",
-        description: "Schema design, resolvers, and efficient data fetching",
-      },
-      {
-        name: "Rust",
-        category: "Language",
-        years: "Learning",
-        icon: "🦀",
-        description: "Systems programming, memory safety, and performance optimization",
-      },
-      {
-        name: "Machine Learning",
-        category: "AI",
-        years: "Learning",
-        icon: "🤖",
-        description: "TensorFlow, neural networks, and data science fundamentals",
-      },
-    ],
-  }
-
-  const masteryLevels = [
-    { key: "expert", title: "Expert", description: "Deep expertise & production experience", color: "text-green-500" },
-    { key: "advanced", title: "Advanced", description: "Strong proficiency & regular use", color: "text-blue-500" },
-    {
-      key: "proficient",
-      title: "Proficient",
-      description: "Solid understanding & practical use",
-      color: "text-yellow-500",
-    },
-    {
-      key: "learning",
-      title: "Learning",
-      description: "Currently exploring & building projects",
-      color: "text-purple-500",
-    },
-  ]
-
-  const journey = [
-    {
-      year: "2024",
-      title: "Full Stack Developer & Freelancer",
-      company: "Independent",
-      description:
-        "Building scalable web applications and helping startups bring their ideas to life. Specializing in React ecosystem and modern web technologies.",
-      achievements: [
-        "Delivered 15+ projects for various clients",
-        "Built real-time applications with WebSocket integration",
-        "Implemented AI-powered features using OpenAI API",
-        "Achieved 98% client satisfaction rate",
-      ],
-    },
-    {
-      year: "2023",
-      title: "Frontend Developer Intern",
-      company: "TechCorp Solutions",
-      description:
-        "Focused on React development and user experience optimization. Collaborated with design teams to create pixel-perfect interfaces.",
-      achievements: [
-        "Improved application performance by 40%",
-        "Implemented responsive design for mobile users",
-        "Contributed to component library used across teams",
-        "Mentored 2 junior developers",
-      ],
-    },
-    {
-      year: "2022",
-      title: "Computer Science Student",
-      company: "University",
-      description:
-        "Started my journey in web development while pursuing Computer Science. Built foundational knowledge in algorithms, data structures, and software engineering.",
-      achievements: [
-        "Completed 50+ coding challenges",
-        "Built first full-stack application",
-        "Participated in 3 hackathons",
-        "Maintained 3.8 GPA while coding",
-      ],
-    },
-  ]
-
-  const highlights = [
-    {
-      icon: Code,
-      title: "Clean Architecture",
-      description:
-        "I obsess over writing maintainable, scalable code that stands the test of time. Every line serves a purpose.",
-    },
-    {
-      icon: Lightbulb,
-      title: "Problem Solver",
-      description: "Every challenge is a puzzle waiting to be solved with the right approach and creative thinking.",
-    },
-    {
-      icon: Coffee,
-      title: "Late Night Coder",
-      description: "My best ideas come during those quiet hours when the world sleeps and code flows freely.",
-    },
-    {
-      icon: Rocket,
-      title: "Startup Minded",
-      description: "Building towards launching something that makes a real impact in people's lives.",
-    },
-  ]
-
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <div className="min-h-screen bg-background text-foreground">
@@ -274,10 +55,6 @@ export default function AboutPage() {
                       I believe in writing code that's not just functional, but elegant and maintainable. Every project
                       is an opportunity to learn something new and push the boundaries of what's possible on the web.
                     </p>
-                    <p>
-                      My goal is to launch a startup that makes a meaningful impact, one line of code at a time. I'm
-                      driven by the challenge of turning complex problems into simple, intuitive solutions.
-                    </p>
                   </div>
                 </motion.div>
 
@@ -288,8 +65,8 @@ export default function AboutPage() {
                   className="space-y-6"
                 >
                   <Card className="border-border/50">
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-3 mb-4">
+                    <CardContent className="">
+                      <div className="flex items-center gap-3 m-4">
                         <MapPin className="w-5 h-5 text-primary" />
                         <span className="font-medium">Location</span>
                       </div>
@@ -299,7 +76,7 @@ export default function AboutPage() {
                   </Card>
 
                   <Card className="border-border/50">
-                    <CardContent className="p-6">
+                    <CardContent className="">
                       <div className="flex items-center gap-3 mb-4">
                         <Mail className="w-5 h-5 text-primary" />
                         <span className="font-medium">Contact</span>
@@ -394,7 +171,21 @@ export default function AboutPage() {
                             <Card className="border-border/50 hover:border-border transition-all duration-300">
                               <CardContent className="p-4">
                                 <div className="flex items-start gap-4">
-                                  <div className="text-2xl">{skill.icon}</div>
+                                  <motion.img
+                                    src={skill.logo || "/placeholder.svg"}
+                                    alt={skill.name}
+                                    style={{
+                                      width: "22px",
+                                      height: "22px",
+                                      objectFit: "contain",
+                                      zIndex: 1,
+                                      filter: "none",
+                                    }}
+                                    transition={{ duration: 0.6 }}
+                                    onError={(e) => {
+                                      e.currentTarget.src = "/placeholder.svg?height=22&width=22"
+                                    }}
+                                  />
                                   <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1">
                                       <h4 className="font-medium">{skill.name}</h4>
@@ -403,7 +194,6 @@ export default function AboutPage() {
                                       </Badge>
                                       <span className="text-xs text-muted-foreground ml-auto">{skill.years}</span>
                                     </div>
-                                    <p className="text-sm text-muted-foreground">{skill.description}</p>
                                   </div>
                                 </div>
                               </CardContent>
@@ -432,7 +222,7 @@ export default function AboutPage() {
               </motion.div>
 
               <div className="space-y-8">
-                {journey.map((item, index) => (
+                {journeyExpanded.map((item, index) => (
                   <motion.div
                     key={item.year}
                     initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}

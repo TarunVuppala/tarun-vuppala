@@ -10,101 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { ExternalLink, Github, Calendar, Search, Star, Users, Clock } from "lucide-react"
+import Link from "next/link"
+import { allProjects } from "@/lib/data"
 
-const allProjects = [
-  {
-    id: 1,
-    title: "StreamSync",
-    description: "Real-time video synchronization platform for remote teams",
-    longDescription:
-      "A comprehensive solution for teams to watch videos together with sub-50ms synchronization accuracy. Built with WebSockets and Redis for optimal performance.",
-    tech: ["React", "Node.js", "WebSockets", "Redis", "MongoDB"],
-    image: "/placeholder.svg?height=300&width=500",
-    github: "https://github.com/tarunvuppala/streamsync",
-    live: "https://streamsync-demo.vercel.app",
-    date: "2024",
-    featured: true,
-    category: "Web App",
-    stats: { users: "1K+", performance: "<50ms", rating: "4.8/5" },
-  },
-  {
-    id: 2,
-    title: "TaskFlow AI",
-    description: "AI-powered project management with smart scheduling",
-    longDescription:
-      "Machine learning-driven task prioritization and deadline prediction system that improved team productivity by 40%.",
-    tech: ["Next.js", "Python", "TensorFlow", "PostgreSQL"],
-    image: "/placeholder.svg?height=300&width=500",
-    github: "https://github.com/tarunvuppala/taskflow",
-    live: "https://taskflow-ai.vercel.app",
-    date: "2024",
-    featured: true,
-    category: "AI/ML",
-    stats: { users: "500+", performance: "40%↑", rating: "4.9/5" },
-  },
-  {
-    id: 3,
-    title: "CodeReviewer Pro",
-    description: "Automated code quality analysis tool",
-    longDescription:
-      "AST-based code analysis tool that provides intelligent suggestions and reduces review time by 70%.",
-    tech: ["TypeScript", "AST Parser", "Docker", "GitHub API"],
-    image: "/placeholder.svg?height=300&width=500",
-    github: "https://github.com/tarunvuppala/codereviewer",
-    live: "https://codereviewer-pro.vercel.app",
-    date: "2023",
-    featured: false,
-    category: "Developer Tools",
-    stats: { users: "200+", performance: "70%↓", rating: "4.7/5" },
-  },
-  {
-    id: 4,
-    title: "ShopFlow",
-    description: "Modern e-commerce platform for small businesses",
-    longDescription:
-      "Complete e-commerce solution with inventory management, payment processing, and analytics dashboard.",
-    tech: ["Next.js", "Stripe", "PostgreSQL", "Prisma", "Tailwind"],
-    image: "/placeholder.svg?height=300&width=500",
-    github: "https://github.com/tarunvuppala/shopflow",
-    live: "https://shopflow-demo.vercel.app",
-    date: "2023",
-    featured: true,
-    category: "E-commerce",
-    stats: { users: "2K+", performance: "200%↑", rating: "4.6/5" },
-  },
-  {
-    id: 5,
-    title: "WeatherWise",
-    description: "Beautiful weather app with location-based forecasts",
-    longDescription:
-      "Clean, intuitive weather application with detailed forecasts, weather maps, and personalized recommendations.",
-    tech: ["React", "Weather API", "Geolocation", "Chart.js"],
-    image: "/placeholder.svg?height=300&width=500",
-    github: "https://github.com/tarunvuppala/weatherwise",
-    live: "https://weatherwise-app.vercel.app",
-    date: "2023",
-    featured: false,
-    category: "Mobile App",
-    stats: { users: "800+", performance: "Fast", rating: "4.5/5" },
-  },
-  {
-    id: 6,
-    title: "DevBlog",
-    description: "Technical blog platform for developers",
-    longDescription:
-      "Feature-rich blogging platform with markdown support, syntax highlighting, and community features.",
-    tech: ["Next.js", "MDX", "Prisma", "NextAuth", "Tailwind"],
-    image: "/placeholder.svg?height=300&width=500",
-    github: "https://github.com/tarunvuppala/devblog",
-    live: "https://devblog-platform.vercel.app",
-    date: "2022",
-    featured: false,
-    category: "Content Platform",
-    stats: { users: "300+", performance: "SEO Optimized", rating: "4.4/5" },
-  },
-]
-
-const categories = ["All", "Web App", "AI/ML", "Developer Tools", "E-commerce", "Mobile App", "Content Platform"]
+const categories = ["All", "Web App", "Mobile", "AI", "Productivity", "SaaS", "3D", "Finance", "Plugin", "Personalization", "Audio Processing", "Tool",];
 
 export default function ProjectsPage() {
   const [filter, setFilter] = useState<"all" | "featured">("all")
@@ -113,7 +22,7 @@ export default function ProjectsPage() {
 
   const filteredProjects = allProjects.filter((project) => {
     const matchesFilter = filter === "all" || project.featured
-    const matchesCategory = category === "All" || project.category === category
+    const matchesCategory = category === "All" || project.categories.includes(category)
     const matchesSearch =
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -167,7 +76,7 @@ export default function ProjectsPage() {
                     placeholder="Search projects..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 w-64"
+                    className="pl-10 w-64 outline-none focus:outline-none"
                   />
                 </div>
               </div>
@@ -195,11 +104,11 @@ export default function ProjectsPage() {
                   key={project.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ y: -5, scale: 1.02 }}
+                  transition={{ duration: 0.1 }}
+                  whileHover={{ y: -5 }}
                   className="group"
                 >
-                  <Card className="h-full border-border/50 hover:border-border transition-all duration-300 overflow-hidden">
+                  <Card className="h-full border-border/50 hover:border-border hover:shadow-lg hover:bg-black transition-all duration-300 overflow-hidden">
                     <div className="relative overflow-hidden">
                       <img
                         src={project.image || "/placeholder.svg"}
@@ -212,9 +121,6 @@ export default function ProjectsPage() {
                           Featured
                         </Badge>
                       )}
-                      <Badge variant="secondary" className="absolute top-3 right-3">
-                        {project.category}
-                      </Badge>
                     </div>
 
                     <CardContent className="p-6">
@@ -241,29 +147,80 @@ export default function ProjectsPage() {
                       </div>
 
                       <div className="flex flex-wrap gap-2 mb-6">
-                        {project.tech.map((tech) => (
-                          <Badge key={tech} variant="secondary" className="text-xs">
-                            {tech}
-                          </Badge>
-                        ))}
+                        <div className="flex flex-wrap gap-2 mb-1">
+                          {project.tech.map((tech, idx) => (
+                            <motion.div
+                              className="flex flex-wrap gap-2"
+                              key={tech}
+                              initial={{ opacity: 0, scale: 0 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: idx * 0.05 }}
+                              whileHover={{ scale: 1.1, y: -2 }}
+                            >
+                              <Badge key={tech} variant="secondary" className="text-xs">
+                                {tech}
+                              </Badge>
+                            </motion.div>
+                          ))}
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {project.categories.map((cat, idx) => (
+                            <motion.div
+                              className="flex flex-wrap gap-2"
+                              key={cat}
+                              initial={{ opacity: 0, scale: 0 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: idx * 0.05 }}
+                              whileHover={{ scale: 1.1, y: -2 }}
+                            >
+                              <Badge variant="secondary" className="text-xs cursor-pointer">
+                                {cat}
+                              </Badge>
+                            </motion.div>
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="flex gap-3">
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          <Button size="sm" className="flex-1" asChild>
-                            <a href={project.live} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="w-4 h-4 mr-2" />
-                              Live Demo
-                            </a>
-                          </Button>
-                        </motion.div>
-                        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                          <Button size="sm" variant="outline" asChild>
-                            <a href={project.github} target="_blank" rel="noopener noreferrer">
-                              <Github className="w-4 h-4" />
-                            </a>
-                          </Button>
-                        </motion.div>
+                      <div className={`flex gap-3`}>
+                        {project.liveUrl && (
+                          <motion.div
+                            whileHover={{ scale: project.liveUrl ? 1.05 : 1 }}
+                            whileTap={{ scale: project.liveUrl ? 0.95 : 1 }}
+                            className={`"hover:cursor-pointer justify-start"`}
+                          >
+                            <Button size="sm" asChild disabled={!project.liveUrl}>
+                              <Link
+                                href={project.liveUrl ?? "#"}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center"
+                              >
+                                <ExternalLink className="w-4 h-4" />
+                                Live Demo
+                              </Link>
+                            </Button>
+                          </motion.div>
+                        )}
+
+                        {
+                          project.githubUrl && (
+                            <motion.div
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              className={`hover:cursor-pointer justify-start`}
+                            >
+                              <Button size="sm" variant="outline" asChild>
+                                <Link
+                                  href={project.githubUrl ?? "#"}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Github className="w-4 h-4" />
+                                </Link>
+                              </Button>
+                            </motion.div>
+                          )
+                        }
                       </div>
                     </CardContent>
                   </Card>
@@ -273,7 +230,7 @@ export default function ProjectsPage() {
 
             {filteredProjects.length === 0 && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
-                <p className="text-muted-foreground text-lg">No projects found matching your criteria.</p>
+                <p className="text-muted-foreground text-lg">Under Dev.</p>
                 <Button
                   variant="outline"
                   onClick={() => {
