@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { TypewriterText } from "../ui/typewriter-text"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, Sparkles } from "lucide-react"
+import Link from "next/link"
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -294,10 +295,12 @@ export default function HeroSection() {
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full">
-              <Button variant="ghost" size="lg" className="w-full px-6 py-2.5 text-sm rounded-full">
-                <Download className="mr-2 w-3 h-3" />
-                Resume
-              </Button>
+              <a href={"/resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
+                <Button variant="ghost" size="lg" className="w-full px-6 py-2.5 text-sm rounded-full">
+                  <Download className="mr-2 w-3 h-3" />
+                  Resume
+                </Button>
+              </a>
             </motion.div>
           </motion.div>
         </div>
@@ -432,11 +435,13 @@ export default function HeroSection() {
                   Get In Touch
                 </Button>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="lg" className="px-8 py-3 text-base rounded-full min-w-[160px]">
-                  <Download className="mr-2 w-4 h-4" />
-                  Resume
-                </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full">
+                <a href={"/resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
+                  <Button variant="ghost" size="lg" className="w-full px-6 py-2.5 text-sm rounded-full">
+                    <Download className="mr-2 w-3 h-3" />
+                    Resume
+                  </Button>
+                </a>
               </motion.div>
             </motion.div>
           </div>

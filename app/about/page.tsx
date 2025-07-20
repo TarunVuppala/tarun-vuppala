@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, MapPin, Mail, Download, Code, Coffee, Lightbulb, Rocket } from "lucide-react"
 import { skillsByMastery, masteryLevels, journeyExpanded, highlights } from '@/lib/data'
+import Link from "next/link"
 
 export default function AboutPage() {
   return (
@@ -87,10 +88,12 @@ export default function AboutPage() {
                   </Card>
 
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="w-full" size="lg">
-                      <Download className="w-4 h-4 mr-2" />
-                      Download Resume
-                    </Button>
+                    <a href={"/resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
+                      <Button className="w-full" size="lg">
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Resume
+                      </Button>
+                      </a>
                   </motion.div>
                 </motion.div>
               </div>
