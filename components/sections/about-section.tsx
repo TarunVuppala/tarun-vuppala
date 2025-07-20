@@ -210,9 +210,11 @@ export default function AboutSection() {
 
               {/* Highlights Grid */}
               <div className="hidden sm:block">
-                <motion.div variants={itemVariants}>
+                <motion.div variants={itemVariants}
+                className="flex flex-col items-center"
+                >
                   <h3 className="text-2xl font-bold text-center mb-8">What Sets Me Apart</h3>
-                  <div className="grid md:grid-cols-3 gap-6">
+                  <div className="grid md:grid-cols-2 gap-6 w-3xl">
                     {highlights.map((highlight, index) => (
                       <motion.div
                         key={highlight.title}
