@@ -14,6 +14,7 @@ import {
   Wrench,
   Zap,
 } from "lucide-react";
+
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export const allProjects: Project[] = [
@@ -189,8 +190,8 @@ export const allProjects: Project[] = [
     impact: "Prototyped layouts at 60fps.",
     tech: ["Three.js", "React", "Blender"],
     image: "/placeholder.svg?height=400&width=600",
-    liveUrl: "https://decornest.vercel.app",
-    githubUrl: "https://github.com/tarunvuppala/decornest",
+    liveUrl: null,
+    githubUrl: null,
     date: "2023",
     featured: false,
     stats: {
@@ -216,11 +217,11 @@ export const allProjects: Project[] = [
     impact: "Improved financial planning accuracy.",
     tech: ["React", "JavaScript", "Node.js", "MongoDB"],
     image: "/placeholder.svg?height=400&width=600",
-    liveUrl: "https://taxcalculator.vercel.app",
-    githubUrl: "https://github.com/TarunVuppala/taxcalculator",
+    liveUrl: "https://tax-calculator-murex.vercel.app",
+    githubUrl: "https://github.com/TarunVuppala/tax-calculator",
     date: "2025",
     featured: false,
-    stats: { users: "n/a", performance: "Instant", rating: "4.8/5" },
+    stats: { users: "n/a", performance: "Instant", rating: "n/a" },
     details: {
       challenge: "Updating slabs and deductions dynamically.",
       approach: "Fetched bracket JSON and recalculated in real time.",
@@ -231,7 +232,7 @@ export const allProjects: Project[] = [
   },
   {
     id: "eventreg",
-    title: "Event ",
+    title: "Event Registration",
     subtitle: "Minimalistic Event Registration",
     description:
       "A lightweight site for creating and managing event sign-ups and attendees.",
@@ -249,7 +250,7 @@ export const allProjects: Project[] = [
     ],
     image: "/placeholder.svg?height=400&width=600",
     liveUrl: null,
-    githubUrl: "https://github.com/TarunVuppala/uipath-aceec",
+    githubUrl: null,
     date: "2025",
     featured: false,
     stats: { users: "300+", performance: "Fast Load", rating: "4.6/5" },
@@ -280,7 +281,7 @@ export const allProjects: Project[] = [
     tech: ["React", "TypeScript", "Express.js", "MongoDB", "IndexedDB"],
     image: "/placeholder.svg?height=400&width=600",
     liveUrl: null,
-    githubUrl: "https://github.com/tarunvuppala/jobtrackerportal",
+    githubUrl: "https://github.com/TarunVuppala/job-tracker-portal",
     date: "2024",
     featured: false,
     stats: { users: "n/a", performance: "Real-time Sync", rating: "n/a" },
@@ -350,7 +351,7 @@ export const skillsByMastery = {
     {
       name: "Git",
       category: "Tools",
-      years: "3+",
+      years: "2+",
       logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
     },
     {
@@ -369,8 +370,8 @@ export const skillsByMastery = {
     },
     {
       name: "Java",
-      category: "DevOps",
-      years: "1+",
+      category: "Language",
+      years: "3+",
       logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/java-original.svg",
     },
     {
@@ -379,37 +380,37 @@ export const skillsByMastery = {
       years: "1+",
       logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/firebase-original.svg",
     },
+  ],
+  learning: [
     {
       name: "Redis",
       category: "Database",
       years: "1+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg",
-    },
-  ],
-  learning: [
-    {
-      name: "Kubernetes",
-      category: "DevOps",
-      years: "Learning",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg",
+      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg",
     },
     {
-      name: "GraphQL",
-      category: "API",
+      name: "Nest.js",
+      category: "Framework",
       years: "Learning",
       logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
     },
     {
-      name: "Rust",
-      category: "Language",
+      name: "Designing",
+      category: "Design",
       years: "Learning",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-plain.svg",
+      logo: "",
     },
     {
       name: "Machine Learning",
       category: "AI",
       years: "Learning",
       logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
+    },
+    {
+      name: "Motion.dev",
+      category: "Animations",
+      years: "Learning",
+      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiqP6jLJCyn0khj8jO7Mxd2e-JT8aBeR8a7g&s",
     },
   ],
 };
@@ -474,15 +475,7 @@ export const codingStats: {
   { icon: Coffee, text: "200 cups of coffee fueling on-time MVP builds. ☕" },
   {
     icon: Lightbulb,
-    text: "5 class ideas turned into startups this semester. 💡",
-  },
-  {
-    icon: Terminal,
-    text: "Automated 5,000 commands to streamline workflows. 💻",
-  },
-  {
-    icon: ClipboardList,
-    text: "Published 20 project case studies for credibility. 📝",
+    text: "Turning ideas into functional code. 💡",
   },
   { icon: Code, text: "25K lines of production-ready code delivered. ✍️" },
   {
@@ -491,7 +484,7 @@ export const codingStats: {
   },
   {
     icon: Briefcase,
-    text: "Completed 3 freelance gigs on scope and budget. 💼",
+    text: "Completed freelance gigs on scope and budget. 💼",
   },
   {
     icon: Users,
@@ -499,7 +492,7 @@ export const codingStats: {
   },
   {
     icon: Rocket,
-    text: "Deployed 8 webapps—shipping end-to-end flawlessly. 🚀",
+    text: "Deployed 4 webapps—shipping end-to-end flawlessly. 🚀",
   },
   {
     icon: CheckCircle,
@@ -510,41 +503,41 @@ export const codingStats: {
 export const journeyExpanded = [
   {
     year: "2024",
-    title: "Full Stack Developer & Freelancer",
-    company: "Independent",
-    description:
-      "Building scalable web applications and helping startups bring their ideas to life. Specializing in React ecosystem and modern web technologies.",
+    title: "Software Developer Intern",
+    company: "Unity Labs AI",
+    description: "Built a PPRO pluign that automatically edits podcasts.",
     achievements: [
-      "Delivered 15+ projects for various clients",
-      "Built real-time applications with WebSocket integration",
-      "Implemented AI-powered features using OpenAI API",
-      "Achieved 98% client satisfaction rate",
+      "Developed a plugin for PPRO that automatically edits podcasts",
+      "Implemented a custom algorithm to remove silence",
+      "Integrated with Adobe CEP for seamless workflow",
+      "Optimized the plugin for faster performance",
+      ,
     ],
   },
   {
-    year: "2023",
-    title: "Frontend Developer Intern",
-    company: "TechCorp Solutions",
+    year: "2024",
+    title: "Software Developer Intern",
+    company: "Frost Interactive",
     description:
-      "Focused on React development and user experience optimization. Collaborated with design teams to create pixel-perfect interfaces.",
+      "Focused on backend and business logic optimization. Collaborated with frontend teams to integrate APIs.",
     achievements: [
-      "Improved application performance by 40%",
-      "Implemented responsive design for mobile users",
-      "Contributed to component library used across teams",
-      "Mentored 2 junior developers",
+      "Developed backend of 2 in-house applications from scratch",
+      "Implemented efficient database queries",
+      "Optimized API performance by 50%",
+      "Contributed to team knowledge base with documentation",
     ],
   },
   {
     year: "2022",
     title: "Computer Science Student",
-    company: "University",
+    company: "Ace Endineering College",
     description:
       "Started my journey in web development while pursuing Computer Science. Built foundational knowledge in algorithms, data structures, and software engineering.",
     achievements: [
-      "Completed 50+ coding challenges",
+      "Completed 20+ coding challenges",
       "Built first full-stack application",
-      "Participated in 3 hackathons",
-      "Maintained 3.8 GPA while coding",
+      "Participated in 2 hackathons",
+      "Maintained 8.2 GPA while coding",
     ],
   },
 ];
@@ -593,6 +586,12 @@ export const highlights: {
     title: "Impact-Driven",
     description:
       "Delivering solutions that create real value for users and businesses.",
+  },
+  {
+    icon: Rocket,
+    title: "Entrepreneurial Spirit",
+    description:
+      "Building towards launching something that makes a real impact in people's lives.",
   },
 ];
 
@@ -670,11 +669,6 @@ export const skillsByDomain = [
         name: "PostgreSQL",
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
         color: "#336791",
-      },
-      {
-        name: "Firebase",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-        color: "#FFCA28",
       },
       {
         name: "Prisma",

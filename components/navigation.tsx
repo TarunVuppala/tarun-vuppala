@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname, useRouter } from "next/navigation"
-import { Github, Linkedin, Twitter, Mail, Menu, X, Sun, Moon, Terminal } from "lucide-react"
+import { Github, Linkedin, Twitter, Mail, Menu, X, Sun, Moon, Terminal, Badge, Hammer } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import Link from "next/link"
@@ -61,8 +61,8 @@ export default function Navigation() {
       >
         <div
           className={`relative max-w-7xl mx-auto transition-all duration-700 ease-out ${isScrolled
-              ? "bg-background/20 backdrop-blur-2xl border border-foreground/10 shadow-2xl shadow-primary/5"
-              : "bg-background/10 backdrop-blur-xl border border-foreground/5 shadow-lg shadow-primary/2"
+            ? "bg-background/20 backdrop-blur-2xl border border-foreground/10 shadow-2xl shadow-primary/5"
+            : "bg-background/10 backdrop-blur-xl border border-foreground/5 shadow-lg shadow-primary/2"
             } rounded-2xl overflow-hidden`}
           style={{
             backdropFilter: isScrolled ? "blur(40px) saturate(200%)" : "blur(24px) saturate(150%)",
@@ -72,22 +72,22 @@ export default function Navigation() {
           {/* Refined glass overlay with gradient mesh */}
           <div
             className={`absolute inset-0 transition-all duration-700 ${isScrolled
-                ? "bg-gradient-to-r from-background/30 via-background/10 to-background/30"
-                : "bg-gradient-to-r from-background/20 via-background/5 to-background/20"
+              ? "bg-gradient-to-r from-background/30 via-background/10 to-background/30"
+              : "bg-gradient-to-r from-background/20 via-background/5 to-background/20"
               }`}
           />
           {/* Subtle inner glow */}
           <div
             className={`absolute inset-0 transition-all duration-700 ${isScrolled
-                ? "bg-gradient-to-b from-primary/3 via-transparent to-primary/3"
-                : "bg-gradient-to-b from-primary/2 via-transparent to-primary/2"
+              ? "bg-gradient-to-b from-primary/3 via-transparent to-primary/3"
+              : "bg-gradient-to-b from-primary/2 via-transparent to-primary/2"
               }`}
           />
           {/* Top highlight */}
           <div
             className={`absolute top-0 left-0 right-0 h-px transition-all duration-700 ${isScrolled
-                ? "bg-gradient-to-r from-transparent via-foreground/20 to-transparent"
-                : "bg-gradient-to-r from-transparent via-foreground/10 to-transparent"
+              ? "bg-gradient-to-r from-transparent via-foreground/20 to-transparent"
+              : "bg-gradient-to-r from-transparent via-foreground/10 to-transparent"
               }`}
           />
 
@@ -132,6 +132,17 @@ export default function Navigation() {
 
               {/* Desktop icons */}
               <div className="hidden md:flex items-center space-x-2">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5 }}
+                  whileHover={{ scale: 1.1, y: -2 }}
+                >
+                  <Button  variant={"outline"} className="text-sm cursor-pointer border-0">
+                  <Hammer className="w-4 h-4 animate-hit"/>
+                    WIP
+                  </Button>
+                </motion.div>
                 <motion.div
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -254,8 +265,8 @@ export default function Navigation() {
                         <Link
                           href={item.href}
                           className={`block py-3 px-4 rounded-xl transition-all duration-300 font-medium ${pathname === item.href
-                              ? "text-foreground bg-foreground/10 border border-foreground/20"
-                              : "text-foreground/70 hover:text-foreground hover:bg-foreground/8 border border-transparent hover:border-foreground/10"
+                            ? "text-foreground bg-foreground/10 border border-foreground/20"
+                            : "text-foreground/70 hover:text-foreground hover:bg-foreground/8 border border-transparent hover:border-foreground/10"
                             }`}
                         >
                           {item.name}

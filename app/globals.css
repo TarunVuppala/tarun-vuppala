@@ -48,6 +48,7 @@
   --radius-sm: calc(var(--radius) - 4px);
 
   --animate-float: float 3s ease-in-out infinite;
+  --animate-hit: hit 3s ease-in-out infinite;
   --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
 
   --backdrop-blur-xs: 2px;
@@ -218,6 +219,18 @@ a {
   transition: all 0.2s ease;
 }
 
+@keyframes hit {
+  0%{
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
+}
+
 @keyframes float {
   0%,
   100% {
@@ -250,6 +263,10 @@ a {
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+
+.animate-hit {
+  animation: hit 1s ease-in-out infinite;
 }
 
 .animate-pulse-glow {
