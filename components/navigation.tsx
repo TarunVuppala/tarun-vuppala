@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import Link from "next/link"
 import DevConsole from "@/components/DevConsole"
+import Image from "next/image"
+import { rotate } from "three/tsl"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -97,13 +99,8 @@ export default function Navigation() {
                 <button onClick={() => handleNavClick("/")} className="text-xl sm:text-2xl font-bold">
                   <motion.span
                     className="bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent"
-                    whileHover={{
-                      backgroundImage:
-                        "linear-gradient(45deg, hsl(var(--primary)), hsl(var(--primary)/0.8), hsl(var(--foreground)))",
-                    }}
-                    transition={{ duration: 0.3 }}
                   >
-                    Tarun Vuppala
+                    <Image src={"/main.png"} alt="Tarun Vuppala" width={50} height={50} draggable={false} />
                   </motion.span>
                 </button>
               </motion.div>
@@ -135,11 +132,12 @@ export default function Navigation() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.5 }}
-                  whileHover={{ scale: 1.1, y: -2 }}
+                  transition={{ duration: 0.3 }}
+                  whileHover={{ scale: 0.9 }}
+                  onClick={() => { }}
                 >
-                  <Button  variant={"outline"} className="text-sm cursor-pointer border-0">
-                  <Hammer className="w-4 h-4 animate-hit"/>
+                  <Button variant={"outline"} className="text-sm cursor-pointer border-0">
+                    <Hammer className="w-4 h-4 animate-hit" />
                     WIP
                   </Button>
                 </motion.div>
@@ -292,6 +290,18 @@ export default function Navigation() {
                           </a>
                         ))}
                       </div>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                        whileHover={{ scale: 0.9 }}
+                        onClick={() => { }}
+                      >
+                        <Button variant={"outline"} className="text-sm cursor-pointer border-0">
+                          <Hammer className="w-4 h-4 animate-hit" />
+                          WIP
+                        </Button>
+                      </motion.div>
                       <Button
                         variant="ghost"
                         size="sm"

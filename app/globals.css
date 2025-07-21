@@ -224,7 +224,7 @@ a {
     transform: rotate(-10deg);
   }
   50% {
-    transform: rotate(12deg);
+    transform: rotate(20deg);
   }
   100% {
     transform: rotate(-10deg);

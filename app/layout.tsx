@@ -24,7 +24,9 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Tarun Vuppala - Full Stack Developer",
-  icons: '/l1.png',
+  icons: '/main.png',
+  // icons: '/t1.png',
+  // icons: '/l3.png',
   description:
     "Full Stack Developer crafting digital experiences that solve real problems and scale beautifully. Specializing in React, Next.js, and modern web technologies.",
   keywords:
