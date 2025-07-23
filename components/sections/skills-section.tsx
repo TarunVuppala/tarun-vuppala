@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
-import { Code, Database, Wrench, Sparkles, Star } from "lucide-react"
+import { Sparkles, Star } from "lucide-react"
 import { skillsByDomain as skills } from "@/lib/data";
 
 export default function SkillsSection() {

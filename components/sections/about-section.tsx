@@ -2,9 +2,7 @@
 
 import { useRef } from "react"
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import {
-  Code, Coffee, Lightbulb, Target, Zap, Quote, Sparkles, Terminal, ClipboardList, Briefcase, Users, Rocket, CheckCircle
-} from "lucide-react"
+import { Zap, Quote, Sparkles, } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { codingQuotes, codingStats, highlights, stats, journeyTimeline } from "@/lib/data"
 

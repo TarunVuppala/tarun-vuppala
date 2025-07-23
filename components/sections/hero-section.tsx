@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { TypewriterText } from "../ui/typewriter-text"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, Sparkles } from "lucide-react"
-import Link from "next/link"
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null)

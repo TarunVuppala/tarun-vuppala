@@ -3,11 +3,13 @@
 import type React from "react"
 import { useState, useRef } from "react"
 import { motion, useInView } from "framer-motion"
-import { Send, CheckCircle, Mail, MapPin, MessageCircle } from "lucide-react"
+import { Send, CheckCircle, MessageCircle, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
+import { budgetRanges, timelines, projectTypes, contactInfo } from "@/lib/data";
+import Link from "next/link"
 
 export default function ContactSection() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -15,7 +17,7 @@ export default function ContactSection() {
     email: "",
     subject: "",
     message: "",
-    contactReason: null as "casual" | "hire" | null,
+    contactReason: "casual" as "casual" | "hire" | null,
     projectType: "",
     budget: "",
     timeline: "",
@@ -75,35 +77,6 @@ export default function ContactSection() {
       ...(reason === "casual" && { projectType: "", budget: "", timeline: "" }),
     }))
   }
-
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: "Email",
-      value: "tarun.vuppala26@gmail.com",
-      description: "Drop me a line anytime",
-      href: "mailto:tarun.vuppala26@gmail.com",
-      color: "text-blue-400",
-    },
-    {
-      icon: MapPin,
-      title: "Location",
-      value: "Hyderabad, India",
-      description: "Available for remote work globally",
-      href: null,
-      color: "text-green-400",
-    },
-  ]
-
-  const projectTypes = ["Web Application",  "E-commerce Site", "API Development", "Consulting", "Other"]
-  const budgetRanges = [
-    "< ₹10,000",
-    "₹10,000 - ₹25,000",
-    "₹25,000 - ₹50,000",
-    "₹50,000 - ₹1,00,000",
-    "Let's discuss",
-  ]
-  const timelines = ["ASAP", "1-2 weeks", "1 month", "2-3 months", "3+ months", "Flexible"]
 
   return (
     <section id="contact" ref={containerRef} className="py-32 relative overflow-hidden">
@@ -405,29 +378,32 @@ export default function ContactSection() {
               </p>
             </div>
             <div className="space-y-4">
-              {contactInfo.map((info, index) => (
+              {contactInfo.slice(0, 2).map((info, index) => (
                 <motion.div
                   key={info.title}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+                  transition={{ duration: 0.3, delay: 0.4 }}
                   whileHover={{ scale: 1.02 }}
                 >
                   <Card className="border-border/50 hover:border-border transition-all duration-300">
                     <CardContent className="p-4">
                       <div className="flex items-start gap-4">
-                        <div className={`w-10 h-10 rounded-lg bg-card flex items-center justify-center ${info.color}`}>
+                        <div
+                          className={`w-10 h-10 rounded-lg bg-card flex items-center justify-center ${info.color}`}
+                        >
                           <info.icon className="w-5 h-5" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-medium mb-1">{info.title}</h4>
+                          <h3 className="font-medium mb-1">{info.title}</h3>
                           {info.href ? (
-                            <a
+                            <Link
                               href={info.href}
-                              className="text-foreground hover:text-primary transition-colors font-medium"
+                              className="text-foreground hover:text-primary transition-colors font-medium flex items-center"
                             >
                               {info.value}
-                            </a>
+                              <ExternalLink className="w-4 h-4 ml-1" />
+                            </Link>
                           ) : (
                             <p className="text-foreground font-medium">{info.value}</p>
                           )}

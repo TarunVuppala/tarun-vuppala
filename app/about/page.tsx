@@ -7,9 +7,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, MapPin, Mail, Download, Code, Coffee, Lightbulb, Rocket } from "lucide-react"
+import { Calendar, MapPin, Mail, Download } from "lucide-react"
 import { skillsByMastery, masteryLevels, journeyExpanded, highlights } from '@/lib/data'
-import Link from "next/link"
 
 export default function AboutPage() {
   return (

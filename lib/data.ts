@@ -1,12 +1,15 @@
 import {
   Briefcase,
+  CalendarClock,
   CheckCircle,
-  ClipboardList,
+  Clock,
   Code,
   Coffee,
   Database,
   Lightbulb,
   LucideProps,
+  Mail,
+  MapPin,
   Rocket,
   Target,
   Terminal,
@@ -704,5 +707,69 @@ export const skillsByDomain = [
         color: "#F24E1E",
       },
     ],
+  },
+];
+
+export const projectTypes = [
+  "Full-Stack App",
+  "E-commerce Site",
+  "API Development",
+  "MVP",
+  "Organization Website",
+  "Landing Page",
+  "Dashboard",
+  "Web App",
+  "Other",
+];
+
+export const budgetRanges = [
+  "< ₹10,000",
+  "₹10,000 - ₹25,000",
+  "₹25,000 - ₹50,000",
+  "₹50,000 - ₹1,00,000",
+  "Let's discuss",
+];
+
+export const timelines = [
+  "ASAP",
+  "1-2 weeks",
+  "1 month",
+  "2-3 months",
+  "3+ months",
+  "Flexible",
+];
+
+export const contactInfo = [
+  {
+    icon: Mail,
+    title: "Email",
+    value: "tarun.vuppala26@gmail.com",
+    description: "Drop me a line anytime",
+    href: "mailto:tarun.vuppala26@gmail.com",
+    color: "text-blue-400",
+  },
+  {
+    icon: CalendarClock,
+    title: "Book a Call",
+    value: "Schedule a 1:1",
+    description: "Let's discuss your project",
+    href: "https://calendly.com/tarun-vuppala26/intro-call",
+    color: "text-indigo-500",
+  },
+  {
+    icon: MapPin,
+    title: "Location",
+    value: "Hyderabad, India",
+    description: "Available for remote work globally",
+    href: null,
+    color: "text-green-400",
+  },
+  {
+    icon: Clock,
+    title: "Response Time",
+    value: "Within 24 hours",
+    description: "Usually much faster!",
+    href: null,
+    color: "text-purple-400",
   },
 ];

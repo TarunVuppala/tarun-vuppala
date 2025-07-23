@@ -11,7 +11,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { Mail, MapPin, Clock, Send, CheckCircle, Phone, MessageCircle, Calendar } from "lucide-react"
+import { Send, CheckCircle, MessageCircle, Calendar, ExternalLink } from "lucide-react"
+import { budgetRanges, timelines, projectTypes, contactInfo } from "@/lib/data";
+import Link from "next/link"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -19,7 +21,7 @@ export default function ContactPage() {
     email: "",
     subject: "",
     message: "",
-    contactReason: null as "casual" | "hire" | null,
+    contactReason: "casual" as "casual" | "hire" | null,
     projectType: "",
     budget: "",
     timeline: "",
@@ -81,51 +83,6 @@ export default function ContactPage() {
       ...(reason === "casual" && { projectType: "", budget: "", timeline: "" }),
     }))
   }
-
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: "Email",
-      value: "tarun.vuppala26@gmail.com",
-      description: "Send me an email anytime",
-      href: "mailto:tarun.vuppala26@gmail.com",
-      color: "text-blue-400",
-    },
-    {
-      icon: MapPin,
-      title: "Location",
-      value: "Hyderabad, India",
-      description: "Available for remote work globally",
-      href: null,
-      color: "text-green-400",
-    },
-    {
-      icon: Clock,
-      title: "Response Time",
-      value: "Within 24 hours",
-      description: "Usually much faster!",
-      href: null,
-      color: "text-purple-400",
-    },
-    {
-      icon: Phone,
-      title: "Availability",
-      value: "Mon - Fri, 9AM - 6PM IST",
-      description: "Flexible for different time zones",
-      href: null,
-      color: "text-orange-400",
-    },
-  ]
-
-  const projectTypes = ["Web Application",  "E-commerce Site", "API Development", "Consulting", "Other"]
-  const budgetRanges = [
-    "< ₹10,000",
-    "₹10,000 - ₹25,000",
-    "₹25,000 - ₹50,000",
-    "₹50,000 - ₹1,00,000",
-    "Let's discuss",
-  ]
-  const timelines = ["ASAP", "1-2 weeks", "1 month", "2-3 months", "3+ months", "Flexible"]
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
@@ -437,12 +394,13 @@ export default function ContactPage() {
                             <div className="flex-1">
                               <h3 className="font-medium mb-1">{info.title}</h3>
                               {info.href ? (
-                                <a
+                                <Link
                                   href={info.href}
-                                  className="text-foreground hover:text-primary transition-colors font-medium"
+                                  className="text-foreground hover:text-primary transition-colors font-medium flex items-center"
                                 >
                                   {info.value}
-                                </a>
+                                  <ExternalLink className="w-4 h-4 ml-1" />
+                                </Link>
                               ) : (
                                 <p className="text-foreground font-medium">{info.value}</p>
                               )}
