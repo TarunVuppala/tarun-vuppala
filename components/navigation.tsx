@@ -290,27 +290,30 @@ export default function Navigation() {
                           </a>
                         ))}
                       </div>
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                        whileHover={{ scale: 0.9 }}
-                        onClick={() => { }}
-                      >
-                        <Button variant={"outline"} className="text-sm cursor-pointer border-0">
-                          <Hammer className="w-4 h-4 animate-hit" />
-                          WIP
+                      <div className="flex space-x-2 items-center content-center ">
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3 }}
+                          whileHover={{ scale: 0.9 }}
+                          onClick={() => { }}
+                        >
+                          <Button variant={"ghost"} className="text-sm cursor-pointer border-0">
+                            <Hammer className="w-4 h-4 animate-hit" />
+                            WIP
+                          </Button>
+                        </motion.div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowConsole(true)}
+                          className="w-10 h-10 p-0 rounded-xl bg-foreground/5 hover:bg-foreground/10 border border-foreground/10 mr-1"
+                          title="Dev Console"
+                        >
+                          <Terminal className="h-4 w-4" />
                         </Button>
-                      </motion.div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setShowConsole(true)}
-                        className="w-10 h-10 p-0 rounded-xl bg-foreground/5 hover:bg-foreground/10 border border-foreground/10"
-                        title="Dev Console"
-                      >
-                        <Terminal className="h-4 w-4" />
-                      </Button>
+                      </div>
+
                     </motion.div>
                   </div>
                 </motion.div>

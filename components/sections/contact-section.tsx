@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef } from "react"
 import { motion, useInView } from "framer-motion"
-import { Send, CheckCircle, Mail, MapPin, Clock, Phone, MessageCircle } from "lucide-react"
+import { Send, CheckCircle, Mail, MapPin, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -16,6 +15,10 @@ export default function ContactSection() {
     email: "",
     subject: "",
     message: "",
+    contactReason: null as "casual" | "hire" | null, // New state for contact reason
+    projectType: "", // Add projectType
+    budget: "", // Add budget
+    timeline: "", // Add timeline
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -25,29 +28,51 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       })
       const json = await res.json()
-      if (!json.success) throw new Error(json.error || 'Unknown error')
+      if (!json.success) throw new Error(json.error || "Unknown error")
     } catch (err) {
       console.error(err)
       setIsSubmitting(false)
       return
     }
-
     setIsSubmitted(true)
     setIsSubmitting(false)
+
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      setIsSubmitted(false)
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+        contactReason: null,
+        projectType: "",
+        budget: "",
+        timeline: "",
+      })
+    }, 3000)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleReasonSelect = (reason: "casual" | "hire") => {
+    setFormData((prev) => ({
+      ...prev,
+      contactReason: reason,
+      // Reset project-specific fields if switching to casual
+      ...(reason === "casual" && { projectType: "", budget: "", timeline: "" }),
     }))
   }
 
@@ -67,8 +92,18 @@ export default function ContactSection() {
       description: "Available for remote work globally",
       href: null,
       color: "text-green-400",
-    }
+    },
   ]
+
+  const projectTypes = ["Web Application",  "E-commerce Site", "API Development", "Consulting", "Other"]
+  const budgetRanges = [
+    "< ₹10,000",
+    "₹10,000 - ₹25,000",
+    "₹25,000 - ₹50,000",
+    "₹50,000 - ₹1,00,000",
+    "Let's discuss",
+  ]
+  const timelines = ["ASAP", "1-2 weeks", "1 month", "2-3 months", "3+ months", "Flexible"]
 
   return (
     <section id="contact" ref={containerRef} className="py-32 relative overflow-hidden">
@@ -77,7 +112,6 @@ export default function ContactSection() {
         <div className="absolute top-20 left-20 w-72 h-72 bg-primary rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary/50 rounded-full blur-3xl" />
       </div>
-
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
         <motion.div
@@ -92,7 +126,6 @@ export default function ContactSection() {
             transition={{ duration: 1, delay: 0.3 }}
             className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"
           />
-
           <h2 className="text-5xl md:text-6xl font-bold mb-6">
             Let's{" "}
             <motion.span
@@ -102,12 +135,10 @@ export default function ContactSection() {
               Connect
             </motion.span>
           </h2>
-
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind? Let's discuss how we can bring your ideas to life.
           </p>
         </motion.div>
-
         <div className="grid lg:grid-cols-5 gap-12 items-start">
           {/* Contact Form */}
           <motion.div
@@ -134,117 +165,231 @@ export default function ContactSection() {
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid sm:grid-cols-2 gap-6">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                      >
-                        <label htmlFor="name" className="block text-sm font-medium mb-2">
-                          Name *
-                        </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          placeholder="Your name"
-                          className="h-12"
-                        />
-                      </motion.div>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                      >
-                        <label htmlFor="email" className="block text-sm font-medium mb-2">
-                          Email *
-                        </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          placeholder="your.email@example.com"
-                          className="h-12"
-                        />
-                      </motion.div>
-                    </div>
-
+                    {/* Reason Selection */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.6, delay: 0.3 }}
+                      transition={{ duration: 0.6, delay: 0 }}
+                      className="mb-6"
                     >
-                      <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                        Subject *
-                      </label>
-                      <Input
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        required
-                        placeholder="What's this about?"
-                        className="h-12"
-                      />
+                      <label className="block text-sm font-medium mb-2">What's your reason for contacting me? *</label>
+                      <div className="flex gap-4">
+                        <Button
+                          type="button"
+                          variant={formData.contactReason === "casual" ? "default" : "outline"}
+                          onClick={() => handleReasonSelect("casual")}
+                          className="flex-1 h-12 text-base"
+                        >
+                          Casual Inquiry
+                        </Button>
+                        <Button
+                          type="button"
+                          variant={formData.contactReason === "hire" ? "default" : "outline"}
+                          onClick={() => handleReasonSelect("hire")}
+                          className="flex-1 h-12 text-base"
+                        >
+                          Hire Me
+                        </Button>
+                      </div>
                     </motion.div>
 
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.6, delay: 0.4 }}
-                    >
-                      <label htmlFor="message" className="block text-sm font-medium mb-2">
-                        Message *
-                      </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                        rows={6}
-                        placeholder="Tell me about your project, ideas, or just say hello..."
-                        className="resize-none"
-                      />
-                    </motion.div>
-
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.6, delay: 0.5 }}
-                    >
-                      <Button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full h-12 text-lg font-semibold"
-                        size="lg"
-                      >
-                        {isSubmitting ? (
+                    {formData.contactReason && (
+                      <>
+                        <div className="grid sm:grid-cols-2 gap-6">
                           <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                            className="w-6 h-6 border-2 border-background/30 border-t-background rounded-full"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                          >
+                            <label htmlFor="name" className="block text-sm font-medium mb-2">
+                              Name *
+                            </label>
+                            <Input
+                              id="name"
+                              name="name"
+                              value={formData.name}
+                              onChange={handleChange}
+                              required
+                              placeholder="Your name"
+                              className="h-12"
+                            />
+                          </motion.div>
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                          >
+                            <label htmlFor="email" className="block text-sm font-medium mb-2">
+                              Email *
+                            </label>
+                            <Input
+                              id="email"
+                              name="email"
+                              type="email"
+                              value={formData.email}
+                              onChange={handleChange}
+                              required
+                              placeholder="your.email@example.com"
+                              className="h-12"
+                            />
+                          </motion.div>
+                        </div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={isInView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ duration: 0.6, delay: 0.3 }}
+                        >
+                          <label htmlFor="subject" className="block text-sm font-medium mb-2">
+                            Subject *
+                          </label>
+                          <Input
+                            id="subject"
+                            name="subject"
+                            value={formData.subject}
+                            onChange={handleChange}
+                            required
+                            placeholder={formData.contactReason === "hire" ? "Project Inquiry" : "General Question"}
+                            className="h-12"
                           />
-                        ) : (
-                          <>
-                            Send Message
-                            <Send className="ml-3 w-5 h-5" />
-                          </>
+                        </motion.div>
+
+                        {formData.contactReason === "hire" && (
+                          <div className="grid sm:grid-cols-3 gap-4">
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={isInView ? { opacity: 1, y: 0 } : {}}
+                              transition={{ duration: 0.6, delay: 0.4 }}
+                            >
+                              <label htmlFor="projectType" className="block text-sm font-medium mb-2">
+                                Project Type
+                              </label>
+                              <select
+                                id="projectType"
+                                name="projectType"
+                                value={formData.projectType}
+                                onChange={handleChange}
+                                className="w-full h-12 px-3 rounded-md border border-input bg-background text-sm"
+                              >
+                                <option value="">Select type</option>
+                                {projectTypes.map((type) => (
+                                  <option key={type} value={type}>
+                                    {type}
+                                  </option>
+                                ))}
+                              </select>
+                            </motion.div>
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={isInView ? { opacity: 1, y: 0 } : {}}
+                              transition={{ duration: 0.6, delay: 0.5 }}
+                            >
+                              <label htmlFor="budget" className="block text-sm font-medium mb-2">
+                                Budget Range
+                              </label>
+                              <select
+                                id="budget"
+                                name="budget"
+                                value={formData.budget}
+                                onChange={handleChange}
+                                className="w-full h-12 px-3 rounded-md border border-input bg-background text-sm"
+                              >
+                                <option value="">Select budget</option>
+                                {budgetRanges.map((range) => (
+                                  <option key={range} value={range}>
+                                    {range}
+                                  </option>
+                                ))}
+                              </select>
+                            </motion.div>
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={isInView ? { opacity: 1, y: 0 } : {}}
+                              transition={{ duration: 0.6, delay: 0.6 }}
+                            >
+                              <label htmlFor="timeline" className="block text-sm font-medium mb-2">
+                                Timeline
+                              </label>
+                              <select
+                                id="timeline"
+                                name="timeline"
+                                value={formData.timeline}
+                                onChange={handleChange}
+                                className="w-full h-12 px-3 rounded-md border border-input bg-background text-sm"
+                              >
+                                <option value="">Select timeline</option>
+                                {timelines.map((time) => (
+                                  <option key={time} value={time}>
+                                    {time}
+                                  </option>
+                                ))}
+                              </select>
+                            </motion.div>
+                          </div>
                         )}
-                      </Button>
-                    </motion.div>
+
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={isInView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ duration: 0.6, delay: formData.contactReason === "hire" ? 0.7 : 0.4 }}
+                        >
+                          <label htmlFor="message" className="block text-sm font-medium mb-2">
+                            Message *
+                          </label>
+                          <Textarea
+                            id="message"
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            required
+                            rows={6}
+                            placeholder={
+                              formData.contactReason === "hire"
+                                ? "Tell me about your project, goals, and any specific requirements..."
+                                : "What's on your mind?"
+                            }
+                            className="resize-none"
+                          />
+                        </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={isInView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ duration: 0.6, delay: formData.contactReason === "hire" ? 0.8 : 0.5 }}
+                        >
+                          <Button
+                            type="submit"
+                            disabled={
+                              isSubmitting ||
+                              !formData.name ||
+                              !formData.email ||
+                              !formData.subject ||
+                              !formData.message ||
+                              (formData.contactReason === "hire" &&
+                                (!formData.projectType || !formData.budget || !formData.timeline))
+                            }
+                            className="w-full h-12 text-lg font-semibold"
+                            size="lg"
+                          >
+                            {isSubmitting ? (
+                              <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                                className="w-6 h-6 border-2 border-background/30 border-t-background rounded-full"
+                              />
+                            ) : (
+                              <>
+                                Send Message
+                                <Send className="ml-3 w-5 h-5" />
+                              </>
+                            )}
+                          </Button>
+                        </motion.div>
+                      </>
+                    )}
                   </form>
                 )}
               </CardContent>
             </Card>
           </motion.div>
-
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -259,7 +404,6 @@ export default function ContactSection() {
                 technology and development.
               </p>
             </div>
-
             <div className="space-y-4">
               {contactInfo.map((info, index) => (
                 <motion.div
@@ -295,7 +439,6 @@ export default function ContactSection() {
                 </motion.div>
               ))}
             </div>
-
             {/* Quick Contact */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
