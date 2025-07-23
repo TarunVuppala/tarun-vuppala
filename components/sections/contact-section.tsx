@@ -10,15 +10,15 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
     subject: "",
     message: "",
-    contactReason: null as "casual" | "hire" | null, // New state for contact reason
-    projectType: "", // Add projectType
-    budget: "", // Add budget
-    timeline: "", // Add timeline
+    contactReason: null as "casual" | "hire" | null,
+    projectType: "",
+    budget: "",
+    timeline: "",
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)

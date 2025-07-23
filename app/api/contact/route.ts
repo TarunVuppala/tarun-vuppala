@@ -1,55 +1,78 @@
-import nodemailer from "nodemailer";
-import { NextResponse } from "next/server";
+import nodemailer from "nodemailer"
+import { NextResponse } from "next/server"
+import { generateEmailHtml } from "@/lib/htmlTemplate"
 
 export async function POST(req: Request) {
-  const { name, email, subject, message } = await req.json();
+  const { name, email, subject, message, contactReason, projectType, budget, timeline } = await req.json()
 
-  if (!name || !email || !subject || !message) {
+  // Basic validation for common fields
+  if (!name || !email || !subject || !message || !contactReason) {
     return NextResponse.json(
-      { success: false, error: "Missing form fields" },
-      { status: 400 }
-    );
+      { success: false, error: "Missing required form fields (name, email, subject, message, contactReason)." },
+      { status: 400 },
+    )
   }
 
-  // configure Gmail SMTP transport
+  // Additional validation for 'hire' reason
+  if (contactReason === "hire") {
+    if (!projectType || !budget || !timeline) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Missing required project details for 'hire' inquiry (projectType, budget, timeline).",
+        },
+        { status: 400 },
+      )
+    }
+  }
+
+  // Configure Nodemailer transporter with dummy data
+  // IMPORTANT: Replace these dummy values with actual environment variables in a real application!
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
-    secure: true,
+    secure: true, // Use SSL
     auth: {
-      user: process.env.EMAIL_USER, // eg@gmail.com
-      pass: process.env.EMAIL_PASS, // your Gmail app password
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
-  });
+  })
 
-  const mailOptions = {
-    from: `"Website Contact" <${process.env.EMAIL_USER}>`,
-    to: process.env.CONTACT_RECEIVER, // eg@gmail.com
-    subject: `[Contact] ${subject}`,
-    text: `
+  // Construct email content based on contact reason
+  const emailText = `
 Name: ${name}
 Email: ${email}
 Subject: ${subject}
+Contact Reason: ${contactReason === "hire" ? "Hire Me" : "Casual Inquiry"}
 Message:
 ${message}
-    `,
-    html: `
-      <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Subject:</strong> ${subject}</p>
-      <p><strong>Message:</strong><br/>${message.replace(/\n/g, "<br/>")}</p>
-    `,
-  };
+`
+
+  const mailOptions = {
+    from: `"Website Contact" process.env.EMAIL_USER`,
+    to: process.env.CONTACT_RECEIVER,
+    subject: `[Contact] ${subject}`,
+    text: emailText,
+    html: generateEmailHtml({
+      name,
+      email,
+      subject,
+      message,
+      contactReason,
+      projectType,
+      budget,
+      timeline,
+    } as ContactFormData),
+  }
 
   try {
-    await transporter.sendMail(mailOptions);
-    return NextResponse.json({ success: true });
+    await transporter.sendMail(mailOptions)
+    return NextResponse.json({ success: true })
   } catch (err) {
-    console.error("Mail error:", err);
+    console.error("Mail error:", err)
     return NextResponse.json(
-      { success: false, error: "Failed to send email" },
-      { status: 500 }
-    );
+      { success: false, error: "Failed to send email. Please check server logs and email configuration." },
+      { status: 500 },
+    )
   }
 }

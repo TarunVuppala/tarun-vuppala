@@ -14,12 +14,12 @@ import { Badge } from "@/components/ui/badge"
 import { Mail, MapPin, Clock, Send, CheckCircle, Phone, MessageCircle, Calendar } from "lucide-react"
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
     subject: "",
     message: "",
-    contactReason: null as "casual" | "hire" | null, // New state for contact reason
+    contactReason: null as "casual" | "hire" | null,
     projectType: "",
     budget: "",
     timeline: "",
@@ -117,13 +117,12 @@ export default function ContactPage() {
     },
   ]
 
-  const projectTypes = ["Web Application", "Mobile App", "E-commerce Site", "API Development", "Consulting", "Other"]
+  const projectTypes = ["Web Application",  "E-commerce Site", "API Development", "Consulting", "Other"]
   const budgetRanges = [
     "< ₹10,000",
-    "₹10,000 - ₹50,000",
+    "₹10,000 - ₹25,000",
+    "₹25,000 - ₹50,000",
     "₹50,000 - ₹1,00,000",
-    "₹1,00,000 - ₹2,50,000",
-    "₹2,50,000+",
     "Let's discuss",
   ]
   const timelines = ["ASAP", "1-2 weeks", "1 month", "2-3 months", "3+ months", "Flexible"]
