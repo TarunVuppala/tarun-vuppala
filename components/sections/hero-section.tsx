@@ -435,7 +435,7 @@ export default function HeroSection() {
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full">
-                <a href={"/resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
+                <a href={"/Tarun-Vuppala's-Resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
                   <Button variant="ghost" size="lg" className="w-full px-6 py-2.5 text-sm rounded-full">
                     <Download className="mr-2 w-3 h-3" />
                     Resume

@@ -87,7 +87,7 @@ export default function AboutPage() {
                   </Card>
 
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <a href={"/resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
+                    <a href={"/Tarun-Vuppala's-Resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
                       <Button className="w-full" size="lg">
                         <Download className="w-4 h-4 mr-2" />
                         Download Resume
