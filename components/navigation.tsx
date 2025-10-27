@@ -9,7 +9,6 @@ import { useTheme } from "next-themes"
 import Link from "next/link"
 import DevConsole from "@/components/DevConsole"
 import Image from "next/image"
-import { rotate } from "three/tsl"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
