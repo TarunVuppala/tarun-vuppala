@@ -4,15 +4,29 @@ import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import type { Variants } from "framer-motion"
 import { skillsByDomain as categories } from "@/lib/data"
+import { smoothFade, slowFade } from "@/lib/motion"
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      ...smoothFade,
+    },
+  },
 } satisfies Variants
 
 const waveVariants = {
   hidden: { pathLength: 0, opacity: 0 },
-  visible: { pathLength: 1, opacity: 0.15, transition: { duration: 2, ease: "easeInOut" } },
+  visible: {
+    pathLength: 1,
+    opacity: 0.15,
+    transition: {
+      ...slowFade,
+      duration: 1.8,
+    },
+  },
 } satisfies Variants
 
 export default function SkillsSection() {
@@ -58,7 +72,7 @@ export default function SkillsSection() {
               variants={sectionVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
-              transition={{ delay: index * 0.1 }}
+              transition={{ ...smoothFade, delay: index * 0.12 }}
               className={`flex flex-col gap-8 rounded-[3rem] border border-white/8 bg-white/[0.03] p-6 shadow-2xl backdrop-blur lg:flex-row ${index % 2 === 0 ? "lg:flex-row-reverse" : ""}`}
             >
               <div className="flex-1">
