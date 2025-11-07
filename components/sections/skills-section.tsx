@@ -82,7 +82,7 @@ export default function SkillsSection() {
                       </span>
                       <div>
                         <p className="font-semibold text-foreground">{skill.name}</p>
-                        <p className="text-2xs uppercase tracking-wide text-muted-foreground">core</p>
+                        {/* <p className="text-2xs uppercase tracking-wide text-muted-foreground">core</p> */}
                       </div>
                     </div>
                   ))}
