@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { budgetRanges, timelines, projectTypes, contactInfo } from "@/lib/data";
 import Link from "next/link"
+import { hoverSpring, loopTransition, slowFade, smoothFade } from "@/lib/motion"
 
 export default function ContactSection() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -110,20 +111,20 @@ export default function ContactSection() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          transition={isInView ? slowFade : smoothFade}
           className="text-center mb-20"
         >
           <motion.div
             initial={{ width: 0 }}
             animate={isInView ? { width: "200px" } : {}}
-            transition={{ duration: 1, delay: 0.3 }}
+            transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
             className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"
           />
           <h2 className="text-5xl md:text-6xl font-bold mb-6">
             Let's{" "}
             <motion.span
               className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, transition: hoverSpring }}
             >
               Connect
             </motion.span>
@@ -137,7 +138,7 @@ export default function ContactSection() {
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={isInView ? { ...slowFade, delay: 0.15 } : smoothFade}
             className="lg:col-span-3"
           >
             <Card className="border-border/50 shadow-2xl">
@@ -148,7 +149,7 @@ export default function ContactSection() {
                     animate={{ scale: 1, opacity: 1 }}
                     className="text-center py-16"
                   >
-                    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 0.6 }}>
+                    <motion.div animate={{ scale: [1, 1.12, 1] }} transition={loopTransition(1.2)}>
                       <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-6" />
                     </motion.div>
                     <h3 className="text-3xl font-bold mb-4">Thanks, {formData.name}!</h3>
@@ -164,12 +165,12 @@ export default function ContactSection() {
                       </div>
                     )}
                     {/* Reason Selection */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.6, delay: 0 }}
-                      className="mb-6"
-                    >
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ ...smoothFade, delay: 0.05 }}
+                    className="mb-6"
+                  >
                       <label className="block text-sm font-medium mb-2">What's your reason for contacting me? *</label>
                       <div className="flex gap-4">
                         <Button
@@ -197,7 +198,7 @@ export default function ContactSection() {
                           <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.6, delay: 0.1 }}
+                            transition={{ ...smoothFade, delay: 0.15 }}
                           >
                             <label htmlFor="name" className="block text-sm font-medium mb-2">
                               Name *
@@ -215,7 +216,7 @@ export default function ContactSection() {
                           <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.6, delay: 0.2 }}
+                            transition={{ ...smoothFade, delay: 0.22 }}
                           >
                             <label htmlFor="email" className="block text-sm font-medium mb-2">
                               Email *
@@ -235,7 +236,7 @@ export default function ContactSection() {
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}
                           animate={isInView ? { opacity: 1, y: 0 } : {}}
-                          transition={{ duration: 0.6, delay: 0.3 }}
+                          transition={{ ...smoothFade, delay: 0.3 }}
                         >
                           <label htmlFor="subject" className="block text-sm font-medium mb-2">
                             Subject *
@@ -256,7 +257,7 @@ export default function ContactSection() {
                             <motion.div
                               initial={{ opacity: 0, y: 20 }}
                               animate={isInView ? { opacity: 1, y: 0 } : {}}
-                              transition={{ duration: 0.6, delay: 0.4 }}
+                              transition={{ ...smoothFade, delay: 0.38 }}
                             >
                               <label htmlFor="projectType" className="block text-sm font-medium mb-2">
                                 Project Type
@@ -279,7 +280,7 @@ export default function ContactSection() {
                             <motion.div
                               initial={{ opacity: 0, y: 20 }}
                               animate={isInView ? { opacity: 1, y: 0 } : {}}
-                              transition={{ duration: 0.6, delay: 0.5 }}
+                              transition={{ ...smoothFade, delay: 0.46 }}
                             >
                               <label htmlFor="budget" className="block text-sm font-medium mb-2">
                                 Budget Range
@@ -302,7 +303,7 @@ export default function ContactSection() {
                             <motion.div
                               initial={{ opacity: 0, y: 20 }}
                               animate={isInView ? { opacity: 1, y: 0 } : {}}
-                              transition={{ duration: 0.6, delay: 0.6 }}
+                              transition={{ ...smoothFade, delay: 0.54 }}
                             >
                               <label htmlFor="timeline" className="block text-sm font-medium mb-2">
                                 Timeline
@@ -328,7 +329,10 @@ export default function ContactSection() {
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}
                           animate={isInView ? { opacity: 1, y: 0 } : {}}
-                          transition={{ duration: 0.6, delay: formData.contactReason === "hire" ? 0.7 : 0.4 }}
+                          transition={{
+                            ...smoothFade,
+                            delay: formData.contactReason === "hire" ? 0.62 : 0.36,
+                          }}
                         >
                           <label htmlFor="message" className="block text-sm font-medium mb-2">
                             Message *
@@ -351,7 +355,10 @@ export default function ContactSection() {
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}
                           animate={isInView ? { opacity: 1, y: 0 } : {}}
-                          transition={{ duration: 0.6, delay: formData.contactReason === "hire" ? 0.8 : 0.5 }}
+                          transition={{
+                            ...smoothFade,
+                            delay: formData.contactReason === "hire" ? 0.72 : 0.44,
+                          }}
                         >
                           <Button
                             type="submit"
@@ -370,7 +377,7 @@ export default function ContactSection() {
                             {isSubmitting ? (
                               <motion.div
                                 animate={{ rotate: 360 }}
-                                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                                transition={{ ...loopTransition(1, { repeatType: "loop" }), ease: "linear" }}
                                 className="w-6 h-6 border-2 border-background/30 border-t-background rounded-full"
                               />
                             ) : (
@@ -392,7 +399,7 @@ export default function ContactSection() {
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={isInView ? { ...slowFade, delay: 0.28 } : smoothFade}
             className="lg:col-span-2 space-y-8"
           >
             <div>
@@ -408,8 +415,8 @@ export default function ContactSection() {
                   key={info.title}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.3, delay: 0.4 }}
-                  whileHover={{ scale: 1.02 }}
+                  transition={{ ...smoothFade, delay: 0.4 + index * 0.08 }}
+                  whileHover={{ scale: 1.02, transition: hoverSpring }}
                 >
                   <Card className="border-border/50 hover:border-border transition-all duration-300">
                     <CardContent className="p-4">
@@ -444,7 +451,7 @@ export default function ContactSection() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              transition={isInView ? { ...slowFade, delay: 0.76 } : smoothFade}
             >
               <Card className="border-primary/20 bg-primary/5">
                 <CardContent className="p-6 text-center">

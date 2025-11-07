@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { allProjects as projects} from "@/lib/data"
 import Link from "next/link"
+import { hoverSpring, loopTransition, slowFade, smoothFade } from "@/lib/motion"
 
 type ProjectCardProps = {
 	project: Project;
@@ -20,18 +21,18 @@ type ProjectCardProps = {
 const MotionImage = motion(Image);
 
 function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
-	const [isHovered, setIsHovered] = useState(false)
+        const [isHovered, setIsHovered] = useState(false)
 
-	return (
-		<motion.div
-			initial={{ opacity: 0, y: 50 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.6, delay: index * 0.1 }}
-			whileHover={{ y: -10, scale: 1.02 }}
-			onHoverStart={() => setIsHovered(true)}
-			onHoverEnd={() => setIsHovered(false)}
-			className="group flex-shrink-0 w-[450px] h-[450px]"
-		>
+        return (
+                <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ ...smoothFade, delay: index * 0.12 }}
+                        whileHover={{ y: -8, scale: 1.015, transition: hoverSpring }}
+                        onHoverStart={() => setIsHovered(true)}
+                        onHoverEnd={() => setIsHovered(false)}
+                        className="group flex-shrink-0 w-[450px] h-[450px]"
+                >
 			<Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex flex-col">
 				{/* Floating Badge */}
 				{project.featured && (
@@ -50,59 +51,59 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 
 				{/* Project Image */}
 				<div className="relative overflow-hidden">
-					<MotionImage
-						src={project.image || "/placeholder.svg"}
-						alt={project.title}
-						width={600}
-						height={400}
-						className="w-full h-full object-cover"
-						animate={{ scale: isHovered ? 1.1 : 1 }}
-						transition={{ duration: 0.6 }}
-					/>
-					<motion.div
-						className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"
-						animate={{ opacity: isHovered ? 0.8 : 1 }}
-						transition={{ duration: 0.3 }}
-					/>
+                                        <MotionImage
+                                                src={project.image || "/placeholder.svg"}
+                                                alt={project.title}
+                                                width={600}
+                                                height={400}
+                                                className="w-full h-full object-cover"
+                                                animate={{ scale: isHovered ? 1.1 : 1 }}
+                                                transition={{ ...smoothFade, duration: 0.6 }}
+                                        />
+                                        <motion.div
+                                                className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"
+                                                animate={{ opacity: isHovered ? 0.8 : 1 }}
+                                                transition={{ ...smoothFade, duration: 0.35 }}
+                                        />
 
-					{/* Date Badge */}
-					<motion.div
-						className="absolute bottom-4 left-4 flex items-center gap-2 text-xs text-white/80 bg-black/50 rounded-full px-3 py-1"
-						whileHover={{ scale: 1.05 }}
-					>
-						<Calendar className="w-3 h-3" />
-						{project.date}
-					</motion.div>
-				</div>
+                                        {/* Date Badge */}
+                                        <motion.div
+                                                className="absolute bottom-4 left-4 flex items-center gap-2 text-xs text-white/80 bg-black/50 rounded-full px-3 py-1"
+                                                whileHover={{ scale: 1.05, transition: hoverSpring }}
+                                        >
+                                                <Calendar className="w-3 h-3" />
+                                                {project.date}
+                                        </motion.div>
+                                </div>
 
-				<CardContent className="p-6 space-y-4 flex-1 flex flex-col">
+                                <CardContent className="p-6 space-y-4 flex-1 flex flex-col">
 					{/* Title Section */}
 					<div>
-						<motion.h3
-							className="text-xl font-bold mb-2 group-hover:text-primary transition-colors cursor-pointer"
-							whileHover={{ x: 5 }}
-							transition={{ type: "spring", stiffness: 300 }}
-						>
-							{project.title}
-						</motion.h3>
+                                                <motion.h3
+                                                        className="text-xl font-bold mb-2 group-hover:text-primary transition-colors cursor-pointer"
+                                                        whileHover={{ x: 5, transition: hoverSpring }}
+                                                >
+                                                        {project.title}
+                                                </motion.h3>
 						<p className="text-sm text-muted-foreground">{project.subtitle}</p>
 					</div>
 
 					{/* Tech Stack */}
 					<div className="flex flex-wrap gap-2">
 						{project.tech.slice(0, 3).map((tech, techIndex) => (
-							<motion.div
-								key={tech}
-								initial={{ opacity: 0, scale: 0 }}
-								animate={{ opacity: 1, scale: 1 }}
-								transition={{ delay: index * 0.1 + techIndex * 0.05 }}
-								whileHover={{ scale: 1.1, y: -2 }}
-							>
-								<Badge variant="secondary" className="text-xs cursor-pointer">
-									{tech}
-								</Badge>
-							</motion.div>
-						))}
+                                                        <motion.div
+                                                                key={tech}
+                                                                initial={{ opacity: 0, scale: 0 }}
+                                                                animate={{ opacity: 1, scale: 1 }}
+                                                                transition={{ ...smoothFade, delay: index * 0.1 + techIndex * 0.06 }}
+                                                                whileHover={{ scale: 1.06, y: -2, transition: hoverSpring }}
+                                                                whileTap={{ scale: 0.98, transition: hoverSpring }}
+                                                        >
+                                                                <Badge variant="secondary" className="text-xs cursor-pointer">
+                                                                        {tech}
+                                                                </Badge>
+                                                        </motion.div>
+                                                ))}
 						{project.tech.length > 3 && (
 							<Badge variant="outline" className="text-xs">
 								+{project.tech.length - 3}
@@ -113,12 +114,12 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 					{/* Stats */}
 					<div className="flex gap-4 text-sm">
 						{Object.entries(project.stats).map(([key, value], statIndex) => (
-							<motion.div
-								key={key}
-								className="flex items-center gap-1 text-muted-foreground"
-								whileHover={{ scale: 1.1, color: "hsl(var(--primary))" }}
-								transition={{ delay: statIndex * 0.1 }}
-							>
+                                                        <motion.div
+                                                                key={key}
+                                                                className="flex items-center gap-1 text-muted-foreground"
+                                                                whileHover={{ scale: 1.08, color: "hsl(var(--primary))" }}
+                                                                transition={{ ...smoothFade, delay: statIndex * 0.08 }}
+                                                        >
 								{key === "users" && <Users className="w-3 h-3" />}
 								{key === "performance" && <Clock className="w-3 h-3" />}
 								{key === "rating" && <Star className="w-3 h-3" />}
@@ -130,51 +131,50 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 					{/* Impact */}
 					<div className="flex-1">
 						<span className="font-medium text-green-400 text-sm">Impact:</span>
-						<motion.p
-							className="text-green-400 mt-1 font-medium text-sm"
-							whileHover={{ x: 5 }}
-							transition={{ type: "spring", stiffness: 300 }}
-						>
-							{project.impact}
-						</motion.p>
-					</div>
+                                                        <motion.p
+                                                                className="text-green-400 mt-1 font-medium text-sm"
+                                                                whileHover={{ x: 5, transition: hoverSpring }}
+                                                        >
+                                                                {project.impact}
+                                                        </motion.p>
+                                                </div>
 
-					{/* Action buttons */}
-					<div className="flex gap-3 pt-4 border-t border-border/30">
-						<motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-1">
-							<Link href={project.liveUrl ?? "#"} target="_blank">
-								<Button
-									size="sm"
-									className="w-full relative overflow-hidden group"
-								>
-									<span className="relative z-10 flex items-center">
-										<ExternalLink className="w-4 h-4 mr-2" />
-										Live Demo
-									</span>
-									<motion.div
-										className="absolute inset-0 bg-primary/20"
-										initial={{ x: "-100%" }}
-										whileHover={{ x: "0%" }}
-										transition={{ duration: 0.3 }}
-									/>
-								</Button>
-							</Link>
-						</motion.div>
+                                                {/* Action buttons */}
+                                                <div className="flex gap-3 pt-4 border-t border-border/30">
+                                                        <motion.div whileHover={{ scale: 1.05, transition: hoverSpring }} whileTap={{ scale: 0.95, transition: hoverSpring }} className="flex-1">
+                                                                <Link href={project.liveUrl ?? "#"} target="_blank">
+                                                                        <Button
+                                                                                size="sm"
+                                                                                className="w-full relative overflow-hidden group"
+                                                                        >
+                                                                                <span className="relative z-10 flex items-center">
+                                                                                        <ExternalLink className="w-4 h-4 mr-2" />
+                                                                                        Live Demo
+                                                                                </span>
+                                                                                <motion.div
+                                                                                        className="absolute inset-0 bg-primary/20"
+                                                                                        initial={{ x: "-100%" }}
+                                                                                        whileHover={{ x: "0%" }}
+                                                                                        transition={{ ...smoothFade, duration: 0.4 }}
+                                                                                />
+                                                                        </Button>
+                                                                </Link>
+                                                        </motion.div>
 
-						<motion.div whileHover={{ scale: 1.1, rotate: 5 }} whileTap={{ scale: 0.9 }}>
-							<Link href={project.githubUrl ?? "#"} target="_blank">
-								<Button size="sm" variant="outline">
-									<Github className="w-4 h-4" />
-								</Button>
-							</Link>
-						</motion.div>
+                                                        <motion.div whileHover={{ scale: 1.08, rotate: 4, transition: hoverSpring }} whileTap={{ scale: 0.9, transition: hoverSpring }}>
+                                                                <Link href={project.githubUrl ?? "#"} target="_blank">
+                                                                        <Button size="sm" variant="outline">
+                                                                                <Github className="w-4 h-4" />
+                                                                        </Button>
+                                                                </Link>
+                                                        </motion.div>
 
-						<motion.div whileHover={{ scale: 1.1, rotate: -5 }} whileTap={{ scale: 0.9 }}>
-							<Button size="sm" variant="outline" onClick={() => onSelect(project)}>
-								<Info className="w-4 h-4" />
-							</Button>
-						</motion.div>
-					</div>
+                                                        <motion.div whileHover={{ scale: 1.08, rotate: -4, transition: hoverSpring }} whileTap={{ scale: 0.9, transition: hoverSpring }}>
+                                                                <Button size="sm" variant="outline" onClick={() => onSelect(project)}>
+                                                                        <Info className="w-4 h-4" />
+                                                                </Button>
+                                                        </motion.div>
+                                                </div>
 				</CardContent>
 
 				{/* Hover Glow Effect */}
@@ -208,75 +208,74 @@ export default function ProjectsSection() {
 		>
 			{/* Animated Background */}
 			<div className="absolute inset-0 opacity-5">
-				<motion.div
-					className="absolute top-20 right-20 w-72 h-72 bg-primary rounded-full blur-3xl"
-					animate={{
-						scale: [1, 1.2, 1],
-						opacity: [0.3, 0.6, 0.3],
-					}}
-					transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
-				/>
-				<motion.div
-					className="absolute bottom-20 left-20 w-96 h-96 bg-primary/50 rounded-full blur-3xl"
-					animate={{
-						scale: [1.2, 1, 1.2],
-						opacity: [0.2, 0.4, 0.2],
-					}}
-					transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY }}
-				/>
+                                <motion.div
+                                        className="absolute top-20 right-20 w-72 h-72 bg-primary rounded-full blur-3xl"
+                                        animate={{
+                                                scale: [1, 1.12, 1],
+                                                opacity: [0.3, 0.55, 0.3],
+                                        }}
+                                        transition={loopTransition(5)}
+                                />
+                                <motion.div
+                                        className="absolute bottom-20 left-20 w-96 h-96 bg-primary/50 rounded-full blur-3xl"
+                                        animate={{
+                                                scale: [1.08, 1, 1.08],
+                                                opacity: [0.2, 0.38, 0.2],
+                                        }}
+                                        transition={loopTransition(7)}
+                                />
 			</div>
 
 			<div className="sticky top-0 flex h-screen items-center overflow-hidden">
 				{/* Header */}
 				<div className="absolute top-20 left-0 right-0 z-10 text-center px-4 sm:px-6">
-					<motion.div
-						initial={{ opacity: 0, y: 50 }}
-						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.8 }}
-					>
-						<motion.div
-							initial={{ width: 0 }}
-							animate={isInView ? { width: "200px" } : {}}
-							transition={{ duration: 1, delay: 0.3 }}
-							className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6 sm:mb-8"
-						/>
+                                        <motion.div
+                                                initial={{ opacity: 0, y: 50 }}
+                                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                                transition={isInView ? slowFade : smoothFade}
+                                        >
+                                                <motion.div
+                                                        initial={{ width: 0 }}
+                                                        animate={isInView ? { width: "200px" } : {}}
+                                                        transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
+                                                        className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6 sm:mb-8"
+                                                />
 
-						<motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6" whileHover={{ scale: 1.02 }}>
-							Featured{" "}
-							<motion.span
-								className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
-								whileHover={{ scale: 1.05, rotateY: 10 }}
-								transition={{ type: "spring", stiffness: 300 }}
-							>
-								Projects
-							</motion.span>
-						</motion.h2>
+                                                <motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6" whileHover={{ scale: 1.02 }}>
+                                                        Featured{" "}
+                                                        <motion.span
+                                                                className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+                                                                whileHover={{ scale: 1.05, rotateY: 10, transition: hoverSpring }}
+                                                        >
+                                                                Projects
+                                                        </motion.span>
+                                                </motion.h2>
 
-						<motion.p
-							className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8"
-							initial={{ opacity: 0 }}
-							animate={isInView ? { opacity: 1 } : {}}
-							transition={{ delay: 0.5 }}
-						>
-							Real problems solved with thoughtful engineering and modern technology
-						</motion.p>
+                                                <motion.p
+                                                        className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8"
+                                                        initial={{ opacity: 0 }}
+                                                        animate={isInView ? { opacity: 1 } : {}}
+                                                        transition={isInView ? { ...smoothFade, delay: 0.45 } : smoothFade}
+                                                >
+                                                        Real problems solved with thoughtful engineering and modern technology
+                                                </motion.p>
 
-						{/* Scroll Hint */}
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={isInView ? { opacity: 1, y: 0 } : {}}
-							transition={{ duration: 0.8, delay: 1 }}
-							className="text-sm text-muted-foreground flex items-center justify-center gap-2"
-						>
-							<span>Scroll to explore projects horizontally</span>
-							<motion.div
-								animate={{ y: [-5, 15, 0] }}
-								transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-								className="text-primary text-md border border-secondary rounded-full w-5 h-5"
-							>
-								<span className="relative -top-0.5">↓</span>
-							</motion.div>
-						</motion.div>
+                                                {/* Scroll Hint */}
+                                                <motion.div
+                                                        initial={{ opacity: 0, y: 20 }}
+                                                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                                        transition={isInView ? { ...slowFade, delay: 0.9 } : smoothFade}
+                                                        className="text-sm text-muted-foreground flex items-center justify-center gap-2"
+                                                >
+                                                        <span>Scroll to explore projects horizontally</span>
+                                                        <motion.div
+                                                                animate={{ y: [-4, 14, 0] }}
+                                                                transition={loopTransition(3)}
+                                                                className="text-primary text-md border border-secondary rounded-full w-5 h-5"
+                                                        >
+                                                                <span className="relative -top-0.5">↓</span>
+                                                        </motion.div>
+                                                </motion.div>
 					</motion.div>
 				</div>
 
@@ -306,41 +305,42 @@ export default function ProjectsSection() {
 										<div className="p-6 sm:p-8">
 											<div className="flex items-center justify-between mb-6 sm:mb-8">
 												<div>
-													<motion.h3
-														className="text-2xl sm:text-3xl font-bold mb-2"
-														initial={{ x: -20 }}
-														animate={{ x: 0 }}
-													>
-														{selectedProject.title}
-													</motion.h3>
-													<motion.p
-														className="text-muted-foreground"
-														initial={{ x: -20 }}
-														animate={{ x: 0 }}
-														transition={{ delay: 0.1 }}
-													>
-														{selectedProject.subtitle}
-													</motion.p>
+                                        <motion.h3
+                                                className="text-2xl sm:text-3xl font-bold mb-2"
+                                                initial={{ x: -20 }}
+                                                animate={{ x: 0 }}
+                                                transition={{ ...smoothFade, delay: 0.05 }}
+                                        >
+                                                {selectedProject.title}
+                                        </motion.h3>
+                                        <motion.p
+                                                className="text-muted-foreground"
+                                                initial={{ x: -20 }}
+                                                animate={{ x: 0 }}
+                                                transition={{ ...smoothFade, delay: 0.12 }}
+                                        >
+                                                {selectedProject.subtitle}
+                                        </motion.p>
 												</div>
-												<motion.div whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }}>
-													<Button size="sm" variant="ghost" onClick={() => setSelectedProject(null)}>
-														<X className="w-5 h-5" />
-													</Button>
-												</motion.div>
+                                                                                                <motion.div whileHover={{ scale: 1.05, rotate: 75, transition: hoverSpring }} whileTap={{ scale: 0.9, transition: hoverSpring }}>
+                                                                                                        <Button size="sm" variant="ghost" onClick={() => setSelectedProject(null)}>
+                                                                                                                <X className="w-5 h-5" />
+                                                                                                        </Button>
+                                                                                               </motion.div>
 											</div>
 											<div className="grid md:grid-cols-2 gap-6 sm:gap-8">
 												<div className="space-y-6">
-													<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                                                                                                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...smoothFade, delay: 0.2 }}>
 														<h4 className="font-semibold text-lg mb-3 text-red-400">The Challenge</h4>
 														<p className="text-muted-foreground leading-relaxed">{selectedProject.details.challenge}</p>
 													</motion.div>
-													<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                                                                                                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...smoothFade, delay: 0.32 }}>
 														<h4 className="font-semibold text-lg mb-3 text-blue-400">My Approach</h4>
 														<p className="text-muted-foreground leading-relaxed">{selectedProject.details.approach}</p>
 													</motion.div>
 												</div>
 												<div className="space-y-6">
-													<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+                                                                                                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...smoothFade, delay: 0.44 }}>
 														<h4 className="font-semibold text-lg mb-3 text-green-400">Results</h4>
 														<ul className="space-y-3">
 															{selectedProject.details.results.map((res, idx) => (
@@ -348,46 +348,47 @@ export default function ProjectsSection() {
 																	key={idx}
 																	initial={{ opacity: 0, x: -20 }}
 																	animate={{ opacity: 1, x: 0 }}
-																	transition={{ delay: 0.5 + idx * 0.1 }}
-																	whileHover={{ x: 5 }}
-																	className="text-muted-foreground flex items-start cursor-pointer"
-																>
-																	<motion.span
-																		className="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"
-																		whileHover={{ scale: 1.5 }}
-																	/>
+                                                                                                                               transition={{ ...smoothFade, delay: 0.5 + idx * 0.08 }}
+                                                                                                                               whileHover={{ x: 5, transition: hoverSpring }}
+                                                                                                                              className="text-muted-foreground flex items-start cursor-pointer"
+                                                                                                                      >
+                                                                                                                              <motion.span
+                                                                                                                              className="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"
+                                                                                                                               whileHover={{ scale: 1.2, transition: hoverSpring }}
+                                                                                                                              />
 																	{res}
 																</motion.li>
 															))}
 														</ul>
 													</motion.div>
-													<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+                                                                                                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...smoothFade, delay: 0.6 }}>
 														<h4 className="font-semibold text-lg mb-3 text-purple-400">Key Learnings</h4>
 														<p className="text-muted-foreground leading-relaxed">{selectedProject.details.learnings}</p>
 													</motion.div>
 												</div>
 											</div>
-											<motion.div
-												className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border"
-												initial={{ opacity: 0, y: 20 }}
-												animate={{ opacity: 1, y: 0 }}
-												transition={{ delay: 0.7 }}
-											>
+                                                                                        <motion.div
+                                                                                                className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border"
+                                                                                                initial={{ opacity: 0, y: 20 }}
+                                                                                                animate={{ opacity: 1, y: 0 }}
+                                                                                                transition={{ ...smoothFade, delay: 0.68 }}
+                                                                                        >
 												<h4 className="font-semibold mb-4">Technologies Used</h4>
 												<div className="flex flex-wrap gap-2">
-													{selectedProject.tech.map((tech, ti) => (
-														<motion.div
-															key={tech}
-															initial={{ opacity: 0, scale: 0 }}
-															animate={{ opacity: 1, scale: 1 }}
-															transition={{ delay: 0.8 + ti * 0.05 }}
-															whileHover={{ scale: 1.1, y: -2 }}
-														>
-															<Badge variant="secondary" className="px-3 py-1 cursor-pointer">
-																{tech}
-															</Badge>
-														</motion.div>
-													))}
+                                                                                                        {selectedProject.tech.map((tech, ti) => (
+                                                                                                               <motion.div
+                                                                                                                       key={tech}
+                                                                                                                       initial={{ opacity: 0, scale: 0 }}
+                                                                                                                       animate={{ opacity: 1, scale: 1 }}
+                                                                                                                       transition={{ ...smoothFade, delay: 0.78 + ti * 0.05 }}
+                                                                                                                        whileHover={{ scale: 1.08, y: -2, transition: hoverSpring }}
+                                                                                                                        whileTap={{ scale: 0.96, transition: hoverSpring }}
+                                                                                                                >
+                                                                                                                        <Badge variant="secondary" className="px-3 py-1 cursor-pointer">
+                                                                                                                                {tech}
+                                                                                                                       </Badge>
+                                                                                                               </motion.div>
+                                                                                                       ))}
 												</div>
 											</motion.div>
 										</div>
@@ -397,20 +398,20 @@ export default function ProjectsSection() {
 						)}
 
 						{/* View More Projects Card */}
-						<motion.div
-							initial={{ opacity: 0, x: 100 }}
-							animate={isInView ? { opacity: 1, x: 0 } : {}}
-							transition={{ duration: 0.8, delay: projects.length * 0.1 }}
-							className="flex-shrink-0 w-[450px] h-[450px]"
-						>
-							<Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex items-center justify-center group cursor-pointer">
-								<CardContent className="text-center p-8">
-									<motion.div
-										whileHover={{ scale: 1.1, rotate: 5 }}
-										className="w-20 h-20 bg-gradient-to-r from-primary to-primary/60 rounded-2xl flex items-center justify-center mx-auto mb-6"
-										onClick={() => router.push("/projects")}
-									>
-										<ArrowRight className="w-8 h-8 text-white" />
+                                                <motion.div
+                                                        initial={{ opacity: 0, x: 100 }}
+                                                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                                                        transition={isInView ? { ...slowFade, delay: projects.length * 0.1 } : smoothFade}
+                                                        className="flex-shrink-0 w-[450px] h-[450px]"
+                                                >
+                                                        <Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex items-center justify-center group cursor-pointer">
+                                                                <CardContent className="text-center p-8">
+                                                                        <motion.div
+                                                                                whileHover={{ scale: 1.08, rotate: 4, transition: hoverSpring }}
+                                                                                className="w-20 h-20 bg-gradient-to-r from-primary to-primary/60 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                                                                                onClick={() => router.push("/projects")}
+                                                                        >
+                                                                                <ArrowRight className="w-8 h-8 text-white" />
 									</motion.div>
 									<h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
 										View All Projects

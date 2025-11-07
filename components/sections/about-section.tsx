@@ -2,37 +2,39 @@
 
 import { useRef, useState } from "react"
 import { motion, useInView, useScroll, useTransform, AnimatePresence, useReducedMotion } from "framer-motion"
-import { Zap, Quote, Sparkles, } from "lucide-react"
+import type { Variants } from "framer-motion"
+import { Zap, Quote, Sparkles } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { codingQuotes, codingStats, highlights, stats, journeyTimeline } from "@/lib/data"
+import { hoverSpring, loopTransition, slowFade, smoothFade, subtleStaggerChildren } from "@/lib/motion"
 
 const containerVariants = {
-  initial: { opacity: 0, y: 50 },
+  initial: { opacity: 0, y: 40 },
   animate: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
+      ...slowFade,
+      ...subtleStaggerChildren,
+    },
   },
   exit: {
     opacity: 0,
-    y: 50,
+    y: 40,
     transition: {
-      duration: 0.6,
-      staggerChildren: 0.1,
-      staggerDirection: -1
-    }
+      ...smoothFade,
+      duration: 0.5,
+      ...subtleStaggerChildren,
+      staggerDirection: -1,
+    },
   },
-}
+} satisfies Variants
 
 const itemVariants = {
-  initial: { opacity: 0, scale: 0.9 },
-  animate: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
-  exit: { opacity: 0, scale: 0.9, transition: { duration: 0.4 } },
-}
+  initial: { opacity: 0, scale: 0.94 },
+  animate: { opacity: 1, scale: 1, transition: { ...smoothFade } },
+  exit: { opacity: 0, scale: 0.94, transition: { ...smoothFade, duration: 0.45 } },
+} satisfies Variants
 
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -59,13 +61,13 @@ export default function AboutSection() {
           style={{ y }}
           className="absolute top-1/4 left-10 w-64 h-64 bg-primary rounded-full blur-3xl animate-pulse"
           animate={prefersReducedMotion ? { opacity: 0.2 } : { opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: 6, repeat: prefersReducedMotion ? 0 : Number.POSITIVE_INFINITY }}
+          transition={prefersReducedMotion ? smoothFade : loopTransition(6)}
         />
         <motion.div
           style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
           className="absolute bottom-1/4 right-10 w-80 h-80 bg-primary/50 rounded-full blur-3xl animate-pulse"
           animate={prefersReducedMotion ? { opacity: 0.15 } : { opacity: [0.15, 0.35, 0.15] }}
-          transition={{ duration: 8, repeat: prefersReducedMotion ? 0 : Number.POSITIVE_INFINITY }}
+          transition={prefersReducedMotion ? smoothFade : loopTransition(8)}
         />
 
         <Sparkles className="absolute top-10 left-20 w-8 h-8 text-primary animate-twinkle" />
@@ -89,19 +91,19 @@ export default function AboutSection() {
                   initial={{ width: 0 }}
                   animate={{ width: "200px" }}
                   exit={{ width: 0 }}
-                  transition={{ duration: 1, delay: 0.3 }}
+                  transition={{ ...slowFade, delay: 0.3 }}
                   className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"
                 />
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
                   About{" "}
-                  <motion.span
-                    className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
-                    whileHover={{ scale: 1.05, rotateY: 10 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    Me
-                  </motion.span>
-                </h2>
+                <motion.span
+                  className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+                  whileHover={{ scale: 1.05, rotateY: 10 }}
+                  transition={hoverSpring}
+                >
+                  Me
+                </motion.span>
+              </h2>
                 <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
                   Passionate developer crafting meaningful digital experiences with code as my canvas.
                 </p>
@@ -124,14 +126,14 @@ export default function AboutSection() {
                     className="relative p-6 bg-card/20 rounded-xl border border-primary/20 shadow-lg"
                   >
                     <Quote className="absolute -top-4 -left-4 w-8 h-8 text-primary/30" />
-                    <motion.blockquote
-                      className="text-lg md:text-xl font-light italic text-foreground pl-8 border-l-2 border-primary/30"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1, transition: { duration: 1.5, ease: "easeInOut" } }}
-                    >
-                      {featuredQuote}
-                    </motion.blockquote>
-                  </motion.div>
+                  <motion.blockquote
+                    className="text-lg md:text-xl font-light italic text-foreground pl-8 border-l-2 border-primary/30"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, transition: { ...slowFade, duration: 1.2 } }}
+                  >
+                    {featuredQuote}
+                  </motion.blockquote>
+                </motion.div>
 
                   {/* Journey Timeline */}
                   <h3 className="text-xl font-semibold mb-6">My Journey</h3>
@@ -147,7 +149,8 @@ export default function AboutSection() {
                         animate="animate"
                         exit="exit"
                         custom={index}
-                        whileHover={{ x: 10 }}
+                        whileHover={{ x: 12 }}
+                        transition={hoverSpring}
                         className="flex items-start gap-4 p-4 rounded-lg hover:bg-card/50 transition-colors relative"
                       >
                         <div className="absolute -left-7 w-4 h-4 bg-primary rounded-full ring-4 ring-background" />
@@ -167,7 +170,8 @@ export default function AboutSection() {
                       <motion.div
                         key={stat.label}
                         variants={itemVariants}
-                        whileHover={{ scale: 1.05, rotate: 2 }}
+                        whileHover={{ scale: 1.04, rotate: 1 }}
+                        transition={hoverSpring}
                         className="text-center p-6 bg-gradient-to-br from-card/80 to-card/40 rounded-xl shadow-md hover:shadow-xl transition-shadow"
                       >
                         <div className="text-3xl font-bold text-primary mb-2">{stat.number}</div>
@@ -184,8 +188,9 @@ export default function AboutSection() {
                         <motion.div
                           key={tech}
                           initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0, transition: { delay: index * 0.2 } }}
-                          whileHover={{ scale: 1.1, rotate: 360, transition: { duration: 0.5 } }}
+                          animate={{ opacity: 1, y: 0, transition: { ...smoothFade, delay: index * 0.12 } }}
+                          whileHover={{ scale: 1.05 }}
+                          transition={hoverSpring}
                         >
                           <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
                             {tech}
@@ -199,6 +204,7 @@ export default function AboutSection() {
                   <motion.div
                     variants={itemVariants}
                     whileHover={{ scale: 1.02 }}
+                    transition={hoverSpring}
                     className="flex items-center gap-4 p-4 bg-card/30 rounded-lg border border-border/50"
                   >
                     <featuredStat.icon className="w-8 h-8 text-primary animate-bounce" />
