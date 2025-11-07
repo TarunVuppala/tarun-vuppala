@@ -1,4 +1,6 @@
-export function generateEmailHtml(formData: ContactFormData): string {
+import { escapeHtml, NormalizedContactData } from "@/lib/security"
+
+export function generateEmailHtml(formData: NormalizedContactData): string {
   const { name, email, subject, message, contactReason, projectType, budget, timeline } = formData
 
   const isHireInquiry = contactReason === "hire"
@@ -80,22 +82,22 @@ export function generateEmailHtml(formData: ContactFormData): string {
                 <h1>New Contact Form Submission</h1>
             </div>
             <div class="content">
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Subject:</strong> ${subject}</p>
+                <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+                <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+                <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
                 <p><strong>Contact Reason:</strong> <span class="badge">${isHireInquiry ? "Hire Me" : "Casual Inquiry"}</span></p>
                 ${
                   isHireInquiry
                     ? `
-                <p><strong>Project Type:</strong> ${projectType}</p>
-                <p><strong>Budget:</strong> ${budget}</p>
-                <p><strong>Timeline:</strong> ${timeline}</p>
+                <p><strong>Project Type:</strong> ${escapeHtml(projectType ?? "")}</p>
+                <p><strong>Budget:</strong> ${escapeHtml(budget ?? "")}</p>
+                <p><strong>Timeline:</strong> ${escapeHtml(timeline ?? "")}</p>
                 `
                     : ""
                 }
                 <div class="message-box">
                     <p><strong>Message:</strong></p>
-                    <p>${message}</p>
+                    <p>${escapeHtml(message)}</p>
                 </div>
             </div>
             <div class="footer">

@@ -1,14 +1,16 @@
 "use client"
 
-import { useRef, useEffect, useState } from "react"
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { useRef, useEffect, useMemo, useState } from "react"
+import { motion, useScroll, useTransform, useInView, useReducedMotion } from "framer-motion"
 import { TypewriterText } from "../ui/typewriter-text"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, Sparkles } from "lucide-react"
+import Image from "next/image"
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const prefersReducedMotion = useReducedMotion()
 
   // Track if the hero section is in view
   const isInView = useInView(containerRef, {
@@ -25,12 +27,13 @@ export default function HeroSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
   useEffect(() => {
+    if (prefersReducedMotion) return
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
+      window.requestAnimationFrame(() => setMousePosition({ x: e.clientX, y: e.clientY }))
     }
     window.addEventListener("mousemove", handleMouseMove)
     return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
+  }, [prefersReducedMotion])
 
   const handleScrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
@@ -118,6 +121,26 @@ export default function HeroSection() {
     },
   }
 
+  const shouldAnimate = !prefersReducedMotion && isInView
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 15 }, (_, index) => {
+        const seed = index + 1
+        const left = ((seed * 37) % 100).toFixed(2)
+        const top = ((seed * 61) % 100).toFixed(2)
+        const duration = 3 + (((seed * 19) % 20) / 10)
+        const delay = ((seed * 13) % 20) / 10
+        return {
+          left: `${left}%`,
+          top: `${top}%`,
+          duration,
+          delay,
+        }
+      }),
+    [],
+  )
+
   return (
     <section
       id="hero"
@@ -129,13 +152,13 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background" />
         {/* Floating Particles */}
         <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
+          {particles.map((particle, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-primary/30 rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: particle.left,
+                top: particle.top,
               }}
               animate={
                 isInView
@@ -148,9 +171,9 @@ export default function HeroSection() {
                   }
               }
               transition={{
-                duration: 3 + Math.random() * 2,
+                duration: particle.duration,
                 repeat: isInView ? Number.POSITIVE_INFINITY : 0,
-                delay: Math.random() * 2,
+                delay: particle.delay,
               }}
             />
           ))}
@@ -171,10 +194,10 @@ export default function HeroSection() {
           <motion.div variants={profileVariants} className="flex justify-center">
             <div className="relative">
               <motion.div
-                animate={isInView ? { rotate: 360 } : { rotate: 0 }}
+                animate={shouldAnimate ? { rotate: 360 } : { rotate: 0 }}
                 transition={{
                   duration: 20,
-                  repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+                  repeat: shouldAnimate ? Number.POSITIVE_INFINITY : 0,
                   ease: "linear",
                 }}
                 className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-primary/50 to-primary opacity-20 blur-xl"
@@ -183,20 +206,23 @@ export default function HeroSection() {
                 whileHover={{ scale: 1.05 }}
                 className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-2 sm:border-4 border-primary/20 shadow-2xl"
               >
-                <img
+                <Image
                   src="/image.png"
                   alt="Tarun Vuppala"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 160px, 192px"
+                  priority
                   draggable={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
               </motion.div>
               {/* Floating Elements */}
               <motion.div
-                animate={isInView ? { y: [0, -8, 0] } : { y: 0 }}
+                animate={shouldAnimate ? { y: [0, -8, 0] } : { y: 0 }}
                 transition={{
                   duration: 2,
-                  repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+                  repeat: shouldAnimate ? Number.POSITIVE_INFINITY : 0,
                 }}
                 className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-card/80 backdrop-blur-sm rounded-full p-1.5 sm:p-2 border border-border/50"
               >
@@ -211,10 +237,10 @@ export default function HeroSection() {
             className="inline-flex items-center gap-2 sm:gap-3 bg-card/80 backdrop-blur-xl rounded-full px-3 sm:px-4 py-1.5 sm:py-2 border border-border/50 shadow-2xl"
           >
             <motion.div
-              animate={isInView ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+              animate={shouldAnimate ? { scale: [1, 1.2, 1] } : { scale: 1 }}
               transition={{
                 duration: 2,
-                repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+                repeat: shouldAnimate ? Number.POSITIVE_INFINITY : 0,
               }}
               className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full"
             />
@@ -310,10 +336,10 @@ export default function HeroSection() {
           <motion.div variants={profileVariants} className="order-2 lg:order-1 flex justify-center">
             <div className="relative">
               <motion.div
-                animate={isInView ? { rotate: 360 } : { rotate: 0 }}
+                animate={shouldAnimate ? { rotate: 360 } : { rotate: 0 }}
                 transition={{
                   duration: 20,
-                  repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+                  repeat: shouldAnimate ? Number.POSITIVE_INFINITY : 0,
                   ease: "linear",
                 }}
                 className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-primary/50 to-primary opacity-20 blur-xl"
@@ -322,20 +348,23 @@ export default function HeroSection() {
                 whileHover={{ scale: 1.05 }}
                 className="relative w-64 h-64 xl:w-80 xl:h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl"
               >
-                <img
+                <Image
                   src="/image.png"
                   alt="Tarun Vuppala"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1280px) 256px, 320px"
+                  priority
                   draggable={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
               </motion.div>
               {/* Floating Elements */}
               <motion.div
-                animate={isInView ? { y: [0, -10, 0] } : { y: 0 }}
+                animate={shouldAnimate ? { y: [0, -10, 0] } : { y: 0 }}
                 transition={{
                   duration: 2,
-                  repeat: isInView ? Number.POSITIVE_INFINITY : 0,
+                  repeat: shouldAnimate ? Number.POSITIVE_INFINITY : 0,
                 }}
                 className="absolute -top-4 -right-4 bg-card/80 backdrop-blur-sm rounded-full p-3 border border-border/50"
               >

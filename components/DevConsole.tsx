@@ -25,6 +25,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     const [isTyping, setIsTyping] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
     const outputRef = useRef<HTMLDivElement>(null)
+    const typewriterTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     const quotes = [
         '"The best error message is the one that never shows up." - Thomas Fuchs',
@@ -62,24 +63,37 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
         }
     }, [consoleOutput])
 
-    const typeWriter = (text: string, callback?: () => void) => {
+    useEffect(() => {
+        return () => {
+            if (typewriterTimerRef.current) {
+                clearInterval(typewriterTimerRef.current)
+            }
+        }
+    }, [])
+
+    const typeWriter = (text: string) => {
+        if (typewriterTimerRef.current) {
+            clearInterval(typewriterTimerRef.current)
+        }
         setIsTyping(true)
-        let i = 0
+        let index = 0
         const speed = 30
-        const typeInterval = setInterval(() => {
-            if (i < text.length) {
-                setConsoleOutput((prev) => {
-                    const newOutput = [...prev]
-                    if (newOutput[newOutput.length - 1]?.startsWith("✅")) {
-                        newOutput[newOutput.length - 1] = `✅ ${text.slice(0, i + 1)}`
-                    }
-                    return newOutput
-                })
-                i++
-            } else {
-                clearInterval(typeInterval)
+        typewriterTimerRef.current = setInterval(() => {
+            index += 1
+            setConsoleOutput((prev) => {
+                const newOutput = [...prev]
+                const lastIndex = newOutput.length - 1
+                if (lastIndex >= 0) {
+                    newOutput[lastIndex] = `✅ ${text.slice(0, Math.min(index, text.length))}`
+                }
+                return newOutput
+            })
+            if (index >= text.length) {
+                if (typewriterTimerRef.current) {
+                    clearInterval(typewriterTimerRef.current)
+                }
+                typewriterTimerRef.current = null
                 setIsTyping(false)
-                callback?.()
             }
         }, speed)
     }
@@ -138,8 +152,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             } else if (trimmedCommand.toLowerCase().includes("love")) {
                 result = "❤️ I love coding, coffee, and creating amazing user experiences!"
             } else {
-                // Try to evaluate as JavaScript
-                result = String(eval(trimmedCommand))
+                result = "🤖 That command isn't available. Type 'help' to see the supported commands."
             }
 
             newOutput.push(`✅ ${result}`)

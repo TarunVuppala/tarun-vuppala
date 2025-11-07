@@ -197,7 +197,7 @@ export default function ProjectsSection() {
 	const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
 	const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"])
-	const isInView = useInView(targetRef, { once: true, margin: "-100px" })
+	const isInView = useInView(targetRef, { once: false, margin: "-100px" })
 	const router = useRouter()
 
 	return (

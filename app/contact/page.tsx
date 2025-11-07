@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion } from "framer-motion"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
@@ -28,10 +28,22 @@ export default function ContactPage() {
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const resetTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setErrorMessage(null)
+    let submissionSucceeded = false
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -42,23 +54,25 @@ export default function ContactPage() {
       if (!json.success) {
         throw new Error(json.error || "Unknown error during submission.")
       }
+      submissionSucceeded = true
       setIsSubmitted(true)
     } catch (err) {
       console.error("Form submission error:", err)
-      alert("Failed to send message. Please try again later.") // Provide user feedback
+      setErrorMessage(err instanceof Error ? err.message : "Failed to send message. Please try again later.")
     } finally {
       setIsSubmitting(false)
-      // Reset form after 3 seconds if successful, or immediately if error
-      if (isSubmitted) {
-        // Only reset if submission was successful
-        setTimeout(() => {
+      if (submissionSucceeded) {
+        if (resetTimeoutRef.current) {
+          clearTimeout(resetTimeoutRef.current)
+        }
+        resetTimeoutRef.current = setTimeout(() => {
           setIsSubmitted(false)
           setFormData({
             name: "",
             email: "",
             subject: "",
             message: "",
-            contactReason: null,
+            contactReason: "casual",
             projectType: "",
             budget: "",
             timeline: "",
@@ -133,6 +147,11 @@ export default function ContactPage() {
                       </motion.div>
                     ) : (
                       <form onSubmit={handleSubmit} className="space-y-6">
+                        {errorMessage && (
+                          <div className="rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                            {errorMessage}
+                          </div>
+                        )}
                         {/* Reason Selection */}
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}

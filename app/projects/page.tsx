@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { ExternalLink, Github, Calendar, Search, Star, Users, Clock } from "lucide-react"
 import Link from "next/link"
 import { allProjects } from "@/lib/data"
+import Image from "next/image"
 
 const categories = ["All", "Web App", "Mobile", "AI", "Productivity", "SaaS", "3D", "Finance", "Plugin", "Personalization", "Audio Processing", "Tool",];
 
@@ -110,10 +111,13 @@ export default function ProjectsPage() {
                 >
                   <Card className="h-full border-border/50 hover:border-border hover:shadow-lg hover:bg-black transition-all duration-300 overflow-hidden">
                     <div className="relative overflow-hidden">
-                      <img
+                      <Image
                         src={project.image || "/placeholder.svg"}
                         alt={project.title}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                        width={600}
+                        height={400}
+                        className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                       {project.featured && (
                         <Badge className="absolute top-3 left-3 bg-linear-to-r from-yellow-500 to-orange-500 text-white border-0">

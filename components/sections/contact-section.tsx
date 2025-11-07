@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
 import { Send, CheckCircle, MessageCircle, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -24,12 +24,24 @@ export default function ContactSection() {
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const resetTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: true, margin: "-20%" })
+  const isInView = useInView(containerRef, { once: false, margin: "-20%" })
+
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setErrorMessage(null)
+    let submissionSucceeded = false
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -38,23 +50,31 @@ export default function ContactSection() {
       })
       const json = await res.json()
       if (!json.success) throw new Error(json.error || "Unknown error")
+      submissionSucceeded = true
     } catch (err) {
       console.error(err)
+      setErrorMessage(err instanceof Error ? err.message : "Unable to send message. Please try again.")
+    } finally {
       setIsSubmitting(false)
+    }
+    if (!submissionSucceeded) {
       return
     }
-    setIsSubmitted(true)
-    setIsSubmitting(false)
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
+    setIsSubmitted(true)
+
+    if (resetTimeoutRef.current) {
+      clearTimeout(resetTimeoutRef.current)
+    }
+
+    resetTimeoutRef.current = setTimeout(() => {
       setIsSubmitted(false)
       setFormData({
         name: "",
         email: "",
         subject: "",
         message: "",
-        contactReason: null,
+        contactReason: "casual",
         projectType: "",
         budget: "",
         timeline: "",
@@ -138,6 +158,11 @@ export default function ContactSection() {
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {errorMessage && (
+                      <div className="rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                        {errorMessage}
+                      </div>
+                    )}
                     {/* Reason Selection */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}

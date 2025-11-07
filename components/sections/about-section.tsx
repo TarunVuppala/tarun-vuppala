@@ -1,13 +1,10 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { useRef, useState } from "react"
+import { motion, useInView, useScroll, useTransform, AnimatePresence, useReducedMotion } from "framer-motion"
 import { Zap, Quote, Sparkles, } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { codingQuotes, codingStats, highlights, stats, journeyTimeline } from "@/lib/data"
-
-const codingQuote = codingQuotes[Math.floor(Math.random() * codingQuotes.length)]
-const codingStat = codingStats[Math.floor(Math.random() * codingStats.length)]
 
 const containerVariants = {
   initial: { opacity: 0, y: 50 },
@@ -40,6 +37,9 @@ const itemVariants = {
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: false, margin: "-100px" })
+  const prefersReducedMotion = useReducedMotion()
+  const [featuredQuote] = useState(() => codingQuotes[Math.floor(Math.random() * codingQuotes.length)])
+  const [featuredStat] = useState(() => codingStats[Math.floor(Math.random() * codingStats.length)])
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -58,10 +58,14 @@ export default function AboutSection() {
         <motion.div
           style={{ y }}
           className="absolute top-1/4 left-10 w-64 h-64 bg-primary rounded-full blur-3xl animate-pulse"
+          animate={prefersReducedMotion ? { opacity: 0.2 } : { opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 6, repeat: prefersReducedMotion ? 0 : Number.POSITIVE_INFINITY }}
         />
         <motion.div
           style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
           className="absolute bottom-1/4 right-10 w-80 h-80 bg-primary/50 rounded-full blur-3xl animate-pulse"
+          animate={prefersReducedMotion ? { opacity: 0.15 } : { opacity: [0.15, 0.35, 0.15] }}
+          transition={{ duration: 8, repeat: prefersReducedMotion ? 0 : Number.POSITIVE_INFINITY }}
         />
 
         <Sparkles className="absolute top-10 left-20 w-8 h-8 text-primary animate-twinkle" />
@@ -125,7 +129,7 @@ export default function AboutSection() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 1.5, ease: "easeInOut" } }}
                     >
-                      {codingQuote}
+                      {featuredQuote}
                     </motion.blockquote>
                   </motion.div>
 
@@ -197,10 +201,10 @@ export default function AboutSection() {
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center gap-4 p-4 bg-card/30 rounded-lg border border-border/50"
                   >
-                    <codingStat.icon className="w-8 h-8 text-primary animate-bounce" />
+                    <featuredStat.icon className="w-8 h-8 text-primary animate-bounce" />
                     <div>
                       <p className="font-medium">Fun Fact</p>
-                      <p className="text-sm text-muted-foreground">{codingStat.text}</p>
+                      <p className="text-sm text-muted-foreground">{featuredStat.text}</p>
                     </div>
                   </motion.div>
                 </div>

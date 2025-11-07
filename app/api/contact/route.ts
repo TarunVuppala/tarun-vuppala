@@ -1,68 +1,115 @@
 import nodemailer from "nodemailer"
 import { NextResponse } from "next/server"
 import { generateEmailHtml } from "@/lib/htmlTemplate"
+import { NormalizedContactData, validateContactPayload } from "@/lib/security"
+
+const MAX_BODY_SIZE = 8 * 1024 // 8KB
+const RATE_LIMIT_WINDOW_MS = 60_000
+const RATE_LIMIT_MAX = 5
+const rateLimiter = new Map<string, { count: number; expiresAt: number }>()
+
+const requiredEnvVars = ["EMAIL_USER", "EMAIL_PASS", "CONTACT_RECEIVER"] as const
+
+const missingEnv = requiredEnvVars.filter((key) => !process.env[key])
+if (missingEnv.length) {
+  console.warn("Missing email configuration variables:", missingEnv.join(", "))
+}
+
+const getClientId = (req: Request) => {
+  const header =
+    req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? req.headers.get("cf-connecting-ip") ?? ""
+  return header.split(",")[0]?.trim() || "anonymous"
+}
+
+const isRateLimited = (clientId: string) => {
+  const entry = rateLimiter.get(clientId)
+  const now = Date.now()
+
+  if (!entry || entry.expiresAt < now) {
+    rateLimiter.set(clientId, { count: 1, expiresAt: now + RATE_LIMIT_WINDOW_MS })
+    return false
+  }
+
+  entry.count += 1
+  rateLimiter.set(clientId, entry)
+  return entry.count > RATE_LIMIT_MAX
+}
+
+const formatEmailText = (data: NormalizedContactData) => {
+  const details =
+    data.contactReason === "hire"
+      ? `Project Type: ${data.projectType ?? "n/a"}
+Budget: ${data.budget ?? "n/a"}
+Timeline: ${data.timeline ?? "n/a"}
+`
+      : ""
+
+  return `Name: ${data.name}
+Email: ${data.email}
+Subject: ${data.subject}
+Contact Reason: ${data.contactReason === "hire" ? "Hire Me" : "Casual Inquiry"}
+${details}Message:
+${data.message}`
+}
 
 export async function POST(req: Request) {
-  const { name, email, subject, message, contactReason, projectType, budget, timeline } = await req.json()
-
-  // Basic validation for common fields
-  if (!name || !email || !subject || !message || !contactReason) {
+  const clientId = getClientId(req)
+  if (isRateLimited(clientId)) {
     return NextResponse.json(
-      { success: false, error: "Missing required form fields (name, email, subject, message, contactReason)." },
-      { status: 400 },
+      { success: false, error: "Too many requests. Please wait a moment before trying again." },
+      { status: 429 },
     )
   }
 
-  // Additional validation for 'hire' reason
-  if (contactReason === "hire") {
-    if (!projectType || !budget || !timeline) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Missing required project details for 'hire' inquiry (projectType, budget, timeline).",
-        },
-        { status: 400 },
-      )
-    }
+  let payload: unknown
+  try {
+    payload = await req.json()
+  } catch {
+    return NextResponse.json({ success: false, error: "Invalid JSON payload." }, { status: 400 })
   }
 
-  // Configure Nodemailer transporter with dummy data
-  // IMPORTANT: Replace these dummy values with actual environment variables in a real application!
+  const bodySize = JSON.stringify(payload).length
+  if (bodySize > MAX_BODY_SIZE) {
+    return NextResponse.json(
+      { success: false, error: "Message too large. Please shorten your request." },
+      { status: 413 },
+    )
+  }
+
+  const validation = validateContactPayload(payload)
+  if (!validation.success) {
+    return NextResponse.json({ success: false, error: validation.errors.join(" ") }, { status: 400 })
+  }
+
+  if (missingEnv.length) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Email service is not configured. Please try again later.",
+      },
+      { status: 500 },
+    )
+  }
+
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
-    secure: true, // Use SSL
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
   })
 
-  // Construct email content based on contact reason
-  const emailText = `
-Name: ${name}
-Email: ${email}
-Subject: ${subject}
-Contact Reason: ${contactReason === "hire" ? "Hire Me" : "Casual Inquiry"}
-Message:
-${message}
-`
+  const emailText = formatEmailText(validation.data)
 
   const mailOptions = {
-    from: `"Website Contact" process.env.EMAIL_USER`,
-    to: process.env.CONTACT_RECEIVER,
-    subject: `[Contact] ${subject}`,
+    from: `"Website Contact" <${process.env.EMAIL_USER}>`,
+    replyTo: validation.data.email,
+    to: process.env.CONTACT_RECEIVER!,
+    subject: `[Contact] ${validation.data.subject}`,
     text: emailText,
-    html: generateEmailHtml({
-      name,
-      email,
-      subject,
-      message,
-      contactReason,
-      projectType,
-      budget,
-      timeline,
-    } as ContactFormData),
+    html: generateEmailHtml(validation.data),
   }
 
   try {
@@ -71,7 +118,7 @@ ${message}
   } catch (err) {
     console.error("Mail error:", err)
     return NextResponse.json(
-      { success: false, error: "Failed to send email. Please check server logs and email configuration." },
+      { success: false, error: "Failed to send email. Please try again later." },
       { status: 500 },
     )
   }
