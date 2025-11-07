@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useMemo, useState } from "react"
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from "framer-motion"
+import type { Variants } from "framer-motion"
 import { TypewriterText } from "../ui/typewriter-text"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, Sparkles } from "lucide-react"
@@ -53,7 +54,7 @@ export default function HeroSection() {
         delayChildren: 0.1,
       },
     },
-  }
+  } satisfies Variants
 
   const itemVariants = {
     hidden: {
@@ -70,7 +71,7 @@ export default function HeroSection() {
         ease: "easeOut",
       },
     },
-  }
+  } satisfies Variants
 
   const profileVariants = {
     hidden: {
@@ -87,7 +88,7 @@ export default function HeroSection() {
         ease: "easeOut",
       },
     },
-  }
+  } satisfies Variants
 
   const titleVariants = {
     hidden: {
@@ -102,7 +103,7 @@ export default function HeroSection() {
         ease: "easeOut",
       },
     },
-  }
+  } satisfies Variants
 
   const badgeVariants = {
     hidden: {
@@ -119,7 +120,7 @@ export default function HeroSection() {
         duration: 0.6,
       },
     },
-  }
+  } satisfies Variants
 
   const shouldAnimate = !prefersReducedMotion && isInView
 

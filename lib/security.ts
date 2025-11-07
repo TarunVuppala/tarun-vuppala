@@ -48,7 +48,10 @@ export function validateContactPayload(payload: unknown): ValidationResult {
   const email = sanitize(data.email)
   const subject = sanitize(data.subject)
   const message = sanitize(data.message, MAX_MESSAGE_LENGTH)
-  const contactReason = data.contactReason === "hire" ? "hire" : data.contactReason === "casual" ? "casual" : null
+  let contactReason: NormalizedContactData["contactReason"] | null = null
+  if (data.contactReason === "hire" || data.contactReason === "casual") {
+    contactReason = data.contactReason
+  }
   const projectType = sanitize(data.projectType)
   const budget = sanitize(data.budget)
   const timeline = sanitize(data.timeline)
@@ -69,6 +72,8 @@ export function validateContactPayload(payload: unknown): ValidationResult {
     return { success: false, errors }
   }
 
+  const normalizedContactReason = contactReason as NormalizedContactData["contactReason"]
+
   return {
     success: true,
     data: {
@@ -76,7 +81,7 @@ export function validateContactPayload(payload: unknown): ValidationResult {
       email,
       subject,
       message,
-      contactReason,
+      contactReason: normalizedContactReason,
       ...(projectType && { projectType }),
       ...(budget && { budget }),
       ...(timeline && { timeline }),

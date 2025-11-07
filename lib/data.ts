@@ -604,6 +604,8 @@ export const skillsByDomain = [
     icon: Code,
     color: "#3B82F6",
     bgGradient: "linear-gradient(135deg, #3B82F6, #1D4ED8)",
+    description:
+      "Component-driven UIs with responsive layouts, accessible interactions, and motion that reinforces the story.",
     skills: [
       {
         name: "React.js",
@@ -652,6 +654,8 @@ export const skillsByDomain = [
     icon: Database,
     color: "#10B981",
     bgGradient: "linear-gradient(135deg, #10B981, #059669)",
+    description:
+      "Robust APIs and data layers with structured schemas, strong typing, and observability baked into the stack.",
     skills: [
       {
         name: "Node.js",
@@ -685,6 +689,8 @@ export const skillsByDomain = [
     icon: Wrench,
     color: "#8B5CF6",
     bgGradient: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+    description:
+      "Workflow accelerators for version control, collaboration, and quick iteration between design and engineering.",
     skills: [
       {
         name: "Git",

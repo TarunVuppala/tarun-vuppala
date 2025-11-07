@@ -2,17 +2,18 @@
 
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
+import type { Variants } from "framer-motion"
 import { skillsByDomain as categories } from "@/lib/data"
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-}
+} satisfies Variants
 
 const waveVariants = {
   hidden: { pathLength: 0, opacity: 0 },
   visible: { pathLength: 1, opacity: 0.15, transition: { duration: 2, ease: "easeInOut" } },
-}
+} satisfies Variants
 
 export default function SkillsSection() {
   const ref = useRef<HTMLDivElement>(null)
