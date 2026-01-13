@@ -78,26 +78,12 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 			initial={{ opacity: 0, y: 50 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ ...smoothFade, delay: index * 0.12 }}
-			whileHover={{ y: -8, scale: 1.01, transition: hoverSpring }}
+			whileHover={{ scale: 1.01, transition: hoverSpring }}
 			onHoverStart={() => setIsHovered(true)}
 			onHoverEnd={() => setIsHovered(false)}
 			className="group project-card shrink-0 w-[560px] h-[430px]"
 		>
 			<Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex flex-col">
-				{project.featured && (
-					<motion.div
-						initial={{ scale: 0, rotate: -45 }}
-						animate={{ scale: 1, rotate: 0 }}
-						whileHover={{ scale: 1.05, rotate: 4 }}
-						className="absolute top-4 right-4 z-10"
-					>
-						<Badge className="bg-primary text-primary-foreground border-0">
-							<Star className="w-3 h-3 mr-1" />
-							Featured
-						</Badge>
-					</motion.div>
-				)}
-
 				<div className="relative overflow-hidden">
 					<MotionImage
 						src={project.image || "/placeholder.svg"}
@@ -210,7 +196,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 							</Link>
 						</motion.div>
 
-						<motion.div whileHover={{ scale: 1.05, rotate: 3, transition: hoverSpring }} whileTap={{ scale: 0.92, transition: hoverSpring }}>
+						<motion.div whileHover={{ scale: 1.05, transition: hoverSpring }} whileTap={{ scale: 0.92, transition: hoverSpring }}>
 							<Link href={project.githubUrl ?? "#"} target="_blank">
 								<Button size="sm" variant="outline">
 									<Github className="w-4 h-4" />
@@ -218,7 +204,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 							</Link>
 						</motion.div>
 
-						<motion.div whileHover={{ scale: 1.05, rotate: -3, transition: hoverSpring }} whileTap={{ scale: 0.92, transition: hoverSpring }}>
+						<motion.div whileHover={{ scale: 1.05, transition: hoverSpring }} whileTap={{ scale: 0.92, transition: hoverSpring }}>
 							<Button size="sm" variant="outline" onClick={() => onSelect(project)}>
 								<Info className="w-4 h-4" />
 							</Button>
@@ -247,7 +233,7 @@ export default function ProjectsSection() {
 		() => {
 			if (!sectionRef.current || !trackRef.current || !pinRef.current) return
 
-			const EXTRA_TRAVEL_PX = 280
+			const EXTRA_TRAVEL_PX = 100
 
 			let scrollAmount = 0
 
@@ -307,10 +293,10 @@ export default function ProjectsSection() {
 
 	return (
 		<section id="projects" ref={sectionRef} className="relative bg-background">
-			<div ref={pinRef} className="relative flex h-screen items-center overflow-hidden will-change-transform">
+			<div ref={pinRef} className="relative flex h-[75vh] items-center overflow-hidden will-change-transform">
 
 				{/* Header */}
-				<div className="absolute top-16 left-0 right-0 z-10 text-center">
+				<div className="absolute top-20 left-0 right-0 z-10 text-center">
 					<motion.div
 						initial={{ opacity: 0, y: 50 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -323,12 +309,16 @@ export default function ProjectsSection() {
 							className="h-px bg-border mx-auto mb-5 sm:mb-6"
 						/>
 
+						<motion.p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+							Curated Works
+						</motion.p>
+
 						<motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
 							Projects
 						</motion.h2>
 
 						<motion.p
-							className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto"
+							className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed"
 							initial={{ opacity: 0 }}
 							animate={isInView ? { opacity: 1 } : {}}
 							transition={isInView ? { ...smoothFade, delay: 0.45 } : smoothFade}
@@ -339,7 +329,7 @@ export default function ProjectsSection() {
 				</div>
 
 				{/* Horizontal Row */}
-				<div className="pt-56 h-full w-full px-32">
+				<div className="pt-52 h-full w-full px-32">
 					<div ref={trackRef} className="flex h-full items-center gap-4 px-6 will-change-transform">
 						{featuredProjects.map((project, index) => (
 							<ProjectCard key={project.id} project={project} index={index} onSelect={setSelectedProject} />
@@ -355,7 +345,7 @@ export default function ProjectsSection() {
 							<Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex items-center justify-center group cursor-pointer">
 								<CardContent className="text-center p-6">
 									<motion.div
-										whileHover={{ scale: 1.06, rotate: 3, transition: hoverSpring }}
+										whileHover={{ scale: 1.06, transition: hoverSpring }}
 										className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6"
 										onClick={() => router.push("/projects")}
 									>
@@ -407,7 +397,7 @@ export default function ProjectsSection() {
 											{selectedProject.subtitle}
 										</motion.p>
 									</div>
-									<motion.div whileHover={{ scale: 1.05, rotate: 75, transition: hoverSpring }} whileTap={{ scale: 0.9, transition: hoverSpring }}>
+									<motion.div whileHover={{ scale: 1.05, transition: hoverSpring }} whileTap={{ scale: 0.9, transition: hoverSpring }}>
 										<Button size="sm" variant="ghost" onClick={() => setSelectedProject(null)}>
 											<X className="w-5 h-5" />
 										</Button>

@@ -41,25 +41,25 @@ export default function SkillsSection() {
 		<section
 			id="skills"
 			ref={sectionRef}
-			className="relative overflow-hidden bg-background py-16"
+			className="relative overflow-hidden bg-background py-10 sm:py-12"
 		>
-      <ContentContainer className="flex flex-col gap-10">
+      <ContentContainer className="flex flex-col gap-6">
         <motion.div
           variants={headerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           className="text-center"
         >
-          <p className="text-xs uppercase tracking-widest text-gray-600">Arsenal & Tools</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground">Arsenal & Tools</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Tech Stack
           </h2>
-          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+          <p className="mt-3 text-sm text-muted-foreground sm:text-base max-w-2xl mx-auto leading-relaxed">
             A curated toolkit that balances velocity, reliability, and thoughtful UI.
           </p>
         </motion.div>
 
-        <div className="grid gap-10 lg:grid-cols-2 lg:[&>*:last-child]:col-span-2 lg:[&>*:last-child]:mx-auto lg:[&>*:last-child]:max-w-2xl">
+        <div className="grid gap-6 lg:grid-cols-2 lg:[&>*:last-child]:col-span-2 lg:[&>*:last-child]:mx-auto lg:[&>*:last-child]:max-w-2xl">
           {categories.map((category, index) => (
             <motion.article
               key={category.title}

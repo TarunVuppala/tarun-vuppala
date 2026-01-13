@@ -1,9 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
 import Link from "next/link"
-import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp } from "lucide-react"
+import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp, MapPin, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import ContentContainer from "@/components/layout/container"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -26,124 +26,87 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-muted/30 border-t border-border relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-      </div>
+    <footer className="relative border-t border-border bg-background/80">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-6 py-10 relative z-10">
-        <div className="grid md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="md:col-span-2"
-          >
-            <h3 className="text-2xl font-bold mb-4">Tarun Vuppala</h3>
-            <p className="text-muted-foreground mb-4 leading-relaxed max-w-md">
+      <ContentContainer className="py-10 sm:py-12">
+        <div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr]">
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold">Tarun Vuppala</h3>
+            <p className="text-muted-foreground leading-relaxed max-w-md">
               Full Stack Developer crafting digital experiences that solve real problems and scale beautifully. Always
               excited to work on meaningful projects that make a difference.
             </p>
-            <div className="flex space-x-4">
-              {socialLinks.map((social, index) => (
-                <motion.a
+            <div className="flex items-center gap-3">
+              {socialLinks.map((social) => (
+                <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.2, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="w-9 h-9 bg-card hover:bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 border border-border/50 hover:border-border"
+                  className="h-9 w-9 rounded-lg border border-border/60 bg-card text-muted-foreground transition-colors hover:text-foreground hover:border-border"
+                  aria-label={social.label}
                 >
-                  <social.icon size={18} />
-                </motion.a>
+                  <span className="flex h-full w-full items-center justify-center">
+                    <social.icon size={18} />
+                  </span>
+                </a>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
+          <div>
             <h4 className="font-semibold mb-4 text-lg">Quick Links</h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5 text-muted-foreground">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors duration-300 hover:translate-x-1 inline-block"
-                  >
+                  <Link href={link.href} className="transition-colors hover:text-foreground">
                     {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
+          <div>
             <h4 className="font-semibold mb-4 text-lg">Get In Touch</h4>
-            <div className="space-y-3 text-muted-foreground">
+            <div className="space-y-2.5 text-muted-foreground">
               <p className="flex items-center gap-2">
-                <span>📧</span>
-                <a href="mailto:tarun.vuppala26@gmail.com" className="hover:text-foreground transition-colors">
+                <Mail className="h-4 w-4" />
+                <a href="mailto:tarun.vuppala26@gmail.com" className="transition-colors hover:text-foreground">
                   tarun.vuppala26@gmail.com
                 </a>
               </p>
               <p className="flex items-center gap-2">
-                <span>📍</span>
+                <MapPin className="h-4 w-4" />
                 Hyderabad, India
               </p>
               <p className="flex items-center gap-2">
-                <span>🕒</span>
+                <Clock className="h-4 w-4" />
                 Available for opportunities
               </p>
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Bottom Bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4"
-        >
-          <p className="text-muted-foreground text-sm">© {currentYear} Tarun Vuppala. All rights reserved.</p>
-
+        <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center">
+          <p>© {currentYear} Tarun Vuppala. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <p className="text-muted-foreground text-sm flex items-center gap-2">
+            <p className="flex items-center gap-2">
               Made with <Heart className="w-4 h-4 text-red-500" /> by Tarun
             </p>
-
-            <Button variant="ghost" size="sm" onClick={scrollToTop} className="w-8 h-8 p-0 rounded-full hover:bg-muted">
-              <ArrowUp className="w-4 h-4" />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={scrollToTop}
+              className="h-8 w-8 rounded-full p-0 hover:bg-muted"
+              aria-label="Back to top"
+            >
+              <ArrowUp className="h-4 w-4" />
             </Button>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </ContentContainer>
     </footer>
   )
 }

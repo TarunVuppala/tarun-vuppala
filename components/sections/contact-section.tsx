@@ -100,14 +100,14 @@ export default function ContactSection() {
 	}
 
 	return (
-		<section id="contact" ref={containerRef} className="py-14 relative overflow-hidden">
+		<section id="contact" ref={containerRef} className="py-10 sm:py-12 relative overflow-hidden">
 			<ContentContainer className="relative z-10">
 				{/* Header */}
 				<motion.div
 					initial={{ opacity: 0, y: 50 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
 					transition={isInView ? slowFade : smoothFade}
-					className="text-center mb-8"
+					className="text-center mb-5"
 				>
 					<motion.div
 						initial={{ width: 0 }}
@@ -115,16 +115,11 @@ export default function ContactSection() {
 						transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
 						className="h-px bg-border mx-auto mb-5"
 					/>
+					<p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Let's Connect</p>
 					<h2 className="text-4xl md:text-5xl font-bold mb-3">
-						Let's{" "}
-						<motion.span
-							className="inline-block text-primary"
-							whileHover={{ scale: 1.05, transition: hoverSpring }}
-						>
-							Connect
-						</motion.span>
+						Contact
 					</h2>
-					<p className="text-base text-muted-foreground max-w-2xl mx-auto">
+					<p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
 						Have a project in mind? Let's discuss how we can bring your ideas to life.
 					</p>
 				</motion.div>

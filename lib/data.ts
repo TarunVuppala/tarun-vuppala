@@ -514,7 +514,6 @@ export const journeyExpanded = [
       "Implemented a custom algorithm to remove silence",
       "Integrated with Adobe CEP for seamless workflow",
       "Optimized the plugin for faster performance",
-      ,
     ],
   },
   {
