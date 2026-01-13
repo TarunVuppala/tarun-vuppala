@@ -40,19 +40,37 @@ const techLogoOverrides: Record<string, string> = {
 	"react native": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
 	"next.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
 	"node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-	"express.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+	"express.js": "https://cdn.simpleicons.org/express/white",
 	mongodb: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
 	postgresql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-	prisma: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-plain.svg",
-	tailwind: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
-	"tailwind css": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+	prisma: "https://cdn.simpleicons.org/prisma/white",
+	tailwind: "https://cdn.simpleicons.org/tailwindcss/white",
+	"tailwind css": "https://cdn.simpleicons.org/tailwindcss/white",
 	typescript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
 	javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-	"framer motion": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framermotion/framermotion-original.svg",
-	"socket.io": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg",
-	"three.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/threejs/threejs-original.svg",
+	"framer motion": "https://cdn.simpleicons.org/framer/white",
+	"socket.io": "https://cdn.simpleicons.org/socketdotio/white",
+	sockio: "https://cdn.simpleicons.org/socketdotio/white",
+	jwt: "https://cdn.simpleicons.org/jsonwebtokens/white",
+	razorpay: "https://cdn.simpleicons.org/razorpay/white",
+	"shadcn ui": "https://cdn.simpleicons.org/shadcnui/white",
+	shadcn: "https://cdn.simpleicons.org/shadcnui/white",
+	"three.js": "https://cdn.simpleicons.org/threedotjs/white",
+	"three js": "https://cdn.simpleicons.org/threedotjs/white",
 	blender: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg",
-	ffmpeg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ffmpeg/ffmpeg-original.svg",
+	ffmpeg: "https://cdn.simpleicons.org/ffmpeg/white",
+	ffmped: "https://cdn.simpleicons.org/ffmpeg/white",
+	nodemailer: "/icons/nodemailer.svg",
+	indexeddb: "/icons/indexeddb.svg",
+	"indexed db": "/icons/indexeddb.svg",
+	"transaction management": "/icons/transaction-management.svg",
+	"adobe cep": "/icons/adobe-cep.svg",
+	"ppro api": "/icons/ppro-api.svg",
+	uxp: "/icons/uxp.svg",
+	"qr parser": "/icons/qr-parser.svg",
+	ollama: "/icons/ollama.svg",
+	"llama 3.2": "/icons/llama.svg",
+	"pdf-parser": "/icons/pdf-parser.svg",
 }
 
 const normalizeTechName = (value: string) => value.toLowerCase().trim()
@@ -78,7 +96,6 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 			initial={{ opacity: 0, y: 50 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ ...smoothFade, delay: index * 0.12 }}
-			whileHover={{ scale: 1.01, transition: hoverSpring }}
 			onHoverStart={() => setIsHovered(true)}
 			onHoverEnd={() => setIsHovered(false)}
 			className="group project-card shrink-0 w-[560px] h-[430px]"
@@ -120,23 +137,23 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 						<p className="text-sm text-muted-foreground">{project.subtitle}</p>
 					</div>
 
-					<div className="flex flex-wrap gap-3">
+					<div className="flex flex-wrap -space-x-1">
 						{project.tech.slice(0, 5).map((tech, techIndex) => (
 							<motion.div
 								key={tech}
 								initial={{ opacity: 0, scale: 0.92 }}
 								animate={{ opacity: 1, scale: 1 }}
 								transition={{ ...smoothFade, delay: index * 0.08 + techIndex * 0.05 }}
-								whileHover={{ scale: 1.05, y: -1, transition: hoverSpring }}
+								whileHover={{ scale: 1.05, transition: hoverSpring }}
 								whileTap={{ scale: 0.98, transition: hoverSpring }}
 							>
-								<div className="group/tech relative flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-background/60">
+								<div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
 									<img
 										src={getTechLogo(tech)}
 										alt={tech}
-										className="h-6 w-6 object-contain"
+										className="h-5 w-5 object-contain"
 										onError={(event) => {
-											event.currentTarget.src = "/placeholder.svg"
+											event.currentTarget.style.display = "none"
 										}}
 									/>
 									<span className="pointer-events-none absolute -top-9 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">
@@ -293,7 +310,7 @@ export default function ProjectsSection() {
 
 	return (
 		<section id="projects" ref={sectionRef} className="relative bg-background">
-			<div ref={pinRef} className="relative flex h-[75vh] items-center overflow-hidden will-change-transform">
+			<div ref={pinRef} className="relative flex h-[75vh] items-center  will-change-transform">
 
 				{/* Header */}
 				<div className="absolute top-20 left-0 right-0 z-10 text-center">
@@ -329,8 +346,8 @@ export default function ProjectsSection() {
 				</div>
 
 				{/* Horizontal Row */}
-				<div className="pt-52 h-full w-full px-32">
-					<div ref={trackRef} className="flex h-full items-center gap-4 px-6 will-change-transform">
+				<div className="pt-64 h-full w-full px-32 mb-32">
+					<div ref={trackRef} className="flex h-full items-center gap-8 px-6 will-change-transform">
 						{featuredProjects.map((project, index) => (
 							<ProjectCard key={project.id} project={project} index={index} onSelect={setSelectedProject} />
 						))}
@@ -445,23 +462,23 @@ export default function ProjectsSection() {
 
 								<motion.div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...smoothFade, delay: 0.68 }}>
 									<h4 className="font-semibold mb-4">Technologies Used</h4>
-									<div className="flex flex-wrap gap-3">
+									<div className="flex flex-wrap -space-x-1">
 										{selectedProject.tech.map((tech, ti) => (
 											<motion.div
 												key={tech}
 												initial={{ opacity: 0, scale: 0 }}
 												animate={{ opacity: 1, scale: 1 }}
 												transition={{ ...smoothFade, delay: 0.78 + ti * 0.05 }}
-												whileHover={{ scale: 1.08, y: -2, transition: hoverSpring }}
+												whileHover={{ scale: 1.08, transition: hoverSpring }}
 												whileTap={{ scale: 0.96, transition: hoverSpring }}
 											>
-												<div className="group/tech relative flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-background/60">
+												<div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
 													<img
 														src={getTechLogo(tech)}
 														alt={tech}
-														className="h-6 w-6 object-contain"
+														className="h-5 w-5 object-contain"
 														onError={(event) => {
-															event.currentTarget.src = "/placeholder.svg"
+															event.currentTarget.style.display = "none"
 														}}
 													/>
 													<span className="pointer-events-none absolute -top-9 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">

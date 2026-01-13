@@ -11,10 +11,64 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { ExternalLink, Github, Calendar, Search, Star, Users, Clock } from "lucide-react"
 import Link from "next/link"
-import { allProjects } from "@/lib/data"
+import { allProjects, skillsByDomain } from "@/lib/data"
 import Image from "next/image"
 
 const categories = ["All", "Web App", "Mobile", "AI", "Productivity", "SaaS", "3D", "Finance", "Plugin", "Personalization", "Audio Processing", "Tool",];
+
+const techLogoOverrides: Record<string, string> = {
+  react: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  "react.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  "react native": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  "next.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+  "node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+  "express.js": "https://cdn.simpleicons.org/express/white",
+  mongodb: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+  postgresql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+  prisma: "https://cdn.simpleicons.org/prisma/white",
+  tailwind: "https://cdn.simpleicons.org/tailwindcss/white",
+  "tailwind css": "https://cdn.simpleicons.org/tailwindcss/white",
+  typescript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+  javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  "framer motion": "https://cdn.simpleicons.org/framer/white",
+  "socket.io": "https://cdn.simpleicons.org/socketdotio/white",
+  sockio: "https://cdn.simpleicons.org/socketdotio/white",
+  jwt: "https://cdn.simpleicons.org/jsonwebtokens/white",
+  razorpay: "https://cdn.simpleicons.org/razorpay/white",
+  "shadcn ui": "https://cdn.simpleicons.org/shadcnui/white",
+  shadcn: "https://cdn.simpleicons.org/shadcnui/white",
+  "three.js": "https://cdn.simpleicons.org/threedotjs/white",
+  "three js": "https://cdn.simpleicons.org/threedotjs/white",
+  blender: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg",
+  ffmpeg: "https://cdn.simpleicons.org/ffmpeg/white",
+  ffmped: "https://cdn.simpleicons.org/ffmpeg/white",
+  nodemailer: "/icons/nodemailer.svg",
+  indexeddb: "/icons/indexeddb.svg",
+  "indexed db": "/icons/indexeddb.svg",
+  "transaction management": "/icons/transaction-management.svg",
+  "adobe cep": "/icons/adobe-cep.svg",
+  "ppro api": "/icons/ppro-api.svg",
+  uxp: "/icons/uxp.svg",
+  "qr parser": "/icons/qr-parser.svg",
+  ollama: "/icons/ollama.svg",
+  "llama 3.2": "/icons/llama.svg",
+  "pdf-parser": "/icons/pdf-parser.svg",
+}
+
+const normalizeTechName = (value: string) => value.toLowerCase().trim()
+
+const techLogoMap = new Map<string, string>()
+skillsByDomain.forEach((domain) => {
+  domain.skills.forEach((skill) => {
+    techLogoMap.set(normalizeTechName(skill.name), skill.logo || "/placeholder.svg")
+  })
+})
+Object.entries(techLogoOverrides).forEach(([name, logo]) => {
+  techLogoMap.set(normalizeTechName(name), logo)
+})
+
+const getTechLogo = (tech: string) =>
+  techLogoMap.get(normalizeTechName(tech)) || "/placeholder.svg"
 
 export default function ProjectsPage() {
   const [filter, setFilter] = useState<"all" | "featured">("all")
@@ -99,24 +153,23 @@ export default function ProjectsPage() {
             </motion.div>
 
             {/* Projects Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
               {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.1 }}
-                  whileHover={{ y: -5 }}
                   className="group"
                 >
-                  <Card className="h-full border-border/50 hover:border-border hover:shadow-lg hover:bg-black transition-all duration-300 overflow-hidden">
+                  <Card className="h-full flex flex-col border-border/50 bg-card/80 transition-colors duration-300 overflow-hidden">
                     <div className="relative overflow-hidden">
                       <Image
                         src={project.image || "/placeholder.svg"}
                         alt={project.title}
                         width={600}
                         height={400}
-                        className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="h-44 w-full object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                       {project.featured && (
@@ -127,43 +180,83 @@ export default function ProjectsPage() {
                       )}
                     </div>
 
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Calendar className="w-4 h-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">{project.date}</span>
+                    <CardContent className="p-4 flex flex-1 flex-col">
+                      <div className="flex flex-col gap-1.5">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h3 className="text-lg font-semibold leading-snug group-hover:text-primary transition-colors">
+                            {project.title}
+                          </h3>
+                          <div className="flex items-center gap-2">
+                            {project.liveUrl && (
+                              <Button size="sm" className="px-3" asChild>
+                                <Link
+                                  href={project.liveUrl ?? "#"}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex items-center gap-2"
+                                >
+                                  <ExternalLink className="w-4 h-4" />
+                                  Live Demo
+                                </Link>
+                              </Button>
+                            )}
+
+                            {project.githubUrl && (
+                              <Button size="sm" variant="outline" className="h-9 w-9 p-0" asChild>
+                                <Link
+                                  href={project.githubUrl ?? "#"}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Github className="w-4 h-4" />
+                                </Link>
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-muted-foreground">
+                          <span>{project.subtitle}</span>
+                          <span>•</span>
+                          <span>{project.date}</span>
+                        </div>
                       </div>
 
-                      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-muted-foreground mb-4">{project.description}</p>
+                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{project.description}</p>
 
                       {/* Stats */}
-                      <div className="flex gap-4 text-sm mb-4">
+                      <div className="flex gap-3 text-xs text-muted-foreground mt-2 mb-2">
                         {Object.entries(project.stats).map(([key, value]) => (
-                          <div key={key} className="flex items-center gap-1 text-muted-foreground">
+                          <div key={key} className="flex items-center gap-1">
                             {key === "users" && <Users className="w-3 h-3" />}
                             {key === "performance" && <Clock className="w-3 h-3" />}
                             {key === "rating" && <Star className="w-3 h-3" />}
-                            <span className="text-xs">{value}</span>
+                            <span>{value}</span>
                           </div>
                         ))}
                       </div>
 
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        <div className="flex flex-wrap gap-2 mb-1">
+                      <div className="flex flex-col gap-3 mt-auto pt-2">
+                        <div className="flex flex-wrap -space-x-1">
                           {project.tech.map((tech, idx) => (
                             <motion.div
-                              className="flex flex-wrap gap-2"
                               key={tech}
                               initial={{ opacity: 0, scale: 0 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ delay: idx * 0.05 }}
-                              whileHover={{ scale: 1.1, y: -2 }}
                             >
-                              <Badge key={tech} variant="secondary" className="text-xs">
-                                {tech}
-                              </Badge>
+                              <div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
+                                <img
+                                  src={getTechLogo(tech)}
+                                  alt={tech}
+                                  className="h-5 w-5 object-contain"
+                                  onError={(event) => {
+                                    event.currentTarget.style.display = "none"
+                                  }}
+                                />
+                                <span className="pointer-events-none absolute -top-9 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">
+                                  {tech}
+                                </span>
+                              </div>
                             </motion.div>
                           ))}
                         </div>
@@ -175,7 +268,6 @@ export default function ProjectsPage() {
                               initial={{ opacity: 0, scale: 0 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ delay: idx * 0.05 }}
-                              whileHover={{ scale: 1.1, y: -2 }}
                             >
                               <Badge variant="secondary" className="text-xs cursor-pointer">
                                 {cat}
@@ -185,47 +277,6 @@ export default function ProjectsPage() {
                         </div>
                       </div>
 
-                      <div className={`flex gap-3`}>
-                        {project.liveUrl && (
-                          <motion.div
-                            whileHover={{ scale: project.liveUrl ? 1.05 : 1 }}
-                            whileTap={{ scale: project.liveUrl ? 0.95 : 1 }}
-                            className={`"hover:cursor-pointer justify-start"`}
-                          >
-                            <Button size="sm" asChild disabled={!project.liveUrl}>
-                              <Link
-                                href={project.liveUrl ?? "#"}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center"
-                              >
-                                <ExternalLink className="w-4 h-4" />
-                                Live Demo
-                              </Link>
-                            </Button>
-                          </motion.div>
-                        )}
-
-                        {
-                          project.githubUrl && (
-                            <motion.div
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.9 }}
-                              className={`hover:cursor-pointer justify-start`}
-                            >
-                              <Button size="sm" variant="outline" asChild>
-                                <Link
-                                  href={project.githubUrl ?? "#"}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <Github className="w-4 h-4" />
-                                </Link>
-                              </Button>
-                            </motion.div>
-                          )
-                        }
-                      </div>
                     </CardContent>
                   </Card>
                 </motion.div>

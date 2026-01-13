@@ -71,7 +71,7 @@ export default function SkillsSection() {
             >
               <h3 className="text-lg font-semibold text-foreground">{category.title}</h3>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap -space-x-1">
                 {category.skills.map((skill, skillIndex) => (
                   <motion.div
                     key={skill.name}
@@ -79,14 +79,14 @@ export default function SkillsSection() {
                     variants={skillVariants}
                     initial="hidden"
                     animate={isInView ? "visible" : "hidden"}
-                    className="group relative flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-background/60"
+                    className="group relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10"
                   >
                     <img
                       src={skill.logo || "/placeholder.svg"}
                       alt={skill.name}
-                      className="h-6 w-6 object-contain"
+                      className="h-5 w-5 object-contain"
                       onError={(event) => {
-                        event.currentTarget.src = "/placeholder.svg"
+                        event.currentTarget.style.display = "none"
                       }}
                     />
                     <span className="pointer-events-none absolute -top-9 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover:opacity-100">

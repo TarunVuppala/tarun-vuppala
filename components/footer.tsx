@@ -27,7 +27,7 @@ export default function Footer() {
 
   return (
     <footer className="relative border-t border-border bg-background/80">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
       <ContentContainer className="py-10 sm:py-12">
         <div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr]">

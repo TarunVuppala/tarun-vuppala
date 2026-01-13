@@ -625,12 +625,12 @@ export const skillsByDomain = [
       },
       {
         name: "Tailwind CSS",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+        logo: "https://cdn.simpleicons.org/tailwindcss/white",
         color: "#06B6D4",
       },
       {
-        name: "Motion",
-        logo: "https://www.google.com/imgres?q=motion.dev%20logo%20png&imgurl=https%3A%2F%2Fuser-images.githubusercontent.com%2F7850794%2F164965509-2a8dc49e-2ed7-4243-a2c9-481b03bbc31a.png&imgrefurl=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fmotion%2Fv%2F10.17.0&docid=zImfgnQYGoA8kM&tbnid=vGCqJeOBJjfS8M&vet=12ahUKEwjDvcz568aOAxXr3jgGHSgWJDcQM3oECBAQAA..i&w=300&h=300&hcb=2&ved=2ahUKEwjDvcz568aOAxXr3jgGHSgWJDcQM3oECBAQAA",
+        name: "Framer Motion",
+        logo: "https://cdn.simpleicons.org/framer/white",
         color: "#ECF806FF",
       },
     ],
@@ -650,7 +650,7 @@ export const skillsByDomain = [
       },
       {
         name: "Express.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+        logo: "https://cdn.simpleicons.org/express/white",
         color: "#ffffff",
       },
       {
@@ -665,7 +665,7 @@ export const skillsByDomain = [
       },
       {
         name: "Prisma",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-plain.svg",
+        logo: "https://cdn.simpleicons.org/prisma/white",
         color: "#ffffff",
       },
     ],
@@ -685,7 +685,7 @@ export const skillsByDomain = [
       },
       {
         name: "GitHub",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+        logo: "https://cdn.simpleicons.org/github/white",
         color: "#ffffff",
       },
       {

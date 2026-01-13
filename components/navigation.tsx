@@ -161,7 +161,7 @@ export default function Navigation() {
 												initial={{ opacity: 0, scale: 0 }}
 												animate={{ opacity: 1, scale: 1 }}
 												transition={{ delay: 0.7 + index * 0.1 }}
-												whileHover={{ scale: 1.1, y: -1 }}
+												whileHover={{ scale: 1.1 }}
 												whileTap={{ scale: 0.95 }}
 												className="text-foreground/60 hover:text-foreground transition-all duration-300 p-2.5 rounded-xl hover:bg-foreground/8 border border-transparent hover:border-foreground/10"
 											>
