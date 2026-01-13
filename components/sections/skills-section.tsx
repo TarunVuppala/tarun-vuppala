@@ -34,7 +34,7 @@ export default function SkillsSection() {
   const isInView = useInView(ref, { once: false, amount: 0.25 })
 
   return (
-    <section id="skills" ref={ref} className="relative overflow-hidden bg-gradient-to-b from-background via-background/95 to-background py-24">
+    <section id="skills" ref={ref} className="relative overflow-hidden bg-linear-to-b from-background via-background/95 to-background py-24">
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
@@ -103,7 +103,7 @@ export default function SkillsSection() {
                 </div>
               </div>
 
-              <div className="relative flex-1 rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-primary/10 to-primary/5 p-6 shadow-lg">
+              <div className="relative flex-1 rounded-[2.5rem] border border-white/10 bg-linear-to-br from-primary/10 to-primary/5 p-6 shadow-lg">
                 <p className="text-xs uppercase tracking-widest text-primary">Highlights</p>
                 <p className="mt-3 text-sm text-muted-foreground">
                   These are the tools that power the majority of my recent shipments, chosen for their performance and developer ergonomics.

@@ -118,12 +118,12 @@ export default function ContactSection() {
             initial={{ width: 0 }}
             animate={isInView ? { width: "200px" } : {}}
             transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
-            className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"
+            className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8"
           />
           <h2 className="text-5xl md:text-6xl font-bold mb-6">
             Let's{" "}
             <motion.span
-              className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+              className="inline-block bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent"
               whileHover={{ scale: 1.05, transition: hoverSpring }}
             >
               Connect

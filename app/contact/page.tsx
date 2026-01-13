@@ -114,7 +114,7 @@ export default function ContactPage() {
                 initial={{ width: 0 }}
                 animate={{ width: "200px" }}
                 transition={{ duration: 1, delay: 0.3 }}
-                className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"
+                className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8"
               />
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">Get In Touch</h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">

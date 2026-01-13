@@ -54,7 +54,7 @@ export default function AboutSection() {
     <section
       id="about"
       ref={containerRef}
-      className="py-20 sm:py-32 relative overflow-hidden bg-gradient-to-b from-background to-background/80"
+      className="py-20 sm:py-32 relative overflow-hidden bg-linear-to-b from-background to-background/80"
     >
       <div className="absolute inset-0 opacity-10">
         <motion.div
@@ -92,12 +92,12 @@ export default function AboutSection() {
                   animate={{ width: "200px" }}
                   exit={{ width: 0 }}
                   transition={{ ...slowFade, delay: 0.3 }}
-                  className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"
+                  className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8"
                 />
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
                   About{" "}
                 <motion.span
-                  className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+                  className="inline-block bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent"
                   whileHover={{ scale: 1.05, rotateY: 10 }}
                   transition={hoverSpring}
                 >
@@ -172,7 +172,7 @@ export default function AboutSection() {
                         variants={itemVariants}
                         whileHover={{ scale: 1.04, rotate: 1 }}
                         transition={hoverSpring}
-                        className="text-center p-6 bg-gradient-to-br from-card/80 to-card/40 rounded-xl shadow-md hover:shadow-xl transition-shadow"
+                        className="text-center p-6 bg-linear-to-br from-card/80 to-card/40 rounded-xl shadow-md hover:shadow-xl transition-shadow"
                       >
                         <div className="text-3xl font-bold text-primary mb-2">{stat.number}</div>
                         <div className="text-sm text-muted-foreground">{stat.label}</div>
@@ -180,7 +180,7 @@ export default function AboutSection() {
                     ))}
                   </motion.div>
 
-                  <motion.div variants={itemVariants} className="relative p-6 bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl border-primary/20">
+                  <motion.div variants={itemVariants} className="relative p-6 bg-linear-to-br from-primary/5 to-primary/10 rounded-xl border-primary/20">
                     <Zap className="absolute top-4 left-4 w-6 h-6 text-primary animate-spin-slow" />
                     <h3 className="font-semibold mb-4 text-center">Currently Focused On</h3>
                     <div className="flex justify-center flex-wrap gap-2">

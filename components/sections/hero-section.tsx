@@ -146,7 +146,7 @@ export default function HeroSection() {
     >
       {/* Enhanced Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background" />
+        <div className="absolute inset-0 bg-linear-to-br from-background via-primary/5 to-background" />
         {/* Floating Particles */}
         <div className="absolute inset-0">
           {particles.map((particle, i) => (
@@ -199,7 +199,7 @@ export default function HeroSection() {
                   repeat: shouldAnimate ? Number.POSITIVE_INFINITY : 0,
                   ease: "linear",
                 }}
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-primary/50 to-primary opacity-20 blur-xl"
+                className="absolute inset-0 rounded-full bg-linear-to-r from-primary via-primary/50 to-primary opacity-20 blur-xl"
               />
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -215,7 +215,7 @@ export default function HeroSection() {
                   priority
                   draggable={false}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-primary/20 to-transparent" />
               </motion.div>
               {/* Floating Elements */}
               <motion.div
@@ -244,7 +244,7 @@ export default function HeroSection() {
           {/* Main Title - Mobile */}
           <motion.h1 variants={titleVariants} className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
             <motion.span
-              className="inline-block bg-gradient-to-r from-foreground via-foreground/80 to-foreground bg-clip-text text-transparent"
+              className="inline-block bg-linear-to-r from-foreground via-foreground/80 to-foreground bg-clip-text text-transparent"
               whileHover={{ scale: 1.02 }}
               transition={hoverSpring}
             >
@@ -252,7 +252,7 @@ export default function HeroSection() {
             </motion.span>
             <br />
             <motion.span
-              className="inline-block bg-gradient-to-r from-foreground/60 to-foreground bg-clip-text text-transparent"
+              className="inline-block bg-linear-to-r from-foreground/60 to-foreground bg-clip-text text-transparent"
               whileHover={{ scale: 1.02 }}
               transition={hoverSpring}
             >
@@ -263,7 +263,7 @@ export default function HeroSection() {
           {/* Typewriter Subtitle - Mobile */}
           <motion.div
             variants={itemVariants}
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground min-h-[1.5rem] sm:min-h-[2rem] md:min-h-[2.5rem] flex items-center justify-center"
+            className="text-lg sm:text-xl md:text-2xl text-muted-foreground min-h-6 sm:min-h-8 md:min-h-10 flex items-center justify-center"
           >
             <TypewriterText
               texts={[
@@ -333,7 +333,7 @@ export default function HeroSection() {
                   repeat: shouldAnimate ? Number.POSITIVE_INFINITY : 0,
                   ease: "linear",
                 }}
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-primary/50 to-primary opacity-20 blur-xl"
+                className="absolute inset-0 rounded-full bg-linear-to-r from-primary via-primary/50 to-primary opacity-20 blur-xl"
               />
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -349,7 +349,7 @@ export default function HeroSection() {
                   priority
                   draggable={false}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-primary/20 to-transparent" />
               </motion.div>
               {/* Floating Elements */}
               <motion.div
@@ -380,7 +380,7 @@ export default function HeroSection() {
             {/* Main Title - Desktop */}
             <motion.h1 variants={titleVariants} className="text-5xl xl:text-7xl 2xl:text-8xl font-bold leading-tight">
               <motion.span
-                className="inline-block bg-gradient-to-r from-foreground via-foreground/80 to-foreground bg-clip-text text-transparent"
+                className="inline-block bg-linear-to-r from-foreground via-foreground/80 to-foreground bg-clip-text text-transparent"
                 whileHover={{ scale: 1.05 }}
                 transition={hoverSpring}
               >
@@ -388,7 +388,7 @@ export default function HeroSection() {
               </motion.span>
               <br />
               <motion.span
-                className="inline-block bg-gradient-to-r from-foreground/60 to-foreground bg-clip-text text-transparent"
+                className="inline-block bg-linear-to-r from-foreground/60 to-foreground bg-clip-text text-transparent"
                 whileHover={{ scale: 1.05 }}
                 transition={hoverSpring}
               >

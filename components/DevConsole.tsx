@@ -225,8 +225,8 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                 >
                     {/* Advanced Background Effects */}
                     <div className="absolute inset-0">
-                        <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-blue-500/5 to-purple-500/10 rounded-3xl" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/10 rounded-3xl" />
+                        <div className="absolute inset-0 bg-linear-to-br from-green-500/10 via-blue-500/5 to-purple-500/10 rounded-3xl" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-white/10 rounded-3xl" />
 
                         {/* Animated particles */}
                         <motion.div
@@ -247,11 +247,11 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                     <div className="relative flex items-center justify-between p-6 border-b border-white/10">
                         <div className="flex items-center space-x-4">
                             <div className="relative">
-                                <div className="w-12 h-12 bg-gradient-to-br from-green-500 via-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
+                                <div className="w-12 h-12 bg-linear-to-br from-green-500 via-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
                                     <Terminal className="w-6 h-6 text-white" />
                                 </div>
                                 <motion.div
-                                    className="absolute -inset-1 bg-gradient-to-r from-green-500/50 to-blue-500/50 rounded-2xl opacity-75 blur-sm"
+                                    className="absolute -inset-1 bg-linear-to-r from-green-500/50 to-blue-500/50 rounded-2xl opacity-75 blur-sm"
                                     animate={{ rotate: 360 }}
                                     transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                                 />

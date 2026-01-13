@@ -73,22 +73,22 @@ export default function Navigation() {
           {/* Refined glass overlay with gradient mesh */}
           <div
             className={`absolute inset-0 transition-all duration-700 ${isScrolled
-              ? "bg-gradient-to-r from-background/30 via-background/10 to-background/30"
-              : "bg-gradient-to-r from-background/20 via-background/5 to-background/20"
+              ? "bg-linear-to-r from-background/30 via-background/10 to-background/30"
+              : "bg-linear-to-r from-background/20 via-background/5 to-background/20"
               }`}
           />
           {/* Subtle inner glow */}
           <div
             className={`absolute inset-0 transition-all duration-700 ${isScrolled
-              ? "bg-gradient-to-b from-primary/3 via-transparent to-primary/3"
-              : "bg-gradient-to-b from-primary/2 via-transparent to-primary/2"
+              ? "bg-linear-to-b from-primary/3 via-transparent to-primary/3"
+              : "bg-linear-to-b from-primary/2 via-transparent to-primary/2"
               }`}
           />
           {/* Top highlight */}
           <div
             className={`absolute top-0 left-0 right-0 h-px transition-all duration-700 ${isScrolled
-              ? "bg-gradient-to-r from-transparent via-foreground/20 to-transparent"
-              : "bg-gradient-to-r from-transparent via-foreground/10 to-transparent"
+              ? "bg-linear-to-r from-transparent via-foreground/20 to-transparent"
+              : "bg-linear-to-r from-transparent via-foreground/10 to-transparent"
               }`}
           />
 
@@ -97,7 +97,7 @@ export default function Navigation() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative">
                 <button onClick={() => handleNavClick("/")} className="text-xl sm:text-2xl font-bold">
                   <motion.span
-                    className="bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent"
+                    className="bg-linear-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent"
                   >
                     <Image src={"/main.png"} alt="Tarun Vuppala" width={50} height={50} draggable={false} />
                   </motion.span>
@@ -170,7 +170,7 @@ export default function Navigation() {
                     <Terminal className="h-4 w-4" />
                   </Button>
                 </motion.div>
-                <div className="h-8 w-px bg-gradient-to-b from-transparent via-foreground/20 to-transparent mx-2" />
+                <div className="h-8 w-px bg-linear-to-b from-transparent via-foreground/20 to-transparent mx-2" />
                 <div className="flex items-center space-x-1">
                   {socialLinks.map((social, index) => (
                     <motion.a

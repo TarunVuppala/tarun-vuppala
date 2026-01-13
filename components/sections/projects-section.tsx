@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { AnimatePresence, motion, useInView, useScroll, useTransform } from "framer-motion"
+import { useRef, useState } from "react"
+import { AnimatePresence, motion, useInView } from "framer-motion"
 import { ExternalLink, Github, Calendar, ArrowRight, Star, Users, Clock, Info, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -10,6 +10,9 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { allProjects as projects} from "@/lib/data"
 import Link from "next/link"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
 import { hoverSpring, loopTransition, slowFade, smoothFade } from "@/lib/motion"
 
 type ProjectCardProps = {
@@ -31,9 +34,9 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
                         whileHover={{ y: -8, scale: 1.015, transition: hoverSpring }}
                         onHoverStart={() => setIsHovered(true)}
                         onHoverEnd={() => setIsHovered(false)}
-                        className="group flex-shrink-0 w-[450px] h-[450px]"
+                        className="group shrink-0 w-[450px] h-[450px]"
                 >
-			<Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex flex-col">
+			<Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-linear-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex flex-col">
 				{/* Floating Badge */}
 				{project.featured && (
 					<motion.div
@@ -42,7 +45,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 						whileHover={{ scale: 1.1, rotate: 5 }}
 						className="absolute top-4 right-4 z-10"
 					>
-						<Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-0 shadow-lg">
+						<Badge className="bg-linear-to-r from-yellow-500 to-orange-500 text-white border-0 shadow-lg">
 							<Star className="w-3 h-3 mr-1" />
 							Featured
 						</Badge>
@@ -61,7 +64,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
                                                 transition={{ ...smoothFade, duration: 0.6 }}
                                         />
                                         <motion.div
-                                                className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"
+                                                className="absolute inset-0 bg-linear-to-t from-background via-background/50 to-transparent"
                                                 animate={{ opacity: isHovered ? 0.8 : 1 }}
                                                 transition={{ ...smoothFade, duration: 0.35 }}
                                         />
@@ -181,7 +184,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: isHovered ? 0.1 : 0 }}
-					className="absolute inset-0 bg-gradient-to-r from-primary to-primary/50 pointer-events-none"
+					className="absolute inset-0 bg-linear-to-r from-primary to-primary/50 pointer-events-none"
 				/>
 			</Card>
 		</motion.div>
@@ -189,22 +192,48 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 }
 
 export default function ProjectsSection() {
-	const targetRef = useRef<HTMLDivElement>(null)
-	const { scrollYProgress } = useScroll({
-		target: targetRef,
-	})
+	const sectionRef = useRef<HTMLDivElement>(null)
+	const trackRef = useRef<HTMLDivElement>(null)
 
 	const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-	const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"])
-	const isInView = useInView(targetRef, { once: false, margin: "-100px" })
+	const isInView = useInView(sectionRef, { once: false, margin: "-100px" })
 	const router = useRouter()
+
+	gsap.registerPlugin(useGSAP, ScrollTrigger)
+
+	useGSAP(
+		() => {
+			if (!sectionRef.current || !trackRef.current) return
+
+			const getScrollAmount = () => {
+				const trackWidth = trackRef.current?.scrollWidth ?? 0
+				const viewportWidth = sectionRef.current?.clientWidth ?? window.innerWidth
+				return Math.max(0, trackWidth - viewportWidth)
+			}
+
+			gsap.to(trackRef.current, {
+				x: () => -getScrollAmount(),
+				ease: "none",
+				scrollTrigger: {
+					trigger: sectionRef.current,
+					start: "top top",
+					end: () => `+=${getScrollAmount()}`,
+					pin: true,
+					scrub: 0.6,
+					anticipatePin: 1,
+					invalidateOnRefresh: true,
+				},
+			})
+		},
+		{ scope: sectionRef, dependencies: [] }
+	)
 
 	return (
 		<section
 			id="projects"
-			ref={targetRef}
-			className="relative h-[300vh] bg-gradient-to-br from-background via-background/95 to-background"
+			ref={sectionRef}
+			className="relative bg-linear-to-br from-background via-background/95 to-background"
 		>
 			{/* Animated Background */}
 			<div className="absolute inset-0 opacity-5">
@@ -226,7 +255,7 @@ export default function ProjectsSection() {
                                 />
 			</div>
 
-			<div className="sticky top-0 flex h-screen items-center overflow-hidden">
+			<div className="relative flex h-screen items-center overflow-hidden">
 				{/* Header */}
 				<div className="absolute top-20 left-0 right-0 z-10 text-center px-4 sm:px-6">
                                         <motion.div
@@ -238,13 +267,13 @@ export default function ProjectsSection() {
                                                         initial={{ width: 0 }}
                                                         animate={isInView ? { width: "200px" } : {}}
                                                         transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
-                                                        className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6 sm:mb-8"
+                                                        className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-6 sm:mb-8"
                                                 />
 
                                                 <motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6" whileHover={{ scale: 1.02 }}>
                                                         Featured{" "}
                                                         <motion.span
-                                                                className="inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+                                                                className="inline-block bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent"
                                                                 whileHover={{ scale: 1.05, rotateY: 10, transition: hoverSpring }}
                                                         >
                                                                 Projects
@@ -281,7 +310,7 @@ export default function ProjectsSection() {
 
 				{/* Horizontal Scrolling Projects */}
 				<div className="pt-72">
-					<motion.div style={{ x }} className="flex gap-4 px-6 will-change-transform">
+					<div ref={trackRef} className="flex gap-4 px-6 will-change-transform">
 						{projects.filter(projects => projects.featured).map((project, index) => (
 							<ProjectCard key={project.id} project={project} index={index} onSelect={setSelectedProject} />
 						))}
@@ -353,7 +382,7 @@ export default function ProjectsSection() {
                                                                                                                               className="text-muted-foreground flex items-start cursor-pointer"
                                                                                                                       >
                                                                                                                               <motion.span
-                                                                                                                              className="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"
+                                                                                                                              className="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2 shrink-0"
                                                                                                                                whileHover={{ scale: 1.2, transition: hoverSpring }}
                                                                                                                               />
 																	{res}
@@ -402,13 +431,13 @@ export default function ProjectsSection() {
                                                         initial={{ opacity: 0, x: 100 }}
                                                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                                                         transition={isInView ? { ...slowFade, delay: projects.length * 0.1 } : smoothFade}
-                                                        className="flex-shrink-0 w-[450px] h-[450px]"
+                                                        className="shrink-0 w-[450px] h-[450px]"
                                                 >
-                                                        <Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex items-center justify-center group cursor-pointer">
+                                                        <Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-linear-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex items-center justify-center group cursor-pointer">
                                                                 <CardContent className="text-center p-8">
                                                                         <motion.div
                                                                                 whileHover={{ scale: 1.08, rotate: 4, transition: hoverSpring }}
-                                                                                className="w-20 h-20 bg-gradient-to-r from-primary to-primary/60 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                                                                                className="w-20 h-20 bg-linear-to-r from-primary to-primary/60 rounded-2xl flex items-center justify-center mx-auto mb-6"
                                                                                 onClick={() => router.push("/projects")}
                                                                         >
                                                                                 <ArrowRight className="w-8 h-8 text-white" />
@@ -421,14 +450,14 @@ export default function ProjectsSection() {
 									</p>
 									<Button
 										onClick={() => router.push("/projects")}
-										className="bg-gradient-to-r from-primary to-primary/60 hover:from-primary/80 hover:to-primary/40"
+										className="bg-linear-to-r from-primary to-primary/60 hover:from-primary/80 hover:to-primary/40"
 									>
 										See More Projects
 									</Button>
 								</CardContent>
 							</Card>
 						</motion.div>
-					</motion.div>
+					</div>
 				</div>
 
 			</div>
