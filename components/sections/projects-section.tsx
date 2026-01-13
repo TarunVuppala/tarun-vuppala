@@ -14,6 +14,7 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 import { hoverSpring, loopTransition, slowFade, smoothFade } from "@/lib/motion"
+import ContentContainer from "@/components/layout/content-container"
 
 type ProjectCardProps = {
 	project: Project;
@@ -34,7 +35,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
                         whileHover={{ y: -8, scale: 1.015, transition: hoverSpring }}
                         onHoverStart={() => setIsHovered(true)}
                         onHoverEnd={() => setIsHovered(false)}
-                        className="group shrink-0 w-[450px] h-[450px]"
+                        className="group shrink-0 w-[400px] h-[400px]"
                 >
 			<Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex flex-col">
 				{/* Floating Badge */}
@@ -79,7 +80,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
                                         </motion.div>
                                 </div>
 
-                                <CardContent className="p-6 space-y-4 flex-1 flex flex-col">
+                                <CardContent className="p-5 space-y-3 flex-1 flex flex-col">
 					{/* Title Section */}
 					<div>
                                                 <motion.h3
@@ -249,59 +250,62 @@ export default function ProjectsSection() {
 			className="relative bg-background"
 		>
 
-			<div ref={pinRef} className="relative flex h-screen items-center overflow-hidden">
+            <div ref={pinRef} className="relative flex h-screen items-center overflow-hidden">
 				{/* Header */}
-				<div className="absolute top-20 left-0 right-0 z-10 text-center px-4 sm:px-6">
+				<div className="absolute top-16 left-0 right-0 z-10 text-center">
                                         <motion.div
                                                 initial={{ opacity: 0, y: 50 }}
                                                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                                                 transition={isInView ? slowFade : smoothFade}
                                         >
-                                                <motion.div
-                                                        initial={{ width: 0 }}
-                                                        animate={isInView ? { width: "200px" } : {}}
-                                                        transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
-                                                        className="h-px bg-border mx-auto mb-6 sm:mb-8"
-                                                />
-
-                                                <motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6" whileHover={{ scale: 1.02 }}>
-                                                        Featured{" "}
-                                                        <motion.span className="inline-block text-primary" whileHover={{ scale: 1.05, transition: hoverSpring }}>
-                                                                Projects
-                                                        </motion.span>
-                                                </motion.h2>
-
-                                                <motion.p
-                                                        className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8"
-                                                        initial={{ opacity: 0 }}
-                                                        animate={isInView ? { opacity: 1 } : {}}
-                                                        transition={isInView ? { ...smoothFade, delay: 0.45 } : smoothFade}
-                                                >
-                                                        Real problems solved with thoughtful engineering and modern technology
-                                                </motion.p>
-
-                                                {/* Scroll Hint */}
-                                                <motion.div
-                                                        initial={{ opacity: 0, y: 20 }}
-                                                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                                        transition={isInView ? { ...slowFade, delay: 0.9 } : smoothFade}
-                                                        className="text-sm text-muted-foreground flex items-center justify-center gap-2"
-                                                >
-                                                        <span>Scroll to explore projects horizontally</span>
+                                                <ContentContainer>
                                                         <motion.div
-                                                                animate={{ y: [-4, 14, 0] }}
-                                                                transition={loopTransition(3)}
-                                                                className="text-primary text-md border border-secondary rounded-full w-5 h-5"
+                                                                initial={{ width: 0 }}
+                                                                animate={isInView ? { width: "200px" } : {}}
+                                                                transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
+                                                                className="h-px bg-border mx-auto mb-5 sm:mb-6"
+                                                        />
+
+                                                        <motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4" whileHover={{ scale: 1.02 }}>
+                                                                Featured{" "}
+                                                                <motion.span className="inline-block text-primary" whileHover={{ scale: 1.05, transition: hoverSpring }}>
+                                                                        Projects
+                                                                </motion.span>
+                                                        </motion.h2>
+
+                                                        <motion.p
+                                                                className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-5 sm:mb-6"
+                                                                initial={{ opacity: 0 }}
+                                                                animate={isInView ? { opacity: 1 } : {}}
+                                                                transition={isInView ? { ...smoothFade, delay: 0.45 } : smoothFade}
                                                         >
-                                                                <span className="relative -top-0.5">↓</span>
+                                                                Real problems solved with thoughtful engineering and modern technology
+                                                        </motion.p>
+
+                                                        {/* Scroll Hint */}
+                                                        <motion.div
+                                                                initial={{ opacity: 0, y: 20 }}
+                                                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                                                transition={isInView ? { ...slowFade, delay: 0.9 } : smoothFade}
+                                                                className="text-sm text-muted-foreground flex items-center justify-center gap-2"
+                                                        >
+                                                                <span>Scroll to explore projects horizontally</span>
+                                                                <motion.div
+                                                                        animate={{ y: [-4, 14, 0] }}
+                                                                        transition={loopTransition(3)}
+                                                                        className="text-primary text-md border border-secondary rounded-full w-5 h-5"
+                                                                >
+                                                                        <span className="relative -top-0.5">↓</span>
+                                                                </motion.div>
                                                         </motion.div>
-                                                </motion.div>
+                                                </ContentContainer>
 					</motion.div>
 				</div>
 
 				{/* Horizontal Scrolling Projects */}
-				<div className="pt-72">
-					<div ref={trackRef} className="flex gap-4 px-6 will-change-transform">
+				<div className="pt-56">
+					<ContentContainer>
+						<div ref={trackRef} className="flex gap-4 will-change-transform">
 						{projects.filter(projects => projects.featured).map((project, index) => (
 							<ProjectCard key={project.id} project={project} index={index} onSelect={setSelectedProject} />
 						))}
@@ -422,10 +426,10 @@ export default function ProjectsSection() {
                                                         initial={{ opacity: 0, x: 100 }}
                                                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                                                         transition={isInView ? { ...slowFade, delay: projects.length * 0.1 } : smoothFade}
-                                                        className="shrink-0 w-[450px] h-[450px]"
+                                                        className="shrink-0 w-[400px] h-[400px]"
                                                 >
                                                         <Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex items-center justify-center group cursor-pointer">
-                                                                <CardContent className="text-center p-8">
+                                                                <CardContent className="text-center p-6">
                                                                         <motion.div
                                                                                 whileHover={{ scale: 1.08, rotate: 4, transition: hoverSpring }}
                                                                                 className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6"
@@ -448,7 +452,8 @@ export default function ProjectsSection() {
 								</CardContent>
 							</Card>
 						</motion.div>
-					</div>
+						</div>
+					</ContentContainer>
 				</div>
 
 			</div>

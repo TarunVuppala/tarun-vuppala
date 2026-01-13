@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { budgetRanges, timelines, projectTypes, contactInfo } from "@/lib/data";
 import Link from "next/link"
 import { hoverSpring, loopTransition, slowFade, smoothFade } from "@/lib/motion"
+import ContentContainer from "@/components/layout/content-container"
 
 export default function ContactSection() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -100,22 +101,22 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" ref={containerRef} className="py-32 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <section id="contact" ref={containerRef} className="py-14 relative overflow-hidden">
+      <ContentContainer className="relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={isInView ? slowFade : smoothFade}
-          className="text-center mb-20"
+          className="text-center mb-8"
         >
           <motion.div
             initial={{ width: 0 }}
             animate={isInView ? { width: "200px" } : {}}
             transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
-            className="h-px bg-border mx-auto mb-8"
+            className="h-px bg-border mx-auto mb-5"
           />
-          <h2 className="text-5xl md:text-6xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-3">
             Let's{" "}
             <motion.span
               className="inline-block text-primary"
@@ -124,11 +125,11 @@ export default function ContactSection() {
               Connect
             </motion.span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto">
             Have a project in mind? Let's discuss how we can bring your ideas to life.
           </p>
         </motion.div>
-        <div className="grid lg:grid-cols-5 gap-12 items-start">
+        <div className="grid lg:grid-cols-5 gap-6 items-start">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -137,18 +138,18 @@ export default function ContactSection() {
             className="lg:col-span-3"
           >
             <Card className="border-border shadow-sm">
-              <CardContent className="p-8">
+              <CardContent className="p-5">
                 {isSubmitted ? (
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="text-center py-16"
+                    className="text-center py-12"
                   >
                     <motion.div animate={{ scale: [1, 1.12, 1] }} transition={loopTransition(1.2)}>
                       <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-6" />
                     </motion.div>
-                    <h3 className="text-3xl font-bold mb-4">Thanks, {formData.name}!</h3>
-                    <p className="text-muted-foreground text-lg">
+                    <h3 className="text-2xl font-bold mb-3">Thanks, {formData.name}!</h3>
+                    <p className="text-muted-foreground text-base">
                       I'll get back to you within 24 hours. Looking forward to our conversation!
                     </p>
                   </motion.div>
@@ -164,15 +165,15 @@ export default function ContactSection() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ ...smoothFade, delay: 0.05 }}
-                    className="mb-6"
+                    className="mb-4"
                   >
-                      <label className="block text-sm font-medium mb-2">What's your reason for contacting me? *</label>
-                      <div className="flex gap-4">
+                    <label className="block text-sm font-medium mb-2">What's your reason for contacting me? *</label>
+                    <div className="flex gap-4">
                         <Button
                           type="button"
                           variant={formData.contactReason === "casual" ? "default" : "outline"}
                           onClick={() => handleReasonSelect("casual")}
-                          className="flex-1 h-12 text-base"
+                          className="flex-1 h-10 text-base"
                         >
                           Casual Inquiry
                         </Button>
@@ -180,7 +181,7 @@ export default function ContactSection() {
                           type="button"
                           variant={formData.contactReason === "hire" ? "default" : "outline"}
                           onClick={() => handleReasonSelect("hire")}
-                          className="flex-1 h-12 text-base"
+                          className="flex-1 h-10 text-base"
                         >
                           Hire Me
                         </Button>
@@ -461,7 +462,7 @@ export default function ContactSection() {
             </motion.div>
           </motion.div>
         </div>
-      </div>
+      </ContentContainer>
     </section>
   )
 }

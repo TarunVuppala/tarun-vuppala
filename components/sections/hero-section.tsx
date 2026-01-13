@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowDown, Download } from "lucide-react"
 import Image from "next/image"
 import { gentleSpring, hoverSpring, loopTransition, smoothFade, staggerChildren } from "@/lib/motion"
+import ContentContainer from "@/components/layout/content-container"
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -114,25 +115,26 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen min-w-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-20 pb-16"
+      className="relative min-h-screen min-w-screen flex items-center justify-center overflow-hidden pt-16 pb-12"
     >
       {/* Content */}
-      <motion.div
-        style={{ y, opacity }}
-        className="relative z-10 w-full max-w-7xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        {/* Mobile Layout - Vertical */}
-        <div className="flex flex-col items-center text-center space-y-4 sm:space-y-6 lg:hidden">
+      <ContentContainer className="relative z-10">
+        <motion.div
+          style={{ y, opacity }}
+          className="w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {/* Mobile Layout - Vertical */}
+          <div className="flex flex-col items-center text-center space-y-3 sm:space-y-4 lg:hidden">
           {/* Profile Picture - Mobile */}
           <motion.div variants={profileVariants} className="flex justify-center">
             <div className="relative">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={hoverSpring}
-                className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border border-border"
+                className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-full overflow-hidden border border-border"
               >
                 <Image
                   src="/image.png"
@@ -181,13 +183,13 @@ export default function HeroSection() {
           {/* CTA Buttons - Mobile */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col gap-3 justify-center items-center w-full max-w-sm pt-2"
+            className="flex flex-col gap-2 justify-center items-center w-full max-w-sm pt-1"
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={hoverSpring} className="w-full">
               <Button
                 onClick={handleScrollToProjects}
                 size="lg"
-                className="w-full px-6 py-2.5 text-sm font-semibold rounded-full"
+                className="w-full px-5 py-2 text-sm font-semibold rounded-full"
               >
                 View My Work
                 <motion.div
@@ -202,7 +204,7 @@ export default function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full px-6 py-2.5 text-sm rounded-full bg-transparent"
+                className="w-full px-5 py-2 text-sm rounded-full bg-transparent"
                 onClick={handleScrollToContact}
               >
                 Get In Touch
@@ -210,7 +212,7 @@ export default function HeroSection() {
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={hoverSpring} className="w-full">
               <a href={"/resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
-                <Button variant="ghost" size="lg" className="w-full px-6 py-2.5 text-sm rounded-full">
+                <Button variant="ghost" size="lg" className="w-full px-5 py-2 text-sm rounded-full">
                   <Download className="mr-2 w-3 h-3" />
                   Resume
                 </Button>
@@ -219,15 +221,15 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Desktop Layout - Horizontal */}
-        <div className="hidden lg:grid lg:grid-cols-2 gap-12 items-center">
+          {/* Desktop Layout - Horizontal */}
+          <div className="hidden lg:grid lg:grid-cols-2 gap-8 items-center">
           {/* Profile Picture - Desktop */}
           <motion.div variants={profileVariants} className="order-2 lg:order-1 flex justify-center">
             <div className="relative">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={hoverSpring}
-                className="relative w-64 h-64 xl:w-80 xl:h-80 rounded-full overflow-hidden border border-border"
+                className="relative w-56 h-56 xl:w-72 xl:h-72 rounded-full overflow-hidden border border-border"
               >
                 <Image
                   src="/image.png"
@@ -278,13 +280,13 @@ export default function HeroSection() {
             {/* CTA Buttons - Desktop */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4"
+              className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-3"
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={hoverSpring}>
                 <Button
                   onClick={handleScrollToProjects}
                   size="lg"
-                  className="px-8 py-3 text-base font-semibold rounded-full min-w-40"
+                  className="px-6 py-2.5 text-base font-semibold rounded-full min-w-36"
                 >
                   View My Work
                   <motion.div
@@ -299,7 +301,7 @@ export default function HeroSection() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="px-8 py-3 text-base rounded-full bg-transparent min-w-40"
+                  className="px-6 py-2.5 text-base rounded-full bg-transparent min-w-36"
                   onClick={handleScrollToContact}
                 >
                   Get In Touch
@@ -307,7 +309,7 @@ export default function HeroSection() {
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={hoverSpring} className="w-full">
                 <a href={"/Tarun-Vuppala's-Resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
-                  <Button variant="ghost" size="lg" className="w-full px-6 py-2.5 text-sm rounded-full">
+                  <Button variant="ghost" size="lg" className="w-full px-5 py-2 text-sm rounded-full">
                     <Download className="mr-2 w-3 h-3" />
                     Resume
                   </Button>
@@ -315,13 +317,14 @@ export default function HeroSection() {
               </motion.div>
             </motion.div>
           </div>
-        </div>
-      </motion.div>
+          </div>
+        </motion.div>
+      </ContentContainer>
 
       {/* Enhanced Scroll Indicator */}
       <motion.div
         variants={itemVariants}
-        className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-3 sm:bottom-5 lg:bottom-6 left-1/2 transform -translate-x-1/2"
       >
         <motion.div
           animate={isInView ? { y: [0, 6, 0] } : { y: 0 }}

@@ -9,6 +9,7 @@ import { useTheme } from "next-themes"
 import Link from "next/link"
 import DevConsole from "@/components/DevConsole"
 import Image from "next/image"
+import ContentContainer from "@/components/layout/content-container"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -63,16 +64,17 @@ export default function Navigation() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed max-w-screen top-0 left-0 right-0 z-50 px-4 sm:px-6 pt-4"
+        className="fixed max-w-screen top-0 left-0 right-0 z-50 pt-3"
       >
-        <div
-          className={`relative max-w-7xl mx-auto transition-all duration-500 ${isScrolled
-            ? "bg-background/95 border border-border shadow-sm"
-            : "bg-background/85 border border-border/60"
-            } rounded-2xl`}
-        >
+        <ContentContainer>
+          <div
+            className={`relative transition-all duration-500 ${isScrolled
+              ? "bg-background/95 border border-border shadow-sm"
+              : "bg-background/85 border border-border/60"
+              } rounded-2xl`}
+          >
 
-          <div className="relative px-6 py-4">
+            <div className="relative px-0 py-3">
             <div className="flex items-center justify-between">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative">
                 <button onClick={() => handleNavClick("/")} className="text-xl sm:text-2xl font-bold">
@@ -290,8 +292,9 @@ export default function Navigation() {
                 </motion.div>
               )}
             </AnimatePresence>
+            </div>
           </div>
-        </div>
+        </ContentContainer>
       </motion.nav>
 
       <DevConsole isOpen={showConsole} onClose={() => setShowConsole(false)} />

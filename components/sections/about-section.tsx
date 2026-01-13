@@ -6,6 +6,7 @@ import type { Variants } from "framer-motion"
 import { Quote } from "lucide-react"
 import { codingQuotes, codingStats, highlights, journeyExpanded } from "@/lib/data"
 import { hoverSpring, slowFade, smoothFade, subtleStaggerChildren } from "@/lib/motion"
+import ContentContainer from "@/components/layout/content-container"
 
 const containerVariants = {
   initial: { opacity: 0, y: 40 },
@@ -45,9 +46,9 @@ export default function AboutSection() {
     <section
       id="about"
       ref={containerRef}
-      className="py-20 sm:py-32 relative overflow-hidden bg-background"
+      className="py-16 sm:py-24 relative overflow-hidden bg-background"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <ContentContainer>
         <AnimatePresence mode="wait">
           {isInView && (
             <motion.div
@@ -56,10 +57,10 @@ export default function AboutSection() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="space-y-16"
+              className="space-y-10"
             >
 
-              <motion.div variants={itemVariants} className="text-center mb-16">
+              <motion.div variants={itemVariants} className="text-center mb-10">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "200px" }}
@@ -79,7 +80,7 @@ export default function AboutSection() {
               </motion.div>
 
 
-              <motion.div variants={itemVariants} className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+              <motion.div variants={itemVariants} className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
                 <div className="space-y-8">
                   <div className="space-y-4 text-muted-foreground leading-relaxed">
                     <p>
@@ -92,7 +93,7 @@ export default function AboutSection() {
 
                   <motion.div
                     variants={itemVariants}
-                    className="relative p-6 bg-card rounded-xl border border-border shadow-sm"
+                    className="relative p-5 bg-card rounded-xl border border-border shadow-sm"
                   >
                     <Quote className="absolute -top-4 -left-4 w-8 h-8 text-primary/30" />
                   <motion.blockquote
@@ -112,7 +113,7 @@ export default function AboutSection() {
                     variants={itemVariants}
                     whileHover={{ scale: 1.02 }}
                     transition={hoverSpring}
-                    className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border"
+                    className="flex items-center gap-3 p-3 bg-card rounded-lg border border-border"
                   >
                     <featuredStat.icon className="w-8 h-8 text-primary" />
                     <div>
@@ -124,21 +125,21 @@ export default function AboutSection() {
               </motion.div>
 
               {/* Experience */}
-              <motion.div variants={itemVariants} className="space-y-8">
+              <motion.div variants={itemVariants} className="space-y-6">
                 <div className="text-center">
                   <h3 className="text-2xl font-bold">Experience</h3>
                   <p className="text-muted-foreground mt-2">
                     Roles where I shipped real products and learned fast.
                   </p>
                 </div>
-                <div className="mx-auto max-w-5xl space-y-8">
+                <div className="w-full space-y-6">
                   {journeyExpanded.map((item, index) => (
                     <motion.div
                       key={`${item.year}-${item.company}`}
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ ...smoothFade, delay: index * 0.08 }}
-                      className="border-b border-border pb-8"
+                      className="border-b border-border pb-6"
                     >
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div>
@@ -169,15 +170,15 @@ export default function AboutSection() {
                 <motion.div variants={itemVariants}
                 className="flex flex-col items-center"
                 >
-                  <h3 className="text-2xl font-bold text-center mb-8">What Sets Me Apart</h3>
-                  <div className="grid md:grid-cols-2 gap-6 w-3xl">
+                  <h3 className="text-2xl font-bold text-center mb-6">What Sets Me Apart</h3>
+                  <div className="grid md:grid-cols-2 gap-4 w-full">
                     {highlights.map((highlight, index) => (
                       <motion.div
                         key={highlight.title}
                         variants={itemVariants}
                         custom={index}
                         whileHover={{ y: -10, boxShadow: "0 10px 20px rgba(0,0,0,0.1)" }}
-                        className="p-6 bg-card rounded-xl shadow-md hover:shadow-lg transition-all"
+                        className="p-5 bg-card rounded-xl shadow-sm hover:shadow-md transition-all"
                       >
                         <highlight.icon className="w-8 h-8 text-primary mb-4 mx-auto" />
                         <h4 className="font-semibold mb-2 text-center">{highlight.title}</h4>
@@ -191,7 +192,7 @@ export default function AboutSection() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </ContentContainer>
     </section>
   )
 }

@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import type { Variants } from "framer-motion"
 import { skillsByDomain as categories } from "@/lib/data"
+import ContentContainer from "@/components/layout/content-container"
 
 const headerVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -40,9 +41,9 @@ export default function SkillsSection() {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative overflow-hidden bg-background py-24"
+      className="relative overflow-hidden bg-background py-16"
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6">
+      <ContentContainer className="flex flex-col gap-8">
         <motion.div
           variants={headerVariants}
           initial="hidden"
@@ -58,7 +59,7 @@ export default function SkillsSection() {
           </p>
         </motion.div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2">
           {categories.map((category, index) => (
             <motion.article
               key={category.title}
@@ -66,7 +67,7 @@ export default function SkillsSection() {
               variants={cardVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
-              className="group flex h-full flex-col gap-6 rounded-[2.5rem] border border-border bg-background p-6 shadow-sm"
+              className="group flex h-full flex-col gap-4 rounded-[2.5rem] border border-border bg-background p-5 shadow-sm"
             >
               <div>
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">Layer</p>
@@ -84,7 +85,7 @@ export default function SkillsSection() {
                     variants={skillVariants}
                     initial="hidden"
                     animate={isInView ? "visible" : "hidden"}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-background/60 px-4 py-3 text-sm text-foreground/90"
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-background/60 px-3 py-2.5 text-sm text-foreground/90"
                   >
                     <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10">
                       <img
@@ -103,9 +104,9 @@ export default function SkillsSection() {
                 ))}
               </div>
 
-              <div className="mt-auto rounded-4xl border border-border bg-muted/30 p-5 text-sm text-muted-foreground">
+              <div className="mt-auto rounded-4xl border border-border bg-muted/30 p-4 text-sm text-muted-foreground">
                 <p className="text-xs uppercase tracking-widest text-primary">Highlights</p>
-                <p className="mt-3">
+                <p className="mt-2">
                   {category.skills.slice(0, 2).map((s) => s.name).join(" + ")} focus with shipping speed in mind.
                 </p>
                 <p className="mt-2">
@@ -115,7 +116,7 @@ export default function SkillsSection() {
             </motion.article>
           ))}
         </div>
-      </div>
+      </ContentContainer>
     </section>
   )
 }

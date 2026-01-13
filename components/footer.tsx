@@ -38,8 +38,8 @@ export default function Footer() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
-        <div className="grid md:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto px-6 py-10 relative z-10">
+        <div className="grid md:grid-cols-4 gap-8">
           {/* Brand */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -49,7 +49,7 @@ export default function Footer() {
             className="md:col-span-2"
           >
             <h3 className="text-2xl font-bold mb-4">Tarun Vuppala</h3>
-            <p className="text-muted-foreground mb-6 leading-relaxed max-w-md">
+            <p className="text-muted-foreground mb-4 leading-relaxed max-w-md">
               Full Stack Developer crafting digital experiences that solve real problems and scale beautifully. Always
               excited to work on meaningful projects that make a difference.
             </p>
@@ -66,7 +66,7 @@ export default function Footer() {
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.2, y: -2 }}
                   whileTap={{ scale: 0.9 }}
-                  className="w-10 h-10 bg-card hover:bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 border border-border/50 hover:border-border"
+                  className="w-9 h-9 bg-card hover:bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 border border-border/50 hover:border-border"
                 >
                   <social.icon size={18} />
                 </motion.a>
@@ -81,7 +81,7 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-semibold mb-6 text-lg">Quick Links</h4>
+            <h4 className="font-semibold mb-4 text-lg">Quick Links</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
@@ -103,7 +103,7 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-semibold mb-6 text-lg">Get In Touch</h4>
+            <h4 className="font-semibold mb-4 text-lg">Get In Touch</h4>
             <div className="space-y-3 text-muted-foreground">
               <p className="flex items-center gap-2">
                 <span>📧</span>
