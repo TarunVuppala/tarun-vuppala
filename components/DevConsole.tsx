@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Terminal, Zap, Heart } from "lucide-react"
+import { X, Terminal, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface DevConsoleProps {
@@ -14,18 +14,14 @@ interface DevConsoleProps {
 
 export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     const [consoleOutput, setConsoleOutput] = useState<string[]>([
-        "🚀 Welcome to Dev Console!",
-        '💡 "First, solve the problem. Then, write the code." - John Johnson',
-        "✨ Interactive JavaScript Terminal - Type commands below:",
-        "💻 Try: hello, skills, quote, projects, clear, or any JavaScript!",
+        "Dev Console ready.",
+        "Try: help, projects, contact, resume",
     ])
     const [currentInput, setCurrentInput] = useState("")
     const [commandHistory, setCommandHistory] = useState<string[]>([])
     const [historyIndex, setHistoryIndex] = useState(-1)
-    const [isTyping, setIsTyping] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
     const outputRef = useRef<HTMLDivElement>(null)
-    const typewriterTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     const quotes = [
         '"The best error message is the one that never shows up." - Thomas Fuchs',
@@ -36,11 +32,11 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     ]
 
     const skills = [
-        "🚀 Frontend: React, Next.js, TypeScript, Tailwind CSS, Motion, Three.js, R3f",
-        "⚡ Backend: Node.js, Nest.js, Express",
-        "🗄️ Database: PostgreSQL, MongoDB",
-        "☁️ Cloud: AWS, Vercel, Docker",
-        "🛠️ Tools: Git, VS Code, Figma",
+        "Frontend: React, Next.js, TypeScript, Tailwind CSS, Motion, Three.js, R3f",
+        "Backend: Node.js, Nest.js, Express",
+        "Database: PostgreSQL, MongoDB",
+        "Cloud: AWS, Vercel, Docker",
+        "Tools: Git, VS Code, Figma",
     ]
 
     const projects = [
@@ -51,9 +47,20 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
         "AutoPodcast: Automated Podcast Editing & Publishing"
     ]
 
+    const quickCommands = ["help", "projects", "contact", "resume"]
+
     useEffect(() => {
         if (isOpen && inputRef.current) {
             inputRef.current.focus()
+        }
+    }, [isOpen])
+
+    useEffect(() => {
+        if (!isOpen) return
+        const previousOverflow = document.body.style.overflow
+        document.body.style.overflow = "hidden"
+        return () => {
+            document.body.style.overflow = previousOverflow
         }
     }, [isOpen])
 
@@ -63,114 +70,157 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
         }
     }, [consoleOutput])
 
-    useEffect(() => {
-        return () => {
-            if (typewriterTimerRef.current) {
-                clearInterval(typewriterTimerRef.current)
-            }
-        }
-    }, [])
+    const appendOutput = (lines: string[]) => {
+        setConsoleOutput((prev) => [...prev, ...lines])
+    }
 
-    const typeWriter = (text: string) => {
-        if (typewriterTimerRef.current) {
-            clearInterval(typewriterTimerRef.current)
+    const scrollToSection = (id: string) => {
+        onClose()
+        setTimeout(() => {
+            document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+        }, 120)
+    }
+
+    const handleOpen = (target: string | undefined) => {
+        if (!target) return "Try: open projects, open contact, or open resume."
+        if (target === "projects") {
+            scrollToSection("projects")
+            return "Opening Projects section..."
         }
-        setIsTyping(true)
-        let index = 0
-        const speed = 30
-        typewriterTimerRef.current = setInterval(() => {
-            index += 1
-            setConsoleOutput((prev) => {
-                const newOutput = [...prev]
-                const lastIndex = newOutput.length - 1
-                if (lastIndex >= 0) {
-                    newOutput[lastIndex] = `✅ ${text.slice(0, Math.min(index, text.length))}`
-                }
-                return newOutput
-            })
-            if (index >= text.length) {
-                if (typewriterTimerRef.current) {
-                    clearInterval(typewriterTimerRef.current)
-                }
-                typewriterTimerRef.current = null
-                setIsTyping(false)
-            }
-        }, speed)
+        if (target === "contact") {
+            scrollToSection("contact")
+            return "Opening Contact section..."
+        }
+        if (target === "resume") {
+            window.open("/resume.pdf", "_blank", "noopener")
+            return "Opening resume..."
+        }
+        return "Unknown destination. Try: open projects, contact, or resume."
     }
 
     const executeCommand = (command: string) => {
         const trimmedCommand = command.trim()
         if (!trimmedCommand) return
 
-        // Add to history
         setCommandHistory((prev) => [...prev, trimmedCommand])
         setHistoryIndex(-1)
+        appendOutput([`> ${trimmedCommand}`])
 
-        const newOutput = [...consoleOutput, `> ${trimmedCommand}`]
+        const normalized = trimmedCommand.toLowerCase()
+        const [cmd, ...args] = normalized.split(/\s+/)
+        const primary = cmd === "show" && args[0] ? args[0] : cmd
 
         try {
-            let result = ""
-
-            // Custom commands
-            if (trimmedCommand.toLowerCase().includes("hello")) {
-                result =
-                    "👋 Hello there! I'm Tarun, a passionate Full Stack Developer who loves crafting digital experiences that make a difference!"
-            } else if (trimmedCommand.toLowerCase().includes("skills")) {
-                newOutput.push("🛠️ My Technical Arsenal:")
-                skills.forEach((skill) => newOutput.push(`   ${skill}`))
-                setConsoleOutput(newOutput)
-                setCurrentInput("")
-                return
-            } else if (trimmedCommand.toLowerCase().includes("projects")) {
-                newOutput.push("🚀 Featured Projects:")
-                projects.forEach((project) => newOutput.push(`   ${project}`))
-                setConsoleOutput(newOutput)
-                setCurrentInput("")
-                return
-            } else if (trimmedCommand.toLowerCase().includes("quote")) {
-                result = quotes[Math.floor(Math.random() * quotes.length)]
-            } else if (trimmedCommand.toLowerCase().includes("clear")) {
-                setConsoleOutput([
-                    "🚀 Console cleared! Ready for new adventures...",
-                    "💡 Pro tip: Try 'help' to see available commands!",
+            if (["hello", "hi", "hey"].includes(primary)) {
+                appendOutput([
+                    "Hello there! I'm Tarun, a full-stack developer who loves building polished, reliable products.",
                 ])
                 setCurrentInput("")
                 return
-            } else if (trimmedCommand.toLowerCase().includes("help")) {
-                newOutput.push("📚 Available Commands:")
-                newOutput.push("   • hello - Get a personal greeting")
-                newOutput.push("   • skills - View my technical skills")
-                newOutput.push("   • projects - See my featured projects")
-                newOutput.push("   • quote - Get an inspiring quote")
-                newOutput.push("   • clear - Clear the console")
-                newOutput.push("   • Or try any JavaScript expression!")
-                setConsoleOutput(newOutput)
+            }
+
+            if (primary === "about") {
+                appendOutput([
+                    "About:",
+                    "• Full-stack developer focused on clean architecture and thoughtful UX.",
+                    "• I ship scalable products and internal tools end-to-end.",
+                ])
                 setCurrentInput("")
                 return
-            } else if (trimmedCommand.toLowerCase().includes("coffee")) {
-                result = "☕ Coffee.exe has stopped working... Just kidding! ☕ fuels my code!"
-            } else if (trimmedCommand.toLowerCase().includes("love")) {
-                result = "❤️ I love coding, coffee, and creating amazing user experiences!"
-            } else {
-                result = "🤖 That command isn't available. Type 'help' to see the supported commands."
             }
 
-            newOutput.push(`✅ ${result}`)
-            setConsoleOutput(newOutput)
-
-            // Type writer effect for longer responses
-            if (result.length > 50) {
-                typeWriter(result)
+            if (primary === "skills") {
+                appendOutput(["Technical Arsenal:", ...skills.map((skill) => `• ${skill}`)])
+                setCurrentInput("")
+                return
             }
+
+            if (primary === "projects") {
+                appendOutput(["Featured Projects:", ...projects.map((project) => `• ${project}`), "→ open projects"])
+                setCurrentInput("")
+                return
+            }
+
+            if (primary === "quote") {
+                appendOutput([quotes[Math.floor(Math.random() * quotes.length)]])
+                setCurrentInput("")
+                return
+            }
+
+            if (primary === "contact") {
+                appendOutput([
+                    "Contact:",
+                    "• Email: tarun.vuppala26@gmail.com",
+                    "• LinkedIn: linkedin.com/in/tarunvuppala",
+                    "→ open contact",
+                ])
+                setCurrentInput("")
+                return
+            }
+
+            if (primary === "resume") {
+                appendOutput(["Resume: /resume.pdf", "→ open resume"])
+                setCurrentInput("")
+                return
+            }
+
+            if (primary === "clear") {
+                setConsoleOutput([
+                    "Console cleared. Ready for new commands.",
+                    "Tip: Try 'help' to see available commands.",
+                ])
+                setCurrentInput("")
+                return
+            }
+
+            if (primary === "help") {
+                appendOutput([
+                    "Available Commands:",
+                    "• help - View commands",
+                    "• about - Short bio",
+                    "• skills - Technical stack",
+                    "• projects - Featured projects",
+                    "• quote - Random quote",
+                    "• contact - Contact info",
+                    "• resume - Resume link",
+                    "• open <projects|contact|resume> - Jump to section",
+                    "• clear - Clear console",
+                ])
+                setCurrentInput("")
+                return
+            }
+
+            if (primary === "open") {
+                appendOutput([handleOpen(args[0])])
+                setCurrentInput("")
+                return
+            }
+
+            if (normalized.includes("coffee")) {
+                appendOutput(["Coffee.exe has stopped working... Just kidding! Coffee fuels my code."])
+                setCurrentInput("")
+                return
+            }
+
+            if (normalized.includes("love")) {
+                appendOutput(["I love coding, coffee, and creating amazing user experiences."])
+                setCurrentInput("")
+                return
+            }
+
+            appendOutput(["That command isn't available. Type 'help' to see supported commands."])
         } catch (error) {
-            newOutput.push(`❌ Error: ${error instanceof Error ? error.message : "Unknown error"}`)
-            setConsoleOutput(newOutput)
+            appendOutput([`Error: ${error instanceof Error ? error.message : "Unknown error"}`])
         }
 
         setCurrentInput("")
     }
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Escape") {
+            onClose()
+            return
+        }
         if (e.key === "Enter" && currentInput.trim()) {
             executeCommand(currentInput)
         } else if (e.key === "ArrowUp") {
@@ -211,14 +261,14 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.8, opacity: 0, y: 50 }}
                     transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                    className="w-full max-w-4xl h-[80vh] relative overflow-hidden rounded-3xl bg-background text-foreground border border-border shadow-lg"
+                    className="w-full max-w-4xl h-[72vh] relative overflow-hidden rounded-3xl bg-background text-foreground border border-border shadow-lg flex flex-col"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Header */}
-                    <div className="relative flex items-center justify-between p-6 border-b border-border">
+                    <div className="relative flex items-center justify-between px-6 py-4 border-b border-border">
                         <div className="flex items-center space-x-4">
                             <div className="relative">
-                                <div className="w-12 h-12 bg-muted rounded-2xl flex items-center justify-center">
+                                <div className="w-11 h-11 bg-muted rounded-2xl flex items-center justify-center">
                                     <Terminal className="w-6 h-6 text-foreground" />
                                 </div>
                             </div>
@@ -226,7 +276,6 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                                 <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                                     Dev Console
                                 </h2>
-                                <p className="text-sm text-muted-foreground">Interactive JavaScript Terminal</p>
                             </div>
                         </div>
 
@@ -249,7 +298,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                     {/* Console Output */}
                     <div
                         ref={outputRef}
-                        className="flex-1 p-6 font-mono text-sm overflow-y-auto space-y-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent"
+                        className="flex-1 min-h-0 px-6 py-4 font-mono text-sm overflow-y-auto space-y-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent"
                     >
                         {consoleOutput.map((line, index) => (
                             <motion.div
@@ -259,34 +308,24 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                                 transition={{ delay: index * 0.05 }}
                                 className={`flex items-start gap-2 ${line.startsWith(">")
                                     ? "text-cyan-400 font-semibold"
-                                    : line.startsWith("✅")
-                                        ? "text-green-400"
-                                        : line.startsWith("❌")
-                                            ? "text-red-400"
-                                            : line.startsWith("💡")
-                                                ? "text-yellow-400 italic"
-                                                : line.startsWith("🛠️") || line.startsWith("🚀") || line.startsWith("📚")
-                                                    ? "text-blue-400 font-semibold"
-                                                    : "text-white/80"
+                                    : line.startsWith("Error:")
+                                        ? "text-red-400"
+                                    : line.startsWith("Tip:")
+                                        ? "text-yellow-400 italic"
+                                    : line.startsWith("Available Commands:") || line.startsWith("Technical Arsenal:") || line.startsWith("Featured Projects:") || line.startsWith("About:") || line.startsWith("Contact:") || line.startsWith("Resume:")
+                                        ? "text-blue-400 font-semibold"
+                                    : line.startsWith("•") || line.startsWith("→")
+                                        ? "text-muted-foreground"
+                                    : "text-white/80"
                                     }`}
                             >
-                                {line.startsWith("   ") ? <span className="ml-4 text-white/60">{line}</span> : <span>{line}</span>}
+                                <span>{line}</span>
                             </motion.div>
                         ))}
-
-                        {isTyping && (
-                            <motion.div
-                                animate={{ opacity: [1, 0.5, 1] }}
-                                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
-                                className="text-green-400"
-                            >
-                                ▋
-                            </motion.div>
-                        )}
                     </div>
 
                     {/* Input Area */}
-                    <div className="relative border-t border-white/10 p-6">
+                    <div className="relative border-t border-white/10 px-6 py-4">
                         <div className="flex items-center space-x-3">
                             <div className="flex items-center space-x-2">
                                 <motion.div
@@ -303,8 +342,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                                 onChange={(e) => setCurrentInput(e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 className="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-white/40 text-lg"
-                                placeholder="Enter command... (try 'help' for available commands)"
-                                disabled={isTyping}
+                                placeholder="Enter command... (try 'help')"
                             />
                             {currentInput && (
                                 <motion.button
@@ -320,15 +358,13 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                             )}
                         </div>
 
-                        <div className="flex items-center justify-between mt-4 text-xs text-white/40">
-                            <div className="flex items-center space-x-4">
-                                <span>Press ↑/↓ for command history</span>
+                        <div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-xs text-white/40">
+                            <div className="flex flex-wrap items-center gap-3">
+                                <span>↑/↓ history</span>
                                 <span>•</span>
-                                <span>Enter to execute</span>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                                <Heart className="w-3 h-3 text-red-400" />
-                                <span>Made with love by Tarun</span>
+                                <span>Enter execute</span>
+                                <span>•</span>
+                                <span>Esc close</span>
                             </div>
                         </div>
                     </div>
