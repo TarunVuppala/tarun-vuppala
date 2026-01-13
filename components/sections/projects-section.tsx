@@ -5,7 +5,6 @@ import { AnimatePresence, motion, useInView } from "framer-motion"
 import {
 	ExternalLink,
 	Github,
-	Calendar,
 	ArrowRight,
 	Star,
 	Users,
@@ -18,13 +17,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { allProjects as projects, skillsByDomain } from "@/lib/data"
+import { allProjects as projects, getTechIcon } from "@/lib/data"
 import Link from "next/link"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
-import { hoverSpring, loopTransition, slowFade, smoothFade } from "@/lib/motion"
-import ContentContainer from "@/components/layout/container"
+import { hoverSpring, slowFade, smoothFade } from "@/lib/motion"
 
 type ProjectCardProps = {
 	project: Project
@@ -34,70 +32,12 @@ type ProjectCardProps = {
 
 const MotionImage = motion(Image)
 
-const techLogoOverrides: Record<string, string> = {
-	react: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-	"react.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-	"react native": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-	"next.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-	"node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-	"express.js": "https://cdn.simpleicons.org/express/white",
-	mongodb: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-	postgresql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-	prisma: "https://cdn.simpleicons.org/prisma/white",
-	tailwind: "https://cdn.simpleicons.org/tailwindcss/white",
-	"tailwind css": "https://cdn.simpleicons.org/tailwindcss/white",
-	typescript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-	javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-	"framer motion": "https://cdn.simpleicons.org/framer/white",
-	"socket.io": "https://cdn.simpleicons.org/socketdotio/white",
-	sockio: "https://cdn.simpleicons.org/socketdotio/white",
-	jwt: "https://cdn.simpleicons.org/jsonwebtokens/white",
-	razorpay: "https://cdn.simpleicons.org/razorpay/white",
-	"shadcn ui": "https://cdn.simpleicons.org/shadcnui/white",
-	shadcn: "https://cdn.simpleicons.org/shadcnui/white",
-	"three.js": "https://cdn.simpleicons.org/threedotjs/white",
-	"three js": "https://cdn.simpleicons.org/threedotjs/white",
-	blender: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg",
-	ffmpeg: "https://cdn.simpleicons.org/ffmpeg/white",
-	ffmped: "https://cdn.simpleicons.org/ffmpeg/white",
-	nodemailer: "/icons/nodemailer.svg",
-	indexeddb: "/icons/indexeddb.svg",
-	"indexed db": "/icons/indexeddb.svg",
-	"transaction management": "/icons/transaction-management.svg",
-	"adobe cep": "/icons/adobe-cep.svg",
-	"ppro api": "/icons/ppro-api.svg",
-	uxp: "/icons/uxp.svg",
-	"qr parser": "/icons/qr-parser.svg",
-	ollama: "/icons/ollama.svg",
-	"llama 3.2": "/icons/llama.svg",
-	"pdf-parser": "/icons/pdf-parser.svg",
-}
-
-const normalizeTechName = (value: string) => value.toLowerCase().trim()
-
-const techLogoMap = new Map<string, string>()
-skillsByDomain.forEach((category) => {
-	category.skills.forEach((skill) => {
-		techLogoMap.set(normalizeTechName(skill.name), skill.logo || "/placeholder.svg")
-	})
-})
-Object.entries(techLogoOverrides).forEach(([name, logo]) => {
-	techLogoMap.set(normalizeTechName(name), logo)
-})
-
-const getTechLogo = (tech: string) =>
-	techLogoMap.get(normalizeTechName(tech)) || "/placeholder.svg"
-
 function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
-	const [isHovered, setIsHovered] = useState(false)
-
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 50 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ ...smoothFade, delay: index * 0.12 }}
-			onHoverStart={() => setIsHovered(true)}
-			onHoverEnd={() => setIsHovered(false)}
 			className="group project-card shrink-0 w-[560px] h-[430px]"
 		>
 			<Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex flex-col">
@@ -108,33 +48,39 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 						width={1000}
 						height={520}
 						className="w-full h-60 object-cover"
-						animate={{ scale: isHovered ? 1.08 : 1 }}
-						transition={{ ...smoothFade, duration: 0.6 }}
 					/>
-					<motion.div
-						className="absolute inset-0 bg-black/40"
-						animate={{ opacity: isHovered ? 0.75 : 1 }}
-						transition={{ ...smoothFade, duration: 0.35 }}
-					/>
-
-					<motion.div
-						className="absolute bottom-4 left-4 flex items-center gap-2 text-xs text-white/80 bg-black/50 rounded-full px-3 py-1"
-						whileHover={{ scale: 1.03, transition: hoverSpring }}
-					>
-						<Calendar className="w-3 h-3" />
-						{project.date}
-					</motion.div>
+					<div className="absolute inset-0 bg-black/40" />
 				</div>
 
 				<CardContent className="p-5 space-y-3 flex-1 flex flex-col">
-					<div>
-						<motion.h3
-							className="text-xl font-bold mb-2 group-hover:text-primary transition-colors cursor-pointer"
-							whileHover={{ x: 4, transition: hoverSpring }}
-						>
-							{project.title}
-						</motion.h3>
-						<p className="text-sm text-muted-foreground">{project.subtitle}</p>
+					<div className="flex items-start justify-between gap-3">
+						<div>
+							<h3 className="text-xl font-semibold leading-tight group-hover:text-primary transition-colors cursor-pointer">
+								{project.title}
+							</h3>
+							<div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
+								{project.subtitle} • {project.date}
+							</div>
+						</div>
+						<div className="flex items-center gap-2">
+							{project.liveUrl && (
+								<Button size="sm" variant="outline" className="h-9 w-9 p-0" asChild>
+									<Link href={project.liveUrl} target="_blank">
+										<ExternalLink className="w-4 h-4" />
+									</Link>
+								</Button>
+							)}
+							{project.githubUrl && (
+								<Button size="sm" variant="outline" asChild>
+									<Link href={project.githubUrl} target="_blank">
+										<Github className="w-4 h-4" />
+									</Link>
+								</Button>
+							)}
+							<Button size="sm" variant="outline" onClick={() => onSelect(project)}>
+								<Info className="w-4 h-4" />
+							</Button>
+						</div>
 					</div>
 
 					<div className="flex flex-wrap -space-x-1">
@@ -144,12 +90,10 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 								initial={{ opacity: 0, scale: 0.92 }}
 								animate={{ opacity: 1, scale: 1 }}
 								transition={{ ...smoothFade, delay: index * 0.08 + techIndex * 0.05 }}
-								whileHover={{ scale: 1.05, transition: hoverSpring }}
-								whileTap={{ scale: 0.98, transition: hoverSpring }}
 							>
 								<div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
 									<img
-										src={getTechLogo(tech)}
+										src={getTechIcon(tech)}
 										alt={tech}
 										className="h-5 w-5 object-contain"
 										onError={(event) => {
@@ -171,61 +115,23 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 
 					<div className="flex gap-4 text-sm">
 						{Object.entries(project.stats).map(([key, value], statIndex) => (
-							<motion.div
+							<div
 								key={key}
 								className="flex items-center gap-1 text-muted-foreground"
-								whileHover={{ scale: 1.06, color: "hsl(var(--primary))" }}
-								transition={{ ...smoothFade, delay: statIndex * 0.06 }}
 							>
 								{key === "users" && <Users className="w-3 h-3" />}
 								{key === "performance" && <Clock className="w-3 h-3" />}
 								{key === "rating" && <Star className="w-3 h-3" />}
 								<span className="text-xs">{value}</span>
-							</motion.div>
+							</div>
 						))}
 					</div>
 
 					<div className="flex-1">
 						<span className="font-medium text-green-400 text-sm">Impact:</span>
-						<motion.p
-							className="text-green-400 mt-1 font-medium text-sm"
-							whileHover={{ x: 4, transition: hoverSpring }}
-						>
+						<p className="text-green-400 mt-1 font-medium text-sm">
 							{project.impact}
-						</motion.p>
-					</div>
-
-					<div className="flex gap-3 pt-4 border-t border-border/30">
-						<motion.div whileHover={{ scale: 1.03, transition: hoverSpring }} whileTap={{ scale: 0.97, transition: hoverSpring }} className="flex-1">
-							<Link href={project.liveUrl ?? "#"} target="_blank">
-								<Button size="sm" className="w-full relative overflow-hidden group">
-									<span className="relative z-10 flex items-center">
-										<ExternalLink className="w-4 h-4 mr-2" />
-										Live Demo
-									</span>
-									<motion.div
-										className="absolute inset-0 bg-primary/20"
-										initial={{ x: "-100%" }}
-										whileHover={{ x: "0%" }}
-										transition={{ ...smoothFade, duration: 0.35 }}
-									/>
-								</Button>
-							</Link>
-						</motion.div>
-
-						<motion.div whileHover={{ scale: 1.05, transition: hoverSpring }} whileTap={{ scale: 0.92, transition: hoverSpring }}>
-							<Link href={project.githubUrl ?? "#"} target="_blank">
-								<Button size="sm" variant="outline">
-									<Github className="w-4 h-4" />
-								</Button>
-							</Link>
-						</motion.div>
-
-						<motion.div whileHover={{ scale: 1.05, transition: hoverSpring }} whileTap={{ scale: 0.92, transition: hoverSpring }}>
-							<Button size="sm" variant="outline" onClick={() => onSelect(project)}>
-								<Info className="w-4 h-4" />
-							</Button>
-						</motion.div>
+						</p>
 					</div>
 				</CardContent>
 			</Card>
@@ -313,7 +219,7 @@ export default function ProjectsSection() {
 			<div ref={pinRef} className="relative flex h-[75vh] items-center  will-change-transform">
 
 				{/* Header */}
-				<div className="absolute top-20 left-0 right-0 z-10 text-center">
+				<div className="absolute top-24 left-0 right-0 z-10 text-center">
 					<motion.div
 						initial={{ opacity: 0, y: 50 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -346,7 +252,7 @@ export default function ProjectsSection() {
 				</div>
 
 				{/* Horizontal Row */}
-				<div className="pt-[50vh] h-full w-full px-32 mb-[50vh]">
+				<div className="mt-[95vh] px-32 mb-88">
 					<div ref={trackRef} className="flex h-full items-center gap-8 px-6 will-change-transform">
 						{featuredProjects.map((project, index) => (
 							<ProjectCard key={project.id} project={project} index={index} onSelect={setSelectedProject} />
@@ -359,7 +265,7 @@ export default function ProjectsSection() {
 							transition={isInView ? { ...slowFade, delay: projects.length * 0.08 } : smoothFade}
 							className="shrink-0 w-[560px] h-[430px] mr-96"
 						>
-							<Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex items-center justify-center group cursor-pointer">
+							<Card className="overflow-hidden border border-border transition-all duration-300 bg-card h-full flex items-center justify-center group cursor-pointer">
 								<CardContent className="text-center p-6">
 									<motion.div
 										whileHover={{ scale: 1.06, transition: hoverSpring }}
@@ -474,7 +380,7 @@ export default function ProjectsSection() {
 											>
 												<div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
 													<img
-														src={getTechLogo(tech)}
+														src={getTechIcon(tech)}
 														alt={tech}
 														className="h-5 w-5 object-contain"
 														onError={(event) => {

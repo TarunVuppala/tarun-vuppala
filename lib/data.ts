@@ -20,6 +20,64 @@ import {
 
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
+const normalizeTechName = (value: string) => value.toLowerCase().trim();
+
+export const techIconMap: Record<string, string> = {
+  react: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  "react.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  "react native":
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  "next.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+  typescript:
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+  javascript:
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  html5: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+  css3: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+  "tailwind css": "https://cdn.simpleicons.org/tailwindcss/white",
+  tailwind: "https://cdn.simpleicons.org/tailwindcss/white",
+  "framer motion": "https://cdn.simpleicons.org/framer/white",
+  motion: "https://cdn.simpleicons.org/framer/white",
+  "node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+  "express.js": "https://cdn.simpleicons.org/express/white",
+  mongodb:
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+  postgresql:
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+  prisma: "https://cdn.simpleicons.org/prisma/white",
+  git: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+  github: "https://cdn.simpleicons.org/github/white",
+  "vs code":
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+  figma: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+  "socket.io": "https://cdn.simpleicons.org/socketdotio/white",
+  sockio: "https://cdn.simpleicons.org/socketdotio/white",
+  jwt: "https://cdn.simpleicons.org/jsonwebtokens/white",
+  razorpay: "https://cdn.simpleicons.org/razorpay/white",
+  "shadcn ui": "https://cdn.simpleicons.org/shadcnui/white",
+  shadcn: "https://cdn.simpleicons.org/shadcnui/white",
+  "three.js": "https://cdn.simpleicons.org/threedotjs/white",
+  "three js": "https://cdn.simpleicons.org/threedotjs/white",
+  blender:
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg",
+  ffmpeg: "https://cdn.simpleicons.org/ffmpeg/white",
+  ffmped: "https://cdn.simpleicons.org/ffmpeg/white",
+  nodemailer: "/icons/nodemailer.svg",
+  indexeddb: "/icons/indexeddb.svg",
+  "indexed db": "/icons/indexeddb.svg",
+  "transaction management": "/icons/transaction-management.svg",
+  "adobe cep": "/icons/adobe-cep.svg",
+  "ppro api": "/icons/ppro-api.svg",
+  uxp: "/icons/uxp.svg",
+  "qr parser": "/icons/qr-parser.svg",
+  ollama: "/icons/ollama.svg",
+  "llama 3.2": "/icons/llama.svg",
+  "pdf-parser": "/icons/pdf-parser.svg",
+};
+
+export const getTechIcon = (tech: string) =>
+  techIconMap[normalizeTechName(tech)] || "/placeholder.svg";
+
 export const allProjects: Project[] = [
   {
     id: "acethletics",
@@ -595,42 +653,42 @@ export const skillsByDomain = [
     skills: [
       {
         name: "React.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        logo: getTechIcon("React.js"),
         color: "#61DAFB",
       },
       {
         name: "Next.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+        logo: getTechIcon("Next.js"),
         color: "#ffffff",
       },
       {
         name: "TypeScript",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+        logo: getTechIcon("TypeScript"),
         color: "#3178C6",
       },
       {
         name: "JavaScript",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+        logo: getTechIcon("JavaScript"),
         color: "#F7DF1E",
       },
       {
         name: "HTML5",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+        logo: getTechIcon("HTML5"),
         color: "#E34F26",
       },
       {
         name: "CSS3",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+        logo: getTechIcon("CSS3"),
         color: "#1572B6",
       },
       {
         name: "Tailwind CSS",
-        logo: "https://cdn.simpleicons.org/tailwindcss/white",
+        logo: getTechIcon("Tailwind CSS"),
         color: "#06B6D4",
       },
       {
         name: "Framer Motion",
-        logo: "https://cdn.simpleicons.org/framer/white",
+        logo: getTechIcon("Framer Motion"),
         color: "#ECF806FF",
       },
     ],
@@ -645,27 +703,27 @@ export const skillsByDomain = [
     skills: [
       {
         name: "Node.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+        logo: getTechIcon("Node.js"),
         color: "#339933",
       },
       {
         name: "Express.js",
-        logo: "https://cdn.simpleicons.org/express/white",
+        logo: getTechIcon("Express.js"),
         color: "#ffffff",
       },
       {
         name: "MongoDB",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+        logo: getTechIcon("MongoDB"),
         color: "#47A248",
       },
       {
         name: "PostgreSQL",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+        logo: getTechIcon("PostgreSQL"),
         color: "#336791",
       },
       {
         name: "Prisma",
-        logo: "https://cdn.simpleicons.org/prisma/white",
+        logo: getTechIcon("Prisma"),
         color: "#ffffff",
       },
     ],
@@ -680,22 +738,22 @@ export const skillsByDomain = [
     skills: [
       {
         name: "Git",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        logo: getTechIcon("Git"),
         color: "#F05032",
       },
       {
         name: "GitHub",
-        logo: "https://cdn.simpleicons.org/github/white",
+        logo: getTechIcon("GitHub"),
         color: "#ffffff",
       },
       {
         name: "VS Code",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+        logo: getTechIcon("VS Code"),
         color: "#007ACC",
       },
       {
         name: "Figma",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+        logo: getTechIcon("Figma"),
         color: "#F24E1E",
       },
     ],

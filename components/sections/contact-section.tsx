@@ -7,18 +7,18 @@ import { Send, CheckCircle, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { budgetRanges, timelines, projectTypes, contactInfo } from "@/lib/data";
+import { contactInfo } from "@/lib/data";
 import Link from "next/link"
-import { hoverSpring, loopTransition, slowFade, smoothFade } from "@/lib/motion"
+import { loopTransition, slowFade, smoothFade } from "@/lib/motion"
 import ContentContainer from "@/components/layout/container"
 
 export default function ContactSection() {
 	const [formData, setFormData] = useState<ContactFormData>({
 		name: "",
 		email: "",
-		subject: "",
+		subject: "General Inquiry",
 		message: "",
-		contactReason: "casual" as "casual" | "hire" | null,
+		contactReason: null,
 		projectType: "",
 		budget: "",
 		timeline: "",
@@ -73,9 +73,9 @@ export default function ContactSection() {
 			setFormData({
 				name: "",
 				email: "",
-				subject: "",
+				subject: "General Inquiry",
 				message: "",
-				contactReason: "casual",
+				contactReason: null,
 				projectType: "",
 				budget: "",
 				timeline: "",
@@ -90,17 +90,8 @@ export default function ContactSection() {
 		}))
 	}
 
-	const handleReasonSelect = (reason: "casual" | "hire") => {
-		setFormData((prev) => ({
-			...prev,
-			contactReason: reason,
-			// Reset project-specific fields if switching to casual
-			...(reason === "casual" && { projectType: "", budget: "", timeline: "" }),
-		}))
-	}
-
 	return (
-		<section id="contact" ref={containerRef} className="py-10 sm:py-12 relative overflow-hidden">
+		<section id="contact" ref={containerRef} className="py-10 sm:py-12 relative overflow-hidden mt-5">
 			<ContentContainer className="relative z-10">
 				{/* Header */}
 				<motion.div
@@ -167,23 +158,6 @@ export default function ContactSection() {
 							</div>
 						</div>
 
-						<div className="rounded-2xl border border-border p-5">
-							<h3 className="text-xl font-semibold">How we’ll work</h3>
-							<ol className="mt-4 space-y-3 text-sm text-muted-foreground">
-								<li className="flex items-start gap-2">
-									<span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
-									Quick context call to align on scope and timeline.
-								</li>
-								<li className="flex items-start gap-2">
-									<span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
-									Clear proposal with milestones and deliverables.
-								</li>
-								<li className="flex items-start gap-2">
-									<span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
-									Weekly updates until launch.
-								</li>
-							</ol>
-						</div>
 					</motion.aside>
 
 					<motion.div
@@ -207,7 +181,7 @@ export default function ContactSection() {
 									</p>
 								</motion.div>
 							) : (
-								<form onSubmit={handleSubmit} className="space-y-8">
+								<form onSubmit={handleSubmit} className="space-y-6">
 									{errorMessage && (
 										<div className="rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
 											{errorMessage}
@@ -215,197 +189,83 @@ export default function ContactSection() {
 									)}
 
 									<fieldset className="space-y-4">
-										<legend className="text-xs uppercase tracking-widest text-muted-foreground">Reason</legend>
-										<div className="grid grid-cols-2 gap-3">
-											<Button
-												type="button"
-												variant={formData.contactReason === "casual" ? "default" : "outline"}
-												onClick={() => handleReasonSelect("casual")}
-												className="h-10 text-base"
-											>
-												Casual Inquiry
-											</Button>
-											<Button
-												type="button"
-												variant={formData.contactReason === "hire" ? "default" : "outline"}
-												onClick={() => handleReasonSelect("hire")}
-												className="h-10 text-base"
-											>
-												Hire Me
-											</Button>
+										<div className="grid sm:grid-cols-2 gap-4">
+											<div>
+												<label htmlFor="name" className="block text-sm font-medium mb-2">
+													Name *
+												</label>
+												<Input
+													id="name"
+													name="name"
+													value={formData.name}
+													onChange={handleChange}
+													required
+													placeholder="Your name"
+													className="h-10"
+												/>
+											</div>
+											<div>
+												<label htmlFor="email" className="block text-sm font-medium mb-2">
+													Email *
+												</label>
+												<Input
+													id="email"
+													name="email"
+													type="email"
+													value={formData.email}
+													onChange={handleChange}
+													required
+													placeholder="your.email@example.com"
+													className="h-10"
+												/>
+											</div>
 										</div>
 									</fieldset>
 
-									{formData.contactReason && (
-										<>
-											<fieldset className="space-y-4">
-												<legend className="text-xs uppercase tracking-widest text-muted-foreground">Basics</legend>
-												<div className="grid sm:grid-cols-2 gap-4">
-													<div>
-														<label htmlFor="name" className="block text-sm font-medium mb-2">
-															Name *
-														</label>
-														<Input
-															id="name"
-															name="name"
-															value={formData.name}
-															onChange={handleChange}
-															required
-															placeholder="Your name"
-															className="h-10"
-														/>
-													</div>
-													<div>
-														<label htmlFor="email" className="block text-sm font-medium mb-2">
-															Email *
-														</label>
-														<Input
-															id="email"
-															name="email"
-															type="email"
-															value={formData.email}
-															onChange={handleChange}
-															required
-															placeholder="your.email@example.com"
-															className="h-10"
-														/>
-													</div>
-												</div>
-												<div>
-													<label htmlFor="subject" className="block text-sm font-medium mb-2">
-														Subject *
-													</label>
-													<Input
-														id="subject"
-														name="subject"
-														value={formData.subject}
-														onChange={handleChange}
-														required
-														placeholder={formData.contactReason === "hire" ? "Project Inquiry" : "General Question"}
-														className="h-10"
-													/>
-												</div>
-											</fieldset>
+									<fieldset className="space-y-4">
+										<div>
+											<label htmlFor="message" className="block text-sm font-medium mb-2">
+												Message *
+											</label>
+											<Textarea
+												id="message"
+												name="message"
+												value={formData.message}
+												onChange={handleChange}
+												required
+												rows={5}
+												placeholder="Tell me what you're building or need help with."
+												className="resize-none"
+											/>
+										</div>
+									</fieldset>
 
-											{formData.contactReason === "hire" && (
-												<fieldset className="space-y-4">
-													<legend className="text-xs uppercase tracking-widest text-muted-foreground">Project details</legend>
-													<div className="grid sm:grid-cols-3 gap-4">
-														<div>
-															<label htmlFor="projectType" className="block text-sm font-medium mb-2">
-																Project Type
-															</label>
-															<select
-																id="projectType"
-																name="projectType"
-																value={formData.projectType}
-																onChange={handleChange}
-																className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
-															>
-																<option value="">Select type</option>
-																{projectTypes.map((type) => (
-																	<option key={type} value={type}>
-																		{type}
-																	</option>
-																))}
-															</select>
-														</div>
-														<div>
-															<label htmlFor="budget" className="block text-sm font-medium mb-2">
-																Budget Range
-															</label>
-															<select
-																id="budget"
-																name="budget"
-																value={formData.budget}
-																onChange={handleChange}
-																className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
-															>
-																<option value="">Select budget</option>
-																{budgetRanges.map((range) => (
-																	<option key={range} value={range}>
-																		{range}
-																	</option>
-																))}
-															</select>
-														</div>
-														<div>
-															<label htmlFor="timeline" className="block text-sm font-medium mb-2">
-																Timeline
-															</label>
-															<select
-																id="timeline"
-																name="timeline"
-																value={formData.timeline}
-																onChange={handleChange}
-																className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
-															>
-																<option value="">Select timeline</option>
-																{timelines.map((time) => (
-																	<option key={time} value={time}>
-																		{time}
-																	</option>
-																))}
-															</select>
-														</div>
-													</div>
-												</fieldset>
+									<div>
+										<Button
+											type="submit"
+											disabled={
+												isSubmitting ||
+												!formData.name ||
+												!formData.email ||
+												!formData.message
+											}
+											className="w-full h-11 text-base font-semibold"
+											size="lg"
+										>
+											{isSubmitting ? (
+												<motion.div
+													animate={{ rotate: 360 }}
+													transition={{ ...loopTransition(1, { repeatType: "loop" }), ease: "linear" }}
+													className="w-5 h-5 border-2 border-background/30 border-t-background rounded-full"
+												/>
+											) : (
+												<>
+													Send Message
+													<Send className="ml-3 w-5 h-5" />
+												</>
 											)}
-
-											<fieldset className="space-y-4">
-												<legend className="text-xs uppercase tracking-widest text-muted-foreground">Message</legend>
-												<div>
-													<label htmlFor="message" className="block text-sm font-medium mb-2">
-														Message *
-													</label>
-													<Textarea
-														id="message"
-														name="message"
-														value={formData.message}
-														onChange={handleChange}
-														required
-														rows={5}
-														placeholder={
-															formData.contactReason === "hire"
-																? "Tell me about your project, goals, and any specific requirements..."
-																: "What's on your mind?"
-														}
-														className="resize-none"
-													/>
-												</div>
-											</fieldset>
-
-											<div>
-												<Button
-													type="submit"
-													disabled={
-														isSubmitting ||
-														!formData.name ||
-														!formData.email ||
-														!formData.subject ||
-														!formData.message ||
-														(formData.contactReason === "hire" &&
-															(!formData.projectType || !formData.budget || !formData.timeline))
-													}
-													className="w-full h-11 text-base font-semibold"
-													size="lg"
-												>
-													{isSubmitting ? (
-														<motion.div
-															animate={{ rotate: 360 }}
-															transition={{ ...loopTransition(1, { repeatType: "loop" }), ease: "linear" }}
-															className="w-5 h-5 border-2 border-background/30 border-t-background rounded-full"
-														/>
-													) : (
-														<>
-															Send Message
-															<Send className="ml-3 w-5 h-5" />
-														</>
-													)}
-												</Button>
-											</div>
-										</>
-									)}
+										</Button>
+									</div>
 								</form>
 							)}
 						</div>

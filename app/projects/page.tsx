@@ -11,64 +11,10 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { ExternalLink, Github, Calendar, Search, Star, Users, Clock } from "lucide-react"
 import Link from "next/link"
-import { allProjects, skillsByDomain } from "@/lib/data"
+import { allProjects, getTechIcon } from "@/lib/data"
 import Image from "next/image"
 
 const categories = ["All", "Web App", "Mobile", "AI", "Productivity", "SaaS", "3D", "Finance", "Plugin", "Personalization", "Audio Processing", "Tool",];
-
-const techLogoOverrides: Record<string, string> = {
-  react: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-  "react.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-  "react native": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-  "next.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-  "node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-  "express.js": "https://cdn.simpleicons.org/express/white",
-  mongodb: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-  postgresql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-  prisma: "https://cdn.simpleicons.org/prisma/white",
-  tailwind: "https://cdn.simpleicons.org/tailwindcss/white",
-  "tailwind css": "https://cdn.simpleicons.org/tailwindcss/white",
-  typescript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-  javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-  "framer motion": "https://cdn.simpleicons.org/framer/white",
-  "socket.io": "https://cdn.simpleicons.org/socketdotio/white",
-  sockio: "https://cdn.simpleicons.org/socketdotio/white",
-  jwt: "https://cdn.simpleicons.org/jsonwebtokens/white",
-  razorpay: "https://cdn.simpleicons.org/razorpay/white",
-  "shadcn ui": "https://cdn.simpleicons.org/shadcnui/white",
-  shadcn: "https://cdn.simpleicons.org/shadcnui/white",
-  "three.js": "https://cdn.simpleicons.org/threedotjs/white",
-  "three js": "https://cdn.simpleicons.org/threedotjs/white",
-  blender: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg",
-  ffmpeg: "https://cdn.simpleicons.org/ffmpeg/white",
-  ffmped: "https://cdn.simpleicons.org/ffmpeg/white",
-  nodemailer: "/icons/nodemailer.svg",
-  indexeddb: "/icons/indexeddb.svg",
-  "indexed db": "/icons/indexeddb.svg",
-  "transaction management": "/icons/transaction-management.svg",
-  "adobe cep": "/icons/adobe-cep.svg",
-  "ppro api": "/icons/ppro-api.svg",
-  uxp: "/icons/uxp.svg",
-  "qr parser": "/icons/qr-parser.svg",
-  ollama: "/icons/ollama.svg",
-  "llama 3.2": "/icons/llama.svg",
-  "pdf-parser": "/icons/pdf-parser.svg",
-}
-
-const normalizeTechName = (value: string) => value.toLowerCase().trim()
-
-const techLogoMap = new Map<string, string>()
-skillsByDomain.forEach((domain) => {
-  domain.skills.forEach((skill) => {
-    techLogoMap.set(normalizeTechName(skill.name), skill.logo || "/placeholder.svg")
-  })
-})
-Object.entries(techLogoOverrides).forEach(([name, logo]) => {
-  techLogoMap.set(normalizeTechName(name), logo)
-})
-
-const getTechLogo = (tech: string) =>
-  techLogoMap.get(normalizeTechName(tech)) || "/placeholder.svg"
 
 export default function ProjectsPage() {
   const [filter, setFilter] = useState<"all" | "featured">("all")
@@ -188,15 +134,13 @@ export default function ProjectsPage() {
                           </h3>
                           <div className="flex items-center gap-2">
                             {project.liveUrl && (
-                              <Button size="sm" className="px-3" asChild>
+                              <Button size="sm" variant="outline" className="h-9 w-9 p-0" asChild>
                                 <Link
                                   href={project.liveUrl ?? "#"}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center gap-2"
                                 >
                                   <ExternalLink className="w-4 h-4" />
-                                  Live Demo
                                 </Link>
                               </Button>
                             )}
@@ -246,7 +190,7 @@ export default function ProjectsPage() {
                             >
                               <div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
                                 <img
-                                  src={getTechLogo(tech)}
+                                  src={getTechIcon(tech)}
                                   alt={tech}
                                   className="h-5 w-5 object-contain"
                                   onError={(event) => {
