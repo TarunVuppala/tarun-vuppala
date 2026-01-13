@@ -9,7 +9,7 @@
 @source "../types/**/*.{js,ts,jsx,tsx,mdx}";
 
 @theme {
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-ibm-plex-sans);
   --font-mono: var(--font-mono);
 
   --color-background: hsl(var(--background));
@@ -137,6 +137,11 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+    text-rendering: optimizeLegibility;
   }
   h1,
   h2,
@@ -148,6 +153,15 @@
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p,
+  li {
+    line-height: 1.7;
+  }
+  small {
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
   .font-mono {
     font-family: var(--font-mono);
