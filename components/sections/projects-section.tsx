@@ -346,7 +346,7 @@ export default function ProjectsSection() {
 				</div>
 
 				{/* Horizontal Row */}
-				<div className="pt-[50vh] h-full w-full px-32 mb-32">
+				<div className="pt-[50vh] h-full w-full px-32 mb-[50vh]">
 					<div ref={trackRef} className="flex h-full items-center gap-8 px-6 will-change-transform">
 						{featuredProjects.map((project, index) => (
 							<ProjectCard key={project.id} project={project} index={index} onSelect={setSelectedProject} />
