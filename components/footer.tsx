@@ -16,9 +16,9 @@ export default function Footer() {
   ]
 
   const quickLinks = [
-    { name: "About", href: "/about" },
+    { name: "About", href: "/#about" },
     { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
+    { name: "Contact", href: "/#contact" },
   ]
 
   const scrollToTop = () => {

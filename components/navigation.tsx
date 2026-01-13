@@ -28,9 +28,9 @@ export default function Navigation() {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
+    { name: "About", href: "/#about" },
     { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
+    { name: "Contact", href: "/#contact" },
   ]
 
   const socialLinks = [
@@ -41,10 +41,15 @@ export default function Navigation() {
   ]
 
   const handleNavClick = (href: string) => {
-    if (href.startsWith("#")) {
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" })
+    if (href.includes("#")) {
+      const [path, hash] = href.split("#")
+      if (path && path !== pathname) {
+        router.push(href)
+      } else if (hash) {
+        const element = document.getElementById(hash)
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" })
+        }
       }
     } else {
       router.push(href)
@@ -61,44 +66,17 @@ export default function Navigation() {
         className="fixed max-w-screen top-0 left-0 right-0 z-50 px-4 sm:px-6 pt-4"
       >
         <div
-          className={`relative max-w-7xl mx-auto transition-all duration-700 ease-out ${isScrolled
-            ? "bg-background/20 backdrop-blur-2xl border border-foreground/10 shadow-2xl shadow-primary/5"
-            : "bg-background/10 backdrop-blur-xl border border-foreground/5 shadow-lg shadow-primary/2"
-            } rounded-2xl overflow-hidden`}
-          style={{
-            backdropFilter: isScrolled ? "blur(40px) saturate(200%)" : "blur(24px) saturate(150%)",
-            WebkitBackdropFilter: isScrolled ? "blur(40px) saturate(200%)" : "blur(24px) saturate(150%)",
-          }}
+          className={`relative max-w-7xl mx-auto transition-all duration-500 ${isScrolled
+            ? "bg-background/95 border border-border shadow-sm"
+            : "bg-background/85 border border-border/60"
+            } rounded-2xl`}
         >
-          {/* Refined glass overlay with gradient mesh */}
-          <div
-            className={`absolute inset-0 transition-all duration-700 ${isScrolled
-              ? "bg-linear-to-r from-background/30 via-background/10 to-background/30"
-              : "bg-linear-to-r from-background/20 via-background/5 to-background/20"
-              }`}
-          />
-          {/* Subtle inner glow */}
-          <div
-            className={`absolute inset-0 transition-all duration-700 ${isScrolled
-              ? "bg-linear-to-b from-primary/3 via-transparent to-primary/3"
-              : "bg-linear-to-b from-primary/2 via-transparent to-primary/2"
-              }`}
-          />
-          {/* Top highlight */}
-          <div
-            className={`absolute top-0 left-0 right-0 h-px transition-all duration-700 ${isScrolled
-              ? "bg-linear-to-r from-transparent via-foreground/20 to-transparent"
-              : "bg-linear-to-r from-transparent via-foreground/10 to-transparent"
-              }`}
-          />
 
           <div className="relative px-6 py-4">
             <div className="flex items-center justify-between">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative">
                 <button onClick={() => handleNavClick("/")} className="text-xl sm:text-2xl font-bold">
-                  <motion.span
-                    className="bg-linear-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent"
-                  >
+                  <motion.span className="text-foreground">
                     <Image src={"/main.png"} alt="Tarun Vuppala" width={50} height={50} draggable={false} />
                   </motion.span>
                 </button>
@@ -136,7 +114,7 @@ export default function Navigation() {
                   onClick={() => { }}
                 >
                   <Button variant={"outline"} className="text-sm cursor-pointer border-0">
-                    <Hammer className="w-4 h-4 animate-hit" />
+                    <Hammer className="w-4 h-4" />
                     WIP
                   </Button>
                 </motion.div>
@@ -149,7 +127,7 @@ export default function Navigation() {
                     variant="ghost"
                     size="sm"
                     onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="w-10 h-10 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300 backdrop-blur-sm"
+                    className="w-10 h-10 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
                   >
                     <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -164,13 +142,13 @@ export default function Navigation() {
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowConsole(true)}
-                    className="w-10 h-10 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300 backdrop-blur-sm"
+                    className="w-10 h-10 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
                     title="Dev Console"
                   >
                     <Terminal className="h-4 w-4" />
                   </Button>
                 </motion.div>
-                <div className="h-8 w-px bg-linear-to-b from-transparent via-foreground/20 to-transparent mx-2" />
+                <div className="h-8 w-px bg-border mx-2" />
                 <div className="flex items-center space-x-1">
                   {socialLinks.map((social, index) => (
                     <motion.a
@@ -183,8 +161,8 @@ export default function Navigation() {
                       transition={{ delay: 0.7 + index * 0.1 }}
                       whileHover={{ scale: 1.1, y: -1 }}
                       whileTap={{ scale: 0.95 }}
-                      className="text-foreground/60 hover:text-foreground transition-all duration-300 p-2.5 rounded-xl hover:bg-foreground/8 border border-transparent hover:border-foreground/10 backdrop-blur-sm"
-                    >
+                    className="text-foreground/60 hover:text-foreground transition-all duration-300 p-2.5 rounded-xl hover:bg-foreground/8 border border-transparent hover:border-foreground/10"
+                  >
                       <social.icon size={16} />
                     </motion.a>
                   ))}
@@ -245,13 +223,7 @@ export default function Navigation() {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                   className="md:hidden mt-6 overflow-hidden"
                 >
-                  <div
-                    className="bg-foreground/5 backdrop-blur-xl border border-foreground/10 rounded-2xl p-4 space-y-2"
-                    style={{
-                      backdropFilter: "blur(20px) saturate(180%)",
-                      WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                    }}
-                  >
+                  <div className="bg-foreground/5 border border-foreground/10 rounded-2xl p-4 space-y-2">
                     {navItems.map((item, index) => (
                       <motion.div
                         key={item.name}
@@ -298,7 +270,7 @@ export default function Navigation() {
                           onClick={() => { }}
                         >
                           <Button variant={"ghost"} className="text-sm cursor-pointer border-0">
-                            <Hammer className="w-4 h-4 animate-hit" />
+                            <Hammer className="w-4 h-4" />
                             WIP
                           </Button>
                         </motion.div>

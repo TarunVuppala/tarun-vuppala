@@ -8,7 +8,6 @@ import ContactSection from "@/components/sections/contact-section"
 import Footer from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 import Navigation from "@/components/navigation"
-import { motion } from "framer-motion"
 import { useRef } from "react"
 
 export default function HomePage() {
@@ -21,9 +20,7 @@ export default function HomePage() {
 
           <Navigation />
 
-          <motion.div
-            className="fixed inset-0 bg-linear-to-br from-background via-background/95 to-background -z-10"
-          />
+          <div className="fixed inset-0 bg-background -z-10" />
             <HeroSection />
             <AboutSection />
             <SkillsSection />

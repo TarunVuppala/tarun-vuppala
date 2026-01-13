@@ -1,12 +1,11 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { motion, useInView, useScroll, useTransform, AnimatePresence, useReducedMotion } from "framer-motion"
+import { motion, useInView, AnimatePresence } from "framer-motion"
 import type { Variants } from "framer-motion"
-import { Zap, Quote, Sparkles } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { codingQuotes, codingStats, highlights, stats, journeyTimeline } from "@/lib/data"
-import { hoverSpring, loopTransition, slowFade, smoothFade, subtleStaggerChildren } from "@/lib/motion"
+import { Quote } from "lucide-react"
+import { codingQuotes, codingStats, highlights, journeyExpanded } from "@/lib/data"
+import { hoverSpring, slowFade, smoothFade, subtleStaggerChildren } from "@/lib/motion"
 
 const containerVariants = {
   initial: { opacity: 0, y: 40 },
@@ -39,41 +38,15 @@ const itemVariants = {
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: false, margin: "-100px" })
-  const prefersReducedMotion = useReducedMotion()
   const [featuredQuote] = useState(() => codingQuotes[Math.floor(Math.random() * codingQuotes.length)])
   const [featuredStat] = useState(() => codingStats[Math.floor(Math.random() * codingStats.length)])
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  })
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
 
   return (
     <section
       id="about"
       ref={containerRef}
-      className="py-20 sm:py-32 relative overflow-hidden bg-linear-to-b from-background to-background/80"
+      className="py-20 sm:py-32 relative overflow-hidden bg-background"
     >
-      <div className="absolute inset-0 opacity-10">
-        <motion.div
-          style={{ y }}
-          className="absolute top-1/4 left-10 w-64 h-64 bg-primary rounded-full blur-3xl animate-pulse"
-          animate={prefersReducedMotion ? { opacity: 0.2 } : { opacity: [0.2, 0.5, 0.2] }}
-          transition={prefersReducedMotion ? smoothFade : loopTransition(6)}
-        />
-        <motion.div
-          style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
-          className="absolute bottom-1/4 right-10 w-80 h-80 bg-primary/50 rounded-full blur-3xl animate-pulse"
-          animate={prefersReducedMotion ? { opacity: 0.15 } : { opacity: [0.15, 0.35, 0.15] }}
-          transition={prefersReducedMotion ? smoothFade : loopTransition(8)}
-        />
-
-        <Sparkles className="absolute top-10 left-20 w-8 h-8 text-primary animate-twinkle" />
-        <Sparkles className="absolute bottom-20 right-30 w-6 h-6 text-primary animate-twinkle delay-300" />
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <AnimatePresence mode="wait">
           {isInView && (
@@ -92,15 +65,11 @@ export default function AboutSection() {
                   animate={{ width: "200px" }}
                   exit={{ width: 0 }}
                   transition={{ ...slowFade, delay: 0.3 }}
-                  className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8"
+                  className="h-px bg-border mx-auto mb-8"
                 />
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
                   About{" "}
-                <motion.span
-                  className="inline-block bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent"
-                  whileHover={{ scale: 1.05, rotateY: 10 }}
-                  transition={hoverSpring}
-                >
+                <motion.span className="inline-block text-primary" whileHover={{ scale: 1.05 }} transition={hoverSpring}>
                   Me
                 </motion.span>
               </h2>
@@ -123,7 +92,7 @@ export default function AboutSection() {
 
                   <motion.div
                     variants={itemVariants}
-                    className="relative p-6 bg-card/20 rounded-xl border border-primary/20 shadow-lg"
+                    className="relative p-6 bg-card rounded-xl border border-border shadow-sm"
                   >
                     <Quote className="absolute -top-4 -left-4 w-8 h-8 text-primary/30" />
                   <motion.blockquote
@@ -135,84 +104,63 @@ export default function AboutSection() {
                   </motion.blockquote>
                 </motion.div>
 
-                  {/* Journey Timeline */}
-                  <h3 className="text-xl font-semibold mb-6">My Journey</h3>
-                  <motion.div
-                    variants={containerVariants}
-                    className="relative space-y-6 pl-6 border-l-2 border-primary/20"
-                  >
-                    {journeyTimeline.map((item, index) => (
-                      <motion.div
-                        key={item.year}
-                        variants={itemVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        custom={index}
-                        whileHover={{ x: 12 }}
-                        transition={hoverSpring}
-                        className="flex items-start gap-4 p-4 rounded-lg hover:bg-card/50 transition-colors relative"
-                      >
-                        <div className="absolute -left-7 w-4 h-4 bg-primary rounded-full ring-4 ring-background" />
-                        <div className="w-20 font-bold text-primary">{item.year}</div>
-                        <div className="flex-1 flex items-center gap-3">
-                          <Sparkles className="w-5 h-5 text-primary" />
-                          <span className="text-muted-foreground">{item.event}</span>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
                 </div>
 
                 <div className="space-y-8">
-                  <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4">
-                    {stats.map((stat, index) => (
-                      <motion.div
-                        key={stat.label}
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.04, rotate: 1 }}
-                        transition={hoverSpring}
-                        className="text-center p-6 bg-linear-to-br from-card/80 to-card/40 rounded-xl shadow-md hover:shadow-xl transition-shadow"
-                      >
-                        <div className="text-3xl font-bold text-primary mb-2">{stat.number}</div>
-                        <div className="text-sm text-muted-foreground">{stat.label}</div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-
-                  <motion.div variants={itemVariants} className="relative p-6 bg-linear-to-br from-primary/5 to-primary/10 rounded-xl border-primary/20">
-                    <Zap className="absolute top-4 left-4 w-6 h-6 text-primary animate-spin-slow" />
-                    <h3 className="font-semibold mb-4 text-center">Currently Focused On</h3>
-                    <div className="flex justify-center flex-wrap gap-2">
-                      {["Next.js 15", "React Server Components", "TypeScript", "System Design"].map((tech, index) => (
-                        <motion.div
-                          key={tech}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0, transition: { ...smoothFade, delay: index * 0.12 } }}
-                          whileHover={{ scale: 1.05 }}
-                          transition={hoverSpring}
-                        >
-                          <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                            {tech}
-                          </Badge>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
-
                   {/* Animated Fun Fact */}
                   <motion.div
                     variants={itemVariants}
                     whileHover={{ scale: 1.02 }}
                     transition={hoverSpring}
-                    className="flex items-center gap-4 p-4 bg-card/30 rounded-lg border border-border/50"
+                    className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border"
                   >
-                    <featuredStat.icon className="w-8 h-8 text-primary animate-bounce" />
+                    <featuredStat.icon className="w-8 h-8 text-primary" />
                     <div>
                       <p className="font-medium">Fun Fact</p>
                       <p className="text-sm text-muted-foreground">{featuredStat.text}</p>
                     </div>
                   </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Experience */}
+              <motion.div variants={itemVariants} className="space-y-8">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold">Experience</h3>
+                  <p className="text-muted-foreground mt-2">
+                    Roles where I shipped real products and learned fast.
+                  </p>
+                </div>
+                <div className="mx-auto max-w-5xl space-y-8">
+                  {journeyExpanded.map((item, index) => (
+                    <motion.div
+                      key={`${item.year}-${item.company}`}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ ...smoothFade, delay: index * 0.08 }}
+                      className="border-b border-border pb-8"
+                    >
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <h4 className="text-xl font-semibold">{item.title}</h4>
+                          <p className="text-sm text-muted-foreground">{item.company}</p>
+                        </div>
+                        <span className="text-sm text-muted-foreground">{item.year}</span>
+                      </div>
+                      <p className="mt-4 text-muted-foreground">{item.description}</p>
+                      <ul className="mt-4 space-y-2">
+                        {item.achievements.map((achievement, achievementIndex) => (
+                          <li
+                            key={achievementIndex}
+                            className="text-sm text-muted-foreground flex items-start"
+                          >
+                            <span className="w-1.5 h-1.5 bg-primary rounded-full mr-3 mt-2 shrink-0" />
+                            {achievement}
+                          </li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  ))}
                 </div>
               </motion.div>
 

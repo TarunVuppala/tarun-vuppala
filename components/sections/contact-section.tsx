@@ -101,11 +101,6 @@ export default function ContactSection() {
 
   return (
     <section id="contact" ref={containerRef} className="py-32 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-primary rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary/50 rounded-full blur-3xl" />
-      </div>
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
         <motion.div
@@ -118,12 +113,12 @@ export default function ContactSection() {
             initial={{ width: 0 }}
             animate={isInView ? { width: "200px" } : {}}
             transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
-            className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8"
+            className="h-px bg-border mx-auto mb-8"
           />
           <h2 className="text-5xl md:text-6xl font-bold mb-6">
             Let's{" "}
             <motion.span
-              className="inline-block bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+              className="inline-block text-primary"
               whileHover={{ scale: 1.05, transition: hoverSpring }}
             >
               Connect
@@ -141,7 +136,7 @@ export default function ContactSection() {
             transition={isInView ? { ...slowFade, delay: 0.15 } : smoothFade}
             className="lg:col-span-3"
           >
-            <Card className="border-border/50 shadow-2xl">
+            <Card className="border-border shadow-sm">
               <CardContent className="p-8">
                 {isSubmitted ? (
                   <motion.div

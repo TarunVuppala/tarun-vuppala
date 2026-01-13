@@ -36,7 +36,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
                         onHoverEnd={() => setIsHovered(false)}
                         className="group shrink-0 w-[450px] h-[450px]"
                 >
-			<Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-linear-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex flex-col">
+			<Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex flex-col">
 				{/* Floating Badge */}
 				{project.featured && (
 					<motion.div
@@ -45,7 +45,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 						whileHover={{ scale: 1.1, rotate: 5 }}
 						className="absolute top-4 right-4 z-10"
 					>
-						<Badge className="bg-linear-to-r from-yellow-500 to-orange-500 text-white border-0 shadow-lg">
+						<Badge className="bg-primary text-primary-foreground border-0">
 							<Star className="w-3 h-3 mr-1" />
 							Featured
 						</Badge>
@@ -64,7 +64,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
                                                 transition={{ ...smoothFade, duration: 0.6 }}
                                         />
                                         <motion.div
-                                                className="absolute inset-0 bg-linear-to-t from-background via-background/50 to-transparent"
+                                                className="absolute inset-0 bg-black/40"
                                                 animate={{ opacity: isHovered ? 0.8 : 1 }}
                                                 transition={{ ...smoothFade, duration: 0.35 }}
                                         />
@@ -180,12 +180,6 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
                                                 </div>
 				</CardContent>
 
-				{/* Hover Glow Effect */}
-				<motion.div
-					initial={{ opacity: 0 }}
-					animate={{ opacity: isHovered ? 0.1 : 0 }}
-					className="absolute inset-0 bg-linear-to-r from-primary to-primary/50 pointer-events-none"
-				/>
 			</Card>
 		</motion.div>
 	)
@@ -193,6 +187,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 
 export default function ProjectsSection() {
 	const sectionRef = useRef<HTMLDivElement>(null)
+	const pinRef = useRef<HTMLDivElement>(null)
 	const trackRef = useRef<HTMLDivElement>(null)
 
 	const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -204,7 +199,7 @@ export default function ProjectsSection() {
 
 	useGSAP(
 		() => {
-			if (!sectionRef.current || !trackRef.current) return
+			if (!sectionRef.current || !trackRef.current || !pinRef.current) return
 
 			const getScrollAmount = () => {
 				const trackWidth = trackRef.current?.scrollWidth ?? 0
@@ -212,19 +207,37 @@ export default function ProjectsSection() {
 				return Math.max(0, trackWidth - viewportWidth)
 			}
 
-			gsap.to(trackRef.current, {
+			const animation = gsap.to(trackRef.current, {
 				x: () => -getScrollAmount(),
 				ease: "none",
 				scrollTrigger: {
+					id: "projects-pin",
 					trigger: sectionRef.current,
+					pin: pinRef.current,
 					start: "top top",
 					end: () => `+=${getScrollAmount()}`,
-					pin: true,
 					scrub: 0.6,
 					anticipatePin: 1,
+					pinSpacing: true,
 					invalidateOnRefresh: true,
 				},
 			})
+
+			const handleResize = () => ScrollTrigger.refresh()
+			const handleLoad = () => ScrollTrigger.refresh()
+			window.addEventListener("resize", handleResize)
+			window.addEventListener("load", handleLoad)
+
+			const resizeObserver = new ResizeObserver(() => ScrollTrigger.refresh())
+			resizeObserver.observe(trackRef.current)
+
+			return () => {
+				window.removeEventListener("resize", handleResize)
+				window.removeEventListener("load", handleLoad)
+				resizeObserver.disconnect()
+				animation.scrollTrigger?.kill()
+				animation.kill()
+			}
 		},
 		{ scope: sectionRef, dependencies: [] }
 	)
@@ -233,29 +246,10 @@ export default function ProjectsSection() {
 		<section
 			id="projects"
 			ref={sectionRef}
-			className="relative bg-linear-to-br from-background via-background/95 to-background"
+			className="relative bg-background"
 		>
-			{/* Animated Background */}
-			<div className="absolute inset-0 opacity-5">
-                                <motion.div
-                                        className="absolute top-20 right-20 w-72 h-72 bg-primary rounded-full blur-3xl"
-                                        animate={{
-                                                scale: [1, 1.12, 1],
-                                                opacity: [0.3, 0.55, 0.3],
-                                        }}
-                                        transition={loopTransition(5)}
-                                />
-                                <motion.div
-                                        className="absolute bottom-20 left-20 w-96 h-96 bg-primary/50 rounded-full blur-3xl"
-                                        animate={{
-                                                scale: [1.08, 1, 1.08],
-                                                opacity: [0.2, 0.38, 0.2],
-                                        }}
-                                        transition={loopTransition(7)}
-                                />
-			</div>
 
-			<div className="relative flex h-screen items-center overflow-hidden">
+			<div ref={pinRef} className="relative flex h-screen items-center overflow-hidden">
 				{/* Header */}
 				<div className="absolute top-20 left-0 right-0 z-10 text-center px-4 sm:px-6">
                                         <motion.div
@@ -267,15 +261,12 @@ export default function ProjectsSection() {
                                                         initial={{ width: 0 }}
                                                         animate={isInView ? { width: "200px" } : {}}
                                                         transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
-                                                        className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-6 sm:mb-8"
+                                                        className="h-px bg-border mx-auto mb-6 sm:mb-8"
                                                 />
 
                                                 <motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6" whileHover={{ scale: 1.02 }}>
                                                         Featured{" "}
-                                                        <motion.span
-                                                                className="inline-block bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent"
-                                                                whileHover={{ scale: 1.05, rotateY: 10, transition: hoverSpring }}
-                                                        >
+                                                        <motion.span className="inline-block text-primary" whileHover={{ scale: 1.05, transition: hoverSpring }}>
                                                                 Projects
                                                         </motion.span>
                                                 </motion.h2>
@@ -321,14 +312,14 @@ export default function ProjectsSection() {
 									initial={{ opacity: 0 }}
 									animate={{ opacity: 1 }}
 									exit={{ opacity: 0 }}
-									className="fixed inset-0 bg-background/90 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6"
+									className="fixed inset-0 bg-background/95 z-50 flex items-center justify-center p-4 sm:p-6"
 									onClick={() => setSelectedProject(null)}
 								>
 									<motion.div
 										initial={{ scale: 0.8, opacity: 0, rotateX: -15 }}
 										animate={{ scale: 1, opacity: 1, rotateX: 0 }}
 										exit={{ scale: 0.8, opacity: 0, rotateX: 15 }}
-										className="bg-card rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-border shadow-2xl"
+										className="bg-card rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-border shadow-lg"
 										onClick={(e) => e.stopPropagation()}
 									>
 										<div className="p-6 sm:p-8">
@@ -433,11 +424,11 @@ export default function ProjectsSection() {
                                                         transition={isInView ? { ...slowFade, delay: projects.length * 0.1 } : smoothFade}
                                                         className="shrink-0 w-[450px] h-[450px]"
                                                 >
-                                                        <Card className="relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 bg-linear-to-br from-card/80 to-card/40 backdrop-blur-sm h-full flex items-center justify-center group cursor-pointer">
+                                                        <Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex items-center justify-center group cursor-pointer">
                                                                 <CardContent className="text-center p-8">
                                                                         <motion.div
                                                                                 whileHover={{ scale: 1.08, rotate: 4, transition: hoverSpring }}
-                                                                                className="w-20 h-20 bg-linear-to-r from-primary to-primary/60 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                                                                                className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6"
                                                                                 onClick={() => router.push("/projects")}
                                                                         >
                                                                                 <ArrowRight className="w-8 h-8 text-white" />
@@ -450,7 +441,7 @@ export default function ProjectsSection() {
 									</p>
 									<Button
 										onClick={() => router.push("/projects")}
-										className="bg-linear-to-r from-primary to-primary/60 hover:from-primary/80 hover:to-primary/40"
+										className="bg-primary hover:bg-primary/90"
 									>
 										See More Projects
 									</Button>

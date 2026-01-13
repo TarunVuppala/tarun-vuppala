@@ -530,19 +530,6 @@ export const journeyExpanded = [
       "Contributed to team knowledge base with documentation",
     ],
   },
-  {
-    year: "2022",
-    title: "Computer Science Student",
-    company: "Ace Endineering College",
-    description:
-      "Started my journey in web development while pursuing Computer Science. Built foundational knowledge in algorithms, data structures, and software engineering.",
-    achievements: [
-      "Completed 20+ coding challenges",
-      "Built first full-stack application",
-      "Participated in 2 hackathons",
-      "Maintained 8.2 GPA while coding",
-    ],
-  },
 ];
 
 export const stats = [

@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Terminal, Sparkles, Zap, Heart } from "lucide-react"
+import { X, Terminal, Zap, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface DevConsoleProps {
@@ -203,7 +203,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4"
+                className="fixed inset-0 bg-black/70 z-[100 flex items-center justify-center p-4"
                 onClick={onClose}
             >
                 <motion.div
@@ -211,70 +211,35 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.8, opacity: 0, y: 50 }}
                     transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                    className="w-full max-w-4xl h-[80vh] relative overflow-hidden rounded-3xl"
+                    className="w-full max-w-4xl h-[80vh] relative overflow-hidden rounded-3xl bg-background text-foreground border border-border shadow-lg"
                     onClick={(e) => e.stopPropagation()}
-                    style={{
-                        background: "rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(40px) saturate(200%) contrast(120%) brightness(110%)",
-                        WebkitBackdropFilter: "blur(40px) saturate(200%) contrast(120%) brightness(110%)",
-                        boxShadow: `0 25px 50px -12px rgba(0, 0, 0, 0.5), 
-                       0 0 0 1px rgba(255, 255, 255, 0.1), 
-                       inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                       0 0 100px rgba(var(--primary), 0.2)`,
-                    }}
                 >
-                    {/* Advanced Background Effects */}
-                    <div className="absolute inset-0">
-                        <div className="absolute inset-0 bg-linear-to-br from-green-500/10 via-blue-500/5 to-purple-500/10 rounded-3xl" />
-                        <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-white/10 rounded-3xl" />
-
-                        {/* Animated particles */}
-                        <motion.div
-                            className="absolute inset-0 opacity-30"
-                            animate={{
-                                background: [
-                                    "radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%)",
-                                    "radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)",
-                                    "radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)",
-                                    "radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%)",
-                                ],
-                            }}
-                            transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                        />
-                    </div>
-
                     {/* Header */}
-                    <div className="relative flex items-center justify-between p-6 border-b border-white/10">
+                    <div className="relative flex items-center justify-between p-6 border-b border-border">
                         <div className="flex items-center space-x-4">
                             <div className="relative">
-                                <div className="w-12 h-12 bg-linear-to-br from-green-500 via-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
-                                    <Terminal className="w-6 h-6 text-white" />
+                                <div className="w-12 h-12 bg-muted rounded-2xl flex items-center justify-center">
+                                    <Terminal className="w-6 h-6 text-foreground" />
                                 </div>
-                                <motion.div
-                                    className="absolute -inset-1 bg-linear-to-r from-green-500/50 to-blue-500/50 rounded-2xl opacity-75 blur-sm"
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                                />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                                <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                                     Dev Console
-                                    <Sparkles className="w-5 h-5 text-yellow-400" />
                                 </h2>
-                                <p className="text-sm text-white/60">Interactive JavaScript Terminal with some cool features</p>
+                                <p className="text-sm text-muted-foreground">Interactive JavaScript Terminal</p>
                             </div>
                         </div>
 
                         <div className="flex items-center space-x-2">
-                            <div className="flex items-center space-x-1 text-xs text-white/40">
-                                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                            <div className="flex items-center space-x-1 text-xs text-muted-foreground">
+                                <div className="w-2 h-2 bg-green-400 rounded-full" />
                                 <span>Online</span>
                             </div>
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={onClose}
-                                className="w-10 h-10 p-0 rounded-xl hover:bg-white/10 text-white/60 hover:text-white"
+                                className="w-10 h-10 p-0 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground"
                             >
                                 <X className="w-5 h-5" />
                             </Button>

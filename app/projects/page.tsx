@@ -49,7 +49,7 @@ export default function ProjectsPage() {
                 initial={{ width: 0 }}
                 animate={{ width: "200px" }}
                 transition={{ duration: 1, delay: 0.3 }}
-                className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8"
+                className="h-px bg-border mx-auto mb-8"
               />
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">My Projects</h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -120,7 +120,7 @@ export default function ProjectsPage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                       {project.featured && (
-                        <Badge className="absolute top-3 left-3 bg-linear-to-r from-yellow-500 to-orange-500 text-white border-0">
+                        <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground border-0">
                           <Star className="w-3 h-3 mr-1" />
                           Featured
                         </Badge>
