@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useInView } from "framer-motion"
 import {
 	ExternalLink,
 	Github,
+	Calendar,
 	ArrowRight,
 	Star,
 	Users,
@@ -22,7 +23,7 @@ import Link from "next/link"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
-import { hoverSpring, slowFade, smoothFade } from "@/lib/motion"
+import { slowFade, smoothFade } from "@/lib/motion"
 
 type ProjectCardProps = {
 	project: Project
@@ -30,19 +31,17 @@ type ProjectCardProps = {
 	onSelect: (p: Project) => void
 }
 
-const MotionImage = motion(Image)
-
 function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 50 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ ...smoothFade, delay: index * 0.12 }}
-			className="group project-card shrink-0 w-[560px] h-[430px]"
+			className="project-card shrink-0 w-[440px] h-[430px]"
 		>
-			<Card className="relative overflow-hidden border border-border transition-all duration-300 bg-card h-full flex flex-col">
+			<Card className="relative overflow-hidden border border-border bg-card h-full flex flex-col">
 				<div className="relative overflow-hidden">
-					<MotionImage
+					<Image
 						src={project.image || "/placeholder.svg"}
 						alt={project.title}
 						width={1000}
@@ -53,51 +52,50 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 				</div>
 
 				<CardContent className="p-5 space-y-3 flex-1 flex flex-col">
-					<div className="flex items-start justify-between gap-3">
-						<div>
-							<h3 className="text-xl font-semibold leading-tight group-hover:text-primary transition-colors cursor-pointer">
-								{project.title}
-							</h3>
-							<div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
-								{project.subtitle} • {project.date}
-							</div>
-						</div>
-						<div className="flex items-center gap-2">
-							{project.liveUrl && (
-								<Button size="sm" variant="outline" className="h-9 w-9 p-0" asChild>
-									<Link href={project.liveUrl} target="_blank">
+					<div>
+						<div className="flex flex-wrap items-start justify-between gap-3">
+							<h3 className="text-xl font-bold">{project.title}</h3>
+							<div className="flex gap-2">
+								<Button size="sm" variant="outline" asChild>
+									<Link href={project.liveUrl ?? "#"} target="_blank">
 										<ExternalLink className="w-4 h-4" />
 									</Link>
 								</Button>
-							)}
-							{project.githubUrl && (
 								<Button size="sm" variant="outline" asChild>
-									<Link href={project.githubUrl} target="_blank">
+									<Link href={project.githubUrl ?? "#"} target="_blank">
 										<Github className="w-4 h-4" />
 									</Link>
 								</Button>
-							)}
-							<Button size="sm" variant="outline" onClick={() => onSelect(project)}>
-								<Info className="w-4 h-4" />
-							</Button>
+								<Button size="sm" variant="outline" onClick={() => onSelect(project)}>
+									<Info className="w-4 h-4" />
+								</Button>
+							</div>
+						</div>
+						<div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+							<span>{project.subtitle}</span>
+							<span>•</span>
+							<span className="inline-flex items-center gap-1">
+								<Calendar className="w-3 h-3" />
+								{project.date}
+							</span>
 						</div>
 					</div>
 
-					<div className="flex flex-wrap -space-x-1">
-						{project.tech.slice(0, 5).map((tech, techIndex) => (
+					<div className="flex flex-wrap gap-1.5 -space-x-4">
+						{project.tech.map((tech, techIndex) => (
 							<motion.div
 								key={tech}
 								initial={{ opacity: 0, scale: 0.92 }}
 								animate={{ opacity: 1, scale: 1 }}
 								transition={{ ...smoothFade, delay: index * 0.08 + techIndex * 0.05 }}
 							>
-								<div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
+								<div className="group/tech relative flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/60">
 									<img
 										src={getTechIcon(tech)}
 										alt={tech}
-										className="h-5 w-5 object-contain"
+										className="h-6 w-6 object-contain"
 										onError={(event) => {
-											event.currentTarget.style.display = "none"
+											event.currentTarget.src = "/placeholder.svg"
 										}}
 									/>
 									<span className="pointer-events-none absolute -top-9 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">
@@ -106,32 +104,33 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 								</div>
 							</motion.div>
 						))}
-						{project.tech.length > 5 && (
+						{/* {project.tech.length > 5 && (
 							<Badge variant="outline" className="text-xs">
 								+{project.tech.length - 5}
 							</Badge>
-						)}
+						)} */}
 					</div>
 
 					<div className="flex gap-4 text-sm">
 						{Object.entries(project.stats).map(([key, value], statIndex) => (
-							<div
+							<motion.div
 								key={key}
 								className="flex items-center gap-1 text-muted-foreground"
+								transition={{ ...smoothFade, delay: statIndex * 0.06 }}
 							>
 								{key === "users" && <Users className="w-3 h-3" />}
 								{key === "performance" && <Clock className="w-3 h-3" />}
 								{key === "rating" && <Star className="w-3 h-3" />}
 								<span className="text-xs">{value}</span>
-							</div>
+							</motion.div>
 						))}
 					</div>
 
 					<div className="flex-1">
 						<span className="font-medium text-green-400 text-sm">Impact:</span>
-						<p className="text-green-400 mt-1 font-medium text-sm">
+						<motion.p className="text-green-400 mt-1 font-medium text-sm">
 							{project.impact}
-						</p>
+						</motion.p>
 					</div>
 				</CardContent>
 			</Card>
@@ -216,10 +215,10 @@ export default function ProjectsSection() {
 
 	return (
 		<section id="projects" ref={sectionRef} className="relative bg-background">
-			<div ref={pinRef} className="relative flex h-[75vh] items-center  will-change-transform">
+			<div ref={pinRef} className="relative flex h-screen items-center overflow-hidden will-change-transform">
 
 				{/* Header */}
-				<div className="absolute top-24 left-0 right-0 z-10 text-center">
+				<div className="absolute top-20 left-0 right-0 z-10 text-center">
 					<motion.div
 						initial={{ opacity: 0, y: 50 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -252,8 +251,8 @@ export default function ProjectsSection() {
 				</div>
 
 				{/* Horizontal Row */}
-				<div className="mt-[95vh] px-32 mb-88">
-					<div ref={trackRef} className="flex h-full items-center gap-8 px-6 will-change-transform">
+				<div className="pt-52 h-full w-full px-32">
+					<div ref={trackRef} className="flex h-full items-center gap-4 px-6 will-change-transform">
 						{featuredProjects.map((project, index) => (
 							<ProjectCard key={project.id} project={project} index={index} onSelect={setSelectedProject} />
 						))}
@@ -263,24 +262,23 @@ export default function ProjectsSection() {
 							initial={{ opacity: 0, x: 100 }}
 							animate={isInView ? { opacity: 1, x: 0 } : {}}
 							transition={isInView ? { ...slowFade, delay: projects.length * 0.08 } : smoothFade}
-							className="shrink-0 w-[560px] h-[430px] mr-96"
+							className="shrink-0 w-[440px] h-[430px] mr-96"
 						>
-							<Card className="overflow-hidden border border-border transition-all duration-300 bg-card h-full flex items-center justify-center group cursor-pointer">
+							<Card className="relative overflow-hidden border border-border bg-card h-full flex items-center justify-center">
 								<CardContent className="text-center p-6">
-									<motion.div
-										whileHover={{ scale: 1.06, transition: hoverSpring }}
+									<div
 										className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6"
 										onClick={() => router.push("/projects")}
 									>
 										<ArrowRight className="w-8 h-8 text-white" />
-									</motion.div>
-									<h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
+									</div>
+									<h3 className="text-2xl font-bold mb-4">
 										View All Projects
 									</h3>
 									<p className="text-muted-foreground mb-6">
 										Explore my complete portfolio including experimental projects and open source contributions.
 									</p>
-									<Button onClick={() => router.push("/projects")} className="bg-primary hover:bg-primary/90">
+									<Button onClick={() => router.push("/projects")} className="bg-primary">
 										See More Projects
 									</Button>
 								</CardContent>
@@ -320,11 +318,9 @@ export default function ProjectsSection() {
 											{selectedProject.subtitle}
 										</motion.p>
 									</div>
-									<motion.div whileHover={{ scale: 1.05, transition: hoverSpring }} whileTap={{ scale: 0.9, transition: hoverSpring }}>
-										<Button size="sm" variant="ghost" onClick={() => setSelectedProject(null)}>
-											<X className="w-5 h-5" />
-										</Button>
-									</motion.div>
+									<Button size="sm" variant="ghost" onClick={() => setSelectedProject(null)}>
+										<X className="w-5 h-5" />
+									</Button>
 								</div>
 
 								<div className="grid md:grid-cols-2 gap-6 sm:gap-8">
@@ -349,10 +345,9 @@ export default function ProjectsSection() {
 														initial={{ opacity: 0, x: -20 }}
 														animate={{ opacity: 1, x: 0 }}
 														transition={{ ...smoothFade, delay: 0.5 + idx * 0.08 }}
-														whileHover={{ x: 5, transition: hoverSpring }}
-														className="text-muted-foreground flex items-start cursor-pointer"
+														className="text-muted-foreground flex items-start"
 													>
-														<motion.span className="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2 shrink-0" whileHover={{ scale: 1.2, transition: hoverSpring }} />
+														<span className="w-2 h-2 bg-green-500 rounded-full mr-3 mt-2 shrink-0" />
 														{res}
 													</motion.li>
 												))}
@@ -368,23 +363,21 @@ export default function ProjectsSection() {
 
 								<motion.div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...smoothFade, delay: 0.68 }}>
 									<h4 className="font-semibold mb-4">Technologies Used</h4>
-									<div className="flex flex-wrap -space-x-1">
+									<div className="flex flex-wrap gap-1.5 -space-x-2">
 										{selectedProject.tech.map((tech, ti) => (
 											<motion.div
 												key={tech}
 												initial={{ opacity: 0, scale: 0 }}
 												animate={{ opacity: 1, scale: 1 }}
 												transition={{ ...smoothFade, delay: 0.78 + ti * 0.05 }}
-												whileHover={{ scale: 1.08, transition: hoverSpring }}
-												whileTap={{ scale: 0.96, transition: hoverSpring }}
 											>
-												<div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
+												<div className="group/tech relative flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/60">
 													<img
-														src={getTechIcon(tech)}
+										src={getTechIcon(tech)}
 														alt={tech}
-														className="h-5 w-5 object-contain"
+														className="h-6 w-6 object-contain"
 														onError={(event) => {
-															event.currentTarget.style.display = "none"
+															event.currentTarget.src = "/placeholder.svg"
 														}}
 													/>
 													<span className="pointer-events-none absolute -top-9 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">

@@ -119,10 +119,9 @@ export default function ProjectsPage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                       {project.featured && (
-                        <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground border-0">
-                          <Star className="w-3 h-3 mr-1" />
-                          Featured
-                        </Badge>
+                        <div className="absolute top-3 left-3 text-primary">
+                          <Star className="w-4 h-4" />
+                        </div>
                       )}
                     </div>
 
