@@ -90,7 +90,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 								transition={{ ...smoothFade, delay: index * 0.08 + techIndex * 0.05 }}
 							>
 								<div
-									className={`group/tech relative flex h-8 w-8 items-center justify-center rounded-full border border-dark bg-background transition-[margin] duration-200 ease-out ${
+									className={`group/tech relative flex h-8 w-8 items-center justify-center rounded-full border border-dark bg-background transition-[margin] duration-200 ease-in-out ${
 										techIndex === 0 ? "hover:mr-2" : "hover:mx-2"
 									}`}
 								>
@@ -376,7 +376,7 @@ export default function ProjectsSection() {
 												transition={{ ...smoothFade, delay: 0.78 + ti * 0.05 }}
 											>
 												<div
-													className={`group/tech relative flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 ease-out ${
+													className={`group/tech relative flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 ease-in-out ${
 														ti === 0 ? "hover:mr-2.5" : "hover:mx-2.5"
 													}`}
 												>

@@ -188,7 +188,7 @@ export default function ProjectsPage() {
                               transition={{ delay: idx * 0.05 }}
                             >
                               <div
-                                className={`group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 ease-out hover:z-10 ${
+                                className={`group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 ease-in-out hover:z-10 ${
                                   idx === 0 ? "hover:mr-2.5" : "hover:mx-2.5"
                                 }`}
                               >
