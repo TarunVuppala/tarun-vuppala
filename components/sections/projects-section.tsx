@@ -30,7 +30,7 @@ type ProjectCardProps = {
 
 function ProjectCard({ project, onSelect }: ProjectCardProps) {
 	return (
-		<div className="project-card shrink-0 w-[440px] h-[430px]">
+		<div className="project-card shrink-0 w-[85vw] sm:w-[70vw] lg:w-[440px] h-[360px] sm:h-[390px] lg:h-[430px] snap-start">
 			<Card className="relative overflow-hidden border border-border bg-card h-full flex flex-col">
 				<div className="relative overflow-hidden">
 					<Image
@@ -149,39 +149,35 @@ export default function ProjectsSection() {
 				return scrollAmount
 			}
 
+			const isTouch = ScrollTrigger.isTouch > 0
+
 			const tween = gsap.to(trackRef.current, {
 				x: () => -scrollAmount,
 				ease: "none",
 				overwrite: "auto",
 				scrollTrigger: {
 					id: "projects-pin",
-
-					// ✅ key fix: trigger == pin element
 					trigger: pinRef.current,
 					pin: pinRef.current,
-
+					pinType: isTouch ? "fixed" : "transform",
 					start: "top top",
-
-					// ✅ compute once per refresh to avoid mid-pin changes
 					end: () => `+=${compute()}`,
-
 					scrub: 0.6,
-					anticipatePin: 0, // avoid extra pre-adjustment "nudge"
+					anticipatePin: 1,
 					pinSpacing: true,
 					invalidateOnRefresh: true,
-
-					// optional but helps when fonts/images load:
 					refreshPriority: 1,
 				},
 			})
 
 			const ro = new ResizeObserver(() => ScrollTrigger.refresh())
-			ro.observe(trackRef.current)
+			if (trackRef.current) {
+				ro.observe(trackRef.current)
+			}
 
 			const onResize = () => ScrollTrigger.refresh()
 			window.addEventListener("resize", onResize)
 
-			// if images affect width after mount, refresh once
 			const onLoad = () => ScrollTrigger.refresh()
 			window.addEventListener("load", onLoad)
 
@@ -232,10 +228,13 @@ export default function ProjectsSection() {
 
 	return (
 		<section id="projects" ref={sectionRef} className="relative bg-background">
-			<div ref={pinRef} className="relative flex min-h-screen items-center overflow-hidden will-change-transform">
+			<div
+				ref={pinRef}
+				className="relative flex min-h-screen flex-col items-start gap-6 overflow-x-hidden overflow-y-visible will-change-transform sm:gap-8 lg:min-h-screen lg:flex-row lg:items-center lg:gap-0"
+			>
 
 				{/* Header */}
-				<div ref={headerRef} className="absolute top-20 left-0 right-0 z-10 text-center">
+				<div ref={headerRef} className="relative left-0 right-0 z-10 text-center pt-6 sm:pt-8 lg:absolute lg:top-20 lg:pt-0">
 					<div data-projects-line className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left" />
 					<p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
 						Curated Works
@@ -250,19 +249,21 @@ export default function ProjectsSection() {
 
 				{/* Horizontal Row */}
 				<motion.div
-					className="pt-52 h-full w-full px-32"
-					initial={{ opacity: 0, x: 1000 }}
-					whileInView={{ opacity: 1, x: 0 }}
-					exit={{ opacity: 0, x: 1000 }}
-					transition={{ duration: 0.8, ease: "easeOut" }}
+					className="pt-2 sm:pt-4 lg:pt-52 h-auto lg:h-full w-full px-4 sm:px-8 lg:px-16 overflow-hidden touch-pan-y"
+					initial={{ opacity: 0, x: 40 }}
+					animate={{ opacity: 1, x: 0 }}
+					transition={{ duration: 0.6, ease: "easeOut" }}
 				>
-					<div ref={trackRef} className="flex h-full items-center gap-4 px-6 will-change-transform">
+					<div
+						ref={trackRef}
+						className="flex h-full flex-row items-stretch gap-3 px-2 sm:px-4 lg:items-center lg:gap-4 lg:px-6 will-change-transform snap-x snap-mandatory"
+					>
 						{featuredProjects.map((project) => (
 							<ProjectCard key={project.id} project={project} onSelect={setSelectedProject} />
 						))}
 
 						{/* View all */}
-						<div className="shrink-0 w-[440px] h-[430px] mr-96">
+						<div className="shrink-0 w-[85vw] sm:w-[70vw] lg:w-[440px] h-[360px] sm:h-[390px] lg:h-[430px] snap-start lg:mr-96">
 							<Card className="relative overflow-hidden border border-border bg-card h-full flex items-center justify-center">
 								<CardContent className="text-center p-6">
 									<div
@@ -285,7 +286,7 @@ export default function ProjectsSection() {
 						</div>
 
 						{/* End spacer so it can slide further left */}
-						<div className="shrink-0 w-[24vw]" />
+						<div className="hidden lg:block shrink-0 w-[24vw]" />
 					</div>
 				</motion.div>
 
