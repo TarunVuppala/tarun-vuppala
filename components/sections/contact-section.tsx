@@ -2,14 +2,16 @@
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
+import { motion } from "framer-motion"
+import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Send, CheckCircle, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { contactInfo } from "@/lib/data";
+import { contactInfo } from "@/lib/data"
 import Link from "next/link"
-import { loopTransition, slowFade, smoothFade } from "@/lib/motion"
 import ContentContainer from "@/components/layout/container"
 
 export default function ContactSection() {
@@ -23,7 +25,79 @@ export default function ContactSection() {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 	const resetTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 	const containerRef = useRef<HTMLDivElement>(null)
-	const isInView = useInView(containerRef, { once: false, margin: "-20%" })
+	const headerRef = useRef<HTMLDivElement>(null)
+	const lineRef = useRef<HTMLDivElement>(null)
+	const asideRef = useRef<HTMLDivElement>(null)
+	const formRef = useRef<HTMLDivElement>(null)
+
+	gsap.registerPlugin(ScrollTrigger)
+
+	useGSAP(
+		() => {
+			if (!containerRef.current) return
+
+			gsap.from(headerRef.current, {
+				opacity: 0,
+				y: 50,
+				duration: 0.6,
+				ease: "power2.out",
+				scrollTrigger: {
+					trigger: containerRef.current,
+					start: "top 80%",
+					toggleActions: "play none none reverse",
+				},
+			})
+
+			gsap.from(lineRef.current, {
+				width: 0,
+				duration: 0.6,
+				ease: "power2.out",
+				scrollTrigger: {
+					trigger: containerRef.current,
+					start: "top 80%",
+					toggleActions: "play none none reverse",
+				},
+			})
+
+			gsap.from(asideRef.current, {
+				opacity: 0,
+				x: 50,
+				duration: 0.6,
+				ease: "power2.out",
+				scrollTrigger: {
+					trigger: containerRef.current,
+					start: "top 78%",
+					toggleActions: "play none none reverse",
+				},
+			})
+
+			gsap.from(formRef.current, {
+				opacity: 0,
+				x: -50,
+				duration: 0.6,
+				ease: "power2.out",
+				scrollTrigger: {
+					trigger: containerRef.current,
+					start: "top 78%",
+					toggleActions: "play none none reverse",
+				},
+			})
+
+			gsap.from(containerRef.current.querySelectorAll("[data-contact-item]"), {
+				opacity: 0,
+				y: 16,
+				duration: 0.45,
+				ease: "power2.out",
+				stagger: 0.08,
+				scrollTrigger: {
+					trigger: containerRef.current,
+					start: "top 75%",
+					toggleActions: "play none none reverse",
+				},
+			})
+		},
+		{ scope: containerRef },
+	)
 
 	useEffect(() => {
 		return () => {
@@ -84,18 +158,8 @@ export default function ContactSection() {
 		<section id="contact" ref={containerRef} className="py-10 sm:py-12 relative overflow-hidden mt-5">
 			<ContentContainer className="relative z-10">
 				{/* Header */}
-				<motion.div
-					initial={{ opacity: 0, y: 50 }}
-					animate={isInView ? { opacity: 1, y: 0 } : {}}
-					transition={isInView ? slowFade : smoothFade}
-					className="text-center mb-5"
-				>
-					<motion.div
-						initial={{ width: 0 }}
-						animate={isInView ? { width: "200px" } : {}}
-						transition={isInView ? { ...slowFade, delay: 0.3 } : smoothFade}
-						className="h-px bg-border mx-auto mb-5"
-					/>
+				<div ref={headerRef} className="text-center mb-5">
+					<div ref={lineRef} className="h-px bg-border mx-auto mb-5 w-[200px]" />
 					<p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Let's Connect</p>
 					<h2 className="text-4xl md:text-5xl font-bold mb-3">
 						Contact
@@ -103,26 +167,19 @@ export default function ContactSection() {
 					<p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
 						Have a project in mind? Let's discuss how we can bring your ideas to life.
 					</p>
-				</motion.div>
+				</div>
 				<div className="grid lg:grid-cols-[1.1fr_2fr] gap-10 items-start">
-					<motion.aside
-						initial={{ opacity: 0, x: 50 }}
-						animate={isInView ? { opacity: 1, x: 0 } : {}}
-						transition={isInView ? { ...slowFade, delay: 0.28 } : smoothFade}
-						className="space-y-8"
-					>
+					<aside ref={asideRef} className="space-y-8">
 						<div className="rounded-2xl border border-border p-5">
 							<h3 className="text-xl font-semibold">Contact channels</h3>
 							<p className="text-sm text-muted-foreground mt-2">
 								Pick the channel that fits your timeline.
 							</p>
 							<div className="mt-5 space-y-4">
-								{contactInfo.map((info, index) => (
-									<motion.div
+								{contactInfo.map((info) => (
+									<div
 										key={info.title}
-										initial={{ opacity: 0, y: 16 }}
-										animate={isInView ? { opacity: 1, y: 0 } : {}}
-										transition={{ ...smoothFade, delay: 0.4 + index * 0.08 }}
+										data-contact-item
 										className="flex items-start gap-3"
 									>
 										<div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted-foreground">
@@ -143,26 +200,23 @@ export default function ContactSection() {
 											)}
 											<p className="text-xs text-muted-foreground mt-1">{info.description}</p>
 										</div>
-									</motion.div>
+									</div>
 								))}
 							</div>
 						</div>
 
-					</motion.aside>
+					</aside>
 
-					<motion.div
-						initial={{ opacity: 0, x: -50 }}
-						animate={isInView ? { opacity: 1, x: 0 } : {}}
-						transition={isInView ? { ...slowFade, delay: 0.15 } : smoothFade}
-					>
+					<div ref={formRef}>
 						<div className="rounded-2xl border border-border bg-background p-5">
 							{isSubmitted ? (
 								<motion.div
-									initial={{ scale: 0.8, opacity: 0 }}
+									initial={{ scale: 0.96, opacity: 0 }}
 									animate={{ scale: 1, opacity: 1 }}
+									transition={{ duration: 0.35, ease: "easeOut" }}
 									className="text-center py-12"
 								>
-									<motion.div animate={{ scale: [1, 1.12, 1] }} transition={loopTransition(1.2)}>
+									<motion.div animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 1.2, repeat: Infinity }}>
 										<CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
 									</motion.div>
 									<h3 className="text-2xl font-bold mb-2">Thanks, {formData.name}!</h3>
@@ -245,7 +299,7 @@ export default function ContactSection() {
 											{isSubmitting ? (
 												<motion.div
 													animate={{ rotate: 360 }}
-													transition={{ ...loopTransition(1, { repeatType: "loop" }), ease: "linear" }}
+													transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
 													className="w-5 h-5 border-2 border-background/30 border-t-background rounded-full"
 												/>
 											) : (
@@ -259,7 +313,7 @@ export default function ContactSection() {
 								</form>
 							)}
 						</div>
-					</motion.div>
+					</div>
 				</div>
 			</ContentContainer>
 		</section>
