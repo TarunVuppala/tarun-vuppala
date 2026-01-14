@@ -230,11 +230,11 @@ export default function ProjectsSection() {
 		<section id="projects" ref={sectionRef} className="relative bg-background">
 			<div
 				ref={pinRef}
-				className="relative flex min-h-screen flex-col items-start gap-6 overflow-x-hidden overflow-y-visible will-change-transform sm:gap-8 lg:min-h-screen lg:flex-row lg:items-center lg:gap-0"
+				className="relative flex min-h-[60vh] flex-col items-start gap-6 overflow-x-hidden overflow-y-visible pt-[calc(var(--nav-height,72px)+48px)] will-change-transform sm:min-h-[75vh] sm:gap-8 sm:pt-[calc(var(--nav-height,72px)+60px)] lg:min-h-[85vh] lg:flex-row lg:items-center lg:gap-0 lg:pt-0"
 			>
 
 				{/* Header */}
-				<div ref={headerRef} className="relative left-0 right-0 z-10 text-center pt-6 sm:pt-8 lg:absolute lg:top-20 lg:pt-0">
+				<div ref={headerRef} className="relative left-0 right-0 z-10 w-full text-center pt-2 sm:pt-4 lg:absolute lg:top-20 lg:pt-0">
 					<div data-projects-line className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left" />
 					<p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
 						Curated Works
@@ -249,9 +249,9 @@ export default function ProjectsSection() {
 
 				{/* Horizontal Row */}
 				<motion.div
-					className="pt-2 sm:pt-4 lg:pt-52 h-auto lg:h-full w-full px-4 sm:px-8 lg:px-16 overflow-hidden touch-pan-y"
+					className="pt-6 sm:pt-8 lg:pt-52 h-auto lg:h-full w-full px-4 sm:px-8 lg:px-16 overflow-hidden touch-pan-y"
 					initial={{ opacity: 0, x: 40 }}
-					animate={{ opacity: 1, x: 0 }}
+					whileInView={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.6, ease: "easeOut" }}
 				>
 					<div

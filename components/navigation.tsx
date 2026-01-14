@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname, useRouter } from "next/navigation"
 import { Github, Linkedin, Twitter, Mail, Menu, X, Sun, Moon, Terminal, Badge, Hammer } from "lucide-react"
@@ -15,6 +15,7 @@ export default function Navigation() {
 	const [isScrolled, setIsScrolled] = useState(false)
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 	const [showConsole, setShowConsole] = useState(false)
+	const navRef = useRef<HTMLElement>(null)
 	const pathname = usePathname()
 	const router = useRouter()
 	const { theme, setTheme } = useTheme()
@@ -25,6 +26,18 @@ export default function Navigation() {
 		}
 		window.addEventListener("scroll", handleScroll)
 		return () => window.removeEventListener("scroll", handleScroll)
+	}, [])
+
+	useEffect(() => {
+		const updateNavHeight = () => {
+			if (navRef.current) {
+				const height = navRef.current.getBoundingClientRect().height
+				document.documentElement.style.setProperty("--nav-height", `${height}px`)
+			}
+		}
+		updateNavHeight()
+		window.addEventListener("resize", updateNavHeight)
+		return () => window.removeEventListener("resize", updateNavHeight)
 	}, [])
 
 	const navItems = [
@@ -61,10 +74,11 @@ export default function Navigation() {
 	return (
 		<>
 			<motion.nav
+				ref={navRef}
 				initial={{ y: -100 }}
 				animate={{ y: 0 }}
 				transition={{ duration: 0.6, ease: "easeOut" }}
-				className="fixed max-w-screen top-0 left-0 right-0 z-50 pt-3"
+				className="fixed max-w-screen top-0 left-0 right-0 z-50 pt-1.5"
 			>
 				<ContentContainer>
 					<div
@@ -74,12 +88,12 @@ export default function Navigation() {
 							} rounded-2xl`}
 					>
 
-						<div className="relative px-0 py-3">
+						<div className="relative px-0 py-1.5">
 							<div className="flex items-center justify-between">
 								<motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative">
 									<button onClick={() => handleNavClick("/")} className="text-xl sm:text-2xl font-bold">
 										<motion.span className="text-foreground">
-											<Image src={"/main.png"} alt="Tarun Vuppala" width={50} height={50} draggable={false} />
+											<Image src={"/main.png"} alt="Tarun Vuppala" width={40} height={40} draggable={false} />
 										</motion.span>
 									</button>
 								</motion.div>
@@ -97,7 +111,7 @@ export default function Navigation() {
 											<Button
 												variant="ghost"
 												onClick={() => handleNavClick(item.href)}
-												className={`relative py-2.5 px-4 rounded-xl transition-all duration-300 font-medium text-sm hover:text-foreground hover:bg-foreground/5 hover:border-foreground/5"
+												className={`relative py-2 px-3 rounded-xl transition-all duration-300 font-medium text-sm hover:text-foreground hover:bg-foreground/5 hover:border-foreground/5"
                         }`}
 											>
 												{item.name}
@@ -129,7 +143,7 @@ export default function Navigation() {
 											variant="ghost"
 											size="sm"
 											onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-											className="w-10 h-10 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
+											className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
 										>
 											<Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
 											<Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -144,7 +158,7 @@ export default function Navigation() {
 											variant="ghost"
 											size="sm"
 											onClick={() => setShowConsole(true)}
-											className="w-10 h-10 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
+											className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
 											title="Dev Console"
 										>
 											<Terminal className="h-4 w-4" />
@@ -177,7 +191,7 @@ export default function Navigation() {
 										variant="ghost"
 										size="sm"
 										onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-										className="w-10 h-10 p-0 rounded-full hover:bg-foreground/10 border border-foreground/10"
+										className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 border border-foreground/10"
 									>
 										<Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
 										<Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -185,7 +199,7 @@ export default function Navigation() {
 									<Button
 										variant="ghost"
 										size="sm"
-										className="w-10 h-10 p-0 rounded-full hover:bg-foreground/10 border border-foreground/10"
+										className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 border border-foreground/10"
 										onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
 									>
 										<AnimatePresence mode="wait">
