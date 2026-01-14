@@ -250,7 +250,14 @@ export default function ProjectsSection() {
 				</div>
 
 				{/* Horizontal Row */}
-				<div className="pt-52 h-full w-full px-32">
+				<motion.div
+					className="pt-52 h-full w-full px-32"
+					initial={{ opacity: 0, x: 1000 }}
+					whileInView={{ opacity: 1, x: 0 }}
+					exit={{ opacity: 0, x: 1000 }}
+					transition={{ duration: 0.8, ease: "easeOut" }}
+					viewport={{ root: pinRef, amount: 0.8, once: false }}
+				>
 					<div ref={trackRef} className="flex h-full items-center gap-4 px-6 will-change-transform">
 						{featuredProjects.map((project) => (
 							<ProjectCard key={project.id} project={project} onSelect={setSelectedProject} />
@@ -282,7 +289,7 @@ export default function ProjectsSection() {
 						{/* End spacer so it can slide further left */}
 						<div className="shrink-0 w-[24vw]" />
 					</div>
-				</div>
+				</motion.div>
 
 			</div>
 
