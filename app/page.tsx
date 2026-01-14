@@ -16,7 +16,7 @@ export default function HomePage() {
   return (
     <>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-        <div ref={containerRef} className="min-h-screen min-w-screen bg-background text-foreground">
+        <div ref={containerRef} className="min-h-dvh w-full bg-background text-foreground">
 
           <Navigation />
 

@@ -109,13 +109,12 @@ export default function HeroSection() {
 		},
 	} satisfies Variants
 
-	const shouldAnimate = !prefersReducedMotion && isInView
 
 	return (
 		<section
 			id="hero"
 			ref={containerRef}
-			className="relative min-h-screen min-w-screen flex items-center justify-center overflow-hidden pt-16 pb-12"
+			className="relative min-h-dvh w-full flex items-center justify-center overflow-hidden pt-16 pb-12"
 		>
 			{/* Content */}
 			<ContentContainer className="relative z-10">
