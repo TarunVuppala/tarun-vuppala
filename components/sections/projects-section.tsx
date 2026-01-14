@@ -89,16 +89,20 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 								animate={{ opacity: 1, scale: 1 }}
 								transition={{ ...smoothFade, delay: index * 0.08 + techIndex * 0.05 }}
 							>
-								<div className="group/tech relative flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/60">
+								<div
+									className={`group/tech relative flex h-8 w-8 items-center justify-center rounded-full border border-dark bg-background transition-[margin] duration-200 ease-out ${
+										techIndex === 0 ? "hover:mr-2" : "hover:mx-2"
+									}`}
+								>
 									<img
 										src={getTechIcon(tech)}
 										alt={tech}
-										className="h-6 w-6 object-contain"
+										className="h-4 w-4 object-contain"
 										onError={(event) => {
 											event.currentTarget.src = "/placeholder.svg"
 										}}
 									/>
-									<span className="pointer-events-none absolute -top-9 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">
+									<span className="pointer-events-none absolute -top-7 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">
 										{tech}
 									</span>
 								</div>
@@ -361,9 +365,9 @@ export default function ProjectsSection() {
 									</div>
 								</div>
 
-								<motion.div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...smoothFade, delay: 0.68 }}>
-									<h4 className="font-semibold mb-4">Technologies Used</h4>
-									<div className="flex flex-wrap gap-1.5 -space-x-2">
+								<motion.div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border flex items-center gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...smoothFade, delay: 0.68 }}>
+									<h4 className="font-semibold">Technologies Used:</h4>
+									<div className="flex flex-wrap gap-1.5 -space-x-4">
 										{selectedProject.tech.map((tech, ti) => (
 											<motion.div
 												key={tech}
@@ -371,11 +375,15 @@ export default function ProjectsSection() {
 												animate={{ opacity: 1, scale: 1 }}
 												transition={{ ...smoothFade, delay: 0.78 + ti * 0.05 }}
 											>
-												<div className="group/tech relative flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/60">
+												<div
+													className={`group/tech relative flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 ease-out ${
+														ti === 0 ? "hover:mr-2.5" : "hover:mx-2.5"
+													}`}
+												>
 													<img
-										src={getTechIcon(tech)}
+														src={getTechIcon(tech)}
 														alt={tech}
-														className="h-6 w-6 object-contain"
+														className="h-5 w-5 object-contain"
 														onError={(event) => {
 															event.currentTarget.src = "/placeholder.svg"
 														}}

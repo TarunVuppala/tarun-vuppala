@@ -179,7 +179,7 @@ export default function ProjectsPage() {
                       </div>
 
                       <div className="flex flex-col gap-3 mt-auto pt-2">
-                        <div className="flex flex-wrap -space-x-1">
+                        <div className="flex flex-wrap -space-x-2.5">
                           {project.tech.map((tech, idx) => (
                             <motion.div
                               key={tech}
@@ -187,7 +187,11 @@ export default function ProjectsPage() {
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ delay: idx * 0.05 }}
                             >
-                              <div className="group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/60 hover:z-10">
+                              <div
+                                className={`group/tech relative z-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 ease-out hover:z-10 ${
+                                  idx === 0 ? "hover:mr-2.5" : "hover:mx-2.5"
+                                }`}
+                              >
                                 <img
                                   src={getTechIcon(tech)}
                                   alt={tech}
