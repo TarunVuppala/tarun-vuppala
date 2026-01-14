@@ -10,6 +10,7 @@ import ContentContainer from "@/components/layout/container"
 export default function SkillsSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
+  const lineRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
 
   gsap.registerPlugin(ScrollTrigger)
@@ -29,6 +30,20 @@ export default function SkillsSection() {
           toggleActions: "play none none reverse",
         },
       })
+
+      if (lineRef.current) {
+        gsap.set(lineRef.current, { scaleX: 0, transformOrigin: "left center" })
+        gsap.to(lineRef.current, {
+          scaleX: 1,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        })
+      }
 
       gsap.from(cardsRef.current?.querySelectorAll("[data-skill-card]") ?? [], {
         opacity: 0,
@@ -67,6 +82,10 @@ export default function SkillsSection() {
     >
       <ContentContainer className="flex flex-col gap-6">
         <div ref={headerRef} className="text-center">
+          <div
+            ref={lineRef}
+            className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left"
+          />
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Arsenal & Tools</p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Tech Stack
@@ -93,9 +112,8 @@ export default function SkillsSection() {
                   <div
                     key={skill.name}
                     data-skill-chip
-                    className={`group relative z-0 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 delay-75 ease-out hover:z-10 ${
-                      skillIndex === 0 ? "" : "-ml-2.5"
-                    } hover:ml-0 hover:mr-2.5`}
+                    className={`group relative z-0 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 delay-75 ease-out hover:z-10 ${skillIndex === 0 ? "" : "-ml-2.5"
+                      } hover:ml-0 hover:mr-2.5`}
                   >
                     <img
                       src={skill.logo || "/placeholder.svg"}

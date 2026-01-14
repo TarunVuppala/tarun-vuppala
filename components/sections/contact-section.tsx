@@ -48,16 +48,19 @@ export default function ContactSection() {
 				},
 			})
 
-			gsap.from(lineRef.current, {
-				width: 0,
-				duration: 0.6,
-				ease: "power2.out",
-				scrollTrigger: {
-					trigger: containerRef.current,
-					start: "top 80%",
-					toggleActions: "play none none reverse",
-				},
-			})
+			if (lineRef.current) {
+				gsap.set(lineRef.current, { scaleX: 0, transformOrigin: "left center" })
+				gsap.to(lineRef.current, {
+					scaleX: 1,
+					duration: 0.6,
+					ease: "power2.out",
+					scrollTrigger: {
+						trigger: containerRef.current,
+						start: "top 80%",
+						toggleActions: "play none none reverse",
+					},
+				})
+			}
 
 			gsap.from(asideRef.current, {
 				opacity: 0,
@@ -159,7 +162,10 @@ export default function ContactSection() {
 			<ContentContainer className="relative z-10">
 				{/* Header */}
 				<div ref={headerRef} className="text-center mb-5">
-					<div ref={lineRef} className="h-px bg-border mx-auto mb-5 w-[200px]" />
+					<div
+						ref={lineRef}
+						className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-5 w-[200px] origin-left"
+					/>
 					<p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Let's Connect</p>
 					<h2 className="text-4xl md:text-5xl font-bold mb-3">
 						Contact

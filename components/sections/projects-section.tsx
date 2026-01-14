@@ -127,7 +127,6 @@ export default function ProjectsSection() {
 	const pinRef = useRef<HTMLDivElement>(null)
 	const trackRef = useRef<HTMLDivElement>(null)
 	const headerRef = useRef<HTMLDivElement>(null)
-
 	const [selectedProject, setSelectedProject] = useState<Project | null>(null)
 
 	const router = useRouter()
@@ -214,7 +213,7 @@ export default function ProjectsSection() {
 			})
 
 			gsap.from(headerRef.current?.querySelectorAll("[data-projects-line]") ?? [], {
-				width: 0,
+				scaleX: 0,
 				duration: 0.6,
 				ease: "power2.out",
 				scrollTrigger: {
@@ -233,11 +232,11 @@ export default function ProjectsSection() {
 
 	return (
 		<section id="projects" ref={sectionRef} className="relative bg-background">
-			<div ref={pinRef} className="relative flex h-screen items-center overflow-hidden will-change-transform">
+			<div ref={pinRef} className="relative flex min-h-screen items-center overflow-hidden will-change-transform">
 
 				{/* Header */}
 				<div ref={headerRef} className="absolute top-20 left-0 right-0 z-10 text-center">
-					<div data-projects-line className="h-px bg-border mx-auto mb-5 sm:mb-6 w-[200px]" />
+					<div data-projects-line className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left" />
 					<p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
 						Curated Works
 					</p>
@@ -256,7 +255,6 @@ export default function ProjectsSection() {
 					whileInView={{ opacity: 1, x: 0 }}
 					exit={{ opacity: 0, x: 1000 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
-					viewport={{ root: pinRef, amount: 0.8, once: false }}
 				>
 					<div ref={trackRef} className="flex h-full items-center gap-4 px-6 will-change-transform">
 						{featuredProjects.map((project) => (

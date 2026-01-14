@@ -95,12 +95,12 @@ export default function AboutSection() {
 		>
 			<div
 				ref={glowRef}
-				className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[32rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.2),transparent_65%)] blur-3xl"
+				className="pointer-events-none absolute -top-24 left-1/2 h-72 w-lg -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.2),transparent_65%)] blur-3xl"
 			/>
 			<ContentContainer>
 				<div className="space-y-6">
 					<div ref={headerRef} className="text-center mb-6">
-						<div ref={lineRef} className="h-px bg-border mx-auto mb-8 w-[200px] origin-left" />
+						<div ref={lineRef} className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left" />
 						<p className="text-xs uppercase tracking-widest text-muted-foreground">Get to know me</p>
 						<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 mt-2">
 							About <span className="text-primary">Me</span>
