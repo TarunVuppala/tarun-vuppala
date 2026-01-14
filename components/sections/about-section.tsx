@@ -68,7 +68,7 @@ export default function AboutSection() {
 									transition={{ ...slowFade, delay: 0.3 }}
 									className="h-px bg-border mx-auto mb-8"
 								/>
-								<p className="text-xs uppercase tracking-widest text-muted-foreground">Get to knwow me</p>
+								<p className="text-xs uppercase tracking-widest text-muted-foreground">Get to know me</p>
 								<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 mt-2">
 									About <span className="text-primary">Me</span>
 								</h2>

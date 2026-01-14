@@ -16,12 +16,7 @@ export default function ContactSection() {
 	const [formData, setFormData] = useState<ContactFormData>({
 		name: "",
 		email: "",
-		subject: "General Inquiry",
 		message: "",
-		contactReason: null,
-		projectType: "",
-		budget: "",
-		timeline: "",
 	})
 	const [isSubmitted, setIsSubmitted] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -73,12 +68,7 @@ export default function ContactSection() {
 			setFormData({
 				name: "",
 				email: "",
-				subject: "General Inquiry",
 				message: "",
-				contactReason: null,
-				projectType: "",
-				budget: "",
-				timeline: "",
 			})
 		}, 3000)
 	}

@@ -29,10 +29,5 @@ interface Project {
  interface ContactFormData {
   name: string
   email: string
-  subject: string
   message: string
-  contactReason: "casual" | "hire" | null
-  projectType: string
-  budget: string
-  timeline: string
 }

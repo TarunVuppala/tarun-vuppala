@@ -36,19 +36,9 @@ const isRateLimited = (clientId: string) => {
 }
 
 const formatEmailText = (data: NormalizedContactData) => {
-  const details =
-    data.contactReason === "hire"
-      ? `Project Type: ${data.projectType ?? "n/a"}
-Budget: ${data.budget ?? "n/a"}
-Timeline: ${data.timeline ?? "n/a"}
-`
-      : ""
-
   return `Name: ${data.name}
 Email: ${data.email}
-Subject: ${data.subject}
-Contact Reason: ${data.contactReason === "hire" ? "Hire Me" : "Casual Inquiry"}
-${details}Message:
+Message:
 ${data.message}`
 }
 
@@ -107,7 +97,7 @@ export async function POST(req: Request) {
     from: `"Website Contact" <${process.env.EMAIL_USER}>`,
     replyTo: validation.data.email,
     to: process.env.CONTACT_RECEIVER!,
-    subject: `[Contact] ${validation.data.subject}`,
+    subject: `[Contact] New message`,
     text: emailText,
     html: generateEmailHtml(validation.data),
   }
