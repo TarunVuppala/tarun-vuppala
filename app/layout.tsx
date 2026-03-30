@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { IBM_Plex_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Analytics } from '@vercel/analytics/next'
+import { getGeoMeta, getJsonLd, siteConfig, siteUrl } from "@/lib/seo"
 
 const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -23,17 +24,55 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: "Tarun Vuppala - Full Stack Developer",
-  icons: '/main.png',
-  // icons: '/t1.png',
-  // icons: '/l3.png',
-  description:
-    "Full Stack Developer crafting digital experiences that solve real problems and scale beautifully. Specializing in React, Next.js, and modern web technologies.",
-  keywords:
-    "Tarun Vuppala, Full Stack Developer, React, Next.js, Web Development, JavaScript, TypeScript, Frontend, Backend",
-  authors: [{ name: "Tarun Vuppala" }],
-  creator: "Tarun Vuppala",
-  robots: "index, follow",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteConfig.title,
+    template: "%s | Tarun Vuppala",
+  },
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.name, url: siteUrl }],
+  creator: siteConfig.creator,
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: "/main.png",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: "/opengraph-image",
+        alt: siteConfig.title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: ["/twitter-image"],
+    creator: "@tarunvuppala",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  other: {
+    ...getGeoMeta(),
+  },
 }
 
 export default function RootLayout({
@@ -41,8 +80,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const jsonLd = getJsonLd()
+
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      </head>
       <body className={`${ibmPlexSans.variable} ${jetbrainsMono.variable} ${playfair.variable} font-sans antialiased`}>
         {children}
         <Analytics />
