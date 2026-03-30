@@ -2,10 +2,11 @@
 
 import type React from "react"
 
-import { useState, useEffect, useRef } from "react"
+import { useMemo, useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Terminal, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTheme } from "next-themes"
 
 interface DevConsoleProps {
     isOpen: boolean
@@ -20,8 +21,16 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     const [currentInput, setCurrentInput] = useState("")
     const [commandHistory, setCommandHistory] = useState<string[]>([])
     const [historyIndex, setHistoryIndex] = useState(-1)
+    const [isPaletteOpen, setIsPaletteOpen] = useState(false)
+    const [paletteQuery, setPaletteQuery] = useState("")
+    const [paletteIndex, setPaletteIndex] = useState(0)
     const inputRef = useRef<HTMLInputElement>(null)
     const outputRef = useRef<HTMLDivElement>(null)
+    const paletteInputRef = useRef<HTMLInputElement>(null)
+    const startedAtRef = useRef<number>(Date.now())
+    const { theme, setTheme, systemTheme } = useTheme()
+    const historyStorageKey = "devConsoleHistory:v1"
+    const historyLimit = 100
 
     const quotes = [
         '"The best error message is the one that never shows up." - Thomas Fuchs',
@@ -47,13 +56,96 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
         "AutoPodcast: Automated Podcast Editing & Publishing"
     ]
 
-    const quickCommands = ["help", "projects", "contact", "resume"]
+    const quickCommands = ["help", "projects", "skills", "contact", "status", "theme dark"]
+
+    const socials = {
+        github: "https://github.com/tarunvuppala",
+        linkedin: "https://linkedin.com/in/tarunvuppala",
+        twitter: "https://twitter.com/tarunvuppala",
+        email: "mailto:tarun.vuppala26@gmail.com",
+    }
+
+    const knownCommands = [
+        "help",
+        "about",
+        "skills",
+        "stack",
+        "projects",
+        "contact",
+        "socials",
+        "resume",
+        "open",
+        "theme",
+        "time",
+        "uptime",
+        "status",
+        "history",
+        "search",
+        "echo",
+        "quote",
+        "clear",
+    ]
+
+    const aliases: Record<string, string> = {
+        hi: "hello",
+        hey: "hello",
+        hello: "hello",
+        stack: "skills",
+        whoami: "about",
+        bio: "about",
+        socials: "socials",
+    }
+
+    const commandMeta: Record<string, { description: string; usage?: string }> = {
+        help: { description: "List commands or show details", usage: "help [command]" },
+        about: { description: "Quick bio and focus areas", usage: "about" },
+        skills: { description: "Technical stack", usage: "skills" },
+        projects: { description: "Show featured projects or search them", usage: "projects [list|count|search <term>]" },
+        contact: { description: "Contact details", usage: "contact" },
+        socials: { description: "Social profiles", usage: "socials" },
+        resume: { description: "Resume link", usage: "resume" },
+        open: { description: "Open a section or external profile", usage: "open <projects|contact|resume|github|linkedin|twitter|email>" },
+        theme: { description: "Set color theme", usage: "theme <light|dark|system>" },
+        time: { description: "Local time and timezone", usage: "time" },
+        uptime: { description: "Console session uptime", usage: "uptime" },
+        status: { description: "System and session status", usage: "status" },
+        history: { description: "Show recent commands", usage: "history [count]" },
+        search: { description: "Search projects and skills", usage: "search <term>" },
+        echo: { description: "Echo back text", usage: "echo <text>" },
+        quote: { description: "Random dev quote", usage: "quote" },
+        clear: { description: "Clear the console", usage: "clear" },
+    }
 
     useEffect(() => {
         if (isOpen && inputRef.current) {
             inputRef.current.focus()
         }
     }, [isOpen])
+
+    useEffect(() => {
+        if (!isOpen) return
+        try {
+            const stored = localStorage.getItem(historyStorageKey)
+            if (stored) {
+                const parsed = JSON.parse(stored)
+                if (Array.isArray(parsed)) {
+                    const sanitized = parsed.filter((item) => typeof item === "string")
+                    setCommandHistory(sanitized.slice(-historyLimit))
+                }
+            }
+        } catch {
+            setCommandHistory([])
+        }
+    }, [isOpen])
+
+    useEffect(() => {
+        if (!isOpen) return
+        try {
+            localStorage.setItem(historyStorageKey, JSON.stringify(commandHistory.slice(-historyLimit)))
+        } catch {
+            // ignore write errors
+        }
+    }, [commandHistory, isOpen])
 
     useEffect(() => {
         if (!isOpen) return
@@ -70,8 +162,42 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
         }
     }, [consoleOutput])
 
+    useEffect(() => {
+        if (isPaletteOpen) {
+            setPaletteIndex(0)
+            setTimeout(() => paletteInputRef.current?.focus(), 50)
+        }
+    }, [isPaletteOpen])
+
+    useEffect(() => {
+        if (!isOpen) {
+            setIsPaletteOpen(false)
+        }
+    }, [isOpen])
+
     const appendOutput = (lines: string[]) => {
         setConsoleOutput((prev) => [...prev, ...lines])
+    }
+
+    const formatDuration = (ms: number) => {
+        const totalSeconds = Math.max(0, Math.floor(ms / 1000))
+        const hours = Math.floor(totalSeconds / 3600)
+        const minutes = Math.floor((totalSeconds % 3600) / 60)
+        const seconds = totalSeconds % 60
+        return `${hours}h ${minutes}m ${seconds}s`
+    }
+
+    const formatTime = () => {
+        const now = new Date()
+        return now.toLocaleString(undefined, {
+            weekday: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            month: "short",
+            day: "2-digit",
+            timeZoneName: "short",
+        })
     }
 
     const scrollToSection = (id: string) => {
@@ -83,6 +209,22 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
 
     const handleOpen = (target: string | undefined) => {
         if (!target) return "Try: open projects, open contact, or open resume."
+        if (target === "github") {
+            window.open(socials.github, "_blank", "noopener")
+            return "Opening GitHub..."
+        }
+        if (target === "linkedin") {
+            window.open(socials.linkedin, "_blank", "noopener")
+            return "Opening LinkedIn..."
+        }
+        if (target === "twitter") {
+            window.open(socials.twitter, "_blank", "noopener")
+            return "Opening Twitter..."
+        }
+        if (target === "email") {
+            window.open(socials.email, "_blank", "noopener")
+            return "Opening email..."
+        }
         if (target === "projects") {
             scrollToSection("projects")
             return "Opening Projects section..."
@@ -95,23 +237,146 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             window.open("/resume.pdf", "_blank", "noopener")
             return "Opening resume..."
         }
-        return "Unknown destination. Try: open projects, contact, or resume."
+        return "Unknown destination. Try: open projects, contact, resume, github, linkedin, twitter, or email."
+    }
+
+    const fuzzyScore = (query: string, value: string) => {
+        const q = query.toLowerCase()
+        const v = value.toLowerCase()
+        if (!q) return 0
+        let score = 0
+        let qIndex = 0
+        let consecutive = 0
+        for (let i = 0; i < v.length; i += 1) {
+            if (v[i] === q[qIndex]) {
+                score += 10 + consecutive * 5
+                qIndex += 1
+                consecutive += 1
+                if (qIndex >= q.length) break
+            } else {
+                score -= 1
+                consecutive = 0
+            }
+        }
+        if (qIndex < q.length) return null
+        return score - v.length * 0.1
+    }
+
+    const getSuggestions = (input: string) => {
+        const trimmed = input.trim().toLowerCase()
+        if (!trimmed) return quickCommands
+        const parts = trimmed.split(/\s+/)
+        if (parts.length === 1) {
+            const scored = knownCommands
+                .map((cmd) => ({ cmd, score: fuzzyScore(parts[0], cmd) }))
+                .filter((entry) => entry.score !== null)
+                .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+            return scored.map((entry) => entry.cmd)
+        }
+        if (parts[0] === "open") {
+            const targets = ["projects", "contact", "resume", "github", "linkedin", "twitter", "email"]
+            const query = parts[1] ?? ""
+            return targets
+                .map((target) => ({ target, score: fuzzyScore(query, target) }))
+                .filter((entry) => entry.score !== null)
+                .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+                .map((entry) => entry.target)
+        }
+        if (parts[0] === "theme") {
+            const targets = ["light", "dark", "system"]
+            const query = parts[1] ?? ""
+            return targets
+                .map((target) => ({ target, score: fuzzyScore(query, target) }))
+                .filter((entry) => entry.score !== null)
+                .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+                .map((entry) => entry.target)
+        }
+        if (parts[0] === "projects") {
+            const targets = ["list", "count", "search"]
+            const query = parts[1] ?? ""
+            return targets
+                .map((target) => ({ target, score: fuzzyScore(query, target) }))
+                .filter((entry) => entry.score !== null)
+                .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+                .map((entry) => entry.target)
+        }
+        if (parts[0] === "help") {
+            const query = parts[1] ?? ""
+            return knownCommands
+                .map((cmd) => ({ cmd, score: fuzzyScore(query, cmd) }))
+                .filter((entry) => entry.score !== null)
+                .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+                .map((entry) => entry.cmd)
+        }
+        return []
+    }
+
+    const suggestions = useMemo(() => getSuggestions(currentInput), [currentInput])
+
+    const paletteItems = useMemo(() => {
+        const query = paletteQuery.trim().toLowerCase()
+        const historyItems = commandHistory
+            .slice(-12)
+            .reverse()
+            .map((entry, index) => ({
+                id: `history-${index}-${entry}`,
+                label: entry,
+                value: entry,
+                type: "history",
+                description: "Recent command",
+                score: query ? fuzzyScore(query, entry) : 0,
+            }))
+        const commandItems = knownCommands.map((cmd) => ({
+            id: `command-${cmd}`,
+            label: cmd,
+            value: cmd,
+            type: "command",
+            description: commandMeta[cmd]?.description,
+            score: query ? fuzzyScore(query, cmd) : 0,
+        }))
+
+        const allItems = [...commandItems, ...historyItems].filter((item) => item.score !== null)
+        if (!query) return allItems
+        return allItems.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+    }, [paletteQuery, commandHistory])
+
+    useEffect(() => {
+        if (paletteIndex > Math.max(0, paletteItems.length - 1)) {
+            setPaletteIndex(0)
+        }
+    }, [paletteItems, paletteIndex])
+
+    const applyPaletteSelection = (runCommand: boolean) => {
+        const item = paletteItems[paletteIndex]
+        if (!item) return
+        if (runCommand) {
+            executeCommand(item.value)
+        } else {
+            setCurrentInput(item.value)
+        }
+        setIsPaletteOpen(false)
+        setPaletteQuery("")
+        setTimeout(() => inputRef.current?.focus(), 50)
     }
 
     const executeCommand = (command: string) => {
         const trimmedCommand = command.trim()
         if (!trimmedCommand) return
 
-        setCommandHistory((prev) => [...prev, trimmedCommand])
+        setCommandHistory((prev) => {
+            const next = [...prev, trimmedCommand]
+            return next.slice(-historyLimit)
+        })
         setHistoryIndex(-1)
         appendOutput([`> ${trimmedCommand}`])
 
         const normalized = trimmedCommand.toLowerCase()
         const [cmd, ...args] = normalized.split(/\s+/)
         const primary = cmd === "show" && args[0] ? args[0] : cmd
+        const resolved = aliases[primary] ?? primary
 
         try {
-            if (["hello", "hi", "hey"].includes(primary)) {
+            if (resolved === "hello") {
                 appendOutput([
                     "Hello there! I'm Tarun, a full-stack developer who loves building polished, reliable products.",
                 ])
@@ -119,35 +384,57 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                 return
             }
 
-            if (primary === "about") {
+            if (resolved === "about") {
                 appendOutput([
                     "About:",
                     "• Full-stack developer focused on clean architecture and thoughtful UX.",
-                    "• I ship scalable products and internal tools end-to-end.",
+                    "• Backend-first problem solver building reliable systems and modern web apps.",
                 ])
                 setCurrentInput("")
                 return
             }
 
-            if (primary === "skills") {
+            if (resolved === "skills") {
                 appendOutput(["Technical Arsenal:", ...skills.map((skill) => `• ${skill}`)])
                 setCurrentInput("")
                 return
             }
 
-            if (primary === "projects") {
+            if (resolved === "projects") {
+                if (args[0] === "count") {
+                    appendOutput([`Projects count: ${projects.length}`])
+                    setCurrentInput("")
+                    return
+                }
+                if (args[0] === "search") {
+                    const term = args.slice(1).join(" ")
+                    if (!term) {
+                        appendOutput(["Usage: projects search <term>"])
+                        setCurrentInput("")
+                        return
+                    }
+                    const results = projects.filter((project) =>
+                        project.toLowerCase().includes(term.toLowerCase())
+                    )
+                    appendOutput([
+                        `Search results for "${term}":`,
+                        ...(results.length ? results.map((project) => `• ${project}`) : ["No matches found."]),
+                    ])
+                    setCurrentInput("")
+                    return
+                }
                 appendOutput(["Featured Projects:", ...projects.map((project) => `• ${project}`), "→ open projects"])
                 setCurrentInput("")
                 return
             }
 
-            if (primary === "quote") {
+            if (resolved === "quote") {
                 appendOutput([quotes[Math.floor(Math.random() * quotes.length)]])
                 setCurrentInput("")
                 return
             }
 
-            if (primary === "contact") {
+            if (resolved === "contact") {
                 appendOutput([
                     "Contact:",
                     "• Email: tarun.vuppala26@gmail.com",
@@ -158,13 +445,99 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                 return
             }
 
-            if (primary === "resume") {
+            if (resolved === "socials") {
+                appendOutput([
+                    "Socials:",
+                    `• GitHub: ${socials.github}`,
+                    `• LinkedIn: ${socials.linkedin}`,
+                    `• Twitter: ${socials.twitter}`,
+                    "→ open github|linkedin|twitter",
+                ])
+                setCurrentInput("")
+                return
+            }
+
+            if (resolved === "resume") {
                 appendOutput(["Resume: /resume.pdf", "→ open resume"])
                 setCurrentInput("")
                 return
             }
 
-            if (primary === "clear") {
+            if (resolved === "time") {
+                appendOutput([`Local time: ${formatTime()}`])
+                setCurrentInput("")
+                return
+            }
+
+            if (resolved === "uptime") {
+                appendOutput([`Session uptime: ${formatDuration(Date.now() - startedAtRef.current)}`])
+                setCurrentInput("")
+                return
+            }
+
+            if (resolved === "status") {
+                appendOutput([
+                    "System Status:",
+                    `• Online: ${navigator.onLine ? "Yes" : "No"}`,
+                    `• Language: ${navigator.language}`,
+                    `• Theme: ${theme ?? "system"} (system: ${systemTheme ?? "unknown"})`,
+                    `• Uptime: ${formatDuration(Date.now() - startedAtRef.current)}`,
+                    `• Viewport: ${window.innerWidth}x${window.innerHeight}`,
+                    `• Pixel ratio: ${window.devicePixelRatio}`,
+                ])
+                setCurrentInput("")
+                return
+            }
+
+            if (resolved === "history") {
+                const limit = Number.parseInt(args[0] ?? "10", 10)
+                const recent = commandHistory.slice(-Math.max(1, Number.isNaN(limit) ? 10 : limit))
+                appendOutput([
+                    "Command History:",
+                    ...(recent.length ? recent.map((entry, index) => `• ${index + 1}. ${entry}`) : ["No history yet."]),
+                ])
+                setCurrentInput("")
+                return
+            }
+
+            if (resolved === "search") {
+                const term = args.join(" ")
+                if (!term) {
+                    appendOutput(["Usage: search <term>"])
+                    setCurrentInput("")
+                    return
+                }
+                const projectHits = projects.filter((project) => project.toLowerCase().includes(term.toLowerCase()))
+                const skillHits = skills.filter((skill) => skill.toLowerCase().includes(term.toLowerCase()))
+                appendOutput([
+                    `Search results for "${term}":`,
+                    ...(projectHits.length ? projectHits.map((project) => `• ${project}`) : ["• No project matches."]),
+                    ...(skillHits.length ? skillHits.map((skill) => `• ${skill}`) : ["• No skill matches."]),
+                ])
+                setCurrentInput("")
+                return
+            }
+
+            if (resolved === "echo") {
+                appendOutput([args.join(" ") || "Usage: echo <text>"])
+                setCurrentInput("")
+                return
+            }
+
+            if (resolved === "theme") {
+                const nextTheme = args[0]
+                if (!nextTheme || !["light", "dark", "system"].includes(nextTheme)) {
+                    appendOutput([`Current theme: ${theme ?? "system"}`, "Usage: theme <light|dark|system>"])
+                    setCurrentInput("")
+                    return
+                }
+                setTheme(nextTheme)
+                appendOutput([`Theme set to ${nextTheme}.`])
+                setCurrentInput("")
+                return
+            }
+
+            if (resolved === "clear") {
                 setConsoleOutput([
                     "Console cleared. Ready for new commands.",
                     "Tip: Try 'help' to see available commands.",
@@ -173,24 +546,35 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                 return
             }
 
-            if (primary === "help") {
+            if (resolved === "help") {
+                if (args[0]) {
+                    const meta = commandMeta[args[0]]
+                    if (!meta) {
+                        appendOutput([`No help available for "${args[0]}".`])
+                        setCurrentInput("")
+                        return
+                    }
+                    appendOutput([
+                        `Command: ${args[0]}`,
+                        `• ${meta.description}`,
+                        ...(meta.usage ? [`• Usage: ${meta.usage}`] : []),
+                    ])
+                    setCurrentInput("")
+                    return
+                }
                 appendOutput([
                     "Available Commands:",
-                    "• help - View commands",
-                    "• about - Short bio",
-                    "• skills - Technical stack",
-                    "• projects - Featured projects",
-                    "• quote - Random quote",
-                    "• contact - Contact info",
-                    "• resume - Resume link",
-                    "• open <projects|contact|resume> - Jump to section",
-                    "• clear - Clear console",
+                    ...knownCommands.map((command) => {
+                        const meta = commandMeta[command]
+                        return `• ${command} - ${meta?.description ?? "Command"}`
+                    }),
+                    "Tip: help <command> for details.",
                 ])
                 setCurrentInput("")
                 return
             }
 
-            if (primary === "open") {
+            if (resolved === "open") {
                 appendOutput([handleOpen(args[0])])
                 setCurrentInput("")
                 return
@@ -219,6 +603,32 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Escape") {
             onClose()
+            return
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+            e.preventDefault()
+            setIsPaletteOpen(true)
+            return
+        }
+        if (e.key === "Tab") {
+            e.preventDefault()
+            if (suggestions.length > 0) {
+                const parts = currentInput.trim().split(/\s+/).filter(Boolean)
+                if (parts.length <= 1) {
+                    setCurrentInput(suggestions[0])
+                } else {
+                    setCurrentInput(`${parts[0]} ${suggestions[0]}`)
+                }
+            }
+            return
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
+            e.preventDefault()
+            setConsoleOutput([
+                "Console cleared. Ready for new commands.",
+                "Tip: Try 'help' to see available commands.",
+            ])
+            setCurrentInput("")
             return
         }
         if (e.key === "Enter" && currentInput.trim()) {
@@ -324,6 +734,106 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                         ))}
                     </div>
 
+                    <AnimatePresence>
+                        {isPaletteOpen && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center px-4 py-10"
+                                onClick={() => {
+                                    setIsPaletteOpen(false)
+                                    setPaletteQuery("")
+                                }}
+                            >
+                                <motion.div
+                                    initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 12, scale: 0.98 }}
+                                    transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                                    className="w-full max-w-2xl rounded-2xl border border-white/10 bg-black/80 text-white shadow-2xl"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <div className="border-b border-white/10 px-5 py-4">
+                                        <div className="flex items-center gap-3 text-sm text-white/60">
+                                            <span className="rounded-full bg-white/10 px-3 py-1 text-xs uppercase tracking-wider text-white/70">
+                                                Command Palette
+                                            </span>
+                                            <span>Fuzzy search commands + history</span>
+                                        </div>
+                                        <input
+                                            ref={paletteInputRef}
+                                            value={paletteQuery}
+                                            onChange={(e) => setPaletteQuery(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Escape") {
+                                                    setIsPaletteOpen(false)
+                                                    setPaletteQuery("")
+                                                    return
+                                                }
+                                                if (e.key === "ArrowDown") {
+                                                    e.preventDefault()
+                                                    setPaletteIndex((prev) =>
+                                                        Math.min(prev + 1, Math.max(0, paletteItems.length - 1))
+                                                    )
+                                                    return
+                                                }
+                                                if (e.key === "ArrowUp") {
+                                                    e.preventDefault()
+                                                    setPaletteIndex((prev) => Math.max(0, prev - 1))
+                                                    return
+                                                }
+                                                if (e.key === "Enter") {
+                                                    e.preventDefault()
+                                                    applyPaletteSelection(true)
+                                                    return
+                                                }
+                                                if (e.key === "Tab") {
+                                                    e.preventDefault()
+                                                    applyPaletteSelection(false)
+                                                }
+                                            }}
+                                            className="mt-4 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-base text-white outline-none placeholder:text-white/40"
+                                            placeholder="Type a command or recent history..."
+                                        />
+                                    </div>
+                                    <div className="max-h-72 overflow-y-auto px-2 py-3">
+                                        {paletteItems.length === 0 && (
+                                            <div className="px-4 py-6 text-sm text-white/50">
+                                                No matches found. Try another query.
+                                            </div>
+                                        )}
+                                        {paletteItems.map((item, index) => (
+                                            <button
+                                                key={item.id}
+                                                className={`flex w-full items-center justify-between gap-4 rounded-xl px-4 py-3 text-left text-sm transition ${index === paletteIndex
+                                                    ? "bg-white/10 text-white"
+                                                    : "text-white/70 hover:bg-white/5"
+                                                    }`}
+                                                onMouseEnter={() => setPaletteIndex(index)}
+                                                onClick={() => applyPaletteSelection(true)}
+                                            >
+                                                <div>
+                                                    <div className="font-mono text-base">{item.label}</div>
+                                                    {item.description && (
+                                                        <div className="text-xs text-white/50">{item.description}</div>
+                                                    )}
+                                                </div>
+                                                <div className="text-xs uppercase tracking-widest text-white/40">
+                                                    {item.type}
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="flex items-center justify-between border-t border-white/10 px-5 py-3 text-xs text-white/50">
+                                        <span>Enter run • Tab fill • Esc close</span>
+                                        <span>Cmd/Ctrl+K</span>
+                                    </div>
+                                </motion.div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
                     {/* Input Area */}
                     <div className="relative border-t border-white/10 px-6 py-4">
                         <div className="flex items-center space-x-3">
@@ -362,10 +872,31 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                             <div className="flex flex-wrap items-center gap-3">
                                 <span>↑/↓ history</span>
                                 <span>•</span>
+                                <span>Tab complete</span>
+                                <span>•</span>
                                 <span>Enter execute</span>
                                 <span>•</span>
                                 <span>Esc close</span>
+                                <span>•</span>
+                                <span>Ctrl/Cmd+L clear</span>
+                                <span>•</span>
+                                <span>Ctrl/Cmd+K palette</span>
                             </div>
+                        </div>
+
+                        <div className="mt-3 flex flex-wrap gap-2">
+                            {(currentInput ? suggestions : quickCommands).slice(0, 6).map((suggestion) => (
+                                <button
+                                    key={suggestion}
+                                    onClick={() => {
+                                        setCurrentInput(suggestion)
+                                        inputRef.current?.focus()
+                                    }}
+                                    className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1 text-xs text-foreground/70 transition hover:bg-foreground/10"
+                                >
+                                    {suggestion}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </motion.div>
