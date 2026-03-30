@@ -1,7 +1,7 @@
 "use client"
 
-import { useRef, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import {
 	ExternalLink,
 	Github,
@@ -19,9 +19,6 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { allProjects as projects, getTechIcon } from "@/lib/data"
 import Link from "next/link"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useGSAP } from "@gsap/react"
 
 type ProjectCardProps = {
 	project: Project
@@ -124,172 +121,122 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
 
 export default function ProjectsSection() {
 	const sectionRef = useRef<HTMLDivElement>(null)
-	const pinRef = useRef<HTMLDivElement>(null)
-	const trackRef = useRef<HTMLDivElement>(null)
-	const headerRef = useRef<HTMLDivElement>(null)
+	const contentRef = useRef<HTMLDivElement>(null)
 	const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+	const [endX, setEndX] = useState(0)
 
 	const router = useRouter()
 	const featuredProjects = projects.filter((project) => project.featured)
 
-	gsap.registerPlugin(useGSAP, ScrollTrigger)
+	const { scrollYProgress } = useScroll({
+		target: sectionRef,
+	})
 
-	useGSAP(
-		() => {
-			if (!sectionRef.current || !trackRef.current || !pinRef.current) return
+	useEffect(() => {
+		const measure = () => {
+			if (!contentRef.current) return
+			const contentWidth = contentRef.current.scrollWidth
+			const viewportWidth = window.innerWidth
+			const distance = contentWidth - viewportWidth + 64
+			setEndX(Math.max(0, distance))
+		}
 
-			const EXTRA_TRAVEL_PX = 100
+		measure()
+		const ro = new ResizeObserver(measure)
+		if (contentRef.current) {
+			ro.observe(contentRef.current)
+		}
+		window.addEventListener("resize", measure)
+		return () => {
+			window.removeEventListener("resize", measure)
+			ro.disconnect()
+		}
+	}, [])
 
-			let scrollAmount = 0
-
-			const compute = () => {
-				const trackWidth = trackRef.current?.scrollWidth ?? 0
-				const viewport = pinRef.current?.clientWidth ?? window.innerWidth
-				scrollAmount = Math.max(0, trackWidth - viewport + EXTRA_TRAVEL_PX)
-				return scrollAmount
-			}
-
-			const isTouch = ScrollTrigger.isTouch > 0
-
-			const tween = gsap.to(trackRef.current, {
-				x: () => -scrollAmount,
-				ease: "none",
-				overwrite: "auto",
-				scrollTrigger: {
-					id: "projects-pin",
-					trigger: pinRef.current,
-					pin: pinRef.current,
-					pinType: isTouch ? "fixed" : "transform",
-					start: "top top",
-					end: () => `+=${compute()}`,
-					scrub: 0.6,
-					anticipatePin: 1,
-					pinSpacing: true,
-					invalidateOnRefresh: true,
-					refreshPriority: 1,
-				},
-			})
-
-			const ro = new ResizeObserver(() => ScrollTrigger.refresh())
-			if (trackRef.current) {
-				ro.observe(trackRef.current)
-			}
-
-			const onResize = () => ScrollTrigger.refresh()
-			window.addEventListener("resize", onResize)
-
-			const onLoad = () => ScrollTrigger.refresh()
-			window.addEventListener("load", onLoad)
-
-			return () => {
-				window.removeEventListener("resize", onResize)
-				window.removeEventListener("load", onLoad)
-				ro.disconnect()
-				tween.scrollTrigger?.kill()
-				tween.kill()
-			}
-		},
-		{ scope: sectionRef, dependencies: [] }
-	)
-
-	useGSAP(
-		() => {
-			if (!sectionRef.current) return
-
-			gsap.from(headerRef.current, {
-				opacity: 0,
-				y: 50,
-				duration: 0.6,
-				ease: "power2.out",
-				scrollTrigger: {
-					trigger: sectionRef.current,
-					start: "top 80%",
-					toggleActions: "play none none reverse",
-				},
-			})
-
-			gsap.from(headerRef.current?.querySelectorAll("[data-projects-line]") ?? [], {
-				scaleX: 0,
-				duration: 0.6,
-				ease: "power2.out",
-				scrollTrigger: {
-					trigger: sectionRef.current,
-					start: "top 80%",
-					toggleActions: "play none none reverse",
-				},
-			})
-		},
-		{ scope: sectionRef },
-	)
+	const x = useTransform(scrollYProgress, [0, 1], [0, -endX])
 
 	const closeModal = () => {
 		setSelectedProject(null)
 	}
 
 	return (
-		<section id="projects" ref={sectionRef} className="relative bg-background">
-			<div
-				ref={pinRef}
-				className="relative flex min-h-[60vh] flex-col items-start gap-6 overflow-x-hidden overflow-y-visible pt-[calc(var(--nav-height,72px)+48px)] will-change-transform sm:min-h-[75vh] sm:gap-8 sm:pt-[calc(var(--nav-height,72px)+60px)] lg:min-h-[85vh] lg:flex-row lg:items-center lg:gap-0 lg:pt-0"
-			>
-
+		<section id="projects" ref={sectionRef} className="relative bg-background h-[320vh] md:h-[380vh]">
+			<div className="sticky top-0 flex h-screen flex-col justify-start overflow-hidden">
 				{/* Header */}
-				<div ref={headerRef} className="relative left-0 right-0 z-10 w-full text-center pt-2 sm:pt-4 lg:absolute lg:top-20 lg:pt-0">
-					<div data-projects-line className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left" />
-					<p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+				<div className="relative left-0 right-0 z-10 w-full text-center pt-[calc(var(--nav-height,72px)+16px)] sm:pt-[calc(var(--nav-height,72px)+20px)] lg:pt-[calc(var(--nav-height,72px)+24px)]">
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.6 }}
+						data-projects-line
+						className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left"
+					/>
+					<motion.p
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.6, delay: 0.05 }}
+						className="text-xs uppercase tracking-widest text-muted-foreground mb-2"
+					>
 						Curated Works
-					</p>
-					<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
+					</motion.p>
+					<motion.h2
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.6, delay: 0.1 }}
+						className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4"
+					>
 						Projects
-					</h2>
-					<p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+					</motion.h2>
+					<motion.p
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.6, delay: 0.15 }}
+						className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+					>
 						Real problems solved with thoughtful engineering and modern technology
-					</p>
+					</motion.p>
 				</div>
 
 				{/* Horizontal Row */}
 				<motion.div
-					className="pt-6 sm:pt-8 lg:pt-52 h-auto lg:h-full w-full px-4 sm:px-8 lg:px-16 overflow-hidden touch-pan-y"
-					initial={{ opacity: 0, x: 40 }}
-					whileInView={{ opacity: 1, x: 0 }}
-					transition={{ duration: 0.6, ease: "easeOut" }}
+					ref={contentRef}
+					style={{ x }}
+					className="pt-4 sm:pt-6 lg:pt-10 flex h-auto w-full flex-row items-stretch gap-3 px-4 sm:px-8 lg:items-center lg:gap-4 lg:px-16 will-change-transform"
 				>
-					<div
-						ref={trackRef}
-						className="flex h-full flex-row items-stretch gap-3 px-2 sm:px-4 lg:items-center lg:gap-4 lg:px-6 will-change-transform snap-x snap-mandatory"
-					>
-						{featuredProjects.map((project) => (
-							<ProjectCard key={project.id} project={project} onSelect={setSelectedProject} />
-						))}
+					{featuredProjects.map((project) => (
+						<ProjectCard key={project.id} project={project} onSelect={setSelectedProject} />
+					))}
 
-						{/* View all */}
-						<div className="shrink-0 w-[85vw] sm:w-[70vw] lg:w-[440px] h-[360px] sm:h-[390px] lg:h-[430px] snap-start lg:mr-96">
-							<Card className="relative overflow-hidden border border-border bg-card h-full flex items-center justify-center">
-								<CardContent className="text-center p-6">
-									<div
-										className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6"
-										onClick={() => router.push("/projects")}
-									>
-										<ArrowRight className="w-8 h-8 text-white" />
-									</div>
-									<h3 className="text-2xl font-bold mb-4">
-										View All Projects
-									</h3>
-									<p className="text-muted-foreground mb-6">
-										Explore my complete portfolio including experimental projects and open source contributions.
-									</p>
-									<Button onClick={() => router.push("/projects")} className="bg-primary">
-										See More Projects
-									</Button>
-								</CardContent>
-							</Card>
-						</div>
-
-						{/* End spacer so it can slide further left */}
-						<div className="hidden lg:block shrink-0 w-[24vw]" />
+					{/* View all */}
+					<div className="shrink-0 w-[85vw] sm:w-[70vw] lg:w-[440px] h-[360px] sm:h-[390px] lg:h-[430px]">
+						<Card className="relative overflow-hidden border border-border bg-card h-full flex items-center justify-center">
+							<CardContent className="text-center p-6">
+								<div
+									className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6"
+									onClick={() => router.push("/projects")}
+								>
+									<ArrowRight className="w-8 h-8 text-white" />
+								</div>
+								<h3 className="text-2xl font-bold mb-4">
+									View All Projects
+								</h3>
+								<p className="text-muted-foreground mb-6">
+									Explore my complete portfolio including experimental projects and open source contributions.
+								</p>
+								<Button onClick={() => router.push("/projects")} className="bg-primary">
+									See More Projects
+								</Button>
+							</CardContent>
+						</Card>
 					</div>
-				</motion.div>
 
+					{/* End spacer so it can slide further left */}
+					<div className="hidden lg:block shrink-0 w-[24vw]" />
+				</motion.div>
 			</div>
 
 			<AnimatePresence>

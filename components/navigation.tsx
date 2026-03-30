@@ -48,9 +48,9 @@ export default function Navigation() {
 	]
 
 	const socialLinks = [
-		{ icon: Github, href: "https://github.com/TarunVuppala", label: "GitHub" },
+		{ icon: Github, href: "https://github.com/tarunvuppala", label: "GitHub" },
 		{ icon: Linkedin, href: "https://linkedin.com/in/tarun26", label: "LinkedIn" },
-		{ icon: Twitter, href: "https://twitter.com/Tarun_Vuppala", label: "Twitter" },
+		{ icon: Twitter, href: "https://x.com/tarunvuppala", label: "Twitter" },
 		{ icon: Mail, href: "mailto:tarun.vuppala26@gmail.com", label: "Email" },
 	]
 
