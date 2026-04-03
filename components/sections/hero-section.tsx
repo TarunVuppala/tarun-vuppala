@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowDown, Download } from "lucide-react"
 import Image from "next/image"
 import ContentContainer from "@/components/layout/container"
+import { resumeFilePath } from "@/lib/seo"
 
 export default function HeroSection() {
 	const containerRef = useRef<HTMLDivElement>(null)
@@ -197,7 +198,7 @@ export default function HeroSection() {
 								</Button>
 							</motion.div>
 							<motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={hoverTransition} className="w-full">
-								<a href={"/resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
+								<a href={resumeFilePath} download="Tarun-Vuppala-Resume.pdf">
 									<Button variant="ghost" size="lg" className="w-full px-5 py-2 text-sm rounded-full">
 										<Download className="mr-2 w-3 h-3" />
 										Resume
@@ -285,7 +286,7 @@ export default function HeroSection() {
 									</Button>
 								</motion.div>
 								<motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={hoverTransition} className="w-full">
-									<a href={"/Tarun-Vuppala's-Resume.pdf"} download={"Tarun-Vuppala's-Resume.pdf"}>
+									<a href={resumeFilePath} download="Tarun-Vuppala-Resume.pdf">
 										<Button variant="ghost" size="lg" className="w-full px-5 py-2 text-sm rounded-full">
 											<Download className="mr-2 w-3 h-3" />
 											Resume

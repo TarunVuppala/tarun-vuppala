@@ -22,96 +22,98 @@ import Link from "next/link"
 
 type ProjectCardProps = {
 	project: Project
-	onSelect: (p: Project) => void
+	onSelect: (project: Project) => void
 }
 
 function ProjectCard({ project, onSelect }: ProjectCardProps) {
 	return (
-		<div className="project-card shrink-0 w-[85vw] sm:w-[70vw] lg:w-[440px] h-[360px] sm:h-[390px] lg:h-[430px] snap-start">
-			<Card className="relative overflow-hidden border border-border bg-card h-full flex flex-col">
+		<div className="project-card h-[360px] w-[85vw] shrink-0 snap-start sm:h-[390px] sm:w-[70vw] lg:h-[430px] lg:w-[440px]">
+			<Card className="relative flex h-full flex-col overflow-hidden border border-border bg-card">
 				<div className="relative overflow-hidden">
 					<Image
 						src={project.image || "/placeholder.svg"}
 						alt={project.title}
 						width={1000}
 						height={520}
-						className="w-full h-60 object-cover"
+						className="h-60 w-full object-cover"
 					/>
 					<div className="absolute inset-0 bg-black/40" />
 				</div>
 
-				<CardContent className="p-5 space-y-3 flex-1 flex flex-col">
-					<div>
-						<div className="flex flex-wrap items-start justify-between gap-3">
+				<CardContent className="flex flex-1 flex-col space-y-3 p-5">
+					<div className="flex flex-wrap items-start justify-between gap-3">
+						<div className="space-y-2">
 							<h3 className="text-xl font-bold">{project.title}</h3>
-							<div className="flex gap-2">
-								<Button size="sm" variant="outline" asChild>
-									<Link href={project.liveUrl ?? "#"} target="_blank">
-										<ExternalLink className="w-4 h-4" />
-									</Link>
-								</Button>
-								<Button size="sm" variant="outline" asChild>
-									<Link href={project.githubUrl ?? "#"} target="_blank">
-										<Github className="w-4 h-4" />
-									</Link>
-								</Button>
-								<Button size="sm" variant="outline" onClick={() => onSelect(project)}>
-									<Info className="w-4 h-4" />
-								</Button>
-							</div>
 							<div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
 								<span>{project.subtitle}</span>
 								<span>•</span>
 								<span className="inline-flex items-center gap-1">
-									<Calendar className="w-3 h-3" />
+									<Calendar className="h-3 w-3" />
 									{project.date}
 								</span>
 							</div>
 						</div>
+						<div className="flex gap-2">
+							{project.liveUrl && (
+								<Button size="sm" variant="outline" asChild>
+									<Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+										<ExternalLink className="h-4 w-4" />
+									</Link>
+								</Button>
+							)}
+							{project.githubUrl && (
+								<Button size="sm" variant="outline" asChild>
+									<Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+										<Github className="h-4 w-4" />
+									</Link>
+								</Button>
+							)}
+							<Button size="sm" variant="outline" onClick={() => onSelect(project)}>
+								<Info className="h-4 w-4" />
+							</Button>
+						</div>
+					</div>
 
-						<div className="flex flex-wrap gap-1.5 -space-x-4">
-							{project.tech.map((tech, techIndex) => (
-								<div key={tech}>
-									<div
-										className={`group/tech relative flex h-8 w-8 items-center justify-center rounded-full border border-dark bg-background transition-[margin] duration-200 delay-75 ease-in-out ${techIndex === 0 ? "hover:mr-2" : "hover:mx-2"
-											}`}
-									>
-										<img
-											src={getTechIcon(tech)}
-											alt={tech}
-											className="h-4 w-4 object-contain"
-											onError={(event) => {
-												event.currentTarget.src = "/placeholder.svg"
-											}}
-										/>
-										<span className="pointer-events-none absolute -top-7 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">
-											{tech}
-										</span>
-									</div>
+					<div className="flex flex-wrap gap-1.5 -space-x-4">
+						{project.tech.map((tech, techIndex) => (
+							<div key={tech}>
+								<div
+									className={`group/tech relative flex h-8 w-8 items-center justify-center rounded-full border border-dark bg-background transition-[margin] duration-200 delay-75 ease-in-out ${
+										techIndex === 0 ? "hover:mr-2" : "hover:mx-2"
+									}`}
+								>
+									<img
+										src={getTechIcon(tech)}
+										alt={tech}
+										className="h-4 w-4 object-contain"
+										loading="lazy"
+										decoding="async"
+										onError={(event) => {
+											event.currentTarget.src = "/placeholder.svg"
+										}}
+									/>
+									<span className="pointer-events-none absolute -top-7 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover/tech:opacity-100">
+										{tech}
+									</span>
 								</div>
-							))}
-							{/* {project.tech.length > 5 && (
-							<Badge variant="outline" className="text-xs">
-								+{project.tech.length - 5}
-							</Badge>
-						)} */}
-						</div>
+							</div>
+						))}
+					</div>
 
-						<div className="flex gap-4 text-sm">
-							{Object.entries(project.stats).map(([key, value]) => (
-								<div key={key} className="flex items-center gap-1 text-muted-foreground">
-									{key === "users" && <Users className="w-3 h-3" />}
-									{key === "performance" && <Clock className="w-3 h-3" />}
-									{key === "rating" && <Star className="w-3 h-3" />}
-									<span className="text-xs">{value}</span>
-								</div>
-							))}
-						</div>
+					<div className="flex gap-4 text-sm">
+						{Object.entries(project.stats).map(([key, value]) => (
+							<div key={key} className="flex items-center gap-1 text-muted-foreground">
+								{key === "users" && <Users className="h-3 w-3" />}
+								{key === "performance" && <Clock className="h-3 w-3" />}
+								{key === "rating" && <Star className="h-3 w-3" />}
+								<span className="text-xs">{value}</span>
+							</div>
+						))}
+					</div>
 
-						<div className="flex-1">
-							<span className="font-medium text-green-400 text-sm">Impact:</span>
-							<p className="text-green-400 mt-1 font-medium text-sm">{project.impact}</p>
-						</div>
+					<div className="flex-1">
+						<span className="text-sm font-medium text-green-400">Impact:</span>
+						<p className="mt-1 text-sm font-medium text-green-400">{project.impact}</p>
 					</div>
 				</CardContent>
 			</Card>
@@ -317,6 +319,8 @@ export default function ProjectsSection() {
 														src={getTechIcon(tech)}
 														alt={tech}
 														className="h-5 w-5 object-contain"
+														loading="lazy"
+														decoding="async"
 														onError={(event) => {
 															event.currentTarget.src = "/placeholder.svg"
 														}}

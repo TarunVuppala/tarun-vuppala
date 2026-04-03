@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X, Terminal, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
+import { resumeFilePath } from "@/lib/seo"
 
 interface DevConsoleProps {
     isOpen: boolean
@@ -234,7 +235,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             return "Opening Contact section..."
         }
         if (target === "resume") {
-            window.open("/resume.pdf", "_blank", "noopener")
+            window.open(resumeFilePath, "_blank", "noopener")
             return "Opening resume..."
         }
         return "Unknown destination. Try: open projects, contact, resume, github, linkedin, twitter, or email."
@@ -458,7 +459,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             }
 
             if (resolved === "resume") {
-                appendOutput(["Resume: /resume.pdf", "→ open resume"])
+                appendOutput([`Resume: ${resumeFilePath}`, "→ open resume"])
                 setCurrentInput("")
                 return
             }

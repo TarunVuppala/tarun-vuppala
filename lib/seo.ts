@@ -4,6 +4,7 @@ const rawSiteUrl =
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "")
 
 export const siteUrl = (rawSiteUrl || "http://localhost:3000").replace(/\/$/, "")
+export const resumeFilePath = "/Tarun-Vuppala-Resume.pdf"
 
 export const siteConfig = {
   name: "Tarun Vuppala",

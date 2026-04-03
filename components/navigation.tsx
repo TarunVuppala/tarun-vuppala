@@ -3,13 +3,26 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname, useRouter } from "next/navigation"
-import { Github, Linkedin, Twitter, Mail, Menu, X, Sun, Moon, Terminal, Badge, Hammer } from "lucide-react"
+import { Github, Linkedin, Twitter, Mail, Menu, X, Sun, Moon, Terminal, Hammer } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
-import Link from "next/link"
 import DevConsole from "@/components/DevConsole"
 import Image from "next/image"
 import ContentContainer from "@/components/layout/container"
+
+const NAV_ITEMS = [
+	{ name: "Home", href: "/" },
+	{ name: "About", href: "/#about" },
+	{ name: "Projects", href: "/projects" },
+	{ name: "Contact", href: "/#contact" },
+]
+
+const SOCIAL_LINKS = [
+	{ icon: Github, href: "https://github.com/tarunvuppala", label: "GitHub" },
+	{ icon: Linkedin, href: "https://linkedin.com/in/tarun26", label: "LinkedIn" },
+	{ icon: Twitter, href: "https://x.com/tarunvuppala", label: "Twitter" },
+	{ icon: Mail, href: "mailto:tarun.vuppala26@gmail.com", label: "Email" },
+]
 
 export default function Navigation() {
 	const [isScrolled, setIsScrolled] = useState(false)
@@ -24,7 +37,7 @@ export default function Navigation() {
 		const handleScroll = () => {
 			setIsScrolled(window.scrollY > 50)
 		}
-		window.addEventListener("scroll", handleScroll)
+		window.addEventListener("scroll", handleScroll, { passive: true })
 		return () => window.removeEventListener("scroll", handleScroll)
 	}, [])
 
@@ -39,20 +52,6 @@ export default function Navigation() {
 		window.addEventListener("resize", updateNavHeight)
 		return () => window.removeEventListener("resize", updateNavHeight)
 	}, [])
-
-	const navItems = [
-		{ name: "Home", href: "/" },
-		{ name: "About", href: "/#about" },
-		{ name: "Projects", href: "/projects" },
-		{ name: "Contact", href: "/#contact" },
-	]
-
-	const socialLinks = [
-		{ icon: Github, href: "https://github.com/tarunvuppala", label: "GitHub" },
-		{ icon: Linkedin, href: "https://linkedin.com/in/tarun26", label: "LinkedIn" },
-		{ icon: Twitter, href: "https://x.com/tarunvuppala", label: "Twitter" },
-		{ icon: Mail, href: "mailto:tarun.vuppala26@gmail.com", label: "Email" },
-	]
 
 	const handleNavClick = (href: string) => {
 		if (href.includes("#")) {
@@ -91,16 +90,16 @@ export default function Navigation() {
 						<div className="relative px-0 py-1.5">
 							<div className="flex items-center justify-between">
 								<motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative">
-									<button onClick={() => handleNavClick("/")} className="text-xl sm:text-2xl font-bold">
+									<button onClick={() => handleNavClick("/")} className="text-xl sm:text-2xl font-bold" aria-label="Go to homepage">
 										<motion.span className="text-foreground">
-											<Image src={"/main.png"} alt="Tarun Vuppala" width={40} height={40} draggable={false} />
+											<Image src="/main.png" alt="Tarun Vuppala" width={40} height={40} sizes="40px" draggable={false} />
 										</motion.span>
 									</button>
 								</motion.div>
 
 								{/* Desktop Navigation */}
 								<div className="hidden md:flex items-center space-x-1">
-									{navItems.map((item, index) => (
+									{NAV_ITEMS.map((item, index) => (
 										<motion.div
 											key={item.name}
 											initial={{ opacity: 0, y: -20 }}
@@ -111,8 +110,7 @@ export default function Navigation() {
 											<Button
 												variant="ghost"
 												onClick={() => handleNavClick(item.href)}
-												className={`relative py-2 px-3 rounded-xl transition-all duration-300 font-medium text-sm hover:text-foreground hover:bg-foreground/5 hover:border-foreground/5"
-                        }`}
+												className="relative rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 hover:border-foreground/5 hover:bg-foreground/5 hover:text-foreground"
 											>
 												{item.name}
 											</Button>
@@ -127,7 +125,6 @@ export default function Navigation() {
 										animate={{ opacity: 1, scale: 1 }}
 										transition={{ duration: 0.3 }}
 										whileHover={{ scale: 0.9 }}
-										onClick={() => { }}
 									>
 										<Button variant={"outline"} className="text-sm cursor-pointer border-0">
 											<Hammer className="w-4 h-4" />
@@ -166,7 +163,7 @@ export default function Navigation() {
 									</motion.div>
 									<div className="h-8 w-px bg-border mx-2" />
 									<div className="flex items-center space-x-1">
-										{socialLinks.map((social, index) => (
+										{SOCIAL_LINKS.map((social, index) => (
 											<motion.a
 												key={social.label}
 												href={social.href}
@@ -240,22 +237,23 @@ export default function Navigation() {
 										className="md:hidden mt-6 overflow-hidden"
 									>
 										<div className="bg-foreground/5 border border-foreground/10 rounded-2xl p-4 space-y-2">
-											{navItems.map((item, index) => (
+											{NAV_ITEMS.map((item, index) => (
 												<motion.div
 													key={item.name}
 													initial={{ opacity: 0, x: -20 }}
 													animate={{ opacity: 1, x: 0 }}
 													transition={{ delay: index * 0.1 }}
 												>
-													<Link
-														href={item.href}
+													<button
+														type="button"
+														onClick={() => handleNavClick(item.href)}
 														className={`block py-3 px-4 rounded-xl transition-all duration-300 font-medium ${pathname === item.href
 															? "text-foreground bg-foreground/10 border border-foreground/20"
 															: "text-foreground/70 hover:text-foreground hover:bg-foreground/8 border border-transparent hover:border-foreground/10"
 															}`}
 													>
 														{item.name}
-													</Link>
+													</button>
 												</motion.div>
 											))}
 											<motion.div
@@ -265,7 +263,7 @@ export default function Navigation() {
 												className="flex items-center justify-between pt-4 mt-4 border-t border-foreground/10"
 											>
 												<div className="flex space-x-2">
-													{socialLinks.map((social) => (
+													{SOCIAL_LINKS.map((social) => (
 														<a
 															key={social.label}
 															href={social.href}
@@ -283,7 +281,6 @@ export default function Navigation() {
 														animate={{ opacity: 1, scale: 1 }}
 														transition={{ duration: 0.3 }}
 														whileHover={{ scale: 0.9 }}
-														onClick={() => { }}
 													>
 														<Button variant={"ghost"} className="text-sm cursor-pointer border-0">
 															<Hammer className="w-4 h-4" />

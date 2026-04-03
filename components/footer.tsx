@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp, MapPin, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -20,11 +18,6 @@ export default function Footer() {
     { name: "Projects", href: "/projects" },
     { name: "Contact", href: "/#contact" },
   ]
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
-
   return (
     <footer className="relative border-t border-border bg-background/80">
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
@@ -98,11 +91,13 @@ export default function Footer() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={scrollToTop}
               className="h-8 w-8 rounded-full p-0 hover:bg-muted"
               aria-label="Back to top"
+              asChild
             >
-              <ArrowUp className="h-4 w-4" />
+              <Link href="#">
+                <ArrowUp className="h-4 w-4" />
+              </Link>
             </Button>
           </div>
         </div>
