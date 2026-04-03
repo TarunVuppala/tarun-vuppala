@@ -8,11 +8,12 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import ContentContainer from "@/components/layout/container"
 import ProjectPreviewPanel from "@/components/project-preview-panel"
+import TechIconStack from "@/components/ui/tech-icon-stack"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { allProjects, getTechIcon } from "@/lib/data"
+import { allProjects } from "@/lib/data"
 
 const categories = [
   "All",
@@ -202,26 +203,7 @@ export default function ProjectsPage() {
 
                     <p className="mt-4 text-sm leading-6 text-stone-300/76">{project.description}</p>
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {project.tech.slice(0, 4).map((tech) => (
-                        <span
-                          key={`${project.id}-${tech}`}
-                          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3 py-2 text-xs font-medium text-white/74"
-                        >
-                          <img
-                            src={getTechIcon(tech)}
-                            alt={tech}
-                            className="h-4 w-4 object-contain"
-                            loading="lazy"
-                            decoding="async"
-                            onError={(event) => {
-                              event.currentTarget.style.display = "none"
-                            }}
-                          />
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+                    <TechIconStack tech={project.tech} limit={4} size="sm" className="mt-4" />
                   </CardContent>
                 </Card>
               </motion.div>

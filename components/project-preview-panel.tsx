@@ -1,5 +1,7 @@
 import Image from "next/image"
 
+import TechIconStack from "@/components/ui/tech-icon-stack"
+
 const PROJECT_ACCENTS = [
   {
     glow: "rgba(56, 189, 248, 0.28)",
@@ -27,25 +29,74 @@ type ProjectPreviewPanelProps = {
   project: Project
   index: number
   compact?: boolean
+  bare?: boolean
 }
 
 export default function ProjectPreviewPanel({
   project,
   index,
   compact = false,
+  bare = false,
 }: ProjectPreviewPanelProps) {
   const accent = PROJECT_ACCENTS[index % PROJECT_ACCENTS.length]
   const projectNumber = `${index + 1}`.padStart(2, "0")
   const previewSkills = project.tech.slice(0, compact ? 2 : 4)
   const hasRealImage = !project.image.includes("placeholder")
 
-  return (
+  if (bare) {
+    return (
       <div
-        className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-black/30 ${
-          compact ? "h-48" : "h-60"
-        }`}
+        className="relative h-52 overflow-hidden rounded-[2rem] border border-white/10 bg-black/30 sm:h-56"
         style={{ boxShadow: `0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px -40px ${accent.glow}` }}
       >
+        <div className="absolute inset-0 opacity-95" style={{ background: accent.gradient }} />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_32%)]" />
+
+        {hasRealImage && (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover opacity-[0.18] mix-blend-screen"
+            sizes="70vw"
+          />
+        )}
+
+        <div className="absolute right-4 top-3 text-[5rem] font-black leading-none text-white/[0.08] sm:text-[6rem]">
+          {projectNumber}
+        </div>
+
+        <div className="relative z-10 flex h-full flex-col justify-end p-5 sm:p-6">
+          <div className="max-w-[22rem]">
+            <h3 className="font-playfair text-[2rem] leading-[0.92] text-white sm:text-[2.3rem]">{project.title}</h3>
+            <p className="mt-2 text-sm leading-6 text-white/68 sm:max-w-[18rem]">{project.subtitle}</p>
+          </div>
+
+          <TechIconStack tech={project.tech} limit={5} className="mt-4" />
+        </div>
+
+        <div className="absolute bottom-5 right-5 z-10 flex flex-nowrap items-center gap-2 text-[11px] text-white/82 sm:bottom-6 sm:right-6">
+          <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5 backdrop-blur-sm">{project.date}</span>
+          {project.categories.slice(0, 3).map((item) => (
+            <span
+              key={`${project.id}-preview-${item}`}
+              className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5 backdrop-blur-sm"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-black/30 ${
+        compact ? "h-48" : "h-60"
+      }`}
+      style={{ boxShadow: `0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px -40px ${accent.glow}` }}
+    >
       <div className="absolute inset-0 opacity-95" style={{ background: accent.gradient }} />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_32%)]" />
 
@@ -59,18 +110,20 @@ export default function ProjectPreviewPanel({
         />
       )}
 
-      <div className="absolute left-4 top-4 flex items-center gap-2">
-        <span className={`rounded-full border px-3 py-1 text-[11px] font-medium ${accent.chip}`}>
-          {project.categories[0] ?? "Project"}
-        </span>
-        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/70">
-          {project.date}
-        </span>
-      </div>
+      {!bare && (
+        <div className="absolute left-4 top-4 flex items-center gap-2">
+          <span className={`rounded-full border px-3 py-1 text-[11px] font-medium ${accent.chip}`}>
+            {project.categories[0] ?? "Project"}
+          </span>
+          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/70">
+            {project.date}
+          </span>
+        </div>
+      )}
 
       <div
         className={`absolute right-4 top-3 font-black leading-none text-white/[0.08] ${
-          compact ? "text-[4.25rem] sm:text-[4.75rem]" : "text-[5rem] sm:text-[6rem]"
+          compact ? "text-[4rem] sm:text-[4.5rem]" : "text-[5rem] sm:text-[6rem]"
         }`}
       >
         {projectNumber}
@@ -95,16 +148,7 @@ export default function ProjectPreviewPanel({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {previewSkills.map((tech) => (
-            <span
-              key={`${project.id}-${tech}`}
-              className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-[11px] font-medium text-white/80 backdrop-blur"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
+        <TechIconStack tech={previewSkills} limit={previewSkills.length} size={compact ? "sm" : "md"} />
       </div>
     </div>
   )

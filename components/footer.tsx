@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp, MapPin, Clock } from "lucide-react"
+import { Github, Linkedin, Twitter, Mail, ArrowUpRight, ArrowUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ContentContainer from "@/components/layout/container"
 
@@ -18,80 +18,86 @@ export default function Footer() {
     { name: "Projects", href: "/projects" },
     { name: "Contact", href: "/#contact" },
   ]
+
   return (
-    <footer className="relative border-t border-border bg-background/80">
+    <footer className="relative border-t border-white/10 bg-transparent">
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
       <ContentContainer className="py-8 sm:py-10">
-        <div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="grid gap-8 border-b border-white/10 pb-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold">Tarun Vuppala</h3>
-            <p className="text-muted-foreground leading-relaxed max-w-md">
-              Full Stack Developer crafting digital experiences that solve real problems and scale beautifully. Always
-              excited to work on meaningful projects that make a difference.
-            </p>
-            <div className="flex items-center gap-3">
+            <p className="section-kicker">Footer</p>
+            <div className="space-y-3">
+              <h3 className="text-3xl font-semibold tracking-tight text-stone-50 sm:text-4xl">
+                Building from Hyderabad, open to good product work.
+              </h3>
+              <p className="section-copy max-w-xl">
+                If the product needs clarity, speed, and a bit more taste than usual, send it over.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                asChild
+                className="h-10 rounded-full bg-sky-300 px-5 text-sm font-medium text-slate-950 hover:bg-sky-200"
+              >
+                <a href="mailto:tarun.vuppala26@gmail.com">
+                  Email me
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </Button>
+
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-9 w-9 rounded-lg border border-border/60 bg-card text-muted-foreground transition-colors hover:text-foreground hover:border-border"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-stone-300 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-stone-100"
                   aria-label={social.label}
                 >
-                  <span className="flex h-full w-full items-center justify-center">
-                    <social.icon size={18} />
-                  </span>
+                  <social.icon size={16} />
                 </a>
               ))}
             </div>
           </div>
 
-          <div>
-            <h4 className="font-semibold mb-4 text-lg">Quick Links</h4>
-            <ul className="space-y-2.5 text-muted-foreground">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="transition-colors hover:text-foreground">
+          <div className="space-y-5">
+            <div>
+              <p className="meta-label">Links</p>
+              <div className="mt-3 flex flex-col gap-2 text-sm text-stone-300">
+                {quickLinks.map((link) => (
+                  <Link key={link.name} href={link.href} className="transition-colors hover:text-stone-100">
                     {link.name}
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+                ))}
+              </div>
+            </div>
 
-          <div>
-            <h4 className="font-semibold mb-4 text-lg">Get In Touch</h4>
-            <div className="space-y-2.5 text-muted-foreground">
-              <p className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                <a href="mailto:tarun.vuppala26@gmail.com" className="transition-colors hover:text-foreground">
-                  tarun.vuppala26@gmail.com
-                </a>
-              </p>
-              <p className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                Hyderabad, India
-              </p>
-              <p className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                Available for opportunities
-              </p>
+            <div>
+              <p className="meta-label">Reach me</p>
+              <div className="mt-3 space-y-2 text-sm text-stone-300/78">
+                <p>tarun.vuppala26@gmail.com</p>
+                <p>Hyderabad, India</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col items-start justify-between gap-4 border-t border-border/60 pt-5 text-sm text-muted-foreground sm:flex-row sm:items-center">
-          <p>© {currentYear} Tarun Vuppala. All rights reserved.</p>
+        <div className="mt-5 flex flex-col items-start justify-between gap-3 text-sm text-stone-400 sm:flex-row sm:items-center">
+          <p>© {currentYear} Tarun Vuppala</p>
           <div className="flex items-center gap-4">
-            <p className="flex items-center gap-2">
-              Made with <Heart className="w-4 h-4 text-red-500" /> by Tarun
-            </p>
+            <div className="flex items-center gap-3">
+              {quickLinks.map((link) => (
+                <Link key={link.name} href={link.href} className="transition-colors hover:text-stone-100">
+                    {link.name}
+                </Link>
+              ))}
+            </div>
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 w-8 rounded-full p-0 hover:bg-muted"
+              className="h-8 w-8 rounded-full p-0 text-stone-300 hover:bg-white/5 hover:text-stone-100"
               aria-label="Back to top"
               asChild
             >
