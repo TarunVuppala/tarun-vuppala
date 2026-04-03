@@ -4,6 +4,7 @@ import { IBM_Plex_Sans, JetBrains_Mono, Playfair_Display } from "next/font/googl
 import "./globals.css"
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from "@/components/theme-provider"
+import SiteAtmosphere from "@/components/site-atmosphere"
 import { getGeoMeta, getJsonLd, siteConfig, siteUrl } from "@/lib/seo"
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -94,6 +95,7 @@ export default function RootLayout({
       </head>
       <body className={`${ibmPlexSans.variable} ${jetbrainsMono.variable} ${playfair.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <SiteAtmosphere />
           {children}
           <Analytics />
         </ThemeProvider>

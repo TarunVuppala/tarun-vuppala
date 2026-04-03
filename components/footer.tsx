@@ -22,7 +22,7 @@ export default function Footer() {
     <footer className="relative border-t border-border bg-background/80">
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
-      <ContentContainer className="py-10 sm:py-12">
+      <ContentContainer className="py-8 sm:py-10">
         <div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr]">
           <div className="space-y-4">
             <h3 className="text-2xl font-bold">Tarun Vuppala</h3>
@@ -82,7 +82,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center">
+        <div className="mt-6 flex flex-col items-start justify-between gap-4 border-t border-border/60 pt-5 text-sm text-muted-foreground sm:flex-row sm:items-center">
           <p>© {currentYear} Tarun Vuppala. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <p className="flex items-center gap-2">

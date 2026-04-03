@@ -1,136 +1,133 @@
 "use client"
 
-import { useRef } from "react"
-import { useGSAP } from "@gsap/react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { skillsByDomain as categories } from "@/lib/data"
+import { motion } from "framer-motion"
 import ContentContainer from "@/components/layout/container"
+import { MotionStrip } from "@/components/ui/motion-strip"
+import { skillsByDomain } from "@/lib/data"
+
+const workingModes = ["Fast prototypes", "Production cleanup", "Frontend polish", "Backend support"]
+
+const movingSkills = Array.from(
+  new Map(
+    skillsByDomain
+      .flatMap((domain) => domain.skills)
+      .map((skill) => [skill.name, skill]),
+  ).values(),
+)
 
 export default function SkillsSection() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const lineRef = useRef<HTMLDivElement>(null)
-  const cardsRef = useRef<HTMLDivElement>(null)
-
-  gsap.registerPlugin(ScrollTrigger)
-
-  useGSAP(
-    () => {
-      if (!sectionRef.current) return
-
-      gsap.from(headerRef.current, {
-        opacity: 0,
-        y: 24,
-        duration: 0.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      })
-
-      if (lineRef.current) {
-        gsap.set(lineRef.current, { scaleX: 0, transformOrigin: "left center" })
-        gsap.to(lineRef.current, {
-          scaleX: 1,
-          duration: 0.6,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        })
-      }
-
-      gsap.from(cardsRef.current?.querySelectorAll("[data-skill-card]") ?? [], {
-        opacity: 0,
-        y: 16,
-        duration: 0.45,
-        ease: "power2.out",
-        stagger: 0.12,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 78%",
-          toggleActions: "play none none reverse",
-        },
-      })
-
-      gsap.from(cardsRef.current?.querySelectorAll("[data-skill-chip]") ?? [], {
-        opacity: 0,
-        y: 8,
-        duration: 0.35,
-        ease: "power2.out",
-        stagger: 0.04,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 78%",
-          toggleActions: "play none none reverse",
-        },
-      })
-    },
-    { scope: sectionRef },
-  )
-
   return (
-    <section
-      id="skills"
-      ref={sectionRef}
-      className="relative overflow-hidden bg-background py-10 sm:py-12"
-    >
-      <ContentContainer className="flex flex-col gap-6">
-        <div ref={headerRef} className="text-center">
-          <div
-            ref={lineRef}
-            className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left"
-          />
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Arsenal & Tools</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
-            Tech Stack
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            A curated toolkit that balances velocity, reliability, and thoughtful UI.
-          </p>
-        </div>
-
-        <div
-          ref={cardsRef}
-          className="grid gap-6 lg:grid-cols-2 lg:[&>*:last-child]:col-span-2 lg:[&>*:last-child]:max-w-2xl"
+    <section id="skills" className="relative overflow-hidden py-12 sm:py-14">
+      <ContentContainer className="space-y-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="grid gap-5 xl:grid-cols-[0.72fr_1.28fr] xl:items-end"
         >
-          {categories.map((category) => (
-            <article
-              key={category.title}
-              data-skill-card
-              className="flex h-full flex-col gap-5"
-            >
-              <h3 className="text-lg font-semibold text-foreground">{category.title}</h3>
+          <div className="max-w-xl">
+            <p className="section-kicker">Skills and tools</p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.04em] text-stone-50 sm:text-5xl">
+              I like tools that stay out of the way.
+            </h2>
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-300/72">
+              {workingModes.map((mode) => (
+                <span key={mode} className="inline-flex items-center gap-3">
+                  <span className="h-1.5 w-1.5 rounded-full bg-sky-300/80" />
+                  {mode}
+                </span>
+              ))}
+            </div>
+          </div>
 
-              <div className="flex flex-wrap">
-                {category.skills.map((skill, skillIndex) => (
-                  <div
-                    key={skill.name}
-                    data-skill-chip
-                    className={`group relative z-0 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background transition-[margin] duration-200 delay-75 ease-out hover:z-10 ${skillIndex === 0 ? "" : "-ml-2.5"
-                      } hover:ml-0 hover:mr-2.5`}
-                  >
-                    <img
-                      src={skill.logo || "/placeholder.svg"}
-                      alt={skill.name}
-                      className="h-6 w-6 object-contain"
-                      onError={(event) => {
-                        event.currentTarget.style.display = "none"
-                      }}
-                    />
-                    <span className="pointer-events-none absolute -top-9 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-background px-3 py-1 text-xs text-foreground opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
+          <div className="space-y-3 overflow-hidden border-y border-white/10 py-4">
+            <MotionStrip duration={42} className="gap-10">
+              {movingSkills.map((skill) => (
+                <span
+                  key={`forward-${skill.name}`}
+                  className="inline-flex items-center gap-3 whitespace-nowrap text-sm text-stone-200/86"
+                >
+                  <img
+                    src={skill.logo || "/placeholder.svg"}
+                    alt={skill.name}
+                    className="h-4 w-4 object-contain opacity-80"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none"
+                    }}
+                  />
+                  {skill.name}
+                </span>
+              ))}
+            </MotionStrip>
+
+            <MotionStrip duration={42} reverse className="gap-10">
+              {movingSkills.map((skill) => (
+                <span
+                  key={`reverse-${skill.name}`}
+                  className="inline-flex items-center gap-3 whitespace-nowrap text-sm text-stone-200/70"
+                >
+                  <img
+                    src={skill.logo || "/placeholder.svg"}
+                    alt={skill.name}
+                    className="h-4 w-4 object-contain opacity-65"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none"
+                    }}
+                  />
+                  {skill.name}
+                </span>
+              ))}
+            </MotionStrip>
+          </div>
+        </motion.div>
+
+        <div className="border-y border-white/10">
+          {skillsByDomain.map((domain, index) => {
+            const Icon = domain.icon
+
+            return (
+              <motion.div
+                key={domain.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.18 }}
+                transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                className="grid gap-4 border-t border-white/10 py-6 first:border-t-0 lg:grid-cols-[210px_1fr]"
+              >
+                <div className="flex items-start gap-4">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-300/10 text-sky-200">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <h3 className="text-2xl font-semibold tracking-tight text-stone-50">{domain.title}</h3>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-stone-200">
+                  {domain.skills.map((skill) => (
+                    <span key={`${domain.title}-${skill.name}`} className="inline-flex items-center gap-2">
+                      <img
+                        src={skill.logo || "/placeholder.svg"}
+                        alt={skill.name}
+                        className="h-4 w-4 object-contain opacity-85"
+                        loading="lazy"
+                        decoding="async"
+                        onError={(event) => {
+                          event.currentTarget.style.display = "none"
+                        }}
+                      />
                       {skill.name}
                     </span>
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
+                  ))}
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
       </ContentContainer>
     </section>

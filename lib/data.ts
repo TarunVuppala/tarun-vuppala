@@ -28,6 +28,7 @@ export const techIconMap: Record<string, string> = {
   "react native":
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
   "next.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+  python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
   typescript:
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
   javascript:
@@ -40,6 +41,7 @@ export const techIconMap: Record<string, string> = {
   motion: "https://cdn.simpleicons.org/framer/white",
   "node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
   "express.js": "https://cdn.simpleicons.org/express/white",
+  fastapi: "https://cdn.simpleicons.org/fastapi/white",
   mongodb:
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
   postgresql:
@@ -58,6 +60,9 @@ export const techIconMap: Record<string, string> = {
   shadcn: "https://cdn.simpleicons.org/shadcnui/white",
   "three.js": "https://cdn.simpleicons.org/threedotjs/white",
   "three js": "https://cdn.simpleicons.org/threedotjs/white",
+  electron: "https://cdn.simpleicons.org/electron/white",
+  openai: "https://cdn.simpleicons.org/openai/white",
+  "hugging face": "https://cdn.simpleicons.org/huggingface/white",
   blender:
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg",
   ffmpeg: "https://cdn.simpleicons.org/ffmpeg/white",
@@ -215,6 +220,48 @@ export const allProjects: Project[] = [
       learnings: "Fine-tuned semantic thresholds for precision.",
     },
     categories: ["AI", "SaaS", "Personalization", "Tool"],
+  },
+  {
+    id: "atlas-ai",
+    title: "Atlas AI",
+    subtitle: "Privacy-First Local AI Assistant",
+    description:
+      "An offline-first AI chat application with on-device inference that falls back to the desktop through LAN, using SSE streaming.",
+    problem:
+      "Mobile AI chat usually depends on a remote backend or breaks down under real device memory and compute limits.",
+    solution:
+      "Built an offline-first architecture with device-level inference optimization, LAN fallback to a desktop runtime, and provider-specific local chat persistence.",
+    impact:
+      "Made local AI chat practical on mobile without giving up responsiveness, persistence, or direct control over models.",
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Python",
+      "FastAPI",
+      "React.js",
+      "Hugging Face",
+      "Tailwind CSS",
+    ],
+    image: "/placeholder.svg",
+    liveUrl: null,
+    githubUrl: "https://github.com/madhavmadupu/atlas-ai",
+    date: "2026",
+    featured: true,
+    stats: { users: "100% offline", performance: "Local RAG", rating: "GPU-ready" },
+    details: {
+      challenge:
+        "Keeping local inference usable on phones while working within tight memory, compute, and thermal limits.",
+      approach:
+        "Combined on-device model execution with LAN fallback to desktop through SSE streaming, then tuned inference and persistence around mobile constraints.",
+      results: [
+        "Offline-first AI chat with on-device inference and desktop fallback over LAN",
+        "Optimized on-device execution for mobile memory and compute limits",
+        "Enabled full-cycle on-device model management and provider-specific local chat persistence",
+      ],
+      learnings:
+        "Local AI product work is mostly systems work: memory use, model ergonomics, and UX discipline matter as much as the model choice.",
+    },
+    categories: ["AI", "Productivity", "Tool"],
   },
   {
     id: "autopodcast",

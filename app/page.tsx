@@ -10,7 +10,6 @@ export default function HomePage() {
   return (
     <div className="min-h-dvh w-full bg-background text-foreground">
       <Navigation />
-      <div className="fixed inset-0 -z-10 bg-background" />
       <HeroSection />
       <AboutSection />
       <SkillsSection />

@@ -1,124 +1,105 @@
 "use client"
 
-import { useRef, useState } from "react"
-import { useGSAP } from "@gsap/react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { codingQuotes, codingStats, journeyExpanded } from "@/lib/data"
+import { motion } from "framer-motion"
+import { codingStats, journeyExpanded } from "@/lib/data"
 import ContentContainer from "@/components/layout/container"
-import { AboutEditorialVariant } from "@/components/sections/about-editorial"
+
+const principles = [
+  "Clear structure",
+  "Careful pacing",
+  "Less noise",
+]
 
 export default function AboutSection() {
-	const containerRef = useRef<HTMLDivElement>(null)
-	const headerRef = useRef<HTMLDivElement>(null)
-	const lineRef = useRef<HTMLDivElement>(null)
-	const contentRef = useRef<HTMLDivElement>(null)
-	const glowRef = useRef<HTMLDivElement>(null)
-	const [featuredQuote] = useState(() => codingQuotes[Math.floor(Math.random() * codingQuotes.length)])
-	const [featuredStat] = useState(() => codingStats[Math.floor(Math.random() * codingStats.length)])
+  const featuredStats = codingStats.slice(0, 2)
 
-	gsap.registerPlugin(ScrollTrigger)
+  return (
+    <section id="about" className="relative overflow-hidden py-12 sm:py-14">
+      <ContentContainer className="space-y-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start"
+        >
+          <div className="max-w-2xl">
+            <p className="section-kicker">A bit about how I work</p>
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.04em] text-stone-50 sm:text-5xl md:text-6xl">
+              I want the work to feel personal,
+              <span className="block text-stone-300">not packaged.</span>
+            </h2>
+            <p className="section-copy mt-4 max-w-xl">
+              I&apos;m a computer science student, but most of what shapes my work comes from building things people
+              actually use.
+            </p>
 
-	useGSAP(
-		() => {
-			if (!containerRef.current) return
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-300/72">
+              {principles.map((principle) => (
+                <span key={principle} className="inline-flex items-center gap-3">
+                  <span className="h-1.5 w-1.5 rounded-full bg-sky-300/80" />
+                  {principle}
+                </span>
+              ))}
+            </div>
+          </div>
 
-			const timeline = gsap.timeline({
-				scrollTrigger: {
-					trigger: containerRef.current,
-					start: "top 80%",
-					end: "bottom 20%",
-					scrub: 0.6,
-				},
-			})
+          <div className="grid gap-4 sm:grid-cols-2 lg:pt-1">
+            <div>
+              <p className="meta-label">Working with me</p>
+              <div className="mt-3 space-y-2 text-sm text-stone-200">
+                <p>Fast iterations.</p>
+                <p>Clear tradeoffs.</p>
+                <p>Clean finish.</p>
+              </div>
+            </div>
+            <div>
+              <p className="meta-label">In practice</p>
+              <div className="mt-3 space-y-3">
+                {featuredStats.map((stat) => (
+                  <div key={stat.text} className="flex items-start gap-3 text-sm leading-6 text-stone-300/74">
+                    <stat.icon className="mt-0.5 h-4 w-4 text-sky-300" />
+                    <span>{stat.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
-			timeline
-				.from(headerRef.current, { opacity: 0, y: 40, ease: "power2.out", duration: 0.6 }, 0)
-				.from(lineRef.current, { scaleX: 0, ease: "power2.out", duration: 0.6 }, 0.05)
-				.from(
-					contentRef.current?.querySelectorAll("[data-about-card]") ?? [],
-					{
-						opacity: 0,
-						y: 24,
-						rotateX: 6,
-						transformPerspective: 800,
-						ease: "power2.out",
-						duration: 0.6,
-						stagger: 0.12,
-					},
-					0.12,
-				)
-				.from(
-					contentRef.current?.querySelectorAll("[data-about-fact]") ?? [],
-					{
-						opacity: 0,
-						y: 12,
-						ease: "power2.out",
-						duration: 0.4,
-					},
-					0.22,
-				)
-				.from(
-					contentRef.current?.querySelectorAll("[data-about-item]") ?? [],
-					{
-						opacity: 0,
-						y: 14,
-						ease: "power2.out",
-						duration: 0.45,
-						stagger: 0.06,
-					},
-					0.24,
-				)
+        <div className="space-y-5 border-t border-white/10 pt-5">
+          {journeyExpanded.map((item, index) => (
+            <motion.article
+              key={`${item.year}-${item.company}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.18 }}
+              transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="grid gap-4 md:grid-cols-[120px_1fr]"
+            >
+              <div className="meta-label pt-1">{item.year}</div>
 
-			if (glowRef.current) {
-				gsap.to(glowRef.current, {
-					yPercent: -18,
-					opacity: 0.6,
-					ease: "none",
-					scrollTrigger: {
-						trigger: containerRef.current,
-						start: "top bottom",
-						end: "bottom top",
-						scrub: true,
-					},
-				})
-			}
-		},
-		{ scope: containerRef },
-	)
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-3">
+                  <h3 className="text-2xl font-semibold tracking-tight text-stone-50">{item.title}</h3>
+                  <span className="meta-label">{item.company}</span>
+                </div>
 
-	return (
-		<section
-			id="about"
-			ref={containerRef}
-			className="relative overflow-hidden bg-background py-10 sm:py-12"
-		>
-			<div
-				ref={glowRef}
-				className="pointer-events-none absolute -top-24 left-1/2 h-72 w-lg -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.2),transparent_65%)] blur-3xl"
-			/>
-			<ContentContainer>
-				<div className="space-y-6">
-					<div ref={headerRef} className="text-center mb-6">
-						<div ref={lineRef} className="h-px bg-linear-to-r from-transparent via-primary to-transparent mx-auto mb-8 w-[200px] origin-left" />
-						<p className="text-xs uppercase tracking-widest text-muted-foreground">Get to know me</p>
-						<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 mt-2">
-							About <span className="text-primary">Me</span>
-						</h2>
-						<p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-							Passionate developer crafting meaningful digital experiences with code as my canvas.
-						</p>
-					</div>
+                <p className="detail-copy max-w-2xl text-stone-300/72">{item.description}</p>
 
-					<div ref={contentRef}>
-						<AboutEditorialVariant
-							featuredQuote={featuredQuote}
-							featuredStat={featuredStat}
-							journey={journeyExpanded}
-						/>
-					</div>
-				</div>
-			</ContentContainer>
-		</section>
-	)
+                <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-200">
+                  {item.achievements.slice(0, 3).map((achievement) => (
+                    <span key={achievement} className="inline-flex items-center gap-3">
+                      <span className="h-1.5 w-1.5 rounded-full bg-sky-300/70" />
+                      {achievement}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </ContentContainer>
+    </section>
+  )
 }
