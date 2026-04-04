@@ -20,15 +20,15 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative border-t border-white/10 bg-transparent">
+    <footer className="relative border-t border-stone-950/10 bg-transparent dark:border-white/10">
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
       <ContentContainer className="py-8 sm:py-10">
-        <div className="grid gap-8 border-b border-white/10 pb-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
+        <div className="grid gap-8 border-b border-stone-950/10 pb-6 dark:border-white/10 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
           <div className="space-y-4">
             <p className="section-kicker">Footer</p>
             <div className="space-y-3">
-              <h3 className="text-3xl font-semibold tracking-tight text-stone-50 sm:text-4xl">
+              <h3 className="text-3xl font-semibold tracking-tight text-stone-950 sm:text-4xl dark:text-stone-50">
                 Building from Hyderabad, open to good product work.
               </h3>
               <p className="section-copy max-w-xl">
@@ -53,7 +53,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-stone-300 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-stone-100"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-stone-950/10 bg-white/75 text-stone-700 transition-colors hover:border-stone-950/20 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/10 dark:hover:text-stone-100"
                   aria-label={social.label}
                 >
                   <social.icon size={16} />
@@ -65,9 +65,9 @@ export default function Footer() {
           <div className="space-y-5">
             <div>
               <p className="meta-label">Links</p>
-              <div className="mt-3 flex flex-col gap-2 text-sm text-stone-300">
+              <div className="mt-3 flex flex-col gap-2 text-sm text-stone-700 dark:text-stone-300">
                 {quickLinks.map((link) => (
-                  <Link key={link.name} href={link.href} className="transition-colors hover:text-stone-100">
+                  <Link key={link.name} href={link.href} className="transition-colors hover:text-stone-950 dark:hover:text-stone-100">
                     {link.name}
                   </Link>
                 ))}
@@ -76,7 +76,7 @@ export default function Footer() {
 
             <div>
               <p className="meta-label">Reach me</p>
-              <div className="mt-3 space-y-2 text-sm text-stone-300/78">
+              <div className="mt-3 space-y-2 text-sm text-stone-700/78 dark:text-stone-300/78">
                 <p>tarun.vuppala26@gmail.com</p>
                 <p>Hyderabad, India</p>
               </div>
@@ -84,12 +84,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-5 flex flex-col items-start justify-between gap-3 text-sm text-stone-400 sm:flex-row sm:items-center">
+        <div className="mt-5 flex flex-col items-start justify-between gap-3 text-sm text-stone-600 sm:flex-row sm:items-center dark:text-stone-400">
           <p>© {currentYear} Tarun Vuppala</p>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
               {quickLinks.map((link) => (
-                <Link key={link.name} href={link.href} className="transition-colors hover:text-stone-100">
+                <Link key={link.name} href={link.href} className="transition-colors hover:text-stone-950 dark:hover:text-stone-100">
                     {link.name}
                 </Link>
               ))}
@@ -97,7 +97,7 @@ export default function Footer() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 w-8 rounded-full p-0 text-stone-300 hover:bg-white/5 hover:text-stone-100"
+              className="h-8 w-8 rounded-full p-0 text-stone-700 hover:bg-white/70 hover:text-stone-950 dark:text-stone-300 dark:hover:bg-white/5 dark:hover:text-stone-100"
               aria-label="Back to top"
               asChild
             >

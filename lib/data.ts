@@ -168,7 +168,7 @@ export const allProjects: Project[] = [
   },
   {
     id: "tedxaceec",
-    title: "TEDxACEEC 2024",
+    title: "TEDxACEEC",
     subtitle: "Event Website & Collaborator Portal",
     description:
       "A custom portal to manage collaborators, ticketing, and analytics for a TEDx event in college.",

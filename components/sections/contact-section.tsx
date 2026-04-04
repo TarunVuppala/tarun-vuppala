@@ -86,26 +86,26 @@ export default function ContactSection() {
     <section id="contact" className="relative overflow-hidden py-14 sm:py-16">
       <ContentContainer className="space-y-6">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 24 }}
+          whileInView={{ y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto max-w-3xl text-center"
         >
-          <h2 className="text-4xl font-black tracking-[-0.04em] text-stone-50 sm:text-5xl md:text-6xl">
+          <h2 className="text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
             If you have something worth building,
-            <span className="block text-stone-300">send it over.</span>
+            <span className="block text-stone-700 dark:text-stone-300">send it over.</span>
           </h2>
         </motion.div>
 
         <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-6">
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ y: 24 }}
+              whileInView={{ y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-300/72"
+              className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-700/78 dark:text-stone-300/72"
             >
               {collaborationSignals.map((signal) => (
                 <span key={signal} className="inline-flex items-center gap-3">
@@ -115,26 +115,26 @@ export default function ContactSection() {
               ))}
             </motion.div>
 
-            <div className="divide-y divide-white/10 border-y border-white/10">
+            <div className="divide-y divide-stone-950/10 border-y border-stone-950/10 dark:divide-white/10 dark:border-white/10">
               {contactInfo.map((info, index) => (
                 <motion.div
                   key={info.title}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ y: 24 }}
+                  whileInView={{ y: 0 }}
                   viewport={{ once: true, amount: 0.25 }}
                   transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
                   className="py-4"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-300/10">
-                      <info.icon className="h-5 w-5 text-sky-100" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-300/15 dark:bg-sky-300/10">
+                      <info.icon className="h-5 w-5 text-sky-700 dark:text-sky-100" />
                     </div>
                     <div className="flex-1">
                       <p className="meta-label">{info.title}</p>
                       {info.href ? (
                         <Link
                           href={info.href}
-                          className="mt-1 inline-flex items-center gap-2 text-base font-medium text-stone-100 transition-colors hover:text-sky-100"
+                          className="mt-1 inline-flex items-center gap-2 text-base font-medium text-stone-900 transition-colors hover:text-sky-700 dark:text-stone-100 dark:hover:text-sky-100"
                           target={info.href.startsWith("http") ? "_blank" : undefined}
                           rel={info.href.startsWith("http") ? "noopener noreferrer" : undefined}
                         >
@@ -142,7 +142,7 @@ export default function ContactSection() {
                           <ArrowUpRight className="h-4 w-4" />
                         </Link>
                       ) : (
-                        <p className="mt-1 text-base font-medium text-stone-100">{info.value}</p>
+                        <p className="mt-1 text-base font-medium text-stone-900 dark:text-stone-100">{info.value}</p>
                       )}
                     </div>
                   </div>
@@ -152,11 +152,11 @@ export default function ContactSection() {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ y: 24 }}
+            whileInView={{ y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl"
+            className="overflow-hidden rounded-[1.5rem] border border-stone-950/10 bg-white/78 backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03]"
           >
             <div className="relative p-4 sm:p-5">
               <div className="relative">
@@ -167,8 +167,8 @@ export default function ContactSection() {
                     transition={{ duration: 0.35, ease: "easeOut" }}
                     className="flex min-h-[22rem] flex-col items-center justify-center rounded-[1.3rem] border border-sky-300/20 bg-sky-300/8 px-6 text-center"
                   >
-                    <CheckCircle className="h-16 w-16 text-sky-100" />
-                    <h3 className="mt-6 text-3xl font-semibold text-stone-50">Got it, {formData.name}.</h3>
+                    <CheckCircle className="h-16 w-16 text-sky-700 dark:text-sky-100" />
+                    <h3 className="mt-6 text-3xl font-semibold text-stone-950 dark:text-stone-50">Got it, {formData.name}.</h3>
                     <p className="detail-copy mt-4 max-w-md">
                       I&apos;ll get back to you with a real reply, not a canned one.
                     </p>
@@ -193,8 +193,8 @@ export default function ContactSection() {
                           onChange={handleChange}
                           required
                           placeholder="Your name"
-                        className="h-11 rounded-xl border-white/10 bg-black/24 text-stone-100 placeholder:text-stone-500"
-                      />
+                          className="h-11 rounded-xl border-stone-950/10 bg-white/82 text-stone-950 placeholder:text-stone-500 dark:border-white/10 dark:bg-black/24 dark:text-stone-100 dark:placeholder:text-stone-500"
+                        />
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="email" className="meta-label">
@@ -208,8 +208,8 @@ export default function ContactSection() {
                           onChange={handleChange}
                           required
                           placeholder="you@example.com"
-                        className="h-11 rounded-xl border-white/10 bg-black/24 text-stone-100 placeholder:text-stone-500"
-                      />
+                          className="h-11 rounded-xl border-stone-950/10 bg-white/82 text-stone-950 placeholder:text-stone-500 dark:border-white/10 dark:bg-black/24 dark:text-stone-100 dark:placeholder:text-stone-500"
+                        />
                       </div>
                     </div>
 
@@ -225,7 +225,7 @@ export default function ContactSection() {
                         required
                         rows={8}
                         placeholder="Tell me what you're building, what should feel different, and where the current experience falls short."
-                        className="min-h-[12rem] rounded-[1.2rem] border-white/10 bg-black/24 text-stone-100 placeholder:text-stone-500"
+                        className="min-h-[12rem] rounded-[1.2rem] border-stone-950/10 bg-white/82 text-stone-950 placeholder:text-stone-500 dark:border-white/10 dark:bg-black/24 dark:text-stone-100 dark:placeholder:text-stone-500"
                       />
                     </div>
 

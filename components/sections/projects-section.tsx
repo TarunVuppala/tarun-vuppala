@@ -24,7 +24,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
       transition={{ type: "spring", stiffness: 180, damping: 18 }}
       className="h-[430px] w-[84vw] shrink-0 snap-start sm:h-[438px] sm:w-[70vw] lg:w-[520px]"
     >
-      <Card className="flex h-full flex-col overflow-hidden rounded-[2.25rem] border border-white/10 bg-white/[0.03] p-0 shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_40px_110px_-48px_rgba(15,23,42,0.95)] backdrop-blur-xl">
+      <Card className="flex h-full flex-col overflow-hidden rounded-[2.25rem] border border-stone-950/10 bg-white/78 p-0 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.22)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_40px_110px_-48px_rgba(15,23,42,0.95)]">
         <div className="p-4">
           <ProjectPreviewPanel project={project} index={index} />
         </div>
@@ -35,13 +35,13 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
               {project.categories.slice(0, 2).map((item) => (
                 <span
                   key={`${project.id}-${item}`}
-                  className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[11px] text-stone-300"
+                  className="inline-flex items-center rounded-full border border-stone-950/10 bg-stone-950/[0.03] px-3 py-1.5 text-[11px] text-stone-700 dark:border-white/10 dark:bg-white/[0.05] dark:text-stone-300"
                 >
                   {item}
                 </span>
               ))}
               {project.featured && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1.5 text-[11px] text-sky-100">
+                <span className="inline-flex items-center gap-1 rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1.5 text-[11px] text-sky-700 dark:text-sky-100">
                   <Star className="h-3.5 w-3.5" />
                   Featured
                 </span>
@@ -50,14 +50,14 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
 
             <div className="flex gap-2">
               {project.liveUrl && (
-                <Button size="sm" variant="outline" asChild className="border-white/10 bg-white/5 text-white hover:bg-white/10">
+                <Button size="sm" variant="outline" asChild className="border-stone-950/10 bg-white/75 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10">
                   <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="h-4 w-4" />
                   </Link>
                 </Button>
               )}
               {project.githubUrl && (
-                <Button size="sm" variant="outline" asChild className="border-white/10 bg-white/5 text-white hover:bg-white/10">
+                <Button size="sm" variant="outline" asChild className="border-stone-950/10 bg-white/75 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10">
                   <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                     <Github className="h-4 w-4" />
                   </Link>
@@ -67,14 +67,14 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
                 size="sm"
                 variant="outline"
                 onClick={() => onSelect(project)}
-                className="border-white/10 bg-white/5 text-white hover:bg-white/10"
+                className="border-stone-950/10 bg-white/75 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
               >
                 <Info className="h-4 w-4" />
               </Button>
             </div>
           </div>
 
-          <p className="mt-4 max-w-[28rem] text-sm leading-6 text-stone-300/78">{project.impact}</p>
+          <p className="mt-4 max-w-[28rem] text-sm leading-6 text-stone-700/80 dark:text-stone-300/78">{project.impact}</p>
         </CardContent>
       </Card>
     </motion.article>
@@ -96,7 +96,7 @@ function ProjectModal({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.18 }}
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/72 p-4 backdrop-blur-md sm:p-6"
+      className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/48 p-4 backdrop-blur-md dark:bg-black/72 sm:p-6"
       onClick={onClose}
     >
       <div className="flex min-h-full items-center justify-center">
@@ -105,14 +105,14 @@ function ProjectModal({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.98 }}
           transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
-          className="relative my-auto w-full max-w-4xl rounded-[1.75rem] border border-white/10 bg-[rgba(16,13,11,0.96)] shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_50px_150px_-50px_rgba(0,0,0,0.78)]"
+          className="relative my-auto w-full max-w-4xl rounded-[1.75rem] border border-stone-950/10 bg-[rgba(250,247,241,0.96)] shadow-[0_30px_120px_-60px_rgba(15,23,42,0.38)] dark:border-white/10 dark:bg-[rgba(16,13,11,0.96)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_50px_150px_-50px_rgba(0,0,0,0.78)]"
           onClick={(event) => event.stopPropagation()}
         >
           <Button
             size="sm"
             variant="outline"
             onClick={onClose}
-            className="absolute right-4 top-4 z-20 shrink-0 rounded-full border-white/10 bg-black/28 text-white hover:bg-white/10 sm:right-5 sm:top-5"
+            className="absolute right-4 top-4 z-20 shrink-0 rounded-full border-stone-950/10 bg-white/78 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-black/28 dark:text-white dark:hover:bg-white/10 sm:right-5 sm:top-5"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -121,14 +121,14 @@ function ProjectModal({
             <ProjectPreviewPanel project={project} index={index} bare />
           </div>
 
-          <div className="grid gap-4 border-t border-white/10 px-5 pb-5 pt-5 sm:px-6 sm:pb-6 sm:pt-6 lg:grid-cols-[0.88fr_1.12fr]">
+          <div className="grid gap-4 border-t border-stone-950/10 px-5 pb-5 pt-5 dark:border-white/10 sm:px-6 sm:pb-6 sm:pt-6 lg:grid-cols-[0.88fr_1.12fr]">
             <div className="space-y-3">
               <div>
                 <p className="meta-label">Problem</p>
                 <p className="detail-copy mt-3">{project.problem}</p>
               </div>
 
-              <div className="border-t border-white/10 pt-4">
+              <div className="border-t border-stone-950/10 pt-4 dark:border-white/10">
                 <p className="meta-label">Built</p>
                 <p className="detail-copy mt-3">{project.solution}</p>
               </div>
@@ -146,7 +146,7 @@ function ProjectModal({
                   <Button
                     asChild
                     variant="outline"
-                    className="rounded-full border-white/10 bg-white/5 px-5 text-white hover:bg-white/10"
+                    className="rounded-full border-stone-950/10 bg-white/75 px-5 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
                   >
                     <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                       View repository
@@ -164,7 +164,7 @@ function ProjectModal({
                   {project.details.results.slice(0, 3).map((result, resultIndex) => (
                     <div
                       key={`${project.id}-${result}`}
-                      className={`flex gap-3 rounded-[1rem] border border-white/10 bg-white/[0.03] px-4 py-3 text-sm leading-6 text-stone-300/80 ${
+                      className={`flex gap-3 rounded-[1rem] border border-stone-950/10 bg-black/[0.02] px-4 py-3 text-sm leading-6 text-stone-700/82 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300/80 ${
                         resultIndex === 2 ? "sm:col-span-2" : ""
                       }`}
                     >
@@ -175,9 +175,9 @@ function ProjectModal({
                 </div>
               </div>
 
-              <div className="border-t border-white/10 pt-4">
+              <div className="border-t border-stone-950/10 pt-4 dark:border-white/10">
                 <p className="meta-label">Takeaway</p>
-                <p className="detail-copy mt-3 text-stone-200/90">{project.details.learnings}</p>
+                <p className="detail-copy mt-3 text-stone-800 dark:text-stone-200/90">{project.details.learnings}</p>
               </div>
             </div>
           </div>
@@ -237,20 +237,20 @@ export default function ProjectsSection() {
         <div className="relative z-10 pt-[calc(var(--nav-height,72px)+8px)] sm:pt-[calc(var(--nav-height,72px)+12px)]">
           <ContentContainer>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ y: 20 }}
+              whileInView={{ y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               className="mx-auto max-w-2xl text-center"
             >
-              <h2 className="text-4xl font-black tracking-[-0.04em] text-stone-50 sm:text-5xl md:text-6xl">
+              <h2 className="text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
                 A few projects
-                <span className="block text-stone-300">I&apos;m proud of.</span>
+                <span className="block text-stone-700 dark:text-stone-300">I&apos;m proud of.</span>
               </h2>
             </motion.div>
 
             <div className="mx-auto mt-4 max-w-3xl">
-              <div className="h-1.5 rounded-full bg-white/8">
+              <div className="h-1.5 rounded-full bg-stone-950/10 dark:bg-white/8">
                 <motion.div
                   style={{ scaleX: progressScale, transformOrigin: "left center" }}
                   className="h-full rounded-full bg-sky-300"
@@ -274,11 +274,11 @@ export default function ProjectsSection() {
             transition={{ type: "spring", stiffness: 180, damping: 18 }}
             className="relative h-[430px] w-[84vw] shrink-0 sm:h-[438px] sm:w-[70vw] lg:w-[400px]"
           >
-            <Card className="flex h-full flex-col items-center justify-center rounded-[2.25rem] border border-white/10 bg-white/[0.03] p-8 text-center backdrop-blur-xl">
+            <Card className="flex h-full flex-col items-center justify-center rounded-[2.25rem] border border-stone-950/10 bg-white/78 p-8 text-center backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03]">
               <div className="relative inline-flex h-24 w-24 items-center justify-center rounded-[2rem] border border-sky-300/20 bg-sky-300/10">
-                <ArrowRight className="h-10 w-10 text-sky-100" />
+                <ArrowRight className="h-10 w-10 text-sky-700 dark:text-sky-100" />
               </div>
-              <h3 className="relative mt-8 text-3xl font-semibold tracking-tight text-stone-50">Full archive</h3>
+              <h3 className="relative mt-8 text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">Full archive</h3>
               <Button
                 onClick={() => router.push("/projects")}
                 className="relative mt-6 rounded-full bg-sky-300 px-6 text-slate-950 hover:bg-sky-200"

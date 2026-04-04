@@ -52,7 +52,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     const projects = [
         "Acethletics: All-in-One College Sports Management; ",
         "QuickFuel: Smart Fuel Station Locator & Tracker; ",
-        "TEDxACEEC 2024: Event Website & Collaborator Portal; ",
+        "TEDxACEEC: Event Website & Collaborator Portal; ",
         "Trimly.ai: AI-Powered Book Trimming; ",
         "AutoPodcast: Automated Podcast Editing & Publishing"
     ]

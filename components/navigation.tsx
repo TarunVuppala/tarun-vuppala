@@ -28,10 +28,11 @@ export default function Navigation() {
 	const [isScrolled, setIsScrolled] = useState(false)
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 	const [showConsole, setShowConsole] = useState(false)
+	const [isMounted, setIsMounted] = useState(false)
 	const navRef = useRef<HTMLElement>(null)
 	const pathname = usePathname()
 	const router = useRouter()
-	const { theme, setTheme } = useTheme()
+	const { resolvedTheme, setTheme } = useTheme()
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -39,6 +40,10 @@ export default function Navigation() {
 		}
 		window.addEventListener("scroll", handleScroll, { passive: true })
 		return () => window.removeEventListener("scroll", handleScroll)
+	}, [])
+
+	useEffect(() => {
+		setIsMounted(true)
 	}, [])
 
 	useEffect(() => {
@@ -68,6 +73,11 @@ export default function Navigation() {
 			router.push(href)
 		}
 		setIsMobileMenuOpen(false)
+	}
+
+	const isDarkMode = isMounted ? resolvedTheme === "dark" : true
+	const toggleTheme = () => {
+		setTheme(isDarkMode ? "light" : "dark")
 	}
 
 	return (
@@ -139,11 +149,13 @@ export default function Navigation() {
 										<Button
 											variant="ghost"
 											size="sm"
-											onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+											onClick={toggleTheme}
 											className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
+											title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+											aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
 										>
-											<Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-											<Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+											<Sun className={`h-4 w-4 transition-all ${isDarkMode ? "rotate-90 scale-0" : "rotate-0 scale-100"}`} />
+											<Moon className={`absolute h-4 w-4 transition-all ${isDarkMode ? "rotate-0 scale-100" : "-rotate-90 scale-0"}`} />
 										</Button>
 									</motion.div>
 									<motion.div
@@ -187,11 +199,13 @@ export default function Navigation() {
 									<Button
 										variant="ghost"
 										size="sm"
-										onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+										onClick={toggleTheme}
 										className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 border border-foreground/10"
+										title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+										aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
 									>
-										<Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-										<Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+										<Sun className={`h-4 w-4 transition-all ${isDarkMode ? "rotate-90 scale-0" : "rotate-0 scale-100"}`} />
+										<Moon className={`absolute h-4 w-4 transition-all ${isDarkMode ? "rotate-0 scale-100" : "-rotate-90 scale-0"}`} />
 									</Button>
 									<Button
 										variant="ghost"

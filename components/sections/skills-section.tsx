@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import ContentContainer from "@/components/layout/container"
 import { MotionStrip } from "@/components/ui/motion-strip"
 import { skillsByDomain } from "@/lib/data"
+import { getTechIconImageClass } from "@/lib/tech-icons"
 
 const workingModes = ["Fast prototypes", "Production cleanup", "Frontend polish", "Backend support"]
 
@@ -20,18 +21,18 @@ export default function SkillsSection() {
     <section id="skills" className="relative overflow-hidden py-12 sm:py-14">
       <ContentContainer className="space-y-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 20 }}
+          whileInView={{ y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           className="grid gap-5 xl:grid-cols-[0.72fr_1.28fr] xl:items-end"
         >
           <div className="max-w-xl">
             <p className="section-kicker">Skills and tools</p>
-            <h2 className="mt-3 text-4xl font-black tracking-[-0.04em] text-stone-50 sm:text-5xl">
+            <h2 className="mt-3 text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl dark:text-stone-50">
               I like tools that stay out of the way.
             </h2>
-            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-300/72">
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-700/78 dark:text-stone-300/72">
               {workingModes.map((mode) => (
                 <span key={mode} className="inline-flex items-center gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-sky-300/80" />
@@ -41,17 +42,17 @@ export default function SkillsSection() {
             </div>
           </div>
 
-          <div className="space-y-3 overflow-hidden border-y border-white/10 py-4">
+          <div className="space-y-3 overflow-hidden border-y border-stone-950/10 py-4 dark:border-white/10">
             <MotionStrip duration={42} className="gap-10">
               {movingSkills.map((skill) => (
                 <span
                   key={`forward-${skill.name}`}
-                  className="inline-flex items-center gap-3 whitespace-nowrap text-sm text-stone-200/86"
+                  className="inline-flex items-center gap-3 whitespace-nowrap text-sm text-stone-800/86 dark:text-stone-200/86"
                 >
                   <img
                     src={skill.logo || "/placeholder.svg"}
                     alt={skill.name}
-                    className="h-4 w-4 object-contain opacity-80"
+                    className={`h-4 w-4 object-contain opacity-80 ${getTechIconImageClass(skill.logo || "/placeholder.svg")}`}
                     loading="lazy"
                     decoding="async"
                     onError={(event) => {
@@ -67,12 +68,12 @@ export default function SkillsSection() {
               {movingSkills.map((skill) => (
                 <span
                   key={`reverse-${skill.name}`}
-                  className="inline-flex items-center gap-3 whitespace-nowrap text-sm text-stone-200/70"
+                  className="inline-flex items-center gap-3 whitespace-nowrap text-sm text-stone-700/78 dark:text-stone-200/70"
                 >
                   <img
                     src={skill.logo || "/placeholder.svg"}
                     alt={skill.name}
-                    className="h-4 w-4 object-contain opacity-65"
+                    className={`h-4 w-4 object-contain opacity-65 ${getTechIconImageClass(skill.logo || "/placeholder.svg")}`}
                     loading="lazy"
                     decoding="async"
                     onError={(event) => {
@@ -86,35 +87,35 @@ export default function SkillsSection() {
           </div>
         </motion.div>
 
-        <div className="border-y border-white/10">
+        <div className="border-y border-stone-950/10 dark:border-white/10">
           {skillsByDomain.map((domain, index) => {
             const Icon = domain.icon
 
             return (
               <motion.div
                 key={domain.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ y: 20 }}
+                whileInView={{ y: 0 }}
                 viewport={{ once: true, amount: 0.18 }}
                 transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                className="grid gap-4 border-t border-white/10 py-6 first:border-t-0 lg:grid-cols-[210px_1fr]"
+                className="grid gap-4 border-t border-stone-950/10 py-6 first:border-t-0 dark:border-white/10 lg:grid-cols-[210px_1fr]"
               >
                 <div className="flex items-start gap-4">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-300/10 text-sky-200">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-300/15 text-sky-700 dark:bg-sky-300/10 dark:text-sky-200">
                     <Icon className="h-5 w-5" />
                   </span>
                   <div>
-                    <h3 className="text-2xl font-semibold tracking-tight text-stone-50">{domain.title}</h3>
+                    <h3 className="text-2xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">{domain.title}</h3>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-stone-200">
+                <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-stone-800 dark:text-stone-200">
                   {domain.skills.map((skill) => (
                     <span key={`${domain.title}-${skill.name}`} className="inline-flex items-center gap-2">
                       <img
                         src={skill.logo || "/placeholder.svg"}
                         alt={skill.name}
-                        className="h-4 w-4 object-contain opacity-85"
+                        className={`h-4 w-4 object-contain opacity-85 ${getTechIconImageClass(skill.logo || "/placeholder.svg")}`}
                         loading="lazy"
                         decoding="async"
                         onError={(event) => {

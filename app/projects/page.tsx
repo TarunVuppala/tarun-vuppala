@@ -60,45 +60,45 @@ export default function ProjectsPage() {
       <main className="pb-14 pt-[calc(var(--nav-height,72px)+1.5rem)]">
         <ContentContainer className="space-y-6">
           <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 30 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="space-y-6"
           >
             <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
               <div className="max-w-3xl">
-                <h1 className="text-4xl font-black tracking-[-0.04em] text-stone-50 sm:text-5xl md:text-6xl">
+                <h1 className="text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
                   Project archive.
                 </h1>
-                <p className="mt-4 max-w-2xl text-base leading-8 text-stone-300/76 sm:text-lg">
+                <p className="mt-4 max-w-2xl text-base leading-8 text-stone-700/80 sm:text-lg dark:text-stone-300/76">
                   Launches, experiments, tools, and smaller builds that still taught me something.
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-6 border-t border-white/10 pt-4 text-sm xl:border-t-0 xl:pt-0">
+              <div className="flex flex-wrap gap-6 border-t border-stone-950/10 pt-4 text-sm dark:border-white/10 xl:border-t-0 xl:pt-0">
                 <div>
                   <p className="meta-label">All</p>
-                  <p className="mt-1 text-2xl font-semibold text-stone-50">{allProjects.length}</p>
+                  <p className="mt-1 text-2xl font-semibold text-stone-950 dark:text-stone-50">{allProjects.length}</p>
                 </div>
                 <div>
                   <p className="meta-label">Featured</p>
-                  <p className="mt-1 text-2xl font-semibold text-stone-50">{featuredProjectsCount}</p>
+                  <p className="mt-1 text-2xl font-semibold text-stone-950 dark:text-stone-50">{featuredProjectsCount}</p>
                 </div>
                 <div>
                   <p className="meta-label">Categories</p>
-                  <p className="mt-1 text-2xl font-semibold text-stone-50">{categories.length - 1}</p>
+                  <p className="mt-1 text-2xl font-semibold text-stone-950 dark:text-stone-50">{categories.length - 1}</p>
                 </div>
               </div>
             </div>
 
-            <div className="grid gap-4 border-t border-white/10 pt-5 xl:grid-cols-[280px_1fr] xl:items-start">
+            <div className="grid gap-4 border-t border-stone-950/10 pt-5 dark:border-white/10 xl:grid-cols-[280px_1fr] xl:items-start">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/34" />
+                <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-500 dark:text-white/34" />
                 <Input
                   placeholder="Search projects..."
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
-                  className="h-11 rounded-full border-white/10 bg-black/24 pl-11 text-white placeholder:text-white/30"
+                  className="h-11 rounded-full border-stone-950/10 bg-white/82 pl-11 text-stone-950 placeholder:text-stone-500 dark:border-white/10 dark:bg-black/24 dark:text-white dark:placeholder:text-white/30"
                 />
               </div>
 
@@ -108,7 +108,11 @@ export default function ProjectsPage() {
                     variant={filter === "all" ? "default" : "outline"}
                     onClick={() => setFilter("all")}
                     size="sm"
-                    className={filter === "all" ? "rounded-full bg-sky-300 text-slate-950 hover:bg-sky-200" : "rounded-full border-white/10 bg-white/5 text-stone-100 hover:bg-white/10"}
+                    className={
+                      filter === "all"
+                        ? "rounded-full bg-sky-300 text-slate-950 hover:bg-sky-200"
+                        : "rounded-full border-stone-950/10 bg-white/75 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-stone-100 dark:hover:bg-white/10"
+                    }
                   >
                     All
                   </Button>
@@ -116,7 +120,11 @@ export default function ProjectsPage() {
                     variant={filter === "featured" ? "default" : "outline"}
                     onClick={() => setFilter("featured")}
                     size="sm"
-                    className={filter === "featured" ? "rounded-full bg-sky-300 text-slate-950 hover:bg-sky-200" : "rounded-full border-white/10 bg-white/5 text-stone-100 hover:bg-white/10"}
+                    className={
+                      filter === "featured"
+                        ? "rounded-full bg-sky-300 text-slate-950 hover:bg-sky-200"
+                        : "rounded-full border-stone-950/10 bg-white/75 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-stone-100 dark:hover:bg-white/10"
+                    }
                   >
                     Featured
                   </Button>
@@ -129,7 +137,11 @@ export default function ProjectsPage() {
                       variant={category === item ? "default" : "outline"}
                       size="sm"
                       onClick={() => setCategory(item)}
-                      className={category === item ? "rounded-full bg-stone-200 text-stone-950 hover:bg-stone-100" : "rounded-full border-white/10 bg-white/5 text-stone-200/80 hover:bg-white/10"}
+                      className={
+                        category === item
+                          ? "rounded-full bg-stone-200 text-stone-950 hover:bg-stone-100 dark:bg-stone-200 dark:text-stone-950"
+                          : "rounded-full border-stone-950/10 bg-white/75 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-stone-200/80 dark:hover:bg-white/10"
+                      }
                     >
                       {item}
                     </Button>
@@ -143,12 +155,12 @@ export default function ProjectsPage() {
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ y: 24 }}
+                whileInView={{ y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.45, delay: Math.min(index * 0.02, 0.16), ease: [0.16, 1, 0.3, 1] }}
               >
-                <Card className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-0 backdrop-blur-xl">
+                <Card className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-stone-950/10 bg-white/78 p-0 backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03]">
                   <div className="p-4">
                     <ProjectPreviewPanel project={project} index={index} compact />
                   </div>
@@ -160,13 +172,13 @@ export default function ProjectsPage() {
                           <Badge
                             key={`${project.id}-${item}`}
                             variant="secondary"
-                            className="rounded-full border border-white/10 bg-black/24 px-3 py-1 text-[11px] text-stone-300"
+                            className="rounded-full border border-stone-950/10 bg-black/[0.03] px-3 py-1 text-[11px] text-stone-700 dark:border-white/10 dark:bg-black/24 dark:text-stone-300"
                           >
                             {item}
                           </Badge>
                         ))}
                         {project.featured && (
-                          <Badge className="rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-[11px] text-sky-100">
+                          <Badge className="rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-[11px] text-sky-700 dark:text-sky-100">
                             <Star className="mr-1 h-3 w-3" />
                             Featured
                           </Badge>
@@ -178,7 +190,7 @@ export default function ProjectsPage() {
                           <Button
                             size="sm"
                             variant="outline"
-                            className="border-white/10 bg-white/5 text-white hover:bg-white/10"
+                            className="border-stone-950/10 bg-white/75 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
                             asChild
                           >
                             <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
@@ -190,7 +202,7 @@ export default function ProjectsPage() {
                           <Button
                             size="sm"
                             variant="outline"
-                            className="border-white/10 bg-white/5 text-white hover:bg-white/10"
+                            className="border-stone-950/10 bg-white/75 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
                             asChild
                           >
                             <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -201,7 +213,7 @@ export default function ProjectsPage() {
                       </div>
                     </div>
 
-                    <p className="mt-4 text-sm leading-6 text-stone-300/76">{project.description}</p>
+                    <p className="mt-4 text-sm leading-6 text-stone-700/80 dark:text-stone-300/76">{project.description}</p>
 
                     <TechIconStack tech={project.tech} limit={4} size="sm" className="mt-4" />
                   </CardContent>
@@ -211,8 +223,8 @@ export default function ProjectsPage() {
           </div>
 
           {filteredProjects.length === 0 && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-[2rem] border border-white/10 bg-white/[0.03] py-16 text-center backdrop-blur-xl">
-              <p className="text-lg text-white/68">No projects match this slice.</p>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-[2rem] border border-stone-950/10 bg-white/78 py-16 text-center backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03]">
+              <p className="text-lg text-stone-700/80 dark:text-white/68">No projects match this slice.</p>
               <Button
                 variant="outline"
                 onClick={() => {
@@ -220,7 +232,7 @@ export default function ProjectsPage() {
                   setCategory("All")
                   setSearchTerm("")
                 }}
-                className="mt-5 rounded-full border-white/10 bg-white/5 text-white hover:bg-white/10"
+                className="mt-5 rounded-full border-stone-950/10 bg-white/75 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
               >
                 Clear filters
               </Button>
