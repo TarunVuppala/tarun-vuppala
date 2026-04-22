@@ -4,21 +4,19 @@ import { motion } from "framer-motion"
 import { codingStats, journeyExpanded } from "@/lib/data"
 import ContentContainer from "@/components/layout/container"
 
-const principles = [
-  "Clear structure",
-  "Careful pacing",
-  "Less noise",
-]
+const sectionScrollOffset = {
+  scrollMarginTop: "calc(var(--nav-height, 72px) + 24px)",
+}
 
 export default function AboutSection() {
   const featuredStats = codingStats.slice(0, 2)
 
   return (
-    <section id="about" className="relative overflow-hidden py-12 sm:py-14">
+    <section id="about" className="relative overflow-hidden py-12 sm:py-14" style={sectionScrollOffset}>
       <ContentContainer className="space-y-6">
         <motion.div
-          initial={{ y: 20 }}
-          whileInView={{ y: 0 }}
+          initial={{ opacity: 0, x: -18, y: 8 }}
+          whileInView={{ opacity: 1, x: 0, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start"
@@ -33,15 +31,6 @@ export default function AboutSection() {
               I&apos;m a computer science student, but most of what shapes my work comes from building things people
               actually use.
             </p>
-
-            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-700/78 dark:text-stone-300/72">
-              {principles.map((principle) => (
-                <span key={principle} className="inline-flex items-center gap-3">
-                  <span className="h-1.5 w-1.5 rounded-full bg-sky-300/80" />
-                  {principle}
-                </span>
-              ))}
-            </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:pt-1">
@@ -71,8 +60,8 @@ export default function AboutSection() {
           {journeyExpanded.map((item, index) => (
             <motion.article
               key={`${item.year}-${item.company}`}
-              initial={{ y: 20 }}
-              whileInView={{ y: 0 }}
+              initial={{ opacity: 0, y: 18, scale: 0.985 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.18 }}
               transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
               className="grid gap-4 md:grid-cols-[120px_1fr]"
