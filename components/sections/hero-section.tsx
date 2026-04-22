@@ -15,7 +15,12 @@ export default function HeroSection() {
     >
       <ContentContainer>
         <div className="grid gap-8 lg:gap-9 xl:grid-cols-[1.08fr_0.92fr] xl:items-center">
-          <div className="max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, x: -22, y: 10 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-3xl"
+          >
             <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-foreground/45">Hi, I&apos;m Tarun.</p>
 
             <h1 className="mt-4 text-[clamp(3.75rem,8vw,5.3rem)] font-black leading-[0.92] tracking-[-0.055em] text-foreground">
@@ -58,24 +63,26 @@ export default function HeroSection() {
                 </a>
               </Button>
             </div>
-          </div>
+          </motion.div>
 
           <motion.figure
-            initial={{ y: 24 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, x: 22, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="mx-auto w-full max-w-[330px] lg:max-w-[360px] xl:mr-0 xl:max-w-[390px]"
           >
             <div className="overflow-hidden rounded-[2rem] border border-stone-950/10 bg-white/70 p-2 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-[#12100f] dark:shadow-[0_24px_80px_-48px_rgba(0,0,0,0.85)]">
-              <Image
-                src="/image.webp"
-                alt="Tarun Vuppala portrait"
-                width={1024}
-                height={1024}
-                className="aspect-[4/4.9] w-full rounded-[1.45rem] object-cover object-center"
-                priority
-                draggable={false}
-              />
+              <div className="relative aspect-[4/4.9] w-full overflow-hidden rounded-[1.45rem]">
+                <Image
+                  src="/image.webp"
+                  alt="Tarun Vuppala portrait"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(min-width: 1280px) 390px, (min-width: 1024px) 360px, 330px"
+                  priority
+                  draggable={false}
+                />
+              </div>
             </div>
           </motion.figure>
         </div>
