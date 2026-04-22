@@ -1,15 +1,15 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { IBM_Plex_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google"
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from "@/components/theme-provider"
 import SiteAtmosphere from "@/components/site-atmosphere"
 import { getGeoMeta, getJsonLd, siteConfig, siteUrl } from "@/lib/seo"
 
-const ibmPlexSans = IBM_Plex_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-ibm-plex-sans",
+  variable: "--font-inter",
   display: "swap",
 })
 
@@ -85,7 +85,7 @@ export default function RootLayout({
   const jsonLd = getJsonLd()
 
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -93,8 +93,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: jsonLd }}
         />
       </head>
-      <body className={`${ibmPlexSans.variable} ${jetbrainsMono.variable} ${playfair.variable} font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} font-sans antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SiteAtmosphere />
           {children}
           <Analytics />

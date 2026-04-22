@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname, useRouter } from "next/navigation"
-import { Github, Linkedin, Twitter, Mail, Menu, X, Sun, Moon, Terminal, Hammer } from "lucide-react"
+import { Github, Linkedin, Twitter, Mail, Menu, X, Sun, Moon, Terminal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import DevConsole from "@/components/DevConsole"
@@ -13,7 +13,7 @@ import ContentContainer from "@/components/layout/container"
 const NAV_ITEMS = [
 	{ name: "Home", href: "/" },
 	{ name: "About", href: "/#about" },
-	{ name: "Projects", href: "/projects" },
+	{ name: "Projects", href: "/#projects" },
 	{ name: "Contact", href: "/#contact" },
 ]
 
@@ -92,12 +92,12 @@ export default function Navigation() {
 				<ContentContainer>
 					<div
 						className={`relative transition-all duration-500 ${isScrolled
-							? "bg-background/95 border border-border shadow-sm"
-							: "bg-background/85 border border-border/60"
-							} rounded-2xl`}
+							? "border border-border/70 bg-background/94 shadow-sm"
+							: "border border-border/50 bg-background/82"
+							} rounded-[1.4rem]`}
 					>
 
-						<div className="relative px-0 py-1.5">
+						<div className="relative px-4 py-2 sm:px-5">
 							<div className="flex items-center justify-between">
 								<motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative">
 									<button onClick={() => handleNavClick("/")} className="text-xl sm:text-2xl font-bold" aria-label="Go to homepage">
@@ -120,7 +120,7 @@ export default function Navigation() {
 											<Button
 												variant="ghost"
 												onClick={() => handleNavClick(item.href)}
-												className="relative rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 hover:border-foreground/5 hover:bg-foreground/5 hover:text-foreground"
+												className="relative rounded-md px-3 py-2 text-sm font-medium text-foreground/76 transition-colors hover:bg-transparent hover:text-foreground"
 											>
 												{item.name}
 											</Button>
@@ -129,18 +129,7 @@ export default function Navigation() {
 								</div>
 
 								{/* Desktop icons */}
-								<div className="hidden md:flex items-center space-x-2">
-									<motion.div
-										initial={{ opacity: 0, scale: 0 }}
-										animate={{ opacity: 1, scale: 1 }}
-										transition={{ duration: 0.3 }}
-										whileHover={{ scale: 0.9 }}
-									>
-										<Button variant={"outline"} className="text-sm cursor-pointer border-0">
-											<Hammer className="w-4 h-4" />
-											WIP
-										</Button>
-									</motion.div>
+								<div className="hidden md:flex items-center space-x-1">
 									<motion.div
 										initial={{ opacity: 0, scale: 0 }}
 										animate={{ opacity: 1, scale: 1 }}
@@ -150,7 +139,7 @@ export default function Navigation() {
 											variant="ghost"
 											size="sm"
 											onClick={toggleTheme}
-											className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
+											className="h-8 w-8 rounded-md p-0 text-foreground/70 transition-colors hover:bg-transparent hover:text-foreground"
 											title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
 											aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
 										>
@@ -167,13 +156,13 @@ export default function Navigation() {
 											variant="ghost"
 											size="sm"
 											onClick={() => setShowConsole(true)}
-											className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300"
+											className="h-8 w-8 rounded-md p-0 text-foreground/70 transition-colors hover:bg-transparent hover:text-foreground"
 											title="Dev Console"
 										>
 											<Terminal className="h-4 w-4" />
 										</Button>
 									</motion.div>
-									<div className="h-8 w-px bg-border mx-2" />
+									<div className="mx-2 h-6 w-px bg-border" />
 									<div className="flex items-center space-x-1">
 										{SOCIAL_LINKS.map((social, index) => (
 											<motion.a
@@ -186,7 +175,7 @@ export default function Navigation() {
 												transition={{ delay: 0.7 + index * 0.1 }}
 												whileHover={{ scale: 1.1 }}
 												whileTap={{ scale: 0.95 }}
-												className="text-foreground/60 hover:text-foreground transition-all duration-300 p-2.5 rounded-xl hover:bg-foreground/8 border border-transparent hover:border-foreground/10"
+												className="rounded-md p-2 text-foreground/58 transition-colors duration-300 hover:text-foreground"
 											>
 												<social.icon size={16} />
 											</motion.a>
@@ -200,7 +189,7 @@ export default function Navigation() {
 										variant="ghost"
 										size="sm"
 										onClick={toggleTheme}
-										className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 border border-foreground/10"
+										className="h-8 w-8 rounded-md p-0 text-foreground/70 hover:bg-transparent hover:text-foreground"
 										title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
 										aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
 									>
@@ -210,7 +199,7 @@ export default function Navigation() {
 									<Button
 										variant="ghost"
 										size="sm"
-										className="w-8 h-8 p-0 rounded-full hover:bg-foreground/10 border border-foreground/10"
+										className="h-8 w-8 rounded-md p-0 text-foreground/70 hover:bg-transparent hover:text-foreground"
 										onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
 									>
 										<AnimatePresence mode="wait">
@@ -250,7 +239,7 @@ export default function Navigation() {
 										transition={{ duration: 0.3, ease: "easeOut" }}
 										className="md:hidden mt-6 overflow-hidden"
 									>
-										<div className="bg-foreground/5 border border-foreground/10 rounded-2xl p-4 space-y-2">
+										<div className="space-y-2 border-t border-foreground/10 pt-4">
 											{NAV_ITEMS.map((item, index) => (
 												<motion.div
 													key={item.name}
@@ -261,9 +250,9 @@ export default function Navigation() {
 													<button
 														type="button"
 														onClick={() => handleNavClick(item.href)}
-														className={`block py-3 px-4 rounded-xl transition-all duration-300 font-medium ${pathname === item.href
-															? "text-foreground bg-foreground/10 border border-foreground/20"
-															: "text-foreground/70 hover:text-foreground hover:bg-foreground/8 border border-transparent hover:border-foreground/10"
+														className={`block px-1 py-3 text-left font-medium transition-colors duration-300 ${pathname === item.href
+															? "text-foreground"
+															: "text-foreground/70 hover:text-foreground"
 															}`}
 													>
 														{item.name}
@@ -274,7 +263,7 @@ export default function Navigation() {
 												initial={{ opacity: 0, y: 20 }}
 												animate={{ opacity: 1, y: 0 }}
 												transition={{ delay: 0.4 }}
-												className="flex items-center justify-between pt-4 mt-4 border-t border-foreground/10"
+												className="mt-4 flex items-center justify-between border-t border-foreground/10 pt-4"
 											>
 												<div className="flex space-x-2">
 													{SOCIAL_LINKS.map((social) => (
@@ -283,29 +272,18 @@ export default function Navigation() {
 															href={social.href}
 															target="_blank"
 															rel="noopener noreferrer"
-															className="text-foreground/60 hover:text-foreground transition-all duration-300 p-2.5 rounded-xl hover:bg-foreground/8 border border-transparent hover:border-foreground/10"
+															className="rounded-md p-2 text-foreground/60 transition-colors duration-300 hover:text-foreground"
 														>
 															<social.icon size={16} />
 														</a>
 													))}
 												</div>
-												<div className="flex space-x-2 items-center content-center ">
-													<motion.div
-														initial={{ opacity: 0, scale: 0 }}
-														animate={{ opacity: 1, scale: 1 }}
-														transition={{ duration: 0.3 }}
-														whileHover={{ scale: 0.9 }}
-													>
-														<Button variant={"ghost"} className="text-sm cursor-pointer border-0">
-															<Hammer className="w-4 h-4" />
-															WIP
-														</Button>
-													</motion.div>
+												<div className="flex items-center space-x-2">
 													<Button
 														variant="ghost"
 														size="sm"
 														onClick={() => setShowConsole(true)}
-														className="w-10 h-10 p-0 rounded-xl bg-foreground/5 hover:bg-foreground/10 border border-foreground/10 mr-1"
+														className="h-9 w-9 rounded-md p-0 text-foreground/70 hover:bg-transparent hover:text-foreground"
 														title="Dev Console"
 													>
 														<Terminal className="h-4 w-4" />

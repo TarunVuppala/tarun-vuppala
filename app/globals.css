@@ -9,7 +9,7 @@
 @source "../types/**/*.{js,ts,jsx,tsx,mdx}";
 
 @theme {
-  --font-sans: var(--font-ibm-plex-sans);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-mono);
 
   --color-background: hsl(var(--background));
@@ -347,6 +347,10 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
