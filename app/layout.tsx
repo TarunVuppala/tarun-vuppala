@@ -17,6 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
+  preload: false,
 })
 
 const playfair = Playfair_Display({
