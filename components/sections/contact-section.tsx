@@ -11,12 +11,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-const collaborationSignals = [
-  "Clear brief",
-  "Fast feedback",
-  "Product sense",
-  "Full-stack delivery",
-]
+const sectionScrollOffset = {
+  scrollMarginTop: "calc(var(--nav-height, 72px) + 24px)",
+}
 
 export default function ContactSection() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -83,44 +80,33 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden py-14 sm:py-16">
+    <section id="contact" className="relative overflow-hidden py-14 sm:py-16" style={sectionScrollOffset}>
       <ContentContainer className="space-y-6">
         <motion.div
-          initial={{ y: 24 }}
-          whileInView={{ y: 0 }}
+          initial={{ opacity: 0, scale: 0.965, y: 12 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto max-w-3xl text-center"
         >
           <h2 className="text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
-            If you have something worth building,
-            <span className="block text-stone-700 dark:text-stone-300">send it over.</span>
+            Reach out to me
+            <span className="block text-stone-700 dark:text-stone-300">for full-time roles or project work.</span>
           </h2>
+          <p className="section-copy mx-auto mt-4 max-w-2xl">
+            If you&apos;re hiring for a full-time role, need help on a product, or want someone who can move across
+            frontend and full-stack work, send me a message.
+          </p>
         </motion.div>
 
         <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-6">
-            <motion.div
-              initial={{ y: 24 }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-700/78 dark:text-stone-300/72"
-            >
-              {collaborationSignals.map((signal) => (
-                <span key={signal} className="inline-flex items-center gap-3">
-                  <span className="h-1.5 w-1.5 rounded-full bg-sky-300/80" />
-                  {signal}
-                </span>
-              ))}
-            </motion.div>
-
             <div className="divide-y divide-stone-950/10 border-y border-stone-950/10 dark:divide-white/10 dark:border-white/10">
               {contactInfo.map((info, index) => (
                 <motion.div
                   key={info.title}
-                  initial={{ y: 24 }}
-                  whileInView={{ y: 0 }}
+                  initial={{ opacity: 0, x: -14, y: 6 }}
+                  whileInView={{ opacity: 1, x: 0, y: 0 }}
                   viewport={{ once: true, amount: 0.25 }}
                   transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
                   className="py-4"
@@ -152,8 +138,8 @@ export default function ContactSection() {
           </div>
 
           <motion.div
-            initial={{ y: 24 }}
-            whileInView={{ y: 0 }}
+            initial={{ opacity: 0, x: 18, scale: 0.985 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden rounded-[1.5rem] border border-stone-950/10 bg-white/78 backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03]"
@@ -224,7 +210,7 @@ export default function ContactSection() {
                         onChange={handleChange}
                         required
                         rows={8}
-                        placeholder="Tell me what you're building, what should feel different, and where the current experience falls short."
+                        placeholder="Tell me what you have in mind, what kind of help you need, or why you wanted to reach out."
                         className="min-h-[12rem] rounded-[1.2rem] border-stone-950/10 bg-white/82 text-stone-950 placeholder:text-stone-500 dark:border-white/10 dark:bg-black/24 dark:text-stone-100 dark:placeholder:text-stone-500"
                       />
                     </div>
