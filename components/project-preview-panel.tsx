@@ -50,6 +50,7 @@ export default function ProjectPreviewPanel({
   const projectNumber = `${index + 1}`.padStart(2, "0")
   const previewSkills = project.tech.slice(0, compact ? 2 : 4)
   const hasRealImage = !project.image.includes("placeholder")
+  const visibleCategories = project.categories.filter((item) => item !== "Published").slice(0, 2)
 
   if (bare) {
     return (
@@ -76,23 +77,15 @@ export default function ProjectPreviewPanel({
 
         <div className="relative z-10 flex h-full flex-col justify-end p-5 sm:p-6">
           <div className="max-w-[22rem]">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-stone-700/72 dark:text-white/58">
+              {project.date}
+              {visibleCategories[0] ? ` / ${visibleCategories[0]}` : ""}
+            </p>
             <h3 className="font-playfair text-[2rem] leading-[0.92] text-stone-950 dark:text-white sm:text-[2.3rem]">{project.title}</h3>
             <p className="mt-2 text-sm leading-6 text-stone-800/78 dark:text-white/68 sm:max-w-[18rem]">{project.subtitle}</p>
           </div>
 
           <TechIconStack tech={project.tech} limit={5} className="mt-4" />
-        </div>
-
-        <div className="absolute bottom-5 right-5 z-10 flex flex-nowrap items-center gap-2 text-[11px] text-stone-800/82 dark:text-white/82 sm:bottom-6 sm:right-6">
-          <span className="rounded-full border border-stone-950/10 bg-white/50 px-3 py-1.5 backdrop-blur-sm dark:border-white/12 dark:bg-white/8">{project.date}</span>
-          {project.categories.slice(0, 3).map((item) => (
-            <span
-              key={`${project.id}-preview-${item}`}
-              className="rounded-full border border-stone-950/10 bg-white/50 px-3 py-1.5 backdrop-blur-sm dark:border-white/12 dark:bg-white/8"
-            >
-              {item}
-            </span>
-          ))}
         </div>
       </div>
     )
@@ -118,17 +111,6 @@ export default function ProjectPreviewPanel({
         />
       )}
 
-      {!bare && (
-        <div className="absolute left-4 top-4 flex items-center gap-2">
-          <span className={`rounded-full border px-3 py-1 text-[11px] font-medium ${accent.chip}`}>
-            {project.categories[0] ?? "Project"}
-          </span>
-          <span className="rounded-full border border-stone-950/10 bg-white/55 px-3 py-1 text-[11px] text-stone-700 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
-            {project.date}
-          </span>
-        </div>
-      )}
-
       <div
         className={`absolute right-4 top-3 font-black leading-none text-stone-950/[0.08] dark:text-white/[0.08] ${
           compact ? "text-[4rem] sm:text-[4.5rem]" : "text-[5rem] sm:text-[6rem]"
@@ -138,6 +120,11 @@ export default function ProjectPreviewPanel({
       </div>
 
       <div className="absolute inset-x-4 bottom-4 space-y-2">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-stone-700/72 dark:text-white/58">
+          {project.date}
+          {visibleCategories[0] ? ` / ${visibleCategories[0]}` : ""}
+        </p>
+
         <div className="flex items-end justify-between gap-3">
           <div className={compact ? "min-w-0 max-w-[11.5rem]" : "min-w-0 max-w-[18rem] sm:max-w-[21rem]"}>
             <h3 className={`font-playfair text-stone-950 dark:text-white ${compact ? "text-2xl" : "text-3xl"}`}>{project.title}</h3>
