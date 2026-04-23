@@ -14,7 +14,6 @@ import {
   Target,
   Terminal,
   Users,
-  Wrench,
   Zap,
 } from "lucide-react";
 
@@ -39,9 +38,15 @@ export const techIconMap: Record<string, string> = {
   tailwind: "https://cdn.simpleicons.org/tailwindcss/white",
   "framer motion": "https://cdn.simpleicons.org/framer/white",
   motion: "https://cdn.simpleicons.org/framer/white",
+  gsap: "https://cdn.simpleicons.org/greensock/white",
   "node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
   "express.js": "https://cdn.simpleicons.org/express/white",
   fastapi: "https://cdn.simpleicons.org/fastapi/white",
+  aws: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+  "amazon web services":
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+  "nest.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg",
+  graphql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
   mongodb:
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
   postgresql:
@@ -78,6 +83,19 @@ export const techIconMap: Record<string, string> = {
   ollama: "/icons/ollama.svg",
   "llama 3.2": "/icons/llama.svg",
   "pdf-parser": "/icons/pdf-parser.svg",
+  "rest apis": "/icons/rest-apis.svg",
+  authentication: "/icons/authentication.svg",
+  observability: "/icons/observability.svg",
+  "machine learning": "/icons/machine-learning.svg",
+  rag: "/icons/rag.svg",
+  mlflow: "https://cdn.simpleicons.org/mlflow/white",
+  redis: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg",
+  docker: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+  pytorch: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg",
+  tensorflow: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
+  "scikit-learn":
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg",
+  langchain: "/icons/langchain.svg",
 };
 
 export const getTechIcon = (tech: string) =>
@@ -195,10 +213,10 @@ export const allProjects: Project[] = [
     title: "Trimly.ai",
     subtitle: "Read Smart, Read Less",
     description:
-      "An AI-driven document compression tool that tailors PDF length to time and mood while preserving structure.",
+      "A structure-aware AI reading tool that parses PDFs, preserves hierarchy, and adapts summaries to a reader's time budget.",
     problem: "No way to customize document length without losing key content.",
     solution: "Built a time- & mood-based compression engine.",
-    impact: "Enabled users to read 5x faster while retaining meaning.",
+    impact: "Turned long PDFs into usable briefings without flattening the document.",
     tech: [
       "Next.js",
       "Ollama",
@@ -215,9 +233,14 @@ export const allProjects: Project[] = [
     stats: { users: "n/a", performance: "5x faster", rating: "4.7/5" },
     details: {
       challenge: "Balancing brevity with content preservation.",
-      approach: "Used semantic prompts and structure extraction.",
-      results: ["80% time saved", "90% structural fidelity"],
-      learnings: "Fine-tuned semantic thresholds for precision.",
+      approach:
+        "Combined document structure extraction with controllable summarization so shortening a file did not destroy its hierarchy.",
+      results: [
+        "Reduced long-form reading time by roughly 80%",
+        "Preserved section structure and key document hierarchy",
+        "Let summaries adapt to time budget and reading context",
+      ],
+      learnings: "Useful AI products need controllability and structure, not just shorter text.",
     },
     categories: ["AI", "SaaS", "Personalization", "Tool"],
   },
@@ -268,24 +291,28 @@ export const allProjects: Project[] = [
     title: "AutoPodcast",
     subtitle: "Automated Podcast Editing & Publishing",
     description:
-      "A pipeline that removes silence, balances audio, and publishes episodes.",
+      "An editing automation pipeline for podcast teams that removes silence, balances audio, and prepares episodes for publishing.",
     problem: "Manual post-production was time-consuming.",
-    solution: "Automated silence removal and gain control with FFmpeg.",
-    impact: "Cut editing time by 95%.",
+    solution: "Built an Adobe-integrated workflow around FFmpeg, silence detection, and batch processing.",
+    impact: "Reduced repetitive post-production from hours to minutes.",
     tech: ["FFmpeg", "Adobe CEP", "PPRO API", "UXP"],
     image: "/placeholder.svg",
     liveUrl: null,
     githubUrl: "https://github.com/TarunVuppala/AutoPodcast",
     date: "2025",
-    featured: false,
+    featured: true,
     stats: { users: "n/a", performance: "<5min/process", rating: "4.9/5" },
     details: {
-      challenge: "Handling diverse audio formats losslessly.",
-      approach: "Leveraged FFmpeg filters and CEP scripting.",
-      results: ["<1% bitrate loss"],
-      learnings: "Optimized concurrent FFmpeg tasks.",
+      challenge: "Handling real-world audio variance while keeping editing reliable enough for repeated use.",
+      approach: "Wrapped FFmpeg-based audio processing inside an Adobe workflow that editors could actually use.",
+      results: [
+        "Automated silence removal and loudness normalization",
+        "Cut repeated editing work by roughly 95%",
+        "Handled varied source files without breaking the publishing flow",
+      ],
+      learnings: "Automation only sticks when the workflow is dependable, not just technically clever.",
     },
-    categories: ["AI", "Productivity", "Audio Processing", "Plugin"],
+    categories: ["Automation", "Productivity", "Audio Processing", "Plugin"],
   },
   // {
   //   id: "decornest",
@@ -580,31 +607,37 @@ export const codingStats: {
   >;
   text: string;
 }[] = [
-  { icon: Coffee, text: "200 cups of coffee fueling on-time MVP builds. ☕" },
+  {
+    icon: Coffee,
+    text: "Built backend-heavy products where parsing, streaming, fallbacks, and UX all had to work together.",
+  },
   {
     icon: Lightbulb,
-    text: "Turning ideas into functional code. 💡",
+    text: "Comfortable taking a feature from backend logic and model behavior through to a shipped interface.",
   },
-  { icon: Code, text: "25K lines of production-ready code delivered. ✍️" },
+  {
+    icon: Code,
+    text: "Shipped end-to-end products across backend systems, model-driven tools, and frontend delivery.",
+  },
   {
     icon: Zap,
-    text: "Fixed 150 critical bugs as the go-to problem-solver. ⚡",
+    text: "Debugged real edge cases across async workflows, data sync, and production integration work.",
   },
   {
     icon: Briefcase,
-    text: "Completed freelance gigs on scope and budget. 💼",
+    text: "Delivered scoped project work with clear tradeoffs, maintainable handoff quality, and production awareness.",
   },
   {
     icon: Users,
-    text: "Led products to investor-ready MVPs. 👥",
+    text: "Built products around what users and teammates actually need, not just what demos well.",
   },
   {
     icon: Rocket,
-    text: "Deployed 4 webapps—shipping end-to-end flawlessly. 🚀",
+    text: "Shipped multiple products and internal tools from first commit to usable release.",
   },
   {
     icon: CheckCircle,
-    text: "100% on-time delivery across all projects. ✔️",
+    text: "Care about clean finishes, dependable behavior, and not leaving rough edges behind.",
   },
 ];
 
@@ -613,12 +646,13 @@ export const journeyExpanded = [
     year: "2024",
     title: "Software Developer Intern",
     company: "Unity Labs AI",
-    description: "Built a PPRO pluign that automatically edits podcasts.",
+    description:
+      "Built an Adobe Premiere Pro plugin that automated repetitive podcast editing work and reduced manual cleanup.",
     achievements: [
-      "Developed a plugin for PPRO that automatically edits podcasts",
-      "Implemented a custom algorithm to remove silence",
-      "Integrated with Adobe CEP for seamless workflow",
-      "Optimized the plugin for faster performance",
+      "Built a production-oriented plugin around FFmpeg, Adobe CEP, and Premiere workflows",
+      "Implemented silence detection and audio cleanup for repeated editing tasks",
+      "Handled mixed source quality and edge cases across real editing sessions",
+      "Optimized the workflow so teams could move from raw audio to publishable output much faster",
     ],
   },
   {
@@ -626,12 +660,12 @@ export const journeyExpanded = [
     title: "Software Developer Intern",
     company: "Frost Interactive",
     description:
-      "Focused on backend and business logic optimization. Collaborated with frontend teams to integrate APIs.",
+      "Worked on backend services, business logic, and integration-heavy product work with a focus on performance and maintainability.",
     achievements: [
-      "Developed backend of 2 in-house applications from scratch",
-      "Implemented efficient database queries",
-      "Optimized API performance by 50%",
-      "Contributed to team knowledge base with documentation",
+      "Built backend services for 2 in-house applications from scratch",
+      "Improved query and endpoint performance by around 50%",
+      "Collaborated with frontend teams on cleaner API contracts and smoother integrations",
+      "Wrote documentation and handoff material that made the codebase easier to maintain",
     ],
   },
 ];
@@ -696,7 +730,7 @@ export const skillsByDomain = [
     color: "#3B82F6",
     bgGradient: "linear-gradient(135deg, #3B82F6, #1D4ED8)",
     description:
-      "Component-driven UIs with responsive layouts, accessible interactions, and motion that reinforces the story.",
+      "Product-facing interfaces with responsive layouts, accessible interactions, and motion used intentionally.",
     skills: [
       {
         name: "React.js",
@@ -734,19 +768,34 @@ export const skillsByDomain = [
         color: "#06B6D4",
       },
       {
+        name: "ShadCN UI",
+        logo: getTechIcon("ShadCN UI"),
+        color: "#ffffff",
+      },
+      {
         name: "Framer Motion",
         logo: getTechIcon("Framer Motion"),
         color: "#ECF806FF",
       },
+      {
+        name: "GSAP",
+        logo: getTechIcon("GSAP"),
+        color: "#88CE02",
+      },
+      {
+        name: "Three.js",
+        logo: getTechIcon("Three.js"),
+        color: "#ffffff",
+      },
     ],
   },
   {
-    title: "Backend & Database",
+    title: "Backend, Data & APIs",
     icon: Database,
     color: "#10B981",
     bgGradient: "linear-gradient(135deg, #10B981, #059669)",
     description:
-      "Robust APIs and data layers with structured schemas, strong typing, and observability baked into the stack.",
+      "Hands-on with APIs, data layers, service logic, and the reliability and performance work that helps products stay dependable after launch.",
     skills: [
       {
         name: "Node.js",
@@ -759,6 +808,11 @@ export const skillsByDomain = [
         color: "#ffffff",
       },
       {
+        name: "Nest.js",
+        logo: getTechIcon("Nest.js"),
+        color: "#E0234E",
+      },
+      {
         name: "MongoDB",
         logo: getTechIcon("MongoDB"),
         color: "#47A248",
@@ -769,19 +823,129 @@ export const skillsByDomain = [
         color: "#336791",
       },
       {
+        name: "REST APIs",
+        logo: getTechIcon("REST APIs"),
+        color: "#ffffff",
+      },
+      {
+        name: "JWT",
+        logo: getTechIcon("JWT"),
+        color: "#ffffff",
+      },
+      {
+        name: "GraphQL",
+        logo: getTechIcon("GraphQL"),
+        color: "#E10098",
+      },
+      {
+        name: "Authentication",
+        logo: getTechIcon("Authentication"),
+        color: "#ffffff",
+      },
+      {
         name: "Prisma",
         logo: getTechIcon("Prisma"),
+        color: "#ffffff",
+      },
+      {
+        name: "Observability",
+        logo: getTechIcon("Observability"),
+        color: "#ffffff",
+      },
+      {
+        name: "Socket.io",
+        logo: getTechIcon("Socket.io"),
+        color: "#ffffff",
+      },
+      {
+        name: "Redis",
+        logo: getTechIcon("Redis"),
+        color: "#ffffff",
+      },
+      {
+        name: "AWS",
+        logo: getTechIcon("AWS"),
+        color: "#FF9900",
+      },
+      {
+        name: "Docker",
+        logo: getTechIcon("Docker"),
         color: "#ffffff",
       },
     ],
   },
   {
-    title: "Tools & Design",
-    icon: Wrench,
+    title: "AI Engineering",
+    icon: Zap,
+    color: "#F59E0B",
+    bgGradient: "linear-gradient(135deg, #F59E0B, #D97706)",
+    description:
+      "Focused on building production-facing AI systems across model development, retrieval pipelines, evaluation, deployment, monitoring, and inference optimization.",
+    skills: [
+      {
+        name: "Python",
+        logo: getTechIcon("Python"),
+        color: "#3776AB",
+      },
+      {
+        name: "OpenAI",
+        logo: getTechIcon("OpenAI"),
+        color: "#ffffff",
+      },
+      {
+        name: "FastAPI",
+        logo: getTechIcon("FastAPI"),
+        color: "#009688",
+      },
+      {
+        name: "Hugging Face",
+        logo: getTechIcon("Hugging Face"),
+        color: "#ffffff",
+      },
+      {
+        name: "Ollama",
+        logo: getTechIcon("Ollama"),
+        color: "#ffffff",
+      },
+      {
+        name: "LangChain",
+        logo: getTechIcon("LangChain"),
+        color: "#ffffff",
+      },
+      {
+        name: "PyTorch",
+        logo: getTechIcon("PyTorch"),
+        color: "#ffffff",
+      },
+      {
+        name: "TensorFlow",
+        logo: getTechIcon("TensorFlow"),
+        color: "#ffffff",
+      },
+      {
+        name: "scikit-learn",
+        logo: getTechIcon("scikit-learn"),
+        color: "#ffffff",
+      },
+      {
+        name: "RAG",
+        logo: getTechIcon("RAG"),
+        color: "#ffffff",
+      },
+      {
+        name: "MLflow",
+        logo: getTechIcon("MLflow"),
+        color: "#ffffff",
+      },
+    ],
+  },
+  {
+    title: "Developer Workflow",
+    icon: Terminal,
     color: "#8B5CF6",
     bgGradient: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
     description:
-      "Workflow accelerators for version control, collaboration, and quick iteration between design and engineering.",
+      "Tooling and workflow habits that keep delivery clear, collaboration smooth, and iteration grounded in good engineering basics.",
     skills: [
       {
         name: "Git",
@@ -802,6 +966,16 @@ export const skillsByDomain = [
         name: "Figma",
         logo: getTechIcon("Figma"),
         color: "#F24E1E",
+      },
+      {
+        name: "FFmpeg",
+        logo: getTechIcon("FFmpeg"),
+        color: "#65A30D",
+      },
+      {
+        name: "Documentation",
+        logo: "/icons/documentation.svg",
+        color: "#ffffff",
       },
     ],
   },

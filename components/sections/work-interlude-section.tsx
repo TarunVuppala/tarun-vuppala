@@ -16,8 +16,8 @@ export default function WorkInterludeSection() {
         >
           <div className="max-w-3xl">
             <p className="section-kicker">Selected work</p>
-            <p className="mt-3 max-w-2xl text-lg leading-8 text-stone-700/84 dark:text-stone-300/76 sm:text-[1.15rem]">
-              A small set of builds where product constraints shaped the interface as much as the implementation.
+            <p className="mt-3 text-lg text-stone-700/84 dark:text-stone-300/76 sm:text-[1.15rem]">
+              AI/ML, backend, and product work.
             </p>
           </div>
         </motion.div>

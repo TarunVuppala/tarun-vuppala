@@ -35,6 +35,7 @@ export default function TechIconStack({
             <img
               src={iconSrc}
               alt={item}
+              draggable={false}
               className={`${imageSizeClass} ${iconToneClass} object-contain`}
               loading="lazy"
               decoding="async"
