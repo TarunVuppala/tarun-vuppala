@@ -20,6 +20,7 @@ const categories = [
   "Web App",
   "Mobile",
   "AI",
+  "Automation",
   "Productivity",
   "SaaS",
   "3D",
@@ -70,8 +71,8 @@ export default function ProjectsPage() {
                 <h1 className="text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
                   Project archive.
                 </h1>
-                <p className="mt-4 max-w-2xl text-base leading-8 text-stone-700/80 sm:text-lg dark:text-stone-300/76">
-                  Launches, experiments, tools, and smaller builds that still taught me something.
+                <p className="mt-4 max-w-2xl text-base text-stone-700/80 sm:text-lg dark:text-stone-300/76">
+                  AI/ML, backend, automation, and product builds.
                 </p>
               </div>
 

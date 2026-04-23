@@ -27,13 +27,10 @@ export default function Footer() {
         <div className="grid gap-8 border-b border-stone-950/10 pb-6 dark:border-white/10 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
           <div className="space-y-4">
             <p className="section-kicker">Footer</p>
-            <div className="space-y-3">
+            <div>
               <h3 className="text-3xl font-semibold tracking-tight text-stone-950 sm:text-4xl dark:text-stone-50">
-                Building from Hyderabad, open to good product work.
+                AI/ML and backend software engineer.
               </h3>
-              <p className="section-copy max-w-xl">
-                If the product needs clarity, speed, and a bit more taste than usual, send it over.
-              </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -78,7 +75,6 @@ export default function Footer() {
               <p className="meta-label">Reach me</p>
               <div className="mt-3 space-y-2 text-sm text-stone-700/78 dark:text-stone-300/78">
                 <p>tarun.vuppala26@gmail.com</p>
-                <p>Hyderabad, India</p>
               </div>
             </div>
           </div>
