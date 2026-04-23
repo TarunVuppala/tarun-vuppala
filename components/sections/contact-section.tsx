@@ -90,13 +90,9 @@ export default function ContactSection() {
           className="mx-auto max-w-3xl text-center"
         >
           <h2 className="text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
-            Reach out to me
-            <span className="block text-stone-700 dark:text-stone-300">for full-time roles or project work.</span>
+            Open to Backend Engineer,
+            <span className="block text-stone-700 dark:text-stone-300">AI Engineer, and ML Engineer roles.</span>
           </h2>
-          <p className="section-copy mx-auto mt-4 max-w-2xl">
-            If you&apos;re hiring for a full-time role, need help on a product, or want someone who can move across
-            frontend and full-stack work, send me a message.
-          </p>
         </motion.div>
 
         <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
