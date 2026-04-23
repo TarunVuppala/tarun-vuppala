@@ -22,15 +22,18 @@ export default function HeroSection() {
             className="max-w-3xl"
           >
             <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-foreground/45">Hi, I&apos;m Tarun.</p>
+            <p className="mt-3 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-foreground/55">
+              AI Engineer / Backend Engineer / ML Engineer
+            </p>
 
             <h1 className="mt-4 text-[clamp(3.75rem,8vw,5.3rem)] font-black leading-[0.92] tracking-[-0.055em] text-foreground">
-              <span className="block text-foreground">I build web experiences</span>
-              <span className="block text-foreground/72">that feel sharp, calm,</span>
-              <span className="block text-foreground">and genuinely yours.</span>
+              <span className="block text-foreground">Systems, AI/ML,</span>
+              <span className="block text-foreground/72">and software</span>
+              <span className="block text-foreground">that ships.</span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-[0.95rem] leading-7 text-foreground/68 sm:text-base">
-              Fast systems, restrained motion, and interfaces that still feel like a person made them.
+            <p className="mt-5 max-w-md text-[0.95rem] leading-7 text-foreground/62 sm:text-base">
+              AI/ML, backend, and product builds.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
