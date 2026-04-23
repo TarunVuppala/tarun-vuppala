@@ -23,8 +23,8 @@ type AboutVariantProps = {
 }
 
 const storyBody = [
-  "Hey there! I'm Tarun Vuppala, a Computer Science student who turned late-night coding curiosity into a passion for building scalable web solutions.",
-  "From internships solving real-world challenges to dreaming of my own startup, I thrive on clean design and innovative problem-solving.",
+  "Hey there! I'm Tarun Vuppala, a software developer working across backend systems, AI engineering, ML engineering, APIs, and product delivery.",
+  "From internships solving real-world engineering problems to building independent products, I care about reliability, clarity, and thoughtful execution.",
 ]
 
 function QuoteBlock({ featuredQuote }: { featuredQuote: string }) {
@@ -58,7 +58,7 @@ export function AboutEditorialVariant({ featuredQuote, featuredStat, journey }: 
       <div className="grid gap-5 lg:grid-cols-[1.3fr_0.7fr] lg:gap-8">
         <div data-about-card="profile" className="rounded-2xl border border-border bg-card/60 p-6 shadow-sm">
           <p className="text-xs uppercase tracking-widest text-primary">Profile</p>
-          <h3 className="mt-3 text-3xl font-semibold">I build products that feel crafted, not rushed.</h3>
+          <h3 className="mt-3 text-3xl font-semibold">Backend, AI engineering, and ML engineering.</h3>
           <div className="mt-4 space-y-4 text-muted-foreground leading-relaxed">
             <p>{storyBody[0]}</p>
           </div>

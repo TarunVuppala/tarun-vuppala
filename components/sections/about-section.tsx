@@ -24,13 +24,9 @@ export default function AboutSection() {
           <div className="max-w-2xl">
             <p className="section-kicker">A bit about how I work</p>
             <h2 className="mt-3 text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
-              I want the work to feel personal,
-              <span className="block text-stone-700 dark:text-stone-300">not packaged.</span>
+              I like building systems
+              <span className="block text-stone-700 dark:text-stone-300">that actually hold up in use.</span>
             </h2>
-            <p className="section-copy mt-4 max-w-xl">
-              I&apos;m a computer science student, but most of what shapes my work comes from building things people
-              actually use.
-            </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:pt-1">
@@ -39,7 +35,7 @@ export default function AboutSection() {
               <div className="mt-3 space-y-2 text-sm text-stone-800 dark:text-stone-200">
                 <p>Fast iterations.</p>
                 <p>Clear tradeoffs.</p>
-                <p>Clean finish.</p>
+                <p>Reliable delivery.</p>
               </div>
             </div>
             <div>
@@ -73,8 +69,6 @@ export default function AboutSection() {
                   <h3 className="text-2xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">{item.title}</h3>
                   <span className="meta-label">{item.company}</span>
                 </div>
-
-                <p className="detail-copy max-w-2xl text-stone-700/78 dark:text-stone-300/72">{item.description}</p>
 
                 <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-800 dark:text-stone-200">
                   {item.achievements.slice(0, 3).map((achievement) => (
