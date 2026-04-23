@@ -68,6 +68,7 @@ export default function ProjectPreviewPanel({
             fill
             className="object-cover opacity-[0.12] mix-blend-multiply dark:opacity-[0.18] dark:mix-blend-screen"
             sizes="70vw"
+            draggable={false}
           />
         )}
 
@@ -108,6 +109,7 @@ export default function ProjectPreviewPanel({
           fill
           className="object-cover opacity-[0.12] mix-blend-multiply dark:opacity-[0.18] dark:mix-blend-screen"
           sizes={compact ? "50vw" : "70vw"}
+          draggable={false}
         />
       )}
 
