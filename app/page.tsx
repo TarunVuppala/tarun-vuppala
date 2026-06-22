@@ -9,7 +9,7 @@ import Navigation from "@/components/navigation"
 
 export default function HomePage() {
   return (
-    <div className="min-h-dvh w-full bg-background text-foreground">
+    <div className="min-h-dvh w-full text-foreground">
       <Navigation />
       <HeroSection />
       <WorkInterludeSection />

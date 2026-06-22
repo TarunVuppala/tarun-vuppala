@@ -11,7 +11,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100svh] items-center overflow-hidden pb-14 pt-[calc(var(--nav-height,72px)+2rem)] sm:pb-16 sm:pt-[calc(var(--nav-height,72px)+2.5rem)]"
+      className="relative flex min-h-svh items-center overflow-hidden pb-14 pt-[calc(var(--nav-height,72px)+2rem)] sm:pb-16 sm:pt-[calc(var(--nav-height,72px)+2.5rem)]"
     >
       <ContentContainer>
         <div className="grid gap-8 lg:gap-9 xl:grid-cols-[1.08fr_0.92fr] xl:items-center">
@@ -49,7 +49,7 @@ export default function HeroSection() {
                 size="lg"
                 variant="outline"
                 onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-                className="h-10 rounded-full border-border bg-background/80 px-5 text-sm font-medium text-foreground hover:bg-background dark:bg-white/[0.03] dark:hover:bg-white/[0.06]"
+                className="h-10 rounded-full border-border bg-background/80 px-5 text-sm font-medium text-foreground hover:bg-background dark:bg-white/3 dark:hover:bg-white/6"
               >
                 Start a conversation
                 <ArrowUpRight className="h-4 w-4" />
@@ -72,19 +72,31 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 22, scale: 0.96 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto w-full max-w-[330px] lg:max-w-[360px] xl:mr-0 xl:max-w-[390px]"
+            className="mx-auto w-full max-w-82.5 lg:max-w-90 xl:mr-0 xl:max-w-97.5"
           >
-            <div className="overflow-hidden rounded-[2rem] border border-stone-950/10 bg-white/70 p-2 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-[#12100f] dark:shadow-[0_24px_80px_-48px_rgba(0,0,0,0.85)]">
-              <div className="relative aspect-[4/4.9] w-full overflow-hidden rounded-[1.45rem]">
-                <Image
-                  src="/image.webp"
-                  alt="Tarun Vuppala portrait"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(min-width: 1280px) 390px, (min-width: 1024px) 360px, 330px"
-                  priority
-                  draggable={false}
-                />
+            <div className="group relative">
+              {/* Decorative background glow */}
+              <div className="absolute -inset-4 rounded-full bg-linear-to-tr from-sky-500/10 to-purple-500/10 blur-2xl opacity-0 transition-opacity duration-700 group-hover:opacity-100 dark:from-sky-400/5 dark:to-purple-400/5" />
+              
+              <div className="relative rounded-full border border-border/50 bg-background/50 p-3 shadow-2xl backdrop-blur-sm dark:bg-card/50">
+                <div className="relative aspect-square w-full overflow-hidden rounded-full bg-linear-to-br from-stone-100 to-stone-200 ring-1 ring-border/50 dark:from-stone-800 dark:to-stone-900">
+                  <Image
+                    src="/tarun.png"
+                    alt="Tarun Vuppala portrait"
+                    fill
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    sizes="(min-width: 1280px) 390px, (min-width: 1024px) 360px, 330px"
+                    priority
+                    draggable={false}
+                  />
+                  {/* Inner overlay for better differentiation */}
+                  <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-foreground/5 dark:ring-white/10" />
+                </div>
+              </div>
+              
+              {/* Status Indicator */}
+              <div className="absolute bottom-4 right-4 rounded-full border border-border bg-background p-1.5 shadow-lg dark:bg-card">
+                 <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
               </div>
             </div>
           </motion.figure>
