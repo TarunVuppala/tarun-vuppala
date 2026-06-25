@@ -161,7 +161,7 @@ export default function ProjectsPage() {
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.45, delay: Math.min(index * 0.02, 0.16), ease: [0.16, 1, 0.3, 1] }}
               >
-                <Card className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-stone-950/10 bg-white/78 p-0 backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03]">
+                <Card className="flex h-full flex-col overflow-hidden rounded-4xl border border-stone-950/10 bg-white/78 p-0 backdrop-blur-xl dark:border-white/10 dark:bg-white/3">
                   <div className="p-4">
                     <ProjectPreviewPanel project={project} index={index} compact />
                   </div>
@@ -173,7 +173,7 @@ export default function ProjectsPage() {
                           <Badge
                             key={`${project.id}-${item}`}
                             variant="secondary"
-                            className="rounded-full border border-stone-950/10 bg-black/[0.03] px-3 py-1 text-[11px] text-stone-700 dark:border-white/10 dark:bg-black/24 dark:text-stone-300"
+                            className="rounded-full border border-stone-950/10 bg-black/3 px-3 py-1 text-[11px] text-stone-700 dark:border-white/10 dark:bg-black/24 dark:text-stone-300"
                           >
                             {item}
                           </Badge>
@@ -224,7 +224,7 @@ export default function ProjectsPage() {
           </div>
 
           {filteredProjects.length === 0 && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-[2rem] border border-stone-950/10 bg-white/78 py-16 text-center backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03]">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-4xl border border-stone-950/10 bg-white/78 py-16 text-center backdrop-blur-xl dark:border-white/10 dark:bg-white/3">
               <p className="text-lg text-stone-700/80 dark:text-white/68">No projects match this slice.</p>
               <Button
                 variant="outline"

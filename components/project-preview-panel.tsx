@@ -55,7 +55,7 @@ export default function ProjectPreviewPanel({
   if (bare) {
     return (
       <div
-        className="relative h-52 overflow-hidden rounded-[2rem] border border-stone-950/10 bg-white/72 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.18)] dark:border-white/10 dark:bg-black/30 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_32px_80px_-40px_rgba(15,23,42,0.55)] sm:h-56"
+        className="relative h-52 overflow-hidden rounded-4xl border border-stone-950/10 bg-white/72 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.18)] dark:border-white/10 dark:bg-black/30 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_32px_80px_-40px_rgba(15,23,42,0.55)] sm:h-56"
       >
         <div className="absolute inset-0 opacity-95 dark:hidden" style={{ background: accent.lightGradient }} />
         <div className="absolute inset-0 hidden opacity-95 dark:block" style={{ background: accent.darkGradient }} />
@@ -66,24 +66,24 @@ export default function ProjectPreviewPanel({
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover opacity-[0.12] mix-blend-multiply dark:opacity-[0.18] dark:mix-blend-screen"
+            className="object-cover opacity-12 mix-blend-multiply dark:opacity-18 dark:mix-blend-screen"
             sizes="70vw"
             draggable={false}
           />
         )}
 
-        <div className="absolute right-4 top-3 text-[5rem] font-black leading-none text-stone-950/[0.08] dark:text-white/[0.08] sm:text-[6rem]">
+        <div className="absolute right-4 top-3 text-[5rem] font-black leading-none text-stone-950/8 dark:text-white/8 sm:text-[6rem]">
           {projectNumber}
         </div>
 
         <div className="relative z-10 flex h-full flex-col justify-end p-5 sm:p-6">
-          <div className="max-w-[22rem]">
+          <div className="max-w-88">
             <p className="text-[11px] uppercase tracking-[0.18em] text-stone-700/72 dark:text-white/58">
               {project.date}
               {visibleCategories[0] ? ` / ${visibleCategories[0]}` : ""}
             </p>
             <h3 className="font-playfair text-[2rem] leading-[0.92] text-stone-950 dark:text-white sm:text-[2.3rem]">{project.title}</h3>
-            <p className="mt-2 text-sm leading-6 text-stone-800/78 dark:text-white/68 sm:max-w-[18rem]">{project.subtitle}</p>
+            <p className="mt-2 text-sm leading-6 text-stone-800/78 dark:text-white/68 sm:max-w-72">{project.subtitle}</p>
           </div>
 
           <TechIconStack tech={project.tech} limit={5} className="mt-4" />
@@ -94,7 +94,7 @@ export default function ProjectPreviewPanel({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[2rem] border border-stone-950/10 bg-white/72 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.18)] dark:border-white/10 dark:bg-black/30 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_32px_80px_-40px_rgba(15,23,42,0.55)] ${
+      className={`relative overflow-hidden rounded-4xl border border-stone-950/10 bg-white/72 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.18)] dark:border-white/10 dark:bg-black/30 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_32px_80px_-40px_rgba(15,23,42,0.55)] ${
         compact ? "h-48" : "h-60"
       }`}
     >
@@ -107,14 +107,14 @@ export default function ProjectPreviewPanel({
           src={project.image}
           alt={project.title}
           fill
-          className="object-cover opacity-[0.12] mix-blend-multiply dark:opacity-[0.18] dark:mix-blend-screen"
+          className="object-cover opacity-12 mix-blend-multiply dark:opacity-18 dark:mix-blend-screen"
           sizes={compact ? "50vw" : "70vw"}
           draggable={false}
         />
       )}
 
       <div
-        className={`absolute right-4 top-3 font-black leading-none text-stone-950/[0.08] dark:text-white/[0.08] ${
+        className={`absolute right-4 top-3 font-black leading-none text-stone-950/8 dark:text-white/8 ${
           compact ? "text-[4rem] sm:text-[4.5rem]" : "text-[5rem] sm:text-[6rem]"
         }`}
       >
@@ -128,7 +128,7 @@ export default function ProjectPreviewPanel({
         </p>
 
         <div className="flex items-end justify-between gap-3">
-          <div className={compact ? "min-w-0 max-w-[11.5rem]" : "min-w-0 max-w-[18rem] sm:max-w-[21rem]"}>
+          <div className={compact ? "min-w-0 max-w-46" : "min-w-0 max-w-72 sm:max-w-84"}>
             <h3 className={`font-playfair text-stone-950 dark:text-white ${compact ? "text-2xl" : "text-3xl"}`}>{project.title}</h3>
             {!compact && <p className="mt-1 max-w-md text-sm leading-6 text-stone-800/78 dark:text-white/70">{project.subtitle}</p>}
           </div>
@@ -136,8 +136,8 @@ export default function ProjectPreviewPanel({
           <div
             className={`shrink-0 rounded-2xl border border-stone-950/10 bg-white/46 text-stone-700 dark:border-white/12 dark:bg-black/20 dark:text-white/70 ${
               compact
-                ? "max-w-[8.75rem] px-3 py-2 text-right text-[10px] leading-4"
-                : "hidden max-w-[10rem] px-4 py-3 text-right text-xs sm:block"
+                ? "max-w-35 px-3 py-2 text-right text-[10px] leading-4"
+                : "hidden max-w-40 px-4 py-3 text-right text-xs sm:block"
             }`}
           >
             <p className="text-stone-500 dark:text-white/40">Impact</p>

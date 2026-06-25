@@ -42,8 +42,8 @@ export default function AboutSection() {
               <p className="meta-label">In practice</p>
               <div className="mt-3 space-y-3">
                 {featuredStats.map((stat) => (
-                  <div key={stat.text} className="flex items-start gap-3 text-sm leading-6 text-stone-700/78 dark:text-stone-300/74">
-                    <stat.icon className="mt-0.5 h-4 w-4 text-sky-600 dark:text-sky-300" />
+                  <div key={stat.text} className="flex items-start gap-2.5 text-sm leading-6 text-stone-700/78 dark:text-stone-300/74">
+                    <span className="mt-2.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sky-300/80" />
                     <span>{stat.text}</span>
                   </div>
                 ))}

@@ -24,24 +24,19 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
     <motion.article
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 180, damping: 18 }}
-      className="h-[430px] w-[84vw] shrink-0 snap-start sm:h-[438px] sm:w-[70vw] lg:w-[520px]"
+      className="h-107.5 w-[84vw] shrink-0 snap-start sm:h-109.5 sm:w-[70vw] lg:w-130"
     >
-      <Card className="flex h-full flex-col overflow-hidden rounded-[2.25rem] border border-stone-950/10 bg-white/78 p-0 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.22)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_40px_110px_-48px_rgba(15,23,42,0.95)]">
+      <Card className="flex h-full flex-col overflow-hidden rounded-[2.25rem] border border-stone-950/10 bg-white/78 p-0 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.22)] backdrop-blur-xl dark:border-white/10 dark:bg-white/3 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_40px_110px_-48px_rgba(15,23,42,0.95)]">
         <div className="p-4">
           <ProjectPreviewPanel project={project} index={index} />
         </div>
 
         <CardContent className="flex flex-1 flex-col p-5 pt-0">
           <div className="flex items-start justify-between gap-4">
-            <div className="flex flex-wrap gap-2">
-              {visibleCategories.map((item) => (
-                <span
-                  key={`${project.id}-${item}`}
-                  className="inline-flex items-center rounded-full border border-stone-950/10 bg-stone-950/[0.03] px-3 py-1.5 text-[11px] text-stone-700 dark:border-white/10 dark:bg-white/[0.05] dark:text-stone-300"
-                >
-                  {item}
-                </span>
-              ))}
+            <div className="flex items-center gap-2">
+              <span className="text-[0.68rem] font-semibold uppercase tracking-[0.13em] text-stone-400 dark:text-stone-500">
+                {visibleCategories.join(" · ")}
+              </span>
             </div>
 
             <div className="flex gap-2">
@@ -80,7 +75,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
             </div>
           </div>
 
-          <p className="mt-4 max-w-[28rem] text-sm leading-6 text-stone-700/80 dark:text-stone-300/78">{project.impact}</p>
+          <p className="mt-4 max-w-md text-sm leading-6 text-stone-700/80 dark:text-stone-300/78">{project.impact}</p>
         </CardContent>
       </Card>
     </motion.article>
@@ -166,15 +161,13 @@ function ProjectModal({
             <div className="space-y-4">
               <div>
                 <p className="meta-label">Highlights</p>
-                <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {project.details.results.slice(0, 3).map((result, resultIndex) => (
+                <div className="mt-4 space-y-2.5">
+                  {project.details.results.slice(0, 3).map((result) => (
                     <div
                       key={`${project.id}-${result}`}
-                      className={`flex gap-3 rounded-[1rem] border border-stone-950/10 bg-black/[0.02] px-4 py-3 text-sm leading-6 text-stone-700/82 dark:border-white/10 dark:bg-white/[0.03] dark:text-stone-300/80 ${
-                        resultIndex === 2 ? "sm:col-span-2" : ""
-                      }`}
+                      className="flex items-start gap-3 text-sm leading-6 text-stone-700/82 dark:text-stone-300/80"
                     >
-                      <span className="mt-2 inline-block h-2 w-2 shrink-0 rounded-full bg-sky-300" />
+                      <span className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sky-300" />
                       <span>{result}</span>
                     </div>
                   ))}
@@ -294,7 +287,7 @@ export default function ProjectsSection() {
         className="pointer-events-none absolute inset-x-0 bottom-0 top-[28vh]"
       />
 
-      <div className="sticky top-0 relative flex h-screen flex-col overflow-hidden">
+      <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
         <div className="relative z-10 pt-[calc(var(--nav-height,72px)+8px)] sm:pt-[calc(var(--nav-height,72px)+12px)]">
           <ContentContainer>
             <motion.div
@@ -333,16 +326,14 @@ export default function ProjectsSection() {
           <motion.div
             whileHover={{ y: -6 }}
             transition={{ type: "spring", stiffness: 180, damping: 18 }}
-            className="relative h-[430px] w-[84vw] shrink-0 sm:h-[438px] sm:w-[70vw] lg:w-[400px]"
+            className="relative h-107.5 w-[84vw] shrink-0 sm:h-109.5 sm:w-[70vw] lg:w-100"
           >
-            <Card className="flex h-full flex-col items-center justify-center rounded-[2.25rem] border border-stone-950/10 bg-white/78 p-8 text-center backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.03]">
-              <div className="relative inline-flex h-24 w-24 items-center justify-center rounded-[2rem] border border-sky-300/20 bg-sky-300/10">
-                <ArrowRight className="h-10 w-10 text-sky-700 dark:text-sky-100" />
-              </div>
-              <h3 className="relative mt-8 text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">Full archive</h3>
+            <Card className="flex h-full flex-col items-center justify-center rounded-[2.25rem] border border-stone-950/10 bg-white/78 p-8 text-center backdrop-blur-xl dark:border-white/10 dark:bg-white/3">
+              <ArrowRight className="h-10 w-10 text-stone-400 dark:text-stone-500" />
+              <h3 className="mt-6 text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">Full archive</h3>
               <Button
                 onClick={() => router.push("/projects")}
-                className="relative mt-6 rounded-full bg-sky-300 px-6 text-slate-950 hover:bg-sky-200"
+                className="mt-6 rounded-full bg-sky-300 px-6 text-slate-950 hover:bg-sky-200"
               >
                 Browse all projects
               </Button>

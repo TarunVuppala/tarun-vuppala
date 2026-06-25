@@ -26,7 +26,6 @@ export default function Footer() {
       <ContentContainer className="py-8 sm:py-10">
         <div className="grid gap-8 border-b border-stone-950/10 pb-6 dark:border-white/10 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
           <div className="space-y-4">
-            <p className="section-kicker">Footer</p>
             <div>
               <h3 className="text-3xl font-semibold tracking-tight text-stone-950 sm:text-4xl dark:text-stone-50">
                 AI/ML and backend software engineer.
@@ -68,13 +67,6 @@ export default function Footer() {
                     {link.name}
                   </Link>
                 ))}
-              </div>
-            </div>
-
-            <div>
-              <p className="meta-label">Reach me</p>
-              <div className="mt-3 space-y-2 text-sm text-stone-700/78 dark:text-stone-300/78">
-                <p>tarun.vuppala26@gmail.com</p>
               </div>
             </div>
           </div>
