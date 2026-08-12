@@ -11,7 +11,6 @@ import {
   Mail,
   MapPin,
   Rocket,
-  Target,
   Terminal,
   Users,
   Zap,
@@ -148,7 +147,7 @@ const projectCatalog: Project[] = [
       ],
       learnings: "Optimized real-time data flows under production stress.",
     },
-    categories: ["Web App", "Mobile"],
+    categories: ["Website", "Mobile"],
   },
   {
     id: "quickfuel",
@@ -188,7 +187,7 @@ const projectCatalog: Project[] = [
       learnings:
         "Balanced logistics routing with real-time data to ensure timely service.",
     },
-    categories: ["Web App", "SaaS"],
+    categories: ["Website", "SaaS"],
   },
   {
     id: "tedxaceec",
@@ -212,7 +211,7 @@ const projectCatalog: Project[] = [
       results: ["7+ collaborators onboarded", "90+ tickets processed"],
       learnings: "Internal tooling boosts large-event success.",
     },
-    categories: ["Web App"],
+    categories: ["Website"],
   },
   {
     id: "trimlyai",
@@ -343,7 +342,7 @@ const projectCatalog: Project[] = [
   //     results: ["100+ assets supported", "Exportable scenes"],
   //     learnings: "Balanced fidelity and performance.",
   //   },
-  //   categories: ["Web App", "3D", "SaaS"],
+  //   categories: ["Website", "3D", "SaaS"],
   // },
   // {
   //   id: "taxcalculator",
@@ -366,7 +365,7 @@ const projectCatalog: Project[] = [
   //     results: ["2023-24 compliant"],
   //     learnings: "Managed edge-case rules robustly.",
   //   },
-  //   categories: ["Finance", "Web App"],
+  //   categories: ["Finance", "Website"],
   // },
   // {
   //   id: "eventreg",
@@ -404,7 +403,7 @@ const projectCatalog: Project[] = [
   //     learnings:
   //       "Integrating QR workflows streamlined in-person event operations.",
   //   },
-  //   categories: ["Web App"],
+  //   categories: ["Website"],
   // },
   {
     id: "jobtrackerportal",
@@ -436,7 +435,7 @@ const projectCatalog: Project[] = [
       learnings:
         "Leveraging MongoDB’s flexible schema alongside client-side caching delivers near real-time sync without heavy frameworks.",
     },
-    categories: ["Web App", "Productivity","SaaS"],
+    categories: ["Website", "Productivity","SaaS"],
   },
 ];
 
@@ -445,170 +444,6 @@ const PROJECT_ORDER = ["atlas-ai", "autopodcast", "acethletics", "tedxaceec", "t
 export const allProjects: Project[] = [
   ...PROJECT_ORDER.map((id) => projectCatalog.find((project) => project.id === id)!),
   ...projectCatalog.filter((project) => !PROJECT_ORDER.includes(project.id)),
-];
-
-export const skillsByMastery = {
-  expert: [
-    {
-      name: "React",
-      category: "Frontend",
-      years: "2+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-    },
-    {
-      name: "JavaScript",
-      category: "Language",
-      years: "2+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-    },
-    {
-      name: "TypeScript",
-      category: "Language",
-      years: "1+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-    },
-    {
-      name: "HTML/CSS",
-      category: "Frontend",
-      years: "3+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-    },
-  ],
-  advanced: [
-    {
-      name: "Next.js",
-      category: "Framework",
-      years: "2+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-    },
-    {
-      name: "Node.js",
-      category: "Backend",
-      years: "2+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-    },
-    {
-      name: "Tailwind CSS",
-      category: "Styling",
-      years: "2+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
-    },
-    {
-      name: "Git",
-      category: "Tools",
-      years: "2+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-    },
-    {
-      name: "MongoDB",
-      category: "Database",
-      years: "2+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-    },
-  ],
-  proficient: [
-    {
-      name: "Python",
-      category: "Language",
-      years: "2+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-    },
-    {
-      name: "Java",
-      category: "Language",
-      years: "3+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/java-original.svg",
-    },
-    {
-      name: "Firebase",
-      category: "Cloud",
-      years: "1+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/firebase-original.svg",
-    },
-  ],
-  learning: [
-    {
-      name: "Redis",
-      category: "Database",
-      years: "1+",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg",
-    },
-    {
-      name: "Nest.js",
-      category: "Framework",
-      years: "Learning",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
-    },
-    {
-      name: "Designing",
-      category: "Design",
-      years: "Learning",
-      logo: "",
-    },
-    {
-      name: "Machine Learning",
-      category: "AI",
-      years: "Learning",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
-    },
-    {
-      name: "Motion.dev",
-      category: "Animations",
-      years: "Learning",
-      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiqP6jLJCyn0khj8jO7Mxd2e-JT8aBeR8a7g&s",
-    },
-  ],
-};
-
-export const masteryLevels = [
-  {
-    key: "expert",
-    title: "Expert",
-    description: "Deep expertise & production experience",
-    color: "text-green-500",
-  },
-  {
-    key: "advanced",
-    title: "Advanced",
-    description: "Strong proficiency & regular use",
-    color: "text-blue-500",
-  },
-  {
-    key: "proficient",
-    title: "Proficient",
-    description: "Solid understanding & practical use",
-    color: "text-yellow-500",
-  },
-  {
-    key: "learning",
-    title: "Learning",
-    description: "Currently exploring & building projects",
-    color: "text-purple-500",
-  },
-];
-
-export const codingQuotes = [
-  "Software is the sculptor's clay of the digital age, and I mold functionality with every keystroke.",
-  "Algorithms are the melodies of machines, and I compose symphonies of efficiency.",
-  "Every function I write is a bridge between human intent and machine execution.",
-  "In the binary forest, I plant seeds of logic that grow into powerful applications.",
-  "Code is the canvas; I'm the painter turning ideas into interactive masterpieces.",
-  "Debugging is my meditation—finding serenity in the art of problem elimination.",
-  "APIs are the languages of collaboration, and I speak fluently across every endpoint.",
-  "Data structures are the architecture of thought, and I build skyscrapers of speed and scale.",
-  "Variables are my characters; together they enact the story of your software.",
-  "A clean codebase is a clear mind—both reveal clarity and purpose.",
-  "Version control is the time machine of development; I travel back to fix mistakes and forward to deliver innovations.",
-  "Every pull request is a conversation, and I code to contribute value to the dialogue.",
-  "Front-end is my stage, and I choreograph every animation and interaction.",
-  "Back-end logic is the engine room, and I engineer horsepower for your application.",
-  "Testing isn't optional—it's the guardian ensuring promises in code never break.",
-  "Continuous integration is the heartbeat of progress, and I keep it strong and steady.",
-  "Branches in Git are the forks in the road, and I navigate them toward the closest merge.",
-  "A well-written algorithm is a riddle solved with elegant simplicity.",
-  "Refactoring is my way of polishing rough diamonds into gleaming gems.",
-  "Deployments are my launchpads—one click and your vision soars into users' hands.",
-  "Code is poetry written in logic, and I'm here to craft verses that solve real problems.",
 ];
 
 export const codingStats: {
@@ -675,59 +510,6 @@ export const journeyExpanded = [
       "Used TDD to reduce post-release defects by 30%",
       "Improved system stability through disciplined delivery and testing",
     ],
-  },
-];
-
-export const stats = [
-  { number: "10+", label: "Projects Completed" },
-  { number: "2+", label: "Years Experience" },
-  { number: "10+", label: "Technologies" },
-  { number: "80%", label: "Client Satisfaction" },
-];
-
-export const journeyTimeline = [
-  { year: "2018", event: "Discovered passion for coding in high school." },
-  {
-    year: "2023",
-    event: "Built my first web app and started honing my skills.",
-  },
-  { year: "2024", event: "First internship: Built real-world web apps." },
-  {
-    year: "2025",
-    event: "Launched personal projects and open-source contributions.",
-  },
-];
-
-export const highlights: {
-  icon: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
-  title: string;
-  description: string;
-}[] = [
-  {
-    icon: Code,
-    title: "Clean Architecture",
-    description:
-      "Crafting code that's elegant, maintainable, and built to scale with future needs.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovative Solutions",
-    description:
-      "Turning complex problems into creative, efficient breakthroughs.",
-  },
-  {
-    icon: Target,
-    title: "Impact-Driven",
-    description:
-      "Delivering solutions that create real value for users and businesses.",
-  },
-  {
-    icon: Rocket,
-    title: "Entrepreneurial Spirit",
-    description:
-      "Building towards launching something that makes a real impact in people's lives.",
   },
 ];
 
@@ -1007,35 +789,6 @@ export const skillsByDomain = [
       },
     ],
   },
-];
-
-export const projectTypes = [
-  "Full-Stack App",
-  "E-commerce Site",
-  "API Development",
-  "MVP",
-  "Organization Website",
-  "Landing Page",
-  "Dashboard",
-  "Web App",
-  "Other",
-];
-
-export const budgetRanges = [
-  "< ₹10,000",
-  "₹10,000 - ₹25,000",
-  "₹25,000 - ₹50,000",
-  "₹50,000 - ₹1,00,000",
-  "Let's discuss",
-];
-
-export const timelines = [
-  "ASAP",
-  "1-2 weeks",
-  "1 month",
-  "2-3 months",
-  "3+ months",
-  "Flexible",
 ];
 
 export const contactInfo = [
