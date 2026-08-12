@@ -148,7 +148,7 @@ const projectCatalog: Project[] = [
       ],
       learnings: "Optimized real-time data flows under production stress.",
     },
-    categories: ["Web App", "Mobile", "Published"],
+    categories: ["Web App", "Mobile"],
   },
   {
     id: "quickfuel",
@@ -188,7 +188,7 @@ const projectCatalog: Project[] = [
       learnings:
         "Balanced logistics routing with real-time data to ensure timely service.",
     },
-    categories: ["Web App", "Tool"],
+    categories: ["Web App", "SaaS"],
   },
   {
     id: "tedxaceec",
@@ -212,7 +212,7 @@ const projectCatalog: Project[] = [
       results: ["7+ collaborators onboarded", "90+ tickets processed"],
       learnings: "Internal tooling boosts large-event success.",
     },
-    categories: ["Web App", "Published"],
+    categories: ["Web App"],
   },
   {
     id: "trimlyai",
@@ -248,7 +248,7 @@ const projectCatalog: Project[] = [
       ],
       learnings: "Useful AI products need controllability and structure, not just shorter text.",
     },
-    categories: ["AI", "SaaS", "Personalization", "Tool"],
+    categories: ["AI", "SaaS", "Personalization"],
   },
   {
     id: "atlas-ai",
@@ -287,7 +287,7 @@ const projectCatalog: Project[] = [
       learnings:
         "Local AI product work is mostly systems work: memory use, model ergonomics, and UX discipline matter as much as the model choice.",
     },
-    categories: ["AI", "Productivity", "Tool"],
+    categories: ["AI", "Productivity", "Mobile"],
   },
   {
     id: "autopodcast",
@@ -366,46 +366,46 @@ const projectCatalog: Project[] = [
   //     results: ["2023-24 compliant"],
   //     learnings: "Managed edge-case rules robustly.",
   //   },
-  //   categories: ["Finance", "Web App", "Tool"],
+  //   categories: ["Finance", "Web App"],
   // },
-  {
-    id: "eventreg",
-    title: "Event Registration",
-    subtitle: "Minimalistic Event Registration",
-    description:
-      "A lightweight site for creating and managing event sign-ups and attendees.",
-    problem: "Feature-heavy platforms distract attendees.",
-    solution:
-      "Built a pared-down form with instant confirmation emails and QR-code check-in.",
-    impact: "Boosted sign-up completion by 50%.",
-    tech: [
-      "Next.js",
-      "Tailwind CSS",
-      "Node.js",
-      "TypeScript",
-      "nodemailer",
-      "QR parser",
-    ],
-    image: "/placeholder.svg",
-    liveUrl: null,
-    githubUrl: null,
-    date: "2025",
-    featured: false,
-    stats: { users: "300+", performance: "Fast Load", rating: "4.6/5" },
-    details: {
-      challenge: "Managing on-ground attendee check-in and managing UX.",
-      approach:
-        "Serverless form submits with instant emails and QR-code generation.",
-      results: [
-        "50+ events managed",
-        "50% increase in completion rates",
-        "QR-enabled check-in reduced wait times by 40%",
-      ],
-      learnings:
-        "Integrating QR workflows streamlined in-person event operations.",
-    },
-    categories: ["Web App", "Tool", "Published"],
-  },
+  // {
+  //   id: "eventreg",
+  //   title: "Event Registration",
+  //   subtitle: "Minimalistic Event Registration",
+  //   description:
+  //     "A lightweight site for creating and managing event sign-ups and attendees.",
+  //   problem: "Feature-heavy platforms distract attendees.",
+  //   solution:
+  //     "Built a pared-down form with instant confirmation emails and QR-code check-in.",
+  //   impact: "Boosted sign-up completion by 50%.",
+  //   tech: [
+  //     "Next.js",
+  //     "Tailwind CSS",
+  //     "Node.js",
+  //     "TypeScript",
+  //     "nodemailer",
+  //     "QR parser",
+  //   ],
+  //   image: "/placeholder.svg",
+  //   liveUrl: null,
+  //   githubUrl: null,
+  //   date: "2025",
+  //   featured: false,
+  //   stats: { users: "300+", performance: "Fast Load", rating: "4.6/5" },
+  //   details: {
+  //     challenge: "Managing on-ground attendee check-in and managing UX.",
+  //     approach:
+  //       "Serverless form submits with instant emails and QR-code generation.",
+  //     results: [
+  //       "50+ events managed",
+  //       "50% increase in completion rates",
+  //       "QR-enabled check-in reduced wait times by 40%",
+  //     ],
+  //     learnings:
+  //       "Integrating QR workflows streamlined in-person event operations.",
+  //   },
+  //   categories: ["Web App"],
+  // },
   {
     id: "jobtrackerportal",
     title: "JobTrackerPortal",
@@ -436,7 +436,7 @@ const projectCatalog: Project[] = [
       learnings:
         "Leveraging MongoDB’s flexible schema alongside client-side caching delivers near real-time sync without heavy frameworks.",
     },
-    categories: ["Web App", "Productivity", "Tool"],
+    categories: ["Web App", "Productivity","SaaS"],
   },
 ];
 

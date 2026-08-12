@@ -18,18 +18,11 @@ import { allProjects } from "@/lib/data"
 
 const categories = [
   "All",
-  "Web App",
+  "Website",
   "Mobile",
   "AI",
   "Automation",
-  "Productivity",
   "SaaS",
-  "3D",
-  "Finance",
-  "Plugin",
-  "Personalization",
-  "Audio Processing",
-  "Tool",
 ]
 
 const featuredProjectsCount = allProjects.filter((project) => project.featured).length
@@ -78,7 +71,7 @@ export default function ProjectsPage() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-6 border-t border-stone-950/10 pt-4 text-sm dark:border-white/10 xl:border-t-0 xl:pt-0">
+              {/* <div className="flex flex-wrap gap-6 border-t border-stone-950/10 pt-4 text-sm dark:border-white/10 xl:border-t-0 xl:pt-0">
                 <div>
                   <p className="meta-label">All</p>
                   <p className="mt-1 text-2xl font-semibold text-stone-950 dark:text-stone-50">{allProjects.length}</p>
@@ -91,7 +84,7 @@ export default function ProjectsPage() {
                   <p className="meta-label">Categories</p>
                   <p className="mt-1 text-2xl font-semibold text-stone-950 dark:text-stone-50">{categories.length - 1}</p>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="grid gap-4 border-t border-stone-950/10 pt-5 dark:border-white/10 xl:grid-cols-[280px_1fr] xl:items-start">
@@ -106,33 +99,6 @@ export default function ProjectsPage() {
               </div>
 
               <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    variant={filter === "all" ? "default" : "outline"}
-                    onClick={() => setFilter("all")}
-                    size="sm"
-                    className={
-                      filter === "all"
-                        ? "rounded-full bg-sky-300 text-slate-950 hover:bg-sky-200"
-                        : "rounded-full border-stone-950/10 bg-white/75 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-stone-100 dark:hover:bg-white/10"
-                    }
-                  >
-                    All
-                  </Button>
-                  <Button
-                    variant={filter === "featured" ? "default" : "outline"}
-                    onClick={() => setFilter("featured")}
-                    size="sm"
-                    className={
-                      filter === "featured"
-                        ? "rounded-full bg-sky-300 text-slate-950 hover:bg-sky-200"
-                        : "rounded-full border-stone-950/10 bg-white/75 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-stone-100 dark:hover:bg-white/10"
-                    }
-                  >
-                    Featured
-                  </Button>
-                </div>
-
                 <div className="flex flex-wrap gap-2">
                   {categories.map((item) => (
                     <Button
@@ -180,12 +146,6 @@ export default function ProjectsPage() {
                             {item}
                           </Badge>
                         ))}
-                        {project.featured && (
-                          <Badge className="rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-[11px] text-sky-700 dark:text-sky-100">
-                            <Star className="mr-1 h-3 w-3" />
-                            Featured
-                          </Badge>
-                        )}
                       </div>
 
                       <div className="flex gap-2">
