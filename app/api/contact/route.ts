@@ -2,11 +2,15 @@ import nodemailer from "nodemailer"
 import { NextResponse } from "next/server"
 import { generateEmailHtml } from "@/lib/htmlTemplate"
 import { NormalizedContactData, validateContactPayload } from "@/lib/security"
+import { siteUrl } from "@/lib/seo"
 
 const MAX_BODY_SIZE = 8 * 1024 // 8KB
 const RATE_LIMIT_WINDOW_MS = 60_000
 const RATE_LIMIT_MAX = 5
-const rateLimiter = new Map<string, { count: number; expiresAt: number }>()
+type RateLimitEntry = { count: number; expiresAt: number }
+
+const rateLimiterStore = globalThis as typeof globalThis & { contactRateLimiter?: Map<string, RateLimitEntry> }
+const rateLimiter = rateLimiterStore.contactRateLimiter ?? (rateLimiterStore.contactRateLimiter = new Map())
 
 const requiredEnvVars = ["EMAIL_USER", "EMAIL_PASS", "CONTACT_RECEIVER"] as const
 
@@ -17,13 +21,18 @@ if (missingEnv.length) {
 
 const getClientId = (req: Request) => {
   const header =
-    req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? req.headers.get("cf-connecting-ip") ?? ""
+    req.headers.get("cf-connecting-ip") ?? req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for") ?? ""
   return header.split(",")[0]?.trim() || "anonymous"
 }
 
 const isRateLimited = (clientId: string) => {
-  const entry = rateLimiter.get(clientId)
   const now = Date.now()
+
+  for (const [key, value] of rateLimiter) {
+    if (value.expiresAt < now) rateLimiter.delete(key)
+  }
+
+  const entry = rateLimiter.get(clientId)
 
   if (!entry || entry.expiresAt < now) {
     rateLimiter.set(clientId, { count: 1, expiresAt: now + RATE_LIMIT_WINDOW_MS })
@@ -35,6 +44,20 @@ const isRateLimited = (clientId: string) => {
   return entry.count > RATE_LIMIT_MAX
 }
 
+const hasTrustedOrigin = (req: Request) => {
+  const origin = req.headers.get("origin")
+  if (!origin) return process.env.NODE_ENV !== "production"
+
+  const requestOrigin = new URL(req.url).origin
+  return origin === requestOrigin || origin === siteUrl
+}
+
+const isHoneypotSubmission = (payload: unknown) => {
+  if (!payload || typeof payload !== "object") return false
+  const website = (payload as { website?: unknown }).website
+  return typeof website === "string" && website.trim().length > 0
+}
+
 const formatEmailText = (data: NormalizedContactData) => {
   return `Name: ${data.name}
 Email: ${data.email}
@@ -43,6 +66,10 @@ ${data.message}`
 }
 
 export async function POST(req: Request) {
+  if (!hasTrustedOrigin(req)) {
+    return NextResponse.json({ success: false, error: "Invalid request origin." }, { status: 403 })
+  }
+
   const clientId = getClientId(req)
   if (isRateLimited(clientId)) {
     return NextResponse.json(
@@ -64,6 +91,10 @@ export async function POST(req: Request) {
       { success: false, error: "Message too large. Please shorten your request." },
       { status: 413 },
     )
+  }
+
+  if (isHoneypotSubmission(payload)) {
+    return NextResponse.json({ success: true })
   }
 
   const validation = validateContactPayload(payload)
