@@ -81,10 +81,19 @@ export default function HeroSection() {
               <div className="relative rounded-full border border-border/50 bg-background/50 p-3 shadow-2xl backdrop-blur-sm dark:bg-card/50">
                 <div className="relative aspect-square w-full overflow-hidden rounded-full bg-linear-to-br from-stone-100 to-stone-200 ring-1 ring-border/50 dark:from-stone-800 dark:to-stone-900">
                   <Image
-                    src="/tarun.png"
+                    src="/tarun_white.png"
                     alt="Tarun Vuppala portrait"
                     fill
-                    className="object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    className="object-cover object-[46%_18%] scale-105 transition-transform duration-700 group-hover:scale-110 dark:hidden"
+                    sizes="(min-width: 1280px) 390px, (min-width: 1024px) 360px, 330px"
+                    priority
+                    draggable={false}
+                  />
+                  <Image
+                    src="/tarun_black.png"
+                    alt="Tarun Vuppala portrait"
+                    fill
+                    className="hidden object-cover object-[46%_18%] scale-105 transition-transform duration-700 group-hover:scale-110 dark:block"
                     sizes="(min-width: 1280px) 390px, (min-width: 1024px) 360px, 330px"
                     priority
                     draggable={false}
