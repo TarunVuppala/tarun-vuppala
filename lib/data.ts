@@ -109,7 +109,7 @@ export const techIconMap: Record<string, string> = {
 export const getTechIcon = (tech: string) =>
   techIconMap[normalizeTechName(tech)] || "/placeholder.svg";
 
-export const allProjects: Project[] = [
+const projectCatalog: Project[] = [
   {
     id: "acethletics",
     title: "Acethletics",
@@ -438,6 +438,13 @@ export const allProjects: Project[] = [
     },
     categories: ["Web App", "Productivity", "Tool"],
   },
+];
+
+const PROJECT_ORDER = ["atlas-ai", "autopodcast", "acethletics", "tedxaceec", "trimlyai"];
+
+export const allProjects: Project[] = [
+  ...PROJECT_ORDER.map((id) => projectCatalog.find((project) => project.id === id)!),
+  ...projectCatalog.filter((project) => !PROJECT_ORDER.includes(project.id)),
 ];
 
 export const skillsByMastery = {

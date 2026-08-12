@@ -1,13 +1,14 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { motion } from "framer-motion"
-import { ExternalLink, Github, Search, Star } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { ExternalLink, Github, Info, Search, Star } from "lucide-react"
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import ContentContainer from "@/components/layout/container"
 import ProjectPreviewPanel from "@/components/project-preview-panel"
+import { ProjectModal } from "@/components/sections/projects-section"
 import TechIconStack from "@/components/ui/tech-icon-stack"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -37,6 +38,7 @@ export default function ProjectsPage() {
   const [filter, setFilter] = useState<"all" | "featured">("all")
   const [category, setCategory] = useState("All")
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
 
   const normalizedSearchTerm = searchTerm.trim().toLowerCase()
 
@@ -211,6 +213,15 @@ export default function ProjectsPage() {
                             </Link>
                           </Button>
                         )}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setSelectedProject(project)}
+                          className="border-stone-950/10 bg-white/75 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
+                          aria-label={`View ${project.title} project details`}
+                        >
+                          <Info className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
 
@@ -239,6 +250,16 @@ export default function ProjectsPage() {
               </Button>
             </motion.div>
           )}
+
+          <AnimatePresence>
+            {selectedProject && (
+              <ProjectModal
+                project={selectedProject}
+                index={allProjects.findIndex((project) => project.id === selectedProject.id)}
+                onClose={() => setSelectedProject(null)}
+              />
+            )}
+          </AnimatePresence>
         </ContentContainer>
       </main>
 

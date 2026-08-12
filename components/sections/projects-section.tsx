@@ -82,7 +82,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
   )
 }
 
-function ProjectModal({
+export function ProjectModal({
   project,
   index,
   onClose,
@@ -196,15 +196,7 @@ export default function ProjectsSection() {
   const sectionProgress = useMotionValue(0)
   const progressBarRaw = useMotionValue(0)
 
-  const featuredProjects = useMemo(
-    () =>
-      [...allProjects.filter((project) => project.featured)].sort((left, right) => {
-        const leftScore = Number(left.categories.includes("AI")) * 2 + Number(left.categories.includes("Automation"))
-        const rightScore = Number(right.categories.includes("AI")) * 2 + Number(right.categories.includes("Automation"))
-        return rightScore - leftScore
-      }),
-    [],
-  )
+  const featuredProjects = useMemo(() => allProjects.filter((project) => project.featured), [])
 
   const { scrollY } = useScroll()
   const rawX = useTransform(sectionProgress, [0, 1], [0, -endX])
