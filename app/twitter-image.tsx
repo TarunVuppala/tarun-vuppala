@@ -29,7 +29,7 @@ export default function TwitterImage() {
         }}
       >
         <div style={{ fontSize: 18, letterSpacing: 2, textTransform: "uppercase", opacity: 0.7 }}>
-          Full Stack Portfolio
+          Backend & AI Engineer
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div style={{ fontSize: 54, fontWeight: 700, lineHeight: 1.05 }}>{siteConfig.name}</div>

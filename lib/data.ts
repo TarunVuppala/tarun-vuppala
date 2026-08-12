@@ -42,6 +42,12 @@ export const techIconMap: Record<string, string> = {
   "node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
   "express.js": "https://cdn.simpleicons.org/express/white",
   fastapi: "https://cdn.simpleicons.org/fastapi/white",
+  flask: "https://cdn.simpleicons.org/flask/white",
+  java: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+  "spring boot": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg",
+  go: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg",
+  c: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
+  "c++": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
   aws: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
   "amazon web services":
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
@@ -49,6 +55,7 @@ export const techIconMap: Record<string, string> = {
   graphql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
   mongodb:
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+  mysql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
   postgresql:
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
   prisma: "https://cdn.simpleicons.org/prisma/white",
@@ -82,6 +89,7 @@ export const techIconMap: Record<string, string> = {
   "qr parser": "/icons/qr-parser.svg",
   ollama: "/icons/ollama.svg",
   "llama 3.2": "/icons/llama.svg",
+  "llama.cpp": "/icons/llama.svg",
   "pdf-parser": "/icons/pdf-parser.svg",
   "rest apis": "/icons/rest-apis.svg",
   authentication: "/icons/authentication.svg",
@@ -107,15 +115,14 @@ export const allProjects: Project[] = [
     title: "Acethletics",
     subtitle: "All-in-One College Sports Management",
     description:
-      "A unified platform that handles event scheduling, team coordination, live score updates, etc for college sports.",
+      "A centralized athletic sports platform for scheduling, coordination, and live tournament updates.",
     problem:
       "College sports events lacked centralized sports collaboration and online presence.",
     solution:
       "Built a platform for event scheduling, participant management, and real-time score updates.",
-    impact: "Digitized 10+ sports events and improved communication.",
+    impact: "Supported 10+ live events with 1,500 peak concurrent users and 2,000+ downloads.",
     tech: [
       "Next.js",
-      "React Native",
       "Node.js",
       "Socket.io",
       "MongoDB",
@@ -125,20 +132,19 @@ export const allProjects: Project[] = [
     image: "/placeholder.svg",
     liveUrl: "https://acethletics.vercel.app",
     githubUrl: "https://github.com/TarunVuppala/acethletics-server",
-    date: "2024",
+    date: "Aug – Dec 2024",
     featured: true,
-    stats: { users: "1.5K+", performance: "Instant Sync", rating: "4.8/5" },
+    stats: { users: "2K+ downloads", performance: "100ms API avg.", rating: "20ms realtime" },
     details: {
       challenge:
         "Coordinating live match updates and team logistics during a multi-day, multi-sport event.",
       approach:
-        "Used WebSockets for live scores and built an intuitive admin panel for real-time control.",
+        "Architected the backend, database schemas, transactional workflows, and WebSocket infrastructure for live tournament use.",
       results: [
-        "Live updates with 0 delays during 10+ matches",
-        "200+ participants registered",
-        "1.5K+ page views",
-        "Reduced miscommunication",
-        "2K+ downloads",
+        "Handled 1,500 peak concurrent users across 10+ live events",
+        "Maintained 100ms average API response latency during tournaments",
+        "Delivered 200+ real-time events per match at 20ms propagation latency",
+        "Recorded zero downtime and zero production data inconsistencies",
       ],
       learnings: "Optimized real-time data flows under production stress.",
     },
@@ -247,40 +253,36 @@ export const allProjects: Project[] = [
   {
     id: "atlas-ai",
     title: "Atlas AI",
-    subtitle: "Privacy-First Local AI Assistant",
+    subtitle: "Offline Multi-Expert AI System",
     description:
-      "An offline-first AI chat application with on-device inference that falls back to the desktop through LAN, using SSE streaming.",
+      "An offline-first AI mobile app with on-device LLM inference and a custom RAG expert system for private, context-aware conversations.",
     problem:
-      "Mobile AI chat usually depends on a remote backend or breaks down under real device memory and compute limits.",
+      "Mobile AI needs private, useful conversations while working within tight device memory and compute limits.",
     solution:
-      "Built an offline-first architecture with device-level inference optimization, LAN fallback to a desktop runtime, and provider-specific local chat persistence.",
+      "Built on-device LLM inference with llama.cpp, vector-backed RAG, GGUF quantization, persistent context windows, and device-specific tuning.",
     impact:
-      "Made local AI chat practical on mobile without giving up persistence, or direct control over models.",
+      "Kept time to first token stable between 1.5 and 8 seconds across tuned mobile devices.",
     tech: [
       "React Native",
-      "Next.js",
-      "TypeScript",
       "Python",
-      "FastAPI",
-      "React.js",
-      "Hugging Face",
-      "Tailwind CSS",
+      "llama.cpp",
+      "RAG",
     ],
     image: "/placeholder.svg",
     liveUrl: null,
     githubUrl: "https://github.com/madhavmadupu/atlas-ai",
-    date: "2026",
+    date: "Feb – Apr 2026",
     featured: true,
-    stats: { users: "100% offline", performance: "Local RAG", rating: "GPU-ready" },
+    stats: { users: "Offline-first", performance: "1.5–8s TTFT", rating: "On-device RAG" },
     details: {
       challenge:
-        "Keeping local inference usable on phones while working within tight memory, compute, and thermal limits.",
+        "Keeping local inference usable on phones under tight memory and compute limits.",
       approach:
-        "Combined on-device model execution with LAN fallback to desktop through SSE streaming, then tuned inference and persistence around mobile constraints.",
+        "Chunked and embedded domain knowledge into a vector database, then tuned quantization, context windows, and inference parameters per device.",
       results: [
-        "Offline-first AI chat with on-device inference and desktop fallback over LAN",
-        "Optimized on-device execution for mobile memory and compute limits",
-        "Enabled full-cycle on-device model management and provider-specific local chat persistence",
+        "Enabled private, context-aware offline conversations with a custom RAG expert system",
+        "Used GGUF quantization to control mobile memory footprint",
+        "Maintained stable 1.5–8 second time to first token through device-specific tuning",
       ],
       learnings:
         "Local AI product work is mostly systems work: memory use, model ergonomics, and UX discipline matter as much as the model choice.",
@@ -300,16 +302,16 @@ export const allProjects: Project[] = [
     image: "/placeholder.svg",
     liveUrl: null,
     githubUrl: "https://github.com/TarunVuppala/AutoPodcast",
-    date: "2025",
+    date: "Mar – Jun 2025",
     featured: true,
-    stats: { users: "n/a", performance: "<5min/process", rating: "4.9/5" },
+    stats: { users: "10+ editors", performance: "<8 min/edit", rating: "60% less overhead" },
     details: {
       challenge: "Handling real-world audio variance while keeping editing reliable enough for repeated use.",
       approach: "Wrapped FFmpeg-based audio processing inside an Adobe workflow that editors could actually use.",
       results: [
-        "Automated silence removal and loudness normalization",
-        "Cut repeated editing work by roughly 95%",
-        "Handled varied source files without breaking the publishing flow",
+        "Reduced podcast editing time from three hours to under eight minutes",
+        "Shipped cross-platform binaries adopted by 10+ podcast editors",
+        "Reduced manual release overhead by 60%",
       ],
       learnings: "Automation only sticks when the workflow is dependable, not just technically clever.",
     },
@@ -644,29 +646,27 @@ export const codingStats: {
 
 export const journeyExpanded = [
   {
-    year: "2024",
+    year: "Mar – Jun 2025",
     title: "Software Developer Intern",
-    company: "Unity Labs AI",
+    company: "Unity Internet",
     description:
-      "Built an Adobe Premiere Pro plugin that automated repetitive podcast editing work and reduced manual cleanup.",
+      "Built a Premiere Pro auto-edit plugin that reduced podcast editing time from three hours to under eight minutes.",
     achievements: [
-      "Built a production-oriented plugin around FFmpeg, Adobe CEP, and Premiere workflows",
-      "Implemented silence detection and audio cleanup for repeated editing tasks",
-      "Handled mixed source quality and edge cases across real editing sessions",
-      "Optimized the workflow so teams could move from raw audio to publishable output much faster",
+      "Used audio signal analysis, real-time scene switching, and overlap handling",
+      "Shipped cross-platform binaries adopted by 10+ podcast editors",
+      "Reduced manual release overhead by 60%",
     ],
   },
   {
-    year: "2024",
+    year: "Jun 2024 – Feb 2025",
     title: "Software Developer Intern",
-    company: "Frost Interactive",
+    company: "Front Interactive Services",
     description:
-      "Worked on backend services, business logic, and integration-heavy product work with a focus on performance and maintainability.",
+      "Engineered backend systems with 50+ REST API endpoints and a scalable server-side architecture.",
     achievements: [
-      "Built backend services for 2 in-house applications from scratch",
-      "Improved query and endpoint performance by around 50%",
-      "Collaborated with frontend teams on cleaner API contracts and smoother integrations",
-      "Wrote documentation and handoff material that made the codebase easier to maintain",
+      "Worked in an Agile Scrum team of six engineers across two-week sprints",
+      "Used TDD to reduce post-release defects by 30%",
+      "Improved system stability through disciplined delivery and testing",
     ],
   },
 ];
@@ -809,9 +809,19 @@ export const skillsByDomain = [
         color: "#ffffff",
       },
       {
-        name: "Nest.js",
-        logo: getTechIcon("Nest.js"),
-        color: "#E0234E",
+        name: "Java",
+        logo: getTechIcon("Java"),
+        color: "#F89820",
+      },
+      {
+        name: "Spring Boot",
+        logo: getTechIcon("Spring Boot"),
+        color: "#6DB33F",
+      },
+      {
+        name: "Go",
+        logo: getTechIcon("Go"),
+        color: "#00ADD8",
       },
       {
         name: "MongoDB",
@@ -822,6 +832,11 @@ export const skillsByDomain = [
         name: "PostgreSQL",
         logo: getTechIcon("PostgreSQL"),
         color: "#336791",
+      },
+      {
+        name: "MySQL",
+        logo: getTechIcon("MySQL"),
+        color: "#4479A1",
       },
       {
         name: "REST APIs",
@@ -844,13 +859,13 @@ export const skillsByDomain = [
         color: "#ffffff",
       },
       {
-        name: "Prisma",
-        logo: getTechIcon("Prisma"),
+        name: "OAuth2",
+        logo: getTechIcon("Authentication"),
         color: "#ffffff",
       },
       {
-        name: "Observability",
-        logo: getTechIcon("Observability"),
+        name: "Message Queues",
+        logo: getTechIcon("REST APIs"),
         color: "#ffffff",
       },
       {
@@ -894,6 +909,11 @@ export const skillsByDomain = [
         color: "#ffffff",
       },
       {
+        name: "Flask",
+        logo: getTechIcon("Flask"),
+        color: "#ffffff",
+      },
+      {
         name: "FastAPI",
         logo: getTechIcon("FastAPI"),
         color: "#009688",
@@ -909,8 +929,8 @@ export const skillsByDomain = [
         color: "#ffffff",
       },
       {
-        name: "LangChain",
-        logo: getTechIcon("LangChain"),
+        name: "llama.cpp",
+        logo: getTechIcon("llama.cpp"),
         color: "#ffffff",
       },
       {
@@ -934,8 +954,8 @@ export const skillsByDomain = [
         color: "#ffffff",
       },
       {
-        name: "MLflow",
-        logo: getTechIcon("MLflow"),
+        name: "Vector Databases",
+        logo: getTechIcon("RAG"),
         color: "#ffffff",
       },
     ],

@@ -379,7 +379,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
         try {
             if (resolved === "hello") {
                 appendOutput([
-                    "Hello there! I'm Tarun, a full-stack developer who loves building polished, reliable products.",
+                    "Hello there! I'm Tarun, a backend and AI engineer who builds reliable products.",
                 ])
                 setCurrentInput("")
                 return
@@ -388,7 +388,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             if (resolved === "about") {
                 appendOutput([
                     "About:",
-                    "• Full-stack developer focused on clean architecture and thoughtful UX.",
+                    "• Backend and AI engineer focused on clean architecture and thoughtful UX.",
                     "• Backend-first problem solver building reliable systems and modern web apps.",
                 ])
                 setCurrentInput("")

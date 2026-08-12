@@ -87,7 +87,7 @@ export default function Navigation() {
 				initial={{ y: -100 }}
 				animate={{ y: 0 }}
 				transition={{ duration: 0.6, ease: "easeOut" }}
-				className="fixed left-0 right-0 top-0 z-50 pt-1.5"
+				className="fixed left-0 right-0 top-0 z-50 pt-3"
 			>
 				<ContentContainer>
 					<div

@@ -21,12 +21,10 @@ export default function HeroSection() {
             transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-3xl"
           >
-            <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-foreground/45">Hi, I&apos;m Tarun.</p>
-            <p className="mt-3 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-foreground/55">
-              AI Engineer / Backend Engineer / ML Engineer
-            </p>
+            <p className="text-[0.85rem] font-medium uppercase tracking-[0.16em] text-foreground/45">Hi, I&apos;m Tarun Vuppala.</p>
+            
 
-            <h1 className="mt-4 text-[clamp(3.75rem,8vw,5.3rem)] font-black leading-[0.92] tracking-[-0.055em] text-foreground">
+            <h1 className="mt-5 text-[clamp(3.75rem,8vw,6.5rem)] font-bold leading-[0.9] tracking-[-0.065em] text-foreground">
               <span className="block text-foreground">Systems, AI/ML,</span>
               <span className="block text-foreground/72">and software</span>
               <span className="block text-foreground">that ships.</span>
@@ -58,7 +56,7 @@ export default function HeroSection() {
                 size="lg"
                 variant="ghost"
                 asChild
-                className="h-10 px-1 text-sm font-medium text-foreground/70 hover:bg-transparent hover:text-foreground"
+                className="h-11 px-1 text-sm font-medium text-foreground/70 hover:bg-transparent hover:text-white"
               >
                 <a href={resumeFilePath} download="Tarun-Vuppala-Resume.pdf">
                   Download resume
