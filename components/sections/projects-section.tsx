@@ -167,14 +167,11 @@ export default function ProjectsSection() {
             <div className="flex items-end justify-between gap-6">
               <div>
                 <p className="section-kicker">Selected work</p>
-                <h2 className="mt-2 text-4xl font-black tracking-[-0.05em] text-stone-950 sm:text-5xl dark:text-stone-50">
+                <h2 className="mt-2 text-4xl font-black tracking-tighter text-stone-950 sm:text-5xl dark:text-stone-50">
                   {activeIndex >= featuredProjects.length
                     ? "Full archive"
                     : featuredProjects[activeIndex]?.title}
                 </h2>
-                <p className="mt-2 hidden text-sm text-stone-600 sm:block dark:text-stone-400">
-                  Scroll to travel sideways.
-                </p>
               </div>
               <p className="font-serif text-5xl leading-none tracking-[-0.08em] text-stone-300 tabular-nums sm:text-7xl dark:text-white/15">
                 {String(Math.min(activeIndex + 1, slideCount)).padStart(2, "0")}

@@ -23,7 +23,7 @@ export default function AboutSection() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(16rem,0.8fr)] lg:items-end">
           <div className="max-w-3xl">
             <p className="section-kicker">A bit about how I work</p>
-            <h2 className="mt-4 text-4xl font-black tracking-[-0.05em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
+            <h2 className="mt-4 text-4xl font-black tracking-tighter text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
               I like building systems
               <span className="mt-1 block italic text-stone-500 dark:text-stone-400">that hold up in use.</span>
             </h2>

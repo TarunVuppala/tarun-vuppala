@@ -64,7 +64,7 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
       animate={{ opacity: 1 }}
       exit={whenMotion(reduceMotion, { opacity: 0 }, { opacity: 1 })}
       transition={whenMotion(reduceMotion, { duration: 0.18 }, { duration: 0 })}
-      className="fixed inset-0 z-[60] overflow-y-auto bg-stone-950/48 p-4 backdrop-blur-md dark:bg-black/72 sm:p-6"
+      className="fixed inset-0 z-60 overflow-y-auto bg-stone-950/48 p-4 backdrop-blur-md dark:bg-black/72 sm:p-6"
       onMouseDown={onClose}
     >
       <div className="flex min-h-full items-center justify-center">
