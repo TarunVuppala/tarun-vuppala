@@ -1,11 +1,13 @@
 "use client"
 
 import { useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent } from "react"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import { ExternalLink, Github, X } from "lucide-react"
 import Link from "next/link"
 import ProjectPreviewPanel from "@/components/project-preview-panel"
 import { Button } from "@/components/ui/button"
+import type { Project } from "@/types/project"
+import { easeOutExpo, whenMotion } from "@/lib/motion"
 
 type ProjectModalProps = {
   project: Project
@@ -16,6 +18,7 @@ type ProjectModalProps = {
 export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     const previousActiveElement = document.activeElement as HTMLElement | null
@@ -57,11 +60,11 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={whenMotion(reduceMotion, { opacity: 0 }, false)}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.18 }}
-      className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/48 p-4 backdrop-blur-md dark:bg-black/72 sm:p-6"
+      exit={whenMotion(reduceMotion, { opacity: 0 }, { opacity: 1 })}
+      transition={whenMotion(reduceMotion, { duration: 0.18 }, { duration: 0 })}
+      className="fixed inset-0 z-[60] overflow-y-auto bg-stone-950/48 p-4 backdrop-blur-md dark:bg-black/72 sm:p-6"
       onMouseDown={onClose}
     >
       <div className="flex min-h-full items-center justify-center">
@@ -71,10 +74,10 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
           aria-modal="true"
           aria-label={`${project.title} project details`}
           tabIndex={-1}
-          initial={{ opacity: 0, y: 24, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 16, scale: 0.98 }}
-          transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
+          initial={whenMotion(reduceMotion, { opacity: 0, y: 20 }, false)}
+          animate={{ opacity: 1, y: 0 }}
+          exit={whenMotion(reduceMotion, { opacity: 0, y: 12 }, { opacity: 1, y: 0 })}
+          transition={whenMotion(reduceMotion, { duration: 0.26, ease: easeOutExpo }, { duration: 0 })}
           className="relative my-auto w-full max-w-4xl rounded-[1.75rem] border border-stone-950/10 bg-[rgba(250,247,241,0.96)] shadow-[0_30px_120px_-60px_rgba(15,23,42,0.38)] dark:border-white/10 dark:bg-[rgba(16,13,11,0.96)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_50px_150px_-50px_rgba(0,0,0,0.78)]"
           onMouseDown={(event) => event.stopPropagation()}
           onKeyDown={trapFocus}

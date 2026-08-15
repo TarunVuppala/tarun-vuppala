@@ -1,10 +1,23 @@
+export const canonicalSiteUrl = "https://www.tarunvuppala.me"
+
 const rawSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   process.env.SITE_URL ||
+  (process.env.VERCEL_ENV === "production" ? canonicalSiteUrl : "") ||
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "")
 
-export const siteUrl = (rawSiteUrl || "http://localhost:3000").replace(/\/$/, "")
+export const siteUrl = (rawSiteUrl || (process.env.NODE_ENV === "production" ? canonicalSiteUrl : "http://localhost:3000")).replace(
+  /\/$/,
+  "",
+)
 export const resumeFilePath = "/Tarun-Vuppala-Resume.pdf"
+
+export const socialProfiles = {
+  github: "https://github.com/tarunvuppala",
+  linkedin: "https://linkedin.com/in/tarun26",
+  twitter: "https://x.com/tarunvuppala",
+  email: "mailto:tarun.vuppala26@gmail.com",
+} as const
 
 export const siteConfig = {
   name: "Tarun Vuppala",
@@ -34,11 +47,7 @@ export const siteConfig = {
   creator: "Tarun Vuppala",
   jobTitle: "Backend & AI Engineer",
   email: "tarun.vuppala26@gmail.com",
-  sameAs: [
-    "https://github.com/tarunvuppala",
-    "https://linkedin.com/in/tarun26",
-    "https://x.com/tarunvuppala",
-  ],
+  sameAs: [canonicalSiteUrl, socialProfiles.github, socialProfiles.linkedin, socialProfiles.twitter],
   images: {
     openGraph: "/main.png",
   },

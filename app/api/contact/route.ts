@@ -2,7 +2,7 @@ import nodemailer from "nodemailer"
 import { NextResponse } from "next/server"
 import { generateEmailHtml } from "@/lib/htmlTemplate"
 import { NormalizedContactData, validateContactPayload } from "@/lib/security"
-import { siteUrl } from "@/lib/seo"
+import { canonicalSiteUrl, siteUrl } from "@/lib/seo"
 
 const MAX_BODY_SIZE = 8 * 1024 // 8KB
 const RATE_LIMIT_WINDOW_MS = 60_000
@@ -49,7 +49,14 @@ const hasTrustedOrigin = (req: Request) => {
   if (!origin) return process.env.NODE_ENV !== "production"
 
   const requestOrigin = new URL(req.url).origin
-  return origin === requestOrigin || origin === siteUrl
+  const trusted = new Set([
+    requestOrigin,
+    siteUrl,
+    canonicalSiteUrl,
+    "https://www.tarunvuppala.me",
+    "https://tarunvuppala.me",
+  ])
+  return trusted.has(origin)
 }
 
 const isHoneypotSubmission = (payload: unknown) => {
@@ -78,19 +85,33 @@ export async function POST(req: Request) {
     )
   }
 
-  let payload: unknown
-  try {
-    payload = await req.json()
-  } catch {
-    return NextResponse.json({ success: false, error: "Invalid JSON payload." }, { status: 400 })
-  }
-
-  const bodySize = JSON.stringify(payload).length
-  if (bodySize > MAX_BODY_SIZE) {
+  const contentLength = Number(req.headers.get("content-length") ?? 0)
+  if (contentLength > MAX_BODY_SIZE) {
     return NextResponse.json(
       { success: false, error: "Message too large. Please shorten your request." },
       { status: 413 },
     )
+  }
+
+  let rawBody = ""
+  try {
+    rawBody = await req.text()
+  } catch {
+    return NextResponse.json({ success: false, error: "Invalid request body." }, { status: 400 })
+  }
+
+  if (rawBody.length > MAX_BODY_SIZE) {
+    return NextResponse.json(
+      { success: false, error: "Message too large. Please shorten your request." },
+      { status: 413 },
+    )
+  }
+
+  let payload: unknown
+  try {
+    payload = JSON.parse(rawBody)
+  } catch {
+    return NextResponse.json({ success: false, error: "Invalid JSON payload." }, { status: 400 })
   }
 
   if (isHoneypotSubmission(payload)) {

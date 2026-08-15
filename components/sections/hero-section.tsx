@@ -1,112 +1,112 @@
-"use client"
-
-import { motion } from "framer-motion"
 import { ArrowDown, ArrowUpRight, Download } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import ContentContainer from "@/components/layout/container"
+import LocalClock from "@/components/local-clock"
+import ViewfinderFrame from "@/components/viewfinder-frame"
 import { resumeFilePath } from "@/lib/seo"
 
 export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-svh items-center overflow-hidden pb-14 pt-[calc(var(--nav-height,72px)+2rem)] sm:pb-16 sm:pt-[calc(var(--nav-height,72px)+2.5rem)]"
+      className="relative flex min-h-svh items-center overflow-hidden pb-16 pt-[calc(var(--nav-height,72px)+1.75rem)] sm:pb-20"
     >
-      <ContentContainer>
-        <div className="grid gap-8 lg:gap-9 xl:grid-cols-[1.08fr_0.92fr] xl:items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -22, y: 10 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-3xl"
-          >
-            <p className="text-[0.85rem] font-medium uppercase tracking-[0.16em] text-foreground/45">Hi, I&apos;m Tarun Vuppala.</p>
-            
+      <p
+        aria-hidden
+        className="pointer-events-none absolute left-[max(0.75rem,calc((100vw-80rem)/2))] top-1/2 hidden origin-left -translate-y-1/2 -rotate-90 font-mono text-[0.62rem] tracking-[0.38em] text-stone-500 xl:block"
+      >
+        PORTFOLIO / 2026
+      </p>
 
-            <h1 className="mt-5 text-[clamp(3.75rem,8vw,6.5rem)] font-bold leading-[0.9] tracking-[-0.065em] text-foreground">
-              <span className="block text-foreground">Systems, AI/ML,</span>
-              <span className="block text-foreground/72">and software</span>
-              <span className="block text-foreground">that ships.</span>
+      <ContentContainer>
+        <div className="grid items-center gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] xl:gap-14">
+          <div className="min-w-0">
+            <div className="hero-kicker flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.72rem] uppercase tracking-[0.18em] text-stone-600 dark:text-stone-400">
+              <span>Tarun Vuppala</span>
+              <span aria-hidden className="h-px w-6 bg-stone-400/70" />
+              <span>Hyderabad</span>
+              <span aria-hidden className="h-px w-6 bg-stone-400/70" />
+              <LocalClock />
+            </div>
+
+            <h1 className="mt-6 max-w-[14ch] text-[clamp(3.2rem,8.4vw,7.1rem)] font-bold leading-[0.86] tracking-[-0.07em] text-foreground">
+              <span className="hero-line block">Systems</span>
+              <span className="hero-line hero-line-delay-1 block italic text-stone-500 dark:text-stone-400">that hold</span>
+              <span className="hero-line hero-line-delay-2 block">under load.</span>
             </h1>
 
-            <p className="mt-5 max-w-md text-[0.95rem] leading-7 text-foreground/62 sm:text-base">
-              AI/ML, backend, and product builds.
+            <p className="hero-copy mt-6 max-w-md text-[0.98rem] leading-7 text-stone-700 dark:text-stone-300">
+              Backend and on-device AI. Recently: RAG in Atlas, and a Premiere Pro plugin that cut podcast edits from three hours to under eight minutes.
             </p>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="hero-actions mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Button
                 size="lg"
-                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-                className="h-10 rounded-full bg-sky-300 px-5 text-sm font-medium text-slate-950 hover:bg-sky-200"
+                asChild
+                className="ink-button h-11 min-h-11 rounded-full bg-sky-300 px-5 text-sm font-medium text-slate-950 hover:bg-sky-200"
               >
-                See selected work
-                <ArrowDown className="h-4 w-4" />
+                <a href="#projects">
+                  See selected work
+                  <ArrowDown className="h-4 w-4" aria-hidden="true" />
+                </a>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-                className="h-10 rounded-full border-border bg-background/80 px-5 text-sm font-medium text-foreground hover:bg-background dark:bg-white/3 dark:hover:bg-white/6"
+                asChild
+                className="h-11 min-h-11 rounded-full border-border bg-background/80 px-5 text-sm font-medium text-foreground hover:bg-background dark:bg-white/3 dark:hover:bg-white/6"
               >
-                Start a conversation
-                <ArrowUpRight className="h-4 w-4" />
+                <a href="#contact">
+                  Start a conversation
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </a>
               </Button>
               <Button
                 size="lg"
                 variant="ghost"
                 asChild
-                className="h-11 px-1 text-sm font-medium text-foreground/70 hover:bg-transparent hover:text-white"
+                className="h-11 min-h-11 px-3 text-sm font-medium text-stone-700 hover:bg-transparent hover:text-stone-950 dark:text-stone-300 dark:hover:text-stone-50"
               >
                 <a href={resumeFilePath} download="Tarun-Vuppala-Resume.pdf">
                   Download resume
-                  <Download className="h-4 w-4" />
+                  <Download className="h-4 w-4" aria-hidden="true" />
                 </a>
               </Button>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.figure
-            initial={{ opacity: 0, x: 22, scale: 0.96 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto w-full max-w-82.5 lg:max-w-90 xl:mr-0 xl:max-w-97.5"
-          >
-            <div className="group relative">
-              {/* Decorative background glow */}
-              <div className="absolute -inset-4 rounded-full bg-linear-to-tr from-sky-500/10 to-purple-500/10 blur-2xl opacity-0 transition-opacity duration-700 group-hover:opacity-100 dark:from-sky-400/5 dark:to-purple-400/5" />
-              
-              <div className="relative rounded-full border border-border/50 bg-background/50 p-3 shadow-2xl backdrop-blur-sm dark:bg-card/50">
-                <div className="relative aspect-square w-full overflow-hidden rounded-full bg-linear-to-br from-stone-100 to-stone-200 ring-1 ring-border/50 dark:from-stone-800 dark:to-stone-900">
-                  <Image
-                    src="/tarun_white.png"
-                    alt="Tarun Vuppala portrait"
-                    fill
-                    className="object-cover object-[46%_18%] scale-105 transition-transform duration-700 group-hover:scale-110 dark:hidden"
-                    sizes="(min-width: 1280px) 390px, (min-width: 1024px) 360px, 330px"
-                    priority
-                    draggable={false}
-                  />
-                  <Image
-                    src="/tarun_black.png"
-                    alt="Tarun Vuppala portrait"
-                    fill
-                    className="hidden object-cover object-[46%_18%] scale-105 transition-transform duration-700 group-hover:scale-110 dark:block"
-                    sizes="(min-width: 1280px) 390px, (min-width: 1024px) 360px, 330px"
-                    priority
-                    draggable={false}
-                  />
-                  {/* Inner overlay for better differentiation */}
-                  <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-foreground/5 dark:ring-white/10" />
-                </div>
+          <figure className="hero-portrait mx-auto w-full max-w-96 xl:mr-6 xl:max-w-none">
+            <ViewfinderFrame>
+              <div className="relative aspect-[4/5] overflow-hidden bg-stone-200 dark:bg-stone-900">
+                <Image
+                  src="/tarun_white.png"
+                  alt="Tarun Vuppala portrait"
+                  fill
+                  className="object-cover object-[46%_14%] dark:hidden"
+                  sizes="(min-width: 1280px) 420px, 360px"
+                  priority
+                  draggable={false}
+                />
+                <Image
+                  src="/tarun_black.png"
+                  alt="Tarun Vuppala portrait"
+                  fill
+                  className="hidden object-cover object-[46%_14%] dark:block"
+                  sizes="(min-width: 1280px) 420px, 360px"
+                  priority
+                  draggable={false}
+                />
               </div>
-              
-              {/* Status Indicator */}
-              <div className="absolute bottom-4 right-4 rounded-full border border-border bg-background p-1.5 shadow-lg dark:bg-card">
-                 <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              </div>
-            </div>
-          </motion.figure>
+            </ViewfinderFrame>
+            <figcaption className="mt-3 flex items-center justify-between gap-3">
+              <span className="inline-flex items-center gap-2 text-[0.72rem] uppercase tracking-[0.16em] text-stone-600 dark:text-stone-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400" aria-hidden="true" />
+                Available for work
+              </span>
+              <span className="font-mono text-[0.68rem] text-stone-500">01 / 05</span>
+            </figcaption>
+          </figure>
         </div>
       </ContentContainer>
     </section>

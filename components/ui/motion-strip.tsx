@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
@@ -24,10 +24,21 @@ export function MotionStrip({
   const reverseRef = useRef(reverse)
   const pausedRef = useRef(false)
   const initializedRef = useRef(false)
+  const [reduceMotion, setReduceMotion] = useState(false)
 
   reverseRef.current = reverse
 
   useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const sync = () => setReduceMotion(media.matches)
+    sync()
+    media.addEventListener("change", sync)
+    return () => media.removeEventListener("change", sync)
+  }, [])
+
+  useEffect(() => {
+    if (reduceMotion) return
+
     const track = trackRef.current
     const group = groupRef.current
 
@@ -101,7 +112,17 @@ export function MotionStrip({
       observer.disconnect()
       window.cancelAnimationFrame(animationFrame)
     }
-  }, [duration])
+  }, [duration, reduceMotion])
+
+  if (reduceMotion) {
+    return (
+      <div className="overflow-x-auto scrollbar-hide">
+        <div className={cn("flex flex-wrap items-center gap-x-8 gap-y-2", className)}>
+          {children}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div

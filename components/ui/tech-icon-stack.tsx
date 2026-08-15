@@ -1,7 +1,5 @@
-"use client"
-
 import { getTechIcon } from "@/lib/data"
-import { getTechIconImageClass } from "@/lib/tech-icons"
+import TechIcon from "@/components/ui/tech-icon"
 
 type TechIconStackProps = {
   tech: string[]
@@ -23,26 +21,15 @@ export default function TechIconStack({
     <div className={`flex flex-wrap items-center gap-2 ${className}`.trim()}>
       {tech.slice(0, limit).map((item) => {
         const iconSrc = getTechIcon(item)
-        const iconToneClass = getTechIconImageClass(iconSrc)
 
         return (
           <div
             key={item}
             className={`flex ${iconSizeClass} items-center justify-center rounded-md bg-stone-950/4 text-stone-700 dark:bg-white/5 dark:text-stone-200`}
             title={item}
-            aria-label={item}
           >
-            <img
-              src={iconSrc}
-              alt={item}
-              draggable={false}
-              className={`${imageSizeClass} ${iconToneClass} object-contain`}
-              loading="lazy"
-              decoding="async"
-              onError={(event) => {
-                event.currentTarget.style.display = "none"
-              }}
-            />
+            <TechIcon src={iconSrc} name={item} className={`${imageSizeClass} opacity-100`} />
+            <span className="sr-only">{item}</span>
           </div>
         )
       })}

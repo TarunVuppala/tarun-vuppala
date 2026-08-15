@@ -5,6 +5,8 @@ import "./globals.css"
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from "@/components/theme-provider"
 import SiteAtmosphere from "@/components/site-atmosphere"
+import PointerLight from "@/components/pointer-light"
+import SkipLink from "@/components/skip-link"
 import { getGeoMeta, getJsonLd, siteConfig, siteUrl } from "@/lib/seo"
 
 const inter = Inter({
@@ -96,6 +98,8 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SkipLink />
+          <PointerLight />
           <SiteAtmosphere />
           {children}
           <Analytics />

@@ -1,11 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import ContentContainer from "@/components/layout/container"
 import { MotionStrip } from "@/components/ui/motion-strip"
+import TechIcon from "@/components/ui/tech-icon"
 import { skillsByDomain } from "@/lib/data"
-import { getTechIconImageClass } from "@/lib/tech-icons"
+import { easeOutExpo, whenMotion } from "@/lib/motion"
 
 const skillByName = new Map(skillsByDomain.flatMap((domain) => domain.skills).map((skill) => [skill.name, skill]))
 
@@ -59,23 +60,12 @@ const sectionScrollOffset = {
 }
 
 function SkillIcon({ logo, name, className }: { logo: string; name: string; className?: string }) {
-  return (
-    <img
-      src={logo}
-      alt={name}
-      draggable={false}
-      className={`h-3.5 w-3.5 shrink-0 object-contain opacity-70 ${getTechIconImageClass(logo)} ${className ?? ""}`}
-      loading="lazy"
-      decoding="async"
-      onError={(e) => {
-        e.currentTarget.style.display = "none"
-      }}
-    />
-  )
+  return <TechIcon src={logo} name={name} className={className} />
 }
 
 export default function SkillsSection() {
   const [isScrollingUp, setIsScrollingUp] = useState(false)
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     let previousY = window.scrollY
@@ -92,24 +82,24 @@ export default function SkillsSection() {
   }, [])
 
   return (
-    <section id="skills" className="section-shell" style={sectionScrollOffset}>
+    <section id="skills" className="relative py-12 sm:py-14" style={sectionScrollOffset}>
       <ContentContainer>
-        {/* Section framing + skill ticker */}
-        <motion.div
-          initial={{ opacity: 0, x: 20, y: 6 }}
-          whileInView={{ opacity: 1, x: 0, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-10 grid gap-5 xl:grid-cols-[0.68fr_1.32fr] xl:items-end"
-        >
+        <div className="mb-10 grid gap-5 xl:grid-cols-[0.68fr_1.32fr] xl:items-end">
           <div className="max-w-xl">
-            <p className="eyebrow">How I build</p>
+            <p className="section-kicker">How I build</p>
             <h2 className="mt-4 text-4xl font-bold tracking-[-0.055em] text-foreground sm:text-5xl">
               From AI capability to a shipped product.
             </h2>
           </div>
 
-          <div className="space-y-3 overflow-hidden rounded-xl border border-border/60 bg-background/70 py-4 dark:bg-card/50">
+          <div className="space-y-3 overflow-hidden border border-stone-950/10 bg-background/70 py-4 dark:border-white/10 dark:bg-card/50">
+            <div className="flex items-center justify-between px-4 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
+              <span>
+                stack
+                <span className="caret-blink" aria-hidden="true" />
+              </span>
+              <span>{movingSkills.length} tools</span>
+            </div>
             <MotionStrip duration={110} reverse={isScrollingUp} className="gap-10">
               {movingSkills.map((skill) => (
                 <span
@@ -134,7 +124,7 @@ export default function SkillsSection() {
               ))}
             </MotionStrip>
           </div>
-        </motion.div>
+        </div>
 
         {/* Skills grouped by how they support delivery, not by vendor taxonomy. */}
         <div>
@@ -144,16 +134,16 @@ export default function SkillsSection() {
             return (
               <motion.div
                 key={area.title}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={whenMotion(reduceMotion, { opacity: 0, x: 18 }, false)}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                transition={whenMotion(reduceMotion, { duration: 0.42, delay: index * 0.06, ease: easeOutExpo }, { duration: 0 })}
                 className="grid gap-6 border-t border-border/60 py-6 last:border-b lg:grid-cols-[minmax(15rem,0.62fr)_minmax(0,1.38fr)] lg:gap-8 xl:gap-10"
               >
                 <div>
                   <div className="flex items-center gap-3">
                     <span className="text-muted-foreground">
-                      <Icon className="h-3.5 w-3.5" />
+                      <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                     </span>
                     <span className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                       {String(index + 1).padStart(2, "0")}

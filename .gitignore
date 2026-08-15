@@ -18,9 +18,16 @@ yarn-error.log*
 
 # env files
 .env*
+!.env.example
 
 # vercel
 .vercel
+
+# local verification / browser dumps
+.playwright-mcp/
+editorial-*.png
+home-*.png
+projects-*.png
 
 # typescript
 *.tsbuildinfo

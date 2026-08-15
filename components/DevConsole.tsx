@@ -7,7 +7,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X, Terminal, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
-import { resumeFilePath } from "@/lib/seo"
+import { resumeFilePath, siteConfig, socialProfiles } from "@/lib/seo"
+import { allProjects, skillsByDomain } from "@/lib/data"
 
 interface DevConsoleProps {
     isOpen: boolean
@@ -41,30 +42,15 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
         '"Simplicity is the ultimate sophistication." - Leonardo da Vinci',
     ]
 
-    const skills = [
-        "Frontend: React, Next.js, TypeScript, Tailwind CSS, Motion, Three.js, R3f",
-        "Backend: Node.js, Nest.js, Express",
-        "Database: PostgreSQL, MongoDB",
-        "Cloud: AWS, Vercel, Docker",
-        "Tools: Git, VS Code, Figma",
-    ]
+    const skills = skillsByDomain.map(
+        (domain) => `${domain.title}: ${domain.skills.map((skill) => skill.name).join(", ")}`,
+    )
 
-    const projects = [
-        "Acethletics: All-in-One College Sports Management; ",
-        "QuickFuel: Smart Fuel Station Locator & Tracker; ",
-        "TEDxACEEC: Event Website & Collaborator Portal; ",
-        "Trimly.ai: AI-Powered Book Trimming; ",
-        "AutoPodcast: Automated Podcast Editing & Publishing"
-    ]
+    const projects = allProjects.map((project) => `${project.title}: ${project.subtitle}`)
 
     const quickCommands = ["help", "projects", "skills", "contact", "status", "theme dark"]
 
-    const socials = {
-        github: "https://github.com/tarunvuppala",
-        linkedin: "https://linkedin.com/in/tarunvuppala",
-        twitter: "https://twitter.com/tarunvuppala",
-        email: "mailto:tarun.vuppala26@gmail.com",
-    }
+    const socials = socialProfiles
 
     const knownCommands = [
         "help",
@@ -438,8 +424,8 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             if (resolved === "contact") {
                 appendOutput([
                     "Contact:",
-                    "• Email: tarun.vuppala26@gmail.com",
-                    "• LinkedIn: linkedin.com/in/tarunvuppala",
+                    `• Email: ${siteConfig.email}`,
+                    `• LinkedIn: ${socials.linkedin.replace("https://", "")}`,
                     "→ open contact",
                 ])
                 setCurrentInput("")
@@ -668,6 +654,9 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                 onClick={onClose}
             >
                 <motion.div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Developer console"
                     initial={{ scale: 0.8, opacity: 0, y: 50 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -699,7 +688,8 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                                 variant="ghost"
                                 size="sm"
                                 onClick={onClose}
-                                className="w-10 h-10 p-0 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground"
+                                aria-label="Close developer console"
+                                className="w-11 h-11 p-0 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground"
                             >
                                 <X className="w-5 h-5" />
                             </Button>

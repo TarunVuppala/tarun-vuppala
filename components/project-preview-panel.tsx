@@ -1,6 +1,7 @@
 import Image from "next/image"
 
 import TechIconStack from "@/components/ui/tech-icon-stack"
+import type { Project } from "@/types/project"
 
 const PROJECT_ACCENTS = [
   {
@@ -82,7 +83,7 @@ export default function ProjectPreviewPanel({
               {project.date}
               {visibleCategories[0] ? ` / ${visibleCategories[0]}` : ""}
             </p>
-            <h3 className="font-playfair text-[2rem] leading-[0.92] text-stone-950 dark:text-white sm:text-[2.3rem]">{project.title}</h3>
+            <h3 className="font-serif text-[2rem] leading-[0.92] text-stone-950 dark:text-white sm:text-[2.3rem]">{project.title}</h3>
             <p className="mt-2 text-sm leading-6 text-stone-800/78 dark:text-white/68 sm:max-w-72">{project.subtitle}</p>
           </div>
 
@@ -129,7 +130,7 @@ export default function ProjectPreviewPanel({
 
         <div className="flex items-end justify-between gap-3">
           <div className={compact ? "min-w-0 max-w-46" : "min-w-0 max-w-72 sm:max-w-84"}>
-            <h3 className={`font-playfair text-stone-950 dark:text-white ${compact ? "text-2xl" : "text-3xl"}`}>{project.title}</h3>
+            <h3 className={`font-serif text-stone-950 dark:text-white ${compact ? "text-2xl" : "text-3xl"}`}>{project.title}</h3>
             {!compact && <p className="mt-1 max-w-md text-sm leading-6 text-stone-800/78 dark:text-white/70">{project.subtitle}</p>}
           </div>
 

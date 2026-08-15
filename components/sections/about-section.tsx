@@ -1,8 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import { codingStats, journeyExpanded } from "@/lib/data"
 import ContentContainer from "@/components/layout/container"
+import { easeOutExpo, whenMotion } from "@/lib/motion"
 
 const sectionScrollOffset = {
   scrollMarginTop: "calc(var(--nav-height, 72px) + 24px)",
@@ -10,62 +11,51 @@ const sectionScrollOffset = {
 
 export default function AboutSection() {
   const featuredStats = codingStats.slice(0, 2)
+  const reduceMotion = useReducedMotion()
 
   return (
-    <section id="about" className="relative overflow-hidden py-12 sm:py-14" style={sectionScrollOffset}>
-      <ContentContainer className="space-y-6">
-        <motion.div
-          initial={{ opacity: 0, x: -18, y: 8 }}
-          whileInView={{ opacity: 1, x: 0, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-          className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start"
-        >
-          <div className="max-w-2xl">
+    <section id="about" className="relative overflow-hidden py-16 sm:py-20" style={sectionScrollOffset}>
+      <p aria-hidden className="watermark-year absolute -right-6 top-8 text-[22vw] leading-none xl:right-10">
+        25
+      </p>
+
+      <ContentContainer className="relative space-y-10">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(16rem,0.8fr)] lg:items-end">
+          <div className="max-w-3xl">
             <p className="section-kicker">A bit about how I work</p>
-            <h2 className="mt-3 text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
+            <h2 className="mt-4 text-4xl font-black tracking-[-0.05em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
               I like building systems
-              <span className="block text-stone-700 dark:text-stone-300">that actually hold up in use.</span>
+              <span className="mt-1 block italic text-stone-500 dark:text-stone-400">that hold up in use.</span>
             </h2>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:pt-1">
-            <div>
-              <p className="meta-label">Working with me</p>
-              <div className="mt-3 space-y-2 text-sm text-stone-800 dark:text-stone-200">
-                <p>Fast iterations.</p>
-                <p>Clear tradeoffs.</p>
-                <p>Reliable delivery.</p>
-              </div>
-            </div>
-            <div>
-              <p className="meta-label">In practice</p>
-              <div className="mt-3 space-y-3">
-                {featuredStats.map((stat) => (
-                  <div key={stat.text} className="flex items-start gap-2.5 text-sm leading-6 text-stone-700/78 dark:text-stone-300/74">
-                    <span className="mt-2.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-sky-300/80" />
-                    <span>{stat.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
+          <blockquote className="max-w-sm border-l-2 border-sky-300 pl-4 text-lg leading-8 text-stone-800 dark:text-stone-200">
+            Fast iterations. Clear tradeoffs. Ship the boring parts so the hard parts can stay interesting.
+          </blockquote>
+        </div>
 
-        <div className="space-y-5 border-t border-stone-950/10 pt-5 dark:border-white/10">
+        <div className="grid gap-6 border-y border-stone-950/10 py-6 sm:grid-cols-2 dark:border-white/10">
+          {featuredStats.map((stat) => (
+            <p key={stat.text} className="text-sm leading-7 text-stone-700 dark:text-stone-300">
+              {stat.text}
+            </p>
+          ))}
+        </div>
+
+        <div className="relative space-y-0">
           {journeyExpanded.map((item, index) => (
             <motion.article
               key={`${item.year}-${item.company}`}
-              initial={{ opacity: 0, y: 18, scale: 0.985 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              initial={whenMotion(reduceMotion, { opacity: 0, clipPath: "inset(0 28% 0 0)" }, false)}
+              whileInView={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
               viewport={{ once: true, amount: 0.18 }}
-              transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="grid gap-4 md:grid-cols-[120px_1fr]"
+              transition={whenMotion(reduceMotion, { duration: 0.55, delay: index * 0.08, ease: easeOutExpo }, { duration: 0 })}
+              className="grid gap-4 border-b border-stone-950/10 py-6 last:border-b-0 md:grid-cols-[11rem_1fr] dark:border-white/10"
             >
-              <div className="meta-label pt-1">{item.year}</div>
+              <div className="font-mono text-xs tracking-[0.14em] text-stone-500 uppercase">{item.year}</div>
 
               <div className="space-y-3">
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h3 className="text-2xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">{item.title}</h3>
                   <span className="meta-label">{item.company}</span>
                 </div>
@@ -73,7 +63,7 @@ export default function AboutSection() {
                 <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-stone-800 dark:text-stone-200">
                   {item.achievements.slice(0, 3).map((achievement) => (
                     <span key={achievement} className="inline-flex items-center gap-3">
-                      <span className="h-1.5 w-1.5 rounded-full bg-sky-300/70" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-sky-300/70" aria-hidden="true" />
                       {achievement}
                     </span>
                   ))}
