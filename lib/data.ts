@@ -1,23 +1,62 @@
 import {
-  Briefcase,
-  CalendarClock,
-  CheckCircle,
-  Clock,
   Code,
-  Coffee,
   Database,
-  Lightbulb,
-  LucideProps,
-  Mail,
-  MapPin,
-  Rocket,
   Terminal,
-  Users,
   Zap,
 } from "lucide-react";
 
-import { ForwardRefExoticComponent, RefAttributes } from "react";
 import type { Project } from "@/types/project";
+
+// Centralized site data (moved here so all display data is in one place)
+export const canonicalSiteUrl = "https://www.tarunvuppala.me"
+
+export const resumeFilePath = "/Tarun-Vuppala-Resume.pdf"
+
+export const socialProfiles = {
+  github: "https://github.com/tarunvuppala",
+  linkedin: "https://linkedin.com/in/tarun26",
+  twitter: "https://x.com/tarunvuppala",
+  email: "mailto:tarun.vuppala26@gmail.com",
+} as const
+
+export const siteConfig = {
+  name: "Tarun Vuppala",
+  title: "Tarun Vuppala - Backend & AI Engineer",
+  description: "Backend and AI engineer building resilient systems, local AI applications, and modern web products.",
+  keywords: [
+    "Tarun Vuppala",
+    "Tarun Vuppala Portfolio",
+    "Tarun Vuppala Resume",
+    "Tarun Vuppala Backend Engineer",
+    "Tarun Vuppala AI Engineer",
+    "Tarun Vuppala React",
+    "V Tarun",
+    "Tarun",
+    "tarun",
+    "tarun vuppala",
+    "Backend Engineer",
+    "AI Engineer",
+    "React",
+    "Next.js",
+    "Web Development",
+    "JavaScript",
+    "TypeScript",
+    "Frontend",
+    "Backend",
+  ],
+  creator: "Tarun Vuppala",
+  jobTitle: "Backend & AI Engineer",
+  email: "tarun.vuppala26@gmail.com",
+  sameAs: [canonicalSiteUrl, socialProfiles.github, socialProfiles.linkedin, socialProfiles.twitter],
+  images: {
+    openGraph: "/main.png",
+  },
+  location: {
+    placename: process.env.NEXT_PUBLIC_GEO_PLACENAME || "Hyderabad",
+    country: process.env.NEXT_PUBLIC_GEO_COUNTRY || "IN",
+    region: process.env.NEXT_PUBLIC_GEO_REGION,
+  },
+}
 
 const normalizeTechName = (value: string) => value.toLowerCase().trim();
 
@@ -134,12 +173,12 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/TarunVuppala/acethletics-server",
     date: "Aug – Dec 2024",
     featured: true,
-    stats: { users: "2K+ downloads", performance: "100ms API avg.", rating: "20ms realtime" },
+    metrics: [
+      { value: "1.5K", label: "peak users" },
+      { value: "100ms", label: "API average" },
+      { value: "20ms", label: "live updates" },
+    ],
     details: {
-      challenge:
-        "Coordinating live match updates and team logistics during a multi-day, multi-sport event.",
-      approach:
-        "Architected the backend, database schemas, transactional workflows, and WebSocket infrastructure for live tournament use.",
       results: [
         "Handled 1,500 peak concurrent users across 10+ live events",
         "Maintained 100ms average API response latency during tournaments",
@@ -175,11 +214,12 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/TarunVuppala/quick-fuel",
     date: "2024",
     featured: false,
-    stats: { users: "n/a", performance: "30min saved", rating: "4.6/5" },
+    metrics: [
+      { value: "30+ min", label: "saved daily" },
+      { value: "Live", label: "order tracking" },
+      { value: "95%", label: "prediction accuracy" },
+    ],
     details: {
-      challenge:
-        "Accurate real-time data and ensuring reliable on-demand delivery.",
-      approach: "Upgraded GPS routing and scheduling logic for deliveries.",
       results: [
         "Platform for on-demand fuel delivery and vehicle repairs",
         "Real-time order tracking with live updates",
@@ -205,10 +245,12 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/tedxaceec/tedxaceec",
     date: "2026",
     featured: true,
-    stats: { users: "1K+", performance: "High Engagement", rating: "4.7/5" },
+    metrics: [
+      { value: "90+", label: "tickets processed" },
+      { value: "7+", label: "collaborators" },
+      { value: "1", label: "event portal" },
+    ],
     details: {
-      challenge: "UI and marketing",
-      approach: "Built a minimal and modern UI for high engagement.",
       results: ["7+ collaborators onboarded", "90+ tickets processed"],
       learnings: "Internal tooling boosts large-event success.",
     },
@@ -236,11 +278,12 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/tarunvuppala/trimlyai",
     date: "2025",
     featured: true,
-    stats: { users: "n/a", performance: "5x faster", rating: "4.7/5" },
+    metrics: [
+      { value: "~80%", label: "less reading" },
+      { value: "RAG", label: "structured context" },
+      { value: "Local", label: "private workflow" },
+    ],
     details: {
-      challenge: "Balancing brevity with content preservation.",
-      approach:
-        "Combined document structure extraction with controllable summarization so shortening a file did not destroy its hierarchy.",
       results: [
         "Reduced long-form reading time by roughly 80%",
         "Preserved section structure and key document hierarchy",
@@ -273,12 +316,12 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/madhavmadupu/atlas-ai",
     date: "Feb – Apr 2026",
     featured: true,
-    stats: { users: "Offline-first", performance: "1.5–8s TTFT", rating: "On-device RAG" },
+    metrics: [
+      { value: "1.5–8s", label: "first token" },
+      { value: "On-device", label: "inference" },
+      { value: "RAG", label: "expert system" },
+    ],
     details: {
-      challenge:
-        "Keeping local inference usable on phones under tight memory and compute limits.",
-      approach:
-        "Chunked and embedded domain knowledge into a vector database, then tuned quantization, context windows, and inference parameters per device.",
       results: [
         "Enabled private, context-aware offline conversations with a custom RAG expert system",
         "Used GGUF quantization to control mobile memory footprint",
@@ -304,10 +347,12 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/TarunVuppala/AutoPodcast",
     date: "Mar – Jun 2025",
     featured: true,
-    stats: { users: "10+ editors", performance: "<8 min/edit", rating: "60% less overhead" },
+    metrics: [
+      { value: "<8 min", label: "per edit" },
+      { value: "10+", label: "editors" },
+      { value: "60%", label: "overhead" },
+    ],
     details: {
-      challenge: "Handling real-world audio variance while keeping editing reliable enough for repeated use.",
-      approach: "Wrapped FFmpeg-based audio processing inside an Adobe workflow that editors could actually use.",
       results: [
         "Reduced podcast editing time from three hours to under eight minutes",
         "Shipped cross-platform binaries adopted by 10+ podcast editors",
@@ -333,12 +378,12 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/TarunVuppala/job-tracker-portal",
     date: "2024",
     featured: false,
-    stats: { users: "n/a", performance: "Real-time Sync", rating: "n/a" },
+    metrics: [
+      { value: "Offline", label: "first workflow" },
+      { value: "Live", label: "optimistic sync" },
+      { value: "∞", label: "applications" },
+    ],
     details: {
-      challenge:
-        "Ensuring reliable data persistence and offline access without a full-featured framework.",
-      approach:
-        "Built an Express.js REST API backed by MongoDB; used IndexedDB in the React client for offline caching and synchronization.",
       results: [
         "Prototype supports unlimited application entries in both online and offline modes",
         "Local reminders queued in IndexedDB and sent to the server when reconnected",
@@ -358,42 +403,29 @@ export const allProjects: Project[] = [
   ...projectCatalog.filter((project) => !PROJECT_ORDER.includes(project.id)),
 ];
 
-export const codingStats: {
-  icon: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
-  text: string;
-}[] = [
+export const codingStats = [
   {
-    icon: Coffee,
     text: "Built backend-heavy products where parsing, streaming, fallbacks, and UX all had to work together.",
   },
   {
-    icon: Lightbulb,
     text: "Comfortable taking a feature from backend logic and model behavior through to a shipped interface.",
   },
   {
-    icon: Code,
     text: "Shipped end-to-end products across backend systems, model-driven tools, and frontend delivery.",
   },
   {
-    icon: Zap,
     text: "Debugged real edge cases across async workflows, data sync, and production integration work.",
   },
   {
-    icon: Briefcase,
     text: "Delivered scoped project work with clear tradeoffs, maintainable handoff quality, and production awareness.",
   },
   {
-    icon: Users,
     text: "Built products around what users and teammates actually need, not just what demos well.",
   },
   {
-    icon: Rocket,
     text: "Shipped multiple products and internal tools from first commit to usable release.",
   },
   {
-    icon: CheckCircle,
     text: "Care about clean finishes, dependable behavior, and not leaving rough edges behind.",
   },
 ];
@@ -403,8 +435,6 @@ export const journeyExpanded = [
     year: "Mar – Jun 2025",
     title: "Software Developer Intern",
     company: "Unity Internet",
-    description:
-      "Built a Premiere Pro auto-edit plugin that reduced podcast editing time from three hours to under eight minutes.",
     achievements: [
       "Used audio signal analysis, real-time scene switching, and overlap handling",
       "Shipped cross-platform binaries adopted by 10+ podcast editors",
@@ -415,8 +445,6 @@ export const journeyExpanded = [
     year: "Jun 2024 – Feb 2025",
     title: "Software Developer Intern",
     company: "Front Interactive Services",
-    description:
-      "Engineered backend systems with 50+ REST API endpoints and a scalable server-side architecture.",
     achievements: [
       "Worked in an Agile Scrum team of six engineers across two-week sprints",
       "Used TDD to reduce post-release defects by 30%",
@@ -429,275 +457,212 @@ export const skillsByDomain = [
   {
     title: "Frontend Development",
     icon: Code,
-    color: "#3B82F6",
-    bgGradient: "linear-gradient(135deg, #3B82F6, #1D4ED8)",
-    description:
-      "Product-facing interfaces with responsive layouts, accessible interactions, and motion used intentionally.",
     skills: [
       {
         name: "React.js",
         logo: getTechIcon("React.js"),
-        color: "#61DAFB",
       },
       {
         name: "Next.js",
         logo: getTechIcon("Next.js"),
-        color: "#ffffff",
       },
       {
         name: "TypeScript",
         logo: getTechIcon("TypeScript"),
-        color: "#3178C6",
       },
       {
         name: "JavaScript",
         logo: getTechIcon("JavaScript"),
-        color: "#F7DF1E",
       },
       {
         name: "HTML5",
         logo: getTechIcon("HTML5"),
-        color: "#E34F26",
       },
       {
         name: "CSS3",
         logo: getTechIcon("CSS3"),
-        color: "#1572B6",
       },
       {
         name: "Tailwind CSS",
         logo: getTechIcon("Tailwind CSS"),
-        color: "#06B6D4",
       },
       {
         name: "ShadCN UI",
         logo: getTechIcon("ShadCN UI"),
-        color: "#ffffff",
       },
       {
         name: "Framer Motion",
         logo: getTechIcon("Framer Motion"),
-        color: "#ECF806FF",
       },
       {
         name: "GSAP",
         logo: getTechIcon("GSAP"),
-        color: "#88CE02",
       },
       {
         name: "Three.js",
         logo: getTechIcon("Three.js"),
-        color: "#ffffff",
       },
     ],
   },
   {
     title: "Backend, Data & APIs",
     icon: Database,
-    color: "#10B981",
-    bgGradient: "linear-gradient(135deg, #10B981, #059669)",
-    description:
-      "Hands-on with APIs, data layers, service logic, and the reliability and performance work that helps products stay dependable after launch.",
     skills: [
       {
         name: "Node.js",
         logo: getTechIcon("Node.js"),
-        color: "#339933",
       },
       {
         name: "Express.js",
         logo: getTechIcon("Express.js"),
-        color: "#ffffff",
       },
       {
         name: "Java",
         logo: getTechIcon("Java"),
-        color: "#F89820",
       },
       {
         name: "Spring Boot",
         logo: getTechIcon("Spring Boot"),
-        color: "#6DB33F",
       },
       {
         name: "Go",
         logo: getTechIcon("Go"),
-        color: "#00ADD8",
       },
       {
         name: "MongoDB",
         logo: getTechIcon("MongoDB"),
-        color: "#47A248",
       },
       {
         name: "PostgreSQL",
         logo: getTechIcon("PostgreSQL"),
-        color: "#336791",
       },
       {
         name: "MySQL",
         logo: getTechIcon("MySQL"),
-        color: "#4479A1",
       },
       {
         name: "REST APIs",
         logo: getTechIcon("REST APIs"),
-        color: "#ffffff",
       },
       {
         name: "JWT",
         logo: getTechIcon("JWT"),
-        color: "#ffffff",
       },
       {
         name: "GraphQL",
         logo: getTechIcon("GraphQL"),
-        color: "#E10098",
       },
       {
         name: "Authentication",
         logo: getTechIcon("Authentication"),
-        color: "#ffffff",
       },
       {
         name: "OAuth2",
         logo: getTechIcon("Authentication"),
-        color: "#ffffff",
       },
       {
         name: "Message Queues",
         logo: getTechIcon("REST APIs"),
-        color: "#ffffff",
       },
       {
         name: "Socket.io",
         logo: getTechIcon("Socket.io"),
-        color: "#ffffff",
       },
       {
         name: "Redis",
         logo: getTechIcon("Redis"),
-        color: "#ffffff",
       },
       {
         name: "AWS",
         logo: getTechIcon("AWS"),
-        color: "#FF9900",
       },
       {
         name: "Docker",
         logo: getTechIcon("Docker"),
-        color: "#ffffff",
       },
     ],
   },
   {
     title: "AI Engineering",
     icon: Zap,
-    color: "#F59E0B",
-    bgGradient: "linear-gradient(135deg, #F59E0B, #D97706)",
-    description:
-      "Focused on building production-facing AI systems across model development, retrieval pipelines, evaluation, deployment, monitoring, and inference optimization.",
     skills: [
       {
         name: "Python",
         logo: getTechIcon("Python"),
-        color: "#3776AB",
       },
       {
         name: "OpenAI",
         logo: getTechIcon("OpenAI"),
-        color: "#ffffff",
       },
       {
         name: "Flask",
         logo: getTechIcon("Flask"),
-        color: "#ffffff",
       },
       {
         name: "FastAPI",
         logo: getTechIcon("FastAPI"),
-        color: "#009688",
       },
       {
         name: "Hugging Face",
         logo: getTechIcon("Hugging Face"),
-        color: "#ffffff",
       },
       {
         name: "Ollama",
         logo: getTechIcon("Ollama"),
-        color: "#ffffff",
       },
       {
         name: "llama.cpp",
         logo: getTechIcon("llama.cpp"),
-        color: "#ffffff",
       },
       {
         name: "PyTorch",
         logo: getTechIcon("PyTorch"),
-        color: "#ffffff",
       },
       {
         name: "TensorFlow",
         logo: getTechIcon("TensorFlow"),
-        color: "#ffffff",
       },
       {
         name: "scikit-learn",
         logo: getTechIcon("scikit-learn"),
-        color: "#ffffff",
       },
       {
         name: "RAG",
         logo: getTechIcon("RAG"),
-        color: "#ffffff",
       },
       {
         name: "Vector Databases",
         logo: getTechIcon("RAG"),
-        color: "#ffffff",
       },
     ],
   },
   {
     title: "Developer Workflow",
     icon: Terminal,
-    color: "#8B5CF6",
-    bgGradient: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
-    description:
-      "Tooling and workflow habits that keep delivery clear, collaboration smooth, and iteration grounded in good engineering basics.",
     skills: [
       {
         name: "Git",
         logo: getTechIcon("Git"),
-        color: "#F05032",
       },
       {
         name: "GitHub",
         logo: getTechIcon("GitHub"),
-        color: "#ffffff",
       },
       {
         name: "VS Code",
         logo: getTechIcon("VS Code"),
-        color: "#007ACC",
       },
       {
         name: "Figma",
         logo: getTechIcon("Figma"),
-        color: "#F24E1E",
       },
       {
         name: "FFmpeg",
         logo: getTechIcon("FFmpeg"),
-        color: "#65A30D",
       },
       {
         name: "Documentation",
         logo: "/icons/documentation.svg",
-        color: "#ffffff",
       },
     ],
   },
@@ -705,35 +670,23 @@ export const skillsByDomain = [
 
 export const contactInfo = [
   {
-    icon: Mail,
     title: "Email",
     value: "tarun.vuppala26@gmail.com",
-    description: "Drop me a line anytime",
     href: "mailto:tarun.vuppala26@gmail.com",
-    color: "text-blue-400",
   },
   {
-    icon: CalendarClock,
     title: "Book a Call",
     value: "Schedule a 1:1",
-    description: "Let's discuss your project",
     href: "https://calendly.com/tarun-vuppala26/intro-call",
-    color: "text-indigo-500",
   },
   {
-    icon: MapPin,
     title: "Location",
     value: "Hyderabad, India",
-    description: "Available for remote work globally",
     href: null,
-    color: "text-green-400",
   },
   {
-    icon: Clock,
     title: "Response Time",
     value: "Within 24 hours",
-    description: "Usually much faster!",
     href: null,
-    color: "text-purple-400",
   },
 ];

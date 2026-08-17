@@ -48,32 +48,43 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
           <ProjectPreviewPanel project={project} index={index} />
         </div>
 
-        <CardContent className="flex flex-1 flex-col justify-end p-5 pt-0">
-          <div className="flex items-start justify-between gap-4">
+        <CardContent className="grid flex-1 content-start grid-cols-1 gap-3 p-5 pt-1 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.9fr)] sm:gap-x-5 sm:gap-y-3">
+          <div className="flex items-start justify-between gap-4 sm:col-span-2">
             <span className="text-[0.68rem] font-semibold uppercase tracking-[0.13em] text-stone-600 dark:text-stone-400">
               {visibleCategories.join(" · ")}
             </span>
+          </div>
 
-            <div className="flex gap-1">
+          <p className="[display:-webkit-box] self-center overflow-hidden text-sm leading-6 text-stone-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:2] dark:text-stone-300 sm:col-span-2">
+            {project.description}
+          </p>
+
+          <div className="flex min-w-0 items-center justify-between gap-3 sm:col-span-2">
+            {project.metrics && project.metrics.length > 0 ? (
+              <div className="grid min-w-0 flex-1 grid-cols-3 divide-x divide-stone-950/10 dark:divide-white/10">
+                {project.metrics.slice(0, 3).map((metric) => (
+                  <div key={metric.label} className="min-w-0 px-2.5 first:pl-0 last:pr-0">
+                    <p className="truncate text-sm font-semibold tracking-tight text-stone-950 dark:text-white">{metric.value}</p>
+                    <p className="mt-0.5 truncate text-[0.6rem] font-medium uppercase tracking-[0.1em] text-stone-500 dark:text-stone-400">
+                      {metric.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <span />
+            )}
+
+            <div className="flex shrink-0 gap-1">
               {project.liveUrl && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="h-11 w-11 border-stone-950/10 bg-white/80 p-0 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
-                >
+                <Button size="sm" variant="ghost" asChild className="h-9 w-9 p-0">
                   <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open live site for ${project.title}`}>
                     <ExternalLink className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </Button>
               )}
               {project.githubUrl && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="h-11 w-11 border-stone-950/10 bg-white/80 p-0 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
-                >
+                <Button size="sm" variant="ghost" asChild className="h-9 w-9 p-0">
                   <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open GitHub repository for ${project.title}`}>
                     <Github className="h-4 w-4" aria-hidden="true" />
                   </Link>
@@ -81,10 +92,10 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
               )}
               <Button
                 size="sm"
-                variant="outline"
+                variant="ghost"
                 onClick={() => onSelect(project)}
                 aria-label={`View ${project.title} project details`}
-                className="h-11 w-11 border-stone-950/10 bg-white/80 p-0 text-stone-800 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
+                className="h-9 w-9 p-0"
               >
                 <Info className="h-4 w-4" aria-hidden="true" />
               </Button>

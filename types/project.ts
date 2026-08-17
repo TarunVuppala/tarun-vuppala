@@ -1,3 +1,8 @@
+export type ProjectMetric = {
+  value: string
+  label: string
+}
+
 export type Project = {
   id: string
   title: string
@@ -12,14 +17,8 @@ export type Project = {
   githubUrl: string | null
   date: string
   featured: boolean
-  stats: {
-    users: string
-    performance: string
-    rating: string
-  }
+  metrics?: ProjectMetric[]
   details: {
-    challenge: string
-    approach: string
     results: string[]
     learnings: string
   }

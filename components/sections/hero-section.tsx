@@ -12,22 +12,12 @@ export default function HeroSection() {
       id="hero"
       className="relative flex min-h-svh items-center overflow-hidden pb-16 pt-[calc(var(--nav-height,72px)+1.75rem)] sm:pb-20"
     >
-      <p
-        aria-hidden
-        className="pointer-events-none absolute left-[max(0.75rem,calc((100vw-80rem)/2))] top-1/2 hidden origin-left -translate-y-1/2 -rotate-90 font-mono text-[0.62rem] tracking-[0.38em] text-stone-500 xl:block"
-      >
-        PORTFOLIO / 2026
-      </p>
 
       <ContentContainer>
         <div className="grid items-center gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] xl:gap-14">
           <div className="min-w-0">
             <div className="hero-kicker flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.72rem] uppercase tracking-[0.18em] text-stone-600 dark:text-stone-400">
-              <span>Tarun Vuppala</span>
-              <span aria-hidden className="h-px w-6 bg-stone-400/70" />
-              <span>Hyderabad</span>
-              <span aria-hidden className="h-px w-6 bg-stone-400/70" />
-              <LocalClock />
+              <span>I am Tarun Vuppala</span>
             </div>
 
             <h1 className="mt-6 max-w-[14ch] text-[clamp(3.2rem,8.4vw,7.1rem)] font-bold leading-[0.86] tracking-[-0.07em] text-foreground">
@@ -78,7 +68,7 @@ export default function HeroSection() {
 
           <figure className="hero-portrait mx-auto w-full max-w-96 xl:mr-6 xl:max-w-none">
             <ViewfinderFrame>
-              <div className="relative aspect-[4/5] overflow-hidden bg-stone-200 dark:bg-stone-900">
+              <div className="relative aspect-4/5 overflow-hidden bg-stone-200 dark:bg-stone-900">
                 <Image
                   src="/tarun_white.png"
                   alt="Tarun Vuppala portrait"
@@ -104,7 +94,6 @@ export default function HeroSection() {
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400" aria-hidden="true" />
                 Available for work
               </span>
-              <span className="font-mono text-[0.68rem] text-stone-500">01 / 05</span>
             </figcaption>
           </figure>
         </div>

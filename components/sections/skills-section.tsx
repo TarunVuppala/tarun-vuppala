@@ -85,20 +85,19 @@ export default function SkillsSection() {
     <section id="skills" className="relative py-12 sm:py-14" style={sectionScrollOffset}>
       <ContentContainer>
         <div className="mb-10 grid gap-5 xl:grid-cols-[0.68fr_1.32fr] xl:items-end">
-          <div className="max-w-xl">
+          <div className="min-w-lg">
             <p className="section-kicker">How I build</p>
             <h2 className="mt-4 text-4xl font-bold tracking-[-0.055em] text-foreground sm:text-5xl">
               From AI capability to a shipped product.
             </h2>
           </div>
 
-          <div className="space-y-3 overflow-hidden border border-stone-950/10 bg-background/70 py-4 dark:border-white/10 dark:bg-card/50">
+          <div className="space-y-3 ">
             <div className="flex items-center justify-between px-4 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
               <span>
                 stack
                 <span className="caret-blink" aria-hidden="true" />
               </span>
-              <span>{movingSkills.length} tools</span>
             </div>
             <MotionStrip duration={110} reverse={isScrollingUp} className="gap-10">
               {movingSkills.map((skill) => (
