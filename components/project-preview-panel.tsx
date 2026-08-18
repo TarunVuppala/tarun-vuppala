@@ -1,4 +1,6 @@
 import Image from "next/image"
+import Link from "next/link"
+import { ExternalLink, Github } from "lucide-react"
 
 import TechIconStack from "@/components/ui/tech-icon-stack"
 import type { Project } from "@/types/project"
@@ -34,11 +36,14 @@ const PROJECT_ACCENTS = [
   },
 ]
 
+const BARE_TITLE_CLASS = "font-black tracking-tighter text-[2rem] leading-[0.92] text-stone-950 dark:text-white sm:text-[2.3rem]"
+
 type ProjectPreviewPanelProps = {
   project: Project
   index: number
   compact?: boolean
   bare?: boolean
+  onSelect?: (project: Project) => void
 }
 
 export default function ProjectPreviewPanel({
@@ -46,6 +51,7 @@ export default function ProjectPreviewPanel({
   index,
   compact = false,
   bare = false,
+  onSelect,
 }: ProjectPreviewPanelProps) {
   const accent = PROJECT_ACCENTS[index % PROJECT_ACCENTS.length]
   const projectNumber = `${index + 1}`.padStart(2, "0")
@@ -83,7 +89,19 @@ export default function ProjectPreviewPanel({
               {project.date}
               {visibleCategories[0] ? ` / ${visibleCategories[0]}` : ""}
             </p>
-            <h3 className="font-serif text-[2rem] leading-[0.92] text-stone-950 dark:text-white sm:text-[2.3rem]">{project.title}</h3>
+            {onSelect ? (
+              <button
+                type="button"
+                onClick={() => onSelect(project)}
+                title="View project details"
+                aria-label={`View ${project.title} project details`}
+                className={`cursor-pointer border-0 bg-transparent p-0 text-left underline decoration-stone-950/35 underline-offset-4 transition-colors hover:text-stone-700 dark:bg-transparent dark:decoration-white/35 dark:hover:text-white/80 ${BARE_TITLE_CLASS}`}
+              >
+                {project.title}
+              </button>
+            ) : (
+              <h3 className={BARE_TITLE_CLASS}>{project.title}</h3>
+            )}
             <p className="mt-2 text-sm leading-6 text-stone-800/78 dark:text-white/68 sm:max-w-72">{project.subtitle}</p>
           </div>
 
@@ -130,23 +148,61 @@ export default function ProjectPreviewPanel({
 
         <div className="flex items-end justify-between gap-3">
           <div className={compact ? "min-w-0 max-w-46" : "min-w-0 max-w-72 sm:max-w-84"}>
-            <h3 className={`font-serif text-stone-950 dark:text-white ${compact ? "text-2xl" : "text-3xl"}`}>{project.title}</h3>
+            <div className="flex items-center gap-2">
+              {onSelect ? (
+                <button
+                  type="button"
+                  onClick={() => onSelect(project)}
+                  title="View project details"
+                  aria-label={`View ${project.title} project details`}
+                  className={`cursor-pointer border-0 bg-transparent p-0 text-left font-black tracking-tighter text-stone-950 underline decoration-stone-950/35 underline-offset-4 transition-colors hover:text-stone-700 dark:bg-transparent dark:text-white dark:decoration-white/35 dark:hover:text-white ${compact ? "text-2xl" : "text-3xl"}`}
+                >
+                  {project.title}
+                </button>
+              ) : (
+                <h3 className={`font-black tracking-tighter text-stone-950 dark:text-white ${compact ? "text-2xl" : "text-3xl"}`}>{project.title}</h3>
+              )}
+              {project.liveUrl && (
+                <Link
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open live site for ${project.title}`}
+                  className="mt-1 inline-flex h-7 w-7 items-center justify-center rounded-full text-stone-700/75 transition-colors hover:bg-white/15 hover:text-stone-950 dark:text-white/70 dark:hover:text-white"
+                >
+                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              )}
+            </div>
             {!compact && <p className="mt-1 max-w-md text-sm leading-6 text-stone-800/78 dark:text-white/70">{project.subtitle}</p>}
           </div>
 
           <div
-            className={`shrink-0 rounded-2xl border border-stone-950/10 bg-white/46 text-stone-700 dark:border-white/12 dark:bg-black/20 dark:text-white/70 ${
+            className={`shrink-0 max-w-44 text-right text-stone-700 dark:text-white/70 ${
               compact
-                ? "max-w-35 px-3 py-2 text-right text-[10px] leading-4"
-                : "hidden max-w-40 px-4 py-3 text-right text-xs sm:block"
+                ? "text-[10px] leading-4"
+                : "hidden text-xs leading-5 sm:block"
             }`}
           >
-            <p className="text-stone-500 dark:text-white/40">Impact</p>
-            <p className="mt-1 leading-relaxed">{project.impact}</p>
+            <p className="text-[10px] uppercase tracking-[0.14em] text-stone-500 dark:text-white/40">Outcome</p>
+            <p className="mt-1 [display:-webkit-box] overflow-hidden [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">{project.impact}</p>
           </div>
         </div>
 
-        <TechIconStack tech={previewSkills} limit={previewSkills.length} size={compact ? "sm" : "md"} />
+        <div className="flex items-center justify-between gap-3">
+          <TechIconStack tech={previewSkills} limit={previewSkills.length} size={compact ? "sm" : "md"} />
+          {project.githubUrl && (
+            <Link
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open GitHub repository for ${project.title}`}
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-stone-700/75 transition-colors hover:bg-white/15 hover:text-stone-950 dark:text-white/70 dark:hover:text-white"
+            >
+              <Github className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   )

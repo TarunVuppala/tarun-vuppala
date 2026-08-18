@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { AnimatePresence, motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion"
-import { ArrowRight, ExternalLink, Github, Info } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -27,7 +27,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
   return (
     <article
       ref={cardRef}
-      className="h-107.5 w-[84vw] shrink-0 snap-start sm:h-109.5 sm:w-[70vw] lg:w-130"
+      className="h-96 w-[84vw] shrink-0 snap-start sm:h-98 sm:w-[70vw] lg:w-130"
       onPointerMove={(event) => {
         const node = cardRef.current
         if (!node || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -43,64 +43,33 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
         event.currentTarget.style.setProperty("--tilt-y", "0deg")
       }}
     >
-      <Card className="viewfinder-tilt flex h-full flex-col overflow-hidden rounded-[1.4rem] border border-stone-950/10 bg-white/82 p-0 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.22)] backdrop-blur-xl transition-[border-color,box-shadow] duration-200 hover:border-sky-300/50 dark:border-white/10 dark:bg-white/5 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_40px_110px_-48px_rgba(15,23,42,0.95)]">
+      <Card className="viewfinder-tilt flex h-full flex-col gap-0 overflow-hidden rounded-[1.4rem] border border-stone-950/10 bg-white/82 p-0 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.22)] backdrop-blur-xl transition-[border-color,box-shadow] duration-200 hover:border-sky-300/50 dark:border-white/10 dark:bg-white/5 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_40px_110px_-48px_rgba(15,23,42,0.95)]">
         <div className="p-4">
-          <ProjectPreviewPanel project={project} index={index} />
+          <ProjectPreviewPanel project={project} index={index} onSelect={onSelect} />
         </div>
 
-        <CardContent className="grid flex-1 content-start grid-cols-1 gap-3 p-5 pt-1 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.9fr)] sm:gap-x-5 sm:gap-y-3">
-          <div className="flex items-start justify-between gap-4 sm:col-span-2">
-            <span className="text-[0.68rem] font-semibold uppercase tracking-[0.13em] text-stone-600 dark:text-stone-400">
-              {visibleCategories.join(" · ")}
-            </span>
-          </div>
-
-          <p className="[display:-webkit-box] self-center overflow-hidden text-sm leading-6 text-stone-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:2] dark:text-stone-300 sm:col-span-2">
+        <CardContent className="grid flex-1 content-start grid-cols-1 gap-4 p-5 pt-1">
+          <p className="[display:-webkit-box] min-h-10 overflow-hidden text-sm leading-5 text-stone-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:2] dark:text-stone-300">
             {project.description}
           </p>
 
-          <div className="flex min-w-0 items-center justify-between gap-3 sm:col-span-2">
-            {project.metrics && project.metrics.length > 0 ? (
+          {project.metrics && project.metrics.length > 0 && (
+            <div className="flex min-w-0 items-end justify-between gap-4">
               <div className="grid min-w-0 flex-1 grid-cols-3 divide-x divide-stone-950/10 dark:divide-white/10">
-                {project.metrics.slice(0, 3).map((metric) => (
-                  <div key={metric.label} className="min-w-0 px-2.5 first:pl-0 last:pr-0">
-                    <p className="truncate text-sm font-semibold tracking-tight text-stone-950 dark:text-white">{metric.value}</p>
-                    <p className="mt-0.5 truncate text-[0.6rem] font-medium uppercase tracking-[0.1em] text-stone-500 dark:text-stone-400">
-                      {metric.label}
-                    </p>
-                  </div>
-                ))}
+              {project.metrics.slice(0, 3).map((metric) => (
+                <div key={metric.label} className="min-w-0 px-2.5 first:pl-0 last:pr-0">
+                  <p className="truncate text-sm font-semibold tracking-tight text-stone-950 dark:text-white">{metric.value}</p>
+                  <p className="mt-1 truncate text-[0.68rem] font-medium uppercase tracking-[0.08em] text-stone-500 dark:text-stone-400">
+                    {metric.label}
+                  </p>
+                </div>
+              ))}
               </div>
-            ) : (
-              <span />
-            )}
-
-            <div className="flex shrink-0 gap-1">
-              {project.liveUrl && (
-                <Button size="sm" variant="ghost" asChild className="h-9 w-9 p-0">
-                  <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open live site for ${project.title}`}>
-                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                  </Link>
-                </Button>
-              )}
-              {project.githubUrl && (
-                <Button size="sm" variant="ghost" asChild className="h-9 w-9 p-0">
-                  <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open GitHub repository for ${project.title}`}>
-                    <Github className="h-4 w-4" aria-hidden="true" />
-                  </Link>
-                </Button>
-              )}
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => onSelect(project)}
-                aria-label={`View ${project.title} project details`}
-                className="h-9 w-9 p-0"
-              >
-                <Info className="h-4 w-4" aria-hidden="true" />
-              </Button>
+              <span className="shrink-0 text-right text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-stone-500 dark:text-stone-400">
+                {visibleCategories.join(" · ")}
+              </span>
             </div>
-          </div>
+          )}
         </CardContent>
       </Card>
     </article>
