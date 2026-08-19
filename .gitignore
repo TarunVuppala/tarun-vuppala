@@ -40,5 +40,3 @@ next-env.d.ts
 .claude
 .playwright-browsers
 /scripts
-!/scripts/
-!/scripts/inspect-localhost.mjs

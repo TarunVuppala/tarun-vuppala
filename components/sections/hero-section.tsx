@@ -13,20 +13,20 @@ export default function HeroSection() {
     >
 
       <ContentContainer>
-        <div className="hero-layout grid grid-cols-1 items-start gap-6 sm:grid-cols-[minmax(0,1fr)_minmax(10rem,0.42fr)] sm:gap-4 md:grid-cols-[minmax(0,1.15fr)_minmax(12rem,0.85fr)] md:gap-6 lg:items-center lg:gap-x-10 lg:gap-y-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] xl:gap-x-14 xl:gap-y-6">
+        <div className="hero-layout grid grid-cols-1 items-start gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.55fr)] sm:gap-2 md:grid-cols-[minmax(0,1.15fr)_minmax(12rem,0.85fr)] md:gap-4 lg:items-center lg:gap-x-10 lg:gap-y-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(16rem,0.85fr)] xl:gap-x-14 xl:gap-y-6">
           <div className="hero-heading min-w-0 text-center sm:text-left">
             <div className="hero-kicker flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[0.72rem] uppercase tracking-[0.18em] text-stone-600 dark:text-stone-400 sm:justify-start">
               <span>I am Tarun Vuppala</span>
             </div>
 
-            <h1 className="hero-title mx-auto mt-6 max-w-[14ch] text-[clamp(3.2rem,8.4vw,7.1rem)] font-bold leading-[0.86] tracking-[-0.07em] text-foreground sm:mx-0 sm:max-w-full lg:max-w-[14ch]">
+            <h1 className="hero-title mx-auto mt-6 max-w-[14ch] overflow-visible text-[clamp(3.5rem,14vw,5.5rem)] font-bold leading-none tracking-[-0.07em] text-foreground sm:mx-0 sm:max-w-full sm:text-[clamp(3.75rem,8.8vw,5.75rem)] md:text-[clamp(4.25rem,8.5vw,6.5rem)] lg:max-w-[14ch] lg:text-[clamp(4.5rem,7vw,6.8rem)]">
               <span className="hero-line block">Building</span>
               <span className="hero-line hero-line-delay-1 block italic text-stone-500 dark:text-stone-400">things.</span>
               <span className="hero-line hero-line-delay-2 block">Figuring out how they work.</span>
             </h1>
           </div>
 
-          <figure className="hero-portrait mx-auto mt-8 w-full max-w-40 sm:order-none sm:mx-0 sm:mt-8 sm:max-w-40 sm:justify-self-end md:row-span-1 md:mt-8 md:mr-2 md:max-w-48 lg:row-span-2 lg:mt-8 lg:max-w-64 lg:mr-4 xl:mt-6 xl:mr-6 xl:max-w-80 2xl:max-w-96">
+          <figure className="hero-portrait mx-auto mt-6 w-full max-w-56 sm:order-none sm:mx-0 sm:mt-4 sm:max-w-64 sm:justify-self-end md:row-span-1 md:mt-6 md:mr-2 md:max-w-72 lg:row-span-2 lg:mt-8 lg:max-w-96 lg:mr-4 xl:mt-6 xl:mr-6 xl:max-w-md 2xl:max-w-[30rem]">
             <ViewfinderFrame>
               <div className="relative aspect-4/5 overflow-hidden bg-stone-200 dark:bg-stone-900">
                 <Image
@@ -34,7 +34,7 @@ export default function HeroSection() {
                   alt="Tarun Vuppala portrait"
                   fill
                   className="object-cover object-[46%_14%] dark:hidden"
-                  sizes="(min-width: 1280px) 420px, 360px"
+                  sizes="(min-width: 1536px) 480px, (min-width: 1280px) 448px, (min-width: 1024px) 384px, (min-width: 768px) 288px, (min-width: 640px) 224px, 224px"
                   priority
                   draggable={false}
                 />
@@ -43,7 +43,7 @@ export default function HeroSection() {
                   alt="Tarun Vuppala portrait"
                   fill
                   className="hidden object-cover object-[46%_14%] dark:block"
-                  sizes="(min-width: 1280px) 420px, 360px"
+                  sizes="(min-width: 1536px) 480px, (min-width: 1280px) 448px, (min-width: 1024px) 384px, (min-width: 768px) 288px, (min-width: 640px) 224px, 224px"
                   priority
                   draggable={false}
                 />
