@@ -18,54 +18,120 @@ type SkillCluster = {
 
 const WORKFLOW_AREAS = [
   {
+    title: "AI",
+    description: "AI and machine learning tools and concepts I have used while learning and building AI systems.",
+    icon: skillsByDomain.find((domain) => domain.title === "AI")!.icon,
+    clusters: [
+      {
+        title: "Languages & frameworks",
+        skills: ["Python", "PyTorch", "TensorFlow", "NumPy", "Pandas"],
+      },
+      {
+        title: "Retrieval",
+        skills: ["RAG", "Embeddings", "Vector Search"],
+      },
+      {
+        title: "AI engineering",
+        concepts: [
+          "memory usage",
+          "latency",
+          "resource optimization",
+          "Fine-tuning",
+          "Tokenization",
+          "Context Windows",
+          "Semantic Search",
+        ],
+      },
+      {
+        title: "Machine learning",
+        concepts: [
+          "ML Algorithms",
+          "Data Preprocessing",
+          "Model Training",
+          "Neural Networks",
+          "CNNs",
+        ],
+      },
+    ],
+  },
+  {
     title: "Backend",
-    description: "Services, APIs, and real-time work I have used across projects.",
+    description: "Services, APIs, and systems I have worked with across projects.",
     icon: skillsByDomain.find((domain) => domain.title === "Backend")!.icon,
     clusters: [
-      { title: "Services", skills: ["Node.js", "Express.js", "REST APIs", "WebSockets"] },
-      { title: "Languages", skills: ["Java", "Python"] },
-      { title: "Engineering concerns", concepts: ["API design", "real-time communication", "concurrency", "latency"] },
+      {
+        title: "Services",
+        skills: ["Node.js", "Express.js", "FastAPI", "REST APIs", "GraphQL", "gRPC"],
+      },
+      {
+        title: "Languages",
+        skills: ["Java", "Go", "Python", "TypeScript", "JavaScript"],
+      },
+      {
+        title: "Real-time",
+        skills: ["WebSockets"],
+      },
+      {
+        title: "Architecture",
+        concepts: ["API design", "system design", "microservices", "message queues", "scalability"],
+      },
     ],
   },
   {
     title: "Databases",
-    description: "Databases I have used while working on application data and sync.",
+    description: "Databases and data-layer concepts I have worked with.",
     icon: skillsByDomain.find((domain) => domain.title === "Databases")!.icon,
     clusters: [
-      { title: "Primary stores", skills: ["MongoDB", "PostgreSQL", "MySQL"] },
-      { title: "Caching", skills: ["Redis"] },
-      { title: "Data work", concepts: ["data modeling", "query design", "caching", "consistency"] },
+      {
+        title: "Databases",
+        skills: ["MongoDB", "PostgreSQL", "MySQL"],
+      },
+      {
+        title: "Caching",
+        skills: ["Redis"],
+      },
+      {
+        title: "Data concepts",
+        concepts: ["data modeling", "query design", "indexing", "caching", "transactions"],
+      },
     ],
   },
   {
     title: "Frontend",
-    description: "Interfaces and application code I have worked with alongside the backend.",
+    description: "Interfaces and application code I have worked with across web and mobile projects.",
     icon: skillsByDomain.find((domain) => domain.title === "Frontend")!.icon,
     clusters: [
-      { title: "Applications", skills: ["React", "Next.js"] },
-      { title: "Languages", skills: ["TypeScript", "JavaScript"] },
-      { title: "Interface concerns", concepts: ["component design", "responsive UI", "client state"] },
-    ],
-  },
-  {
-    title: "AI",
-    description: "Tools I have used while exploring retrieval and local model inference.",
-    icon: skillsByDomain.find((domain) => domain.title === "AI")!.icon,
-    clusters: [
-      { title: "Models & retrieval", skills: ["LLMs", "RAG"] },
-      { title: "Local inference", skills: ["llama.cpp", "Ollama"] },
-      { title: "Experimentation", skills: ["PyTorch"] },
-      { title: "Practical constraints", concepts: ["model size", "memory usage", "response time", "privacy"] },
+      {
+        title: "Applications",
+        skills: ["React", "Next.js", "React Native"],
+      },
+      {
+        title: "UI & motion",
+        skills: ["Tailwind CSS", "GSAP"],
+      },
+      {
+        title: "Interface concerns",
+        concepts: ["component design", "responsive UI", "client state", "accessibility", "performance"],
+      },
     ],
   },
   {
     title: "Tools",
-    description: "The tools I use to build, collaborate, and run projects.",
+    description: "The tools I use to build, collaborate, deploy, and debug projects.",
     icon: skillsByDomain.find((domain) => domain.title === "Tools")!.icon,
     clusters: [
-      { title: "Collaboration", skills: ["Git", "GitHub"] },
-      { title: "Runtime & deployment", skills: ["Docker", "AWS"] },
-      { title: "Working habits", concepts: ["version control", "debugging", "documentation", "deployment"] },
+      {
+        title: "Development",
+        skills: ["Git", "GitHub", "Postman"],
+      },
+      {
+        title: "Deployment",
+        skills: ["Docker", "AWS", "Linux", "CI/CD"],
+      },
+      {
+        title: "Engineering",
+        concepts: ["version control", "debugging", "documentation", "testing", "deployment"],
+      },
     ],
   },
 ]

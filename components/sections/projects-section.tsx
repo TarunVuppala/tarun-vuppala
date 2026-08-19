@@ -122,13 +122,23 @@ export default function ProjectsSection() {
     const track = contentRef.current
     if (!viewport || !track) return
 
-    const threshold = viewport.getBoundingClientRect().left + viewport.clientWidth * 0.75
+    const viewportCenter =
+      viewport.getBoundingClientRect().left + viewport.clientWidth / 3
+
     const cards = track.querySelectorAll<HTMLElement>("[data-project-index]")
+
     let next = 0
+    let closest = Infinity
 
     cards.forEach((card) => {
-      const cardIndex = Number(card.dataset.projectIndex)
-      if (card.getBoundingClientRect().left <= threshold) next = cardIndex
+      const rect = card.getBoundingClientRect()
+      const cardCenter = rect.left + rect.width / 2
+      const distance = Math.abs(cardCenter - viewportCenter)
+
+      if (distance < closest) {
+        closest = distance
+        next = Number(card.dataset.projectIndex)
+      }
     })
 
     setActiveIndex((current) => (current === next ? current : next))
