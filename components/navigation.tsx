@@ -104,7 +104,7 @@ export default function Navigation() {
                 <button
                   type="button"
                   onClick={() => handleNavClick("/")}
-                  className="inline-flex h-11 w-11 items-center justify-center"
+                  className="inline-flex h-11 w-11 cursor-pointer items-center justify-center"
                   aria-label="Go to homepage"
                 >
                   <Image src="/main.png" alt="Tarun Vuppala" width={40} height={40} sizes="40px" draggable={false} />
@@ -157,7 +157,7 @@ export default function Navigation() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={social.label}
-                          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground/70 transition-colors duration-200 hover:text-foreground"
+                          className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md text-foreground/70 transition-colors duration-200 hover:text-foreground"
                         >
                           <Icon size={16} aria-hidden="true" />
                         </a>
@@ -208,7 +208,7 @@ export default function Navigation() {
                           key={item.name}
                           type="button"
                           onClick={() => handleNavClick(item.href)}
-                          className={`block min-h-11 w-full px-1 py-3 text-left font-medium ${
+                          className={`block min-h-11 w-full cursor-pointer px-1 py-3 text-left font-medium ${
                             isActive(item.href) ? "text-foreground" : "text-foreground/70 hover:text-foreground"
                           }`}
                         >
@@ -226,7 +226,7 @@ export default function Navigation() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={social.label}
-                                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground/70 hover:text-foreground"
+                                className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md text-foreground/70 hover:text-foreground"
                               >
                                 <Icon size={16} aria-hidden="true" />
                               </a>

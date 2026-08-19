@@ -88,11 +88,14 @@ export default function ContactSection() {
     <section id="contact" className="relative overflow-hidden py-14 sm:py-16" style={sectionScrollOffset}>
       <ContentContainer className="space-y-10">
         <div className="max-w-3xl">
-          <p className="section-kicker">Dispatch</p>
+          <p className="section-kicker">Get in touch</p>
           <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
-            Open to Backend,
-            <span className="mt-1 block italic text-stone-500 dark:text-stone-400">AI, and ML roles.</span>
+            Open to software
+            <span className="mt-1 block italic text-stone-500 dark:text-stone-400">engineering opportunities.</span>
           </h2>
+          <p className="mt-4 max-w-2xl text-base leading-7 text-stone-700 dark:text-stone-300">
+            I&apos;m looking for a team where I can contribute to real projects, learn from experienced engineers, and keep getting better at the work.
+          </p>
         </div>
 
         <div className="grid gap-12 xl:grid-cols-[0.75fr_1.25fr] xl:gap-16 xl:items-start">
@@ -113,7 +116,7 @@ export default function ContactSection() {
                 {info.href ? (
                   <Link
                     href={info.href}
-                    className="inline-flex items-center gap-1.5 text-[0.95rem] font-medium text-stone-900 transition-colors hover:text-sky-700 dark:text-stone-100 dark:hover:text-sky-100"
+                    className="inline-flex cursor-pointer items-center gap-1.5 text-[0.95rem] font-medium text-stone-900 transition-colors hover:text-sky-700 dark:text-stone-100 dark:hover:text-sky-100"
                     target={info.href.startsWith("http") ? "_blank" : undefined}
                     rel={info.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   >
@@ -192,7 +195,7 @@ export default function ContactSection() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="message" className="meta-label">Build brief</label>
+                  <label htmlFor="message" className="meta-label">Message</label>
                   <Textarea
                     id="message"
                     name="message"

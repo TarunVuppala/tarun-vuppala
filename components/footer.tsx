@@ -21,7 +21,7 @@ export default function Footer() {
         <div className="grid gap-8 border-b border-stone-950/10 pb-6 dark:border-white/10 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
           <div className="space-y-4">
             <h2 className="max-w-3xl text-[clamp(2.2rem,5vw,4.4rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-stone-950 dark:text-stone-50">
-              Backend and AI.
+              Building things I want to understand.
               <span className="block italic text-stone-500 dark:text-stone-400">Write when you&apos;re ready.</span>
             </h2>
 
@@ -44,7 +44,7 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-stone-950/10 bg-white/80 text-stone-700 transition-colors hover:border-stone-950/20 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/10 dark:hover:text-stone-100"
+                    className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-stone-950/10 bg-white/80 text-stone-700 transition-colors hover:border-stone-950/20 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-stone-300 dark:hover:border-white/20 dark:hover:bg-white/10 dark:hover:text-stone-100"
                     aria-label={social.label}
                   >
                     <Icon size={16} aria-hidden="true" />
@@ -58,7 +58,7 @@ export default function Footer() {
             <p className="meta-label">Links</p>
             <div className="mt-3 flex flex-col gap-2 text-sm text-stone-700 dark:text-stone-300">
               {footerLinks.map((link) => (
-                <Link key={link.name} href={link.href} className="transition-colors hover:text-stone-950 dark:hover:text-stone-100">
+                <Link key={link.name} href={link.href} className="cursor-pointer transition-colors hover:text-stone-950 dark:hover:text-stone-100">
                   {link.name}
                 </Link>
               ))}

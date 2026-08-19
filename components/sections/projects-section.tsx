@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { AnimatePresence, motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
@@ -27,6 +27,7 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
   return (
     <article
       ref={cardRef}
+      data-project-index={index}
       className="h-96 w-[84vw] shrink-0 snap-start sm:h-98 sm:w-[70vw] lg:w-130"
       onPointerMove={(event) => {
         const node = cardRef.current
@@ -48,28 +49,45 @@ function ProjectCard({ project, index, onSelect }: ProjectCardProps) {
           <ProjectPreviewPanel project={project} index={index} onSelect={onSelect} />
         </div>
 
-        <CardContent className="grid flex-1 content-start grid-cols-1 gap-4 p-5 pt-1">
-          <p className="[display:-webkit-box] min-h-10 overflow-hidden text-sm leading-5 text-stone-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:2] dark:text-stone-300">
+        <CardContent className="flex flex-1 flex-col gap-4 p-5 pt-1">
+          <p className="[display:-webkit-box] min-h-10 overflow-hidden text-sm leading-6 text-stone-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:2] dark:text-stone-300">
             {project.description}
           </p>
 
           {project.metrics && project.metrics.length > 0 && (
-            <div className="flex min-w-0 items-end justify-between gap-4">
-              <div className="grid min-w-0 flex-1 grid-cols-3 divide-x divide-stone-950/10 dark:divide-white/10">
+            <div className="grid min-w-0 grid-cols-3 divide-x divide-stone-950/10 dark:divide-white/10">
               {project.metrics.slice(0, 3).map((metric) => (
                 <div key={metric.label} className="min-w-0 px-2.5 first:pl-0 last:pr-0">
                   <p className="truncate text-sm font-semibold tracking-tight text-stone-950 dark:text-white">{metric.value}</p>
-                  <p className="mt-1 truncate text-[0.68rem] font-medium uppercase tracking-[0.08em] text-stone-500 dark:text-stone-400">
+                  <p className="mt-1 truncate text-xs font-medium uppercase tracking-[0.08em] text-stone-500 dark:text-stone-400">
                     {metric.label}
                   </p>
                 </div>
               ))}
-              </div>
-              <span className="shrink-0 text-right text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-stone-500 dark:text-stone-400">
-                {visibleCategories.join(" · ")}
-              </span>
             </div>
           )}
+
+          <div className="mt-auto flex items-center justify-between gap-4 border-t border-stone-950/10 pt-3 dark:border-white/10">
+            <div className="flex min-w-0 flex-wrap gap-2">
+              {visibleCategories.map((category) => (
+                <span
+                  key={`${project.id}-${category}`}
+                  className="rounded-full border border-stone-950/10 px-2.5 py-1 text-xs font-medium text-stone-500 dark:border-white/10 dark:text-stone-400"
+                >
+                  {category}
+                </span>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => onSelect(project)}
+              aria-label={`View details for ${project.title}`}
+              className="inline-flex shrink-0 cursor-pointer items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-stone-700 transition-colors hover:bg-stone-950/5 hover:text-stone-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 dark:text-stone-300 dark:hover:bg-white/10 dark:hover:text-white"
+            >
+              Details
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </button>
+          </div>
         </CardContent>
       </Card>
     </article>
@@ -99,10 +117,24 @@ export default function ProjectsSection() {
   const x = useTransform([scrollProgress, endX], ([progress, distance]) => -Number(distance) * Number(progress))
   const progressScale = useSpring(scrollProgress, progressSpring)
 
-  useMotionValueEvent(scrollProgress, "change", (progress) => {
-    const next = Math.min(featuredProjects.length, Math.floor(progress * slideCount))
+  const updateActiveIndex = useCallback(() => {
+    const viewport = viewportRef.current
+    const track = contentRef.current
+    if (!viewport || !track) return
+
+    const threshold = viewport.getBoundingClientRect().left + viewport.clientWidth * 0.75
+    const cards = track.querySelectorAll<HTMLElement>("[data-project-index]")
+    let next = 0
+
+    cards.forEach((card) => {
+      const cardIndex = Number(card.dataset.projectIndex)
+      if (card.getBoundingClientRect().left <= threshold) next = cardIndex
+    })
+
     setActiveIndex((current) => (current === next ? current : next))
-  })
+  }, [])
+
+  useMotionValueEvent(x, "change", updateActiveIndex)
 
   useEffect(() => {
     const measure = () => {
@@ -118,6 +150,8 @@ export default function ProjectsSection() {
       if (track && viewport) {
         endX.set(Math.max(0, track.scrollWidth - viewport.clientWidth))
       }
+
+      updateActiveIndex()
     }
 
     measure()
@@ -132,7 +166,7 @@ export default function ProjectsSection() {
       window.removeEventListener("resize", measure)
       observer.disconnect()
     }
-  }, [endX, featuredProjects.length, reduceMotion, sectionDistance, sectionStart])
+  }, [endX, featuredProjects.length, reduceMotion, sectionDistance, sectionStart, updateActiveIndex])
 
   return (
     <section
@@ -146,12 +180,15 @@ export default function ProjectsSection() {
           <ContentContainer>
             <div className="flex items-end justify-between gap-6">
               <div>
-                <p className="section-kicker">Selected work</p>
+                <p className="section-kicker">Things I&apos;ve built</p>
                 <h2 className="mt-2 text-4xl font-black tracking-tighter text-stone-950 sm:text-5xl dark:text-stone-50">
                   {activeIndex >= featuredProjects.length
                     ? "Full archive"
                     : featuredProjects[activeIndex]?.title}
                 </h2>
+                <p className="mt-3 max-w-xl text-sm leading-6 text-stone-700 dark:text-stone-300">
+                  A mix of projects from internships, college, and experiments I started because I wanted to understand something better.
+                </p>
               </div>
               <p className="font-serif text-5xl leading-none tracking-[-0.08em] text-stone-300 tabular-nums sm:text-7xl dark:text-white/15">
                 {String(Math.min(activeIndex + 1, slideCount)).padStart(2, "0")}
@@ -182,15 +219,18 @@ export default function ProjectsSection() {
             style={reduceMotion ? undefined : { x }}
             className={
               reduceMotion
-                ? "flex items-start gap-4 snap-x snap-mandatory lg:gap-5"
-                : "flex items-start gap-4 lg:gap-5"
+                ? "flex w-max items-start gap-4 snap-x snap-mandatory lg:gap-5"
+                : "flex w-max items-start gap-4 lg:gap-5"
             }
           >
             {featuredProjects.map((project, index) => (
               <ProjectCard key={project.id} index={index} project={project} onSelect={setSelectedProject} />
             ))}
 
-            <article className="relative h-107.5 w-[84vw] shrink-0 snap-start sm:h-109.5 sm:w-[70vw] lg:w-100">
+            <article
+              data-project-index={featuredProjects.length}
+              className="relative h-96 w-[84vw] shrink-0 snap-start sm:h-98 sm:w-[70vw] lg:w-130"
+            >
               <Card className="flex h-full flex-col items-center justify-center rounded-[2.25rem] border border-stone-950/10 bg-white/82 p-8 text-center backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
                 <ArrowRight className="h-10 w-10 text-stone-500 dark:text-stone-400" aria-hidden="true" />
                 <h3 className="mt-6 text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">Full archive</h3>
@@ -202,6 +242,11 @@ export default function ProjectsSection() {
                 </Button>
               </Card>
             </article>
+
+            <div
+              aria-hidden="true"
+              className="h-96 w-96 shrink-0 sm:h-98"
+            />
           </motion.div>
         </div>
       </div>
@@ -211,7 +256,9 @@ export default function ProjectsSection() {
           <ProjectModal
             project={selectedProject}
             index={featuredProjects.findIndex((item) => item.id === selectedProject.id)}
+            projects={featuredProjects}
             onClose={() => setSelectedProject(null)}
+            onNavigate={setSelectedProject}
           />
         )}
       </AnimatePresence>

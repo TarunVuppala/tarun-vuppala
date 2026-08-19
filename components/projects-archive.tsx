@@ -43,10 +43,10 @@ export default function ProjectsArchive() {
       <section className="space-y-6">
         <div className="max-w-3xl">
           <h1 className="text-4xl font-black tracking-[-0.04em] text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
-            Project archive.
+            Things I&apos;ve built.
           </h1>
           <p className="mt-4 max-w-2xl text-base text-stone-700 sm:text-lg dark:text-stone-300">
-            AI/ML, backend, automation, and product builds.
+            Projects from internships, college, and experiments.
           </p>
         </div>
 
@@ -183,7 +183,9 @@ export default function ProjectsArchive() {
           <ProjectModal
             project={selectedProject}
             index={allProjects.findIndex((project) => project.id === selectedProject.id)}
+            projects={filteredProjects}
             onClose={() => setSelectedProject(null)}
+            onNavigate={setSelectedProject}
           />
         )}
       </AnimatePresence>

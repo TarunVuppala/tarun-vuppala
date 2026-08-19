@@ -31,10 +31,10 @@ export default function TwitterImage() {
           Projects
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <div style={{ fontSize: 52, fontWeight: 700, lineHeight: 1.05 }}>Selected Work</div>
+          <div style={{ fontSize: 52, fontWeight: 700, lineHeight: 1.05 }}>Things I&apos;ve Built</div>
           <div style={{ fontSize: 26, fontWeight: 500, opacity: 0.85 }}>{siteConfig.name}</div>
         </div>
-        <div style={{ fontSize: 18, opacity: 0.6 }}>Engineering case studies and product builds.</div>
+        <div style={{ fontSize: 18, opacity: 0.6 }}>Projects from teams, college, and experiments.</div>
       </div>
     ),
     size

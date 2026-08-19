@@ -146,8 +146,8 @@ export default function ProjectPreviewPanel({
           {visibleCategories[0] ? ` / ${visibleCategories[0]}` : ""}
         </p>
 
-        <div className="flex items-end justify-between gap-3">
-          <div className={compact ? "min-w-0 max-w-46" : "min-w-0 max-w-72 sm:max-w-84"}>
+        <div className="grid min-w-0 grid-cols-1 items-end gap-3 sm:grid-cols-2">
+          <div className={compact ? "min-w-0 max-w-60" : "min-w-0 max-w-96"}>
             <div className="flex items-center gap-2">
               {onSelect ? (
                 <button
@@ -168,7 +168,7 @@ export default function ProjectPreviewPanel({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Open live site for ${project.title}`}
-                  className="mt-1 inline-flex h-7 w-7 items-center justify-center rounded-full text-stone-700/75 transition-colors hover:bg-white/15 hover:text-stone-950 dark:text-white/70 dark:hover:text-white"
+                  className="mt-1 inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-stone-700/75 transition-colors hover:bg-white/15 hover:text-stone-950 dark:text-white/70 dark:hover:text-white"
                 >
                   <ExternalLink className="h-4 w-4" aria-hidden="true" />
                 </Link>
@@ -177,13 +177,7 @@ export default function ProjectPreviewPanel({
             {!compact && <p className="mt-1 max-w-md text-sm leading-6 text-stone-800/78 dark:text-white/70">{project.subtitle}</p>}
           </div>
 
-          <div
-            className={`shrink-0 max-w-44 text-right text-stone-700 dark:text-white/70 ${
-              compact
-                ? "text-[10px] leading-4"
-                : "hidden text-xs leading-5 sm:block"
-            }`}
-          >
+          <div className={`min-w-0 text-stone-700 dark:text-white/70 ${compact ? "text-left text-[10px] leading-4 sm:text-right" : "text-left text-xs leading-5 sm:text-right"}`}>
             <p className="text-[10px] uppercase tracking-[0.14em] text-stone-500 dark:text-white/40">Outcome</p>
             <p className="mt-1 [display:-webkit-box] overflow-hidden [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">{project.impact}</p>
           </div>
@@ -197,7 +191,7 @@ export default function ProjectPreviewPanel({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Open GitHub repository for ${project.title}`}
-              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-stone-700/75 transition-colors hover:bg-white/15 hover:text-stone-950 dark:text-white/70 dark:hover:text-white"
+              className="inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full text-stone-700/75 transition-colors hover:bg-white/15 hover:text-stone-950 dark:text-white/70 dark:hover:text-white"
             >
               <Github className="h-4 w-4" aria-hidden="true" />
             </Link>

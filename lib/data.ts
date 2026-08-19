@@ -21,21 +21,19 @@ export const socialProfiles = {
 
 export const siteConfig = {
   name: "Tarun Vuppala",
-  title: "Tarun Vuppala - Backend & AI Engineer",
-  description: "Backend and AI engineer building resilient systems, local AI applications, and modern web products.",
+  title: "Tarun Vuppala - Software Engineer",
+  description: "Software engineer interested in backend systems, real-time software, and applied AI.",
   keywords: [
     "Tarun Vuppala",
     "Tarun Vuppala Portfolio",
     "Tarun Vuppala Resume",
-    "Tarun Vuppala Backend Engineer",
-    "Tarun Vuppala AI Engineer",
+    "Tarun Vuppala Software Engineer",
     "Tarun Vuppala React",
     "V Tarun",
     "Tarun",
     "tarun",
     "tarun vuppala",
-    "Backend Engineer",
-    "AI Engineer",
+    "Software Engineer",
     "React",
     "Next.js",
     "Web Development",
@@ -45,7 +43,7 @@ export const siteConfig = {
     "Backend",
   ],
   creator: "Tarun Vuppala",
-  jobTitle: "Backend & AI Engineer",
+  jobTitle: "Software Engineer",
   email: "tarun.vuppala26@gmail.com",
   sameAs: [canonicalSiteUrl, socialProfiles.github, socialProfiles.linkedin, socialProfiles.twitter],
   images: {
@@ -152,14 +150,14 @@ const projectCatalog: Project[] = [
   {
     id: "acethletics",
     title: "Acethletics",
-    subtitle: "All-in-One College Sports Management",
+    subtitle: "College Sports Platform",
     description:
-      "A centralized athletic sports platform for scheduling, coordination, and live tournament updates.",
+      "An internship project for ACE Engineering College sports: tournaments, live scores, and real-time updates.",
     problem:
-      "College sports events lacked centralized sports collaboration and online presence.",
+      "The project focused on giving college sports a more visible and organized online presence, closer to how sports are presented at large universities.",
     solution:
-      "Built a platform for event scheduling, participant management, and real-time score updates.",
-    impact: "Supported 10+ live events with 1,500 peak concurrent users and 2,000+ downloads.",
+      "As part of my internship at Front Interactive Services, I worked mainly on the backend, including APIs, database operations, and real-time updates.",
+    impact: "Used across 10+ live events, with 1,500 peak concurrent users.",
     tech: [
       "Next.js",
       "Node.js",
@@ -180,26 +178,25 @@ const projectCatalog: Project[] = [
     ],
     details: {
       results: [
-        "Handled 1,500 peak concurrent users across 10+ live events",
+        "Supported 1,500 peak concurrent users across 10+ live events",
         "Maintained 100ms average API response latency during tournaments",
-        "Delivered 200+ real-time events per match at 20ms propagation latency",
-        "Recorded zero downtime and zero production data inconsistencies",
+        "Delivered real-time score updates with 20ms propagation latency",
       ],
-      learnings: "Optimized real-time data flows under production stress.",
+      learnings: "This gave me practical experience with real-time communication and handling a large number of connected users.",
     },
     categories: ["Website", "Mobile"],
   },
   {
     id: "quickfuel",
     title: "QuickFuel",
-    subtitle: "Innovative On-Demand Fuel and Vehicle Service Platform",
+    subtitle: "Fuel Delivery & Vehicle Services",
     description:
-      "A web-app that enables on-demand fuel delivery and vehicle repair services, complete with live order tracking.",
+      "An experiment with agent-based fuel delivery and services for common vehicle-owner problems.",
     problem:
-      "Users often faced long queues or dry pumps without real-time status or home delivery options.",
+      "Running out of fuel, detouring to a station, waiting in line, or arranging help when a vehicle has a problem can turn a small issue into a long one.",
     solution:
-      "Built a on-demand service platform with GPS-based station finder, delivery scheduling, and repair requests.",
-    impact: "Saved users 30+ mins/day and removed the need for station visits.",
+      "I explored a mix of finding nearby fuel, requesting delivery by agents, and booking vehicle services, with location details, scheduling, and real-time order updates.",
+    impact: "An early experiment in the logistics and operations behind fuel delivery and vehicle services.",
     tech: [
       "React.js",
       "Node.js",
@@ -214,31 +211,26 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/TarunVuppala/quick-fuel",
     date: "2024",
     featured: false,
-    metrics: [
-      { value: "30+ min", label: "saved daily" },
-      { value: "Live", label: "order tracking" },
-      { value: "95%", label: "prediction accuracy" },
-    ],
     details: {
       results: [
-        "Platform for on-demand fuel delivery and vehicle repairs",
-        "Real-time order tracking with live updates",
-        "95% accuracy in fuel status predictions",
+        "Explored fuel delivery by agents rather than delivery tied to petrol stations",
+        "Worked with location, scheduling, and changing order status",
+        "Thought through service flows for common vehicle-owner problems",
       ],
       learnings:
-        "Balanced logistics routing with real-time data to ensure timely service.",
+        "This project made me think about the operational side of a service: who fulfils a request, how the timing works, and what happens when a vehicle owner needs help quickly.",
     },
     categories: ["Website", "SaaS"],
   },
   {
     id: "tedxaceec",
     title: "TEDxACEEC",
-    subtitle: "Event Website & Collaborator Portal",
+    subtitle: "Event Website & Ticketing",
     description:
-      "A custom portal to manage collaborators, ticketing, and analytics for a TEDx event in college.",
-    problem: "Event outreach and ticketing lacked centralization.",
-    solution: "Built a modular dashboard for marketing and ticketing.",
-    impact: "Streamlined operations for 5+ teams and many attendees.",
+      "A website for our college TEDx event, covering event details, collaborators, and ticket purchases.",
+    problem: "The event needed a public place to share its story, details, people, and ticket information.",
+    solution: "I worked on the event website, event and team pages, collaborator presentation, and ticket purchase flow.",
+    impact: "Used to present and sell tickets for one college TEDx event.",
     tech: ["Next.js", "MongoDB", "Tailwind", "Framer Motion", "Razorpay"],
     image: "/placeholder.svg",
     liveUrl: "https://tedx.aceec.ac.in",
@@ -247,24 +239,28 @@ const projectCatalog: Project[] = [
     featured: true,
     metrics: [
       { value: "90+", label: "tickets processed" },
-      { value: "7+", label: "collaborators" },
-      { value: "1", label: "event portal" },
+      { value: "7+", label: "collaborators shown" },
+      { value: "1", label: "event website" },
     ],
     details: {
-      results: ["7+ collaborators onboarded", "90+ tickets processed"],
-      learnings: "Internal tooling boosts large-event success.",
+      results: [
+        "Worked on the event website and ticketing flow",
+        "Presented event details, teams, and collaborators",
+        "Processed 90+ ticket purchases",
+      ],
+      learnings: "Working on the site made me think about how much of an event experience comes from clear information and a straightforward ticket purchase flow.",
     },
     categories: ["Website"],
   },
   {
     id: "trimlyai",
     title: "Trimly.ai",
-    subtitle: "Read Smart, Read Less",
+    subtitle: "Making long documents easier to read",
     description:
-      "A structure-aware AI reading tool that parses PDFs, preserves hierarchy, and adapts summaries to a reader's time budget.",
-    problem: "No way to customize document length without losing key content.",
-    solution: "Built a time- & mood-based compression engine.",
-    impact: "Turned long PDFs into usable briefings without flattening the document.",
+      "An AI reading experiment that removes filler and repetition from books, technical documents, and papers.",
+    problem: "Long documents often contain filler and repetition; removing those without losing the parts that matter is harder than simply making a summary shorter.",
+    solution: "I worked on PDF parsing, structure-aware processing, and retrieved document context to guide what should stay.",
+    impact: "An experiment in making long documents easier to work through without flattening them.",
     tech: [
       "Next.js",
       "Node.js",
@@ -278,33 +274,28 @@ const projectCatalog: Project[] = [
     githubUrl: "https://github.com/tarunvuppala/trimlyai",
     date: "2025",
     featured: true,
-    metrics: [
-      { value: "~80%", label: "less reading" },
-      { value: "RAG", label: "structured context" },
-      { value: "Local", label: "private workflow" },
-    ],
     details: {
       results: [
-        "Reduced long-form reading time by roughly 80%",
-        "Preserved section structure and key document hierarchy",
-        "Let summaries adapt to time budget and reading context",
+        "Worked with fiction, non-fiction, technical documents, and papers",
+        "Experimented with removing filler and repeated points while keeping section structure",
+        "Used retrieved document context to guide what should stay",
       ],
-      learnings: "Useful AI products need controllability and structure, not just shorter text.",
+      learnings: "The project made me think more carefully about the difference between making something shorter and making it more useful.",
     },
     categories: ["AI", "SaaS", "Personalization"],
   },
   {
     id: "atlas-ai",
     title: "Atlas AI",
-    subtitle: "Offline Multi-Expert AI System",
+    subtitle: "Exploring on-device AI",
     description:
-      "An offline-first AI mobile app with on-device LLM inference and a custom RAG expert system for private, context-aware conversations.",
+      "An offline AI assistant for mobile devices, built for limited connectivity and sensitive data.",
     problem:
-      "Mobile AI needs private, useful conversations while working within tight device memory and compute limits.",
+      "Cloud AI is not always practical when network coverage is limited or an organization needs to keep its data private.",
     solution:
-      "Built on-device LLM inference with llama.cpp, vector-backed RAG, GGUF quantization, persistent context windows, and device-specific tuning.",
+      "I worked with React Native, llama.cpp, RAG, GGUF quantization, and persistent context while tuning for mobile memory and compute limits.",
     impact:
-      "Kept time to first token stable between 1.5 and 8 seconds across tuned mobile devices.",
+      "Kept time to first token between 1.5 and 8 seconds on the devices I tuned.",
     tech: [
       "React Native",
       "Python",
@@ -319,28 +310,28 @@ const projectCatalog: Project[] = [
     metrics: [
       { value: "1.5–8s", label: "first token" },
       { value: "On-device", label: "inference" },
-      { value: "RAG", label: "expert system" },
+      { value: "RAG", label: "retrieval" },
     ],
     details: {
       results: [
-        "Enabled private, context-aware offline conversations with a custom RAG expert system",
-        "Used GGUF quantization to control mobile memory footprint",
-        "Maintained stable 1.5–8 second time to first token through device-specific tuning",
+        "Ran an AI assistant locally on a mobile device without depending on a cloud service",
+        "Used RAG, GGUF quantization, and persistent context to shape the experience",
+        "Kept time to first token between 1.5 and 8 seconds across tuned devices",
       ],
       learnings:
-        "Local AI product work is mostly systems work: memory use, model ergonomics, and UX discipline matter as much as the model choice.",
+        "This project gave me a better understanding of the trade-offs involved in running AI models locally, particularly around model size, memory usage, and response time.",
     },
     categories: ["AI", "Productivity", "Mobile"],
   },
   {
     id: "autopodcast",
     title: "AutoPodcast",
-    subtitle: "Automated Podcast Editing & Publishing",
+    subtitle: "Premiere Pro editing plugin",
     description:
-      "An editing automation pipeline for podcast teams that removes silence, balances audio, and prepares episodes for publishing.",
-    problem: "Manual post-production was time-consuming.",
-    solution: "Built an Adobe-integrated workflow around FFmpeg, silence detection, and batch processing.",
-    impact: "Reduced repetitive post-production from hours to minutes.",
+      "An internship project at Unity Internet for automating parts of podcast editing.",
+    problem: "The project focused on reducing repetitive work in a podcast editing workflow.",
+    solution: "I worked with audio analysis, silence detection, overlap handling, FFmpeg, and Premiere Pro APIs to generate edits.",
+    impact: "Took a podcast editing workflow from around three hours to under eight minutes.",
     tech: ["FFmpeg", "Adobe CEP", "PPRO API", "UXP"],
     image: "/placeholder.svg",
     liveUrl: null,
@@ -350,15 +341,14 @@ const projectCatalog: Project[] = [
     metrics: [
       { value: "<8 min", label: "per edit" },
       { value: "10+", label: "editors" },
-      { value: "60%", label: "overhead" },
     ],
     details: {
       results: [
-        "Reduced podcast editing time from three hours to under eight minutes",
-        "Shipped cross-platform binaries adopted by 10+ podcast editors",
-        "Reduced manual release overhead by 60%",
+        "Reduced a podcast editing workflow from around three hours to under eight minutes",
+        "Worked with audio analysis, silence detection, overlap handling, and automated camera switching",
+        "Packaged the tool for cross-platform use by 10+ editors",
       ],
-      learnings: "Automation only sticks when the workflow is dependable, not just technically clever.",
+      learnings: "Automation only helps when it fits the way people already work, including the awkward parts of the workflow.",
     },
     categories: ["Automation", "Productivity", "Audio Processing", "Plugin"],
   },
@@ -367,30 +357,25 @@ const projectCatalog: Project[] = [
     title: "JobTrackerPortal",
     subtitle: "Job Application Tracker",
     description:
-      "A dashboard to log, track, and follow up on job applications.",
-    problem: "Job seekers lose track of applications and next steps.",
+      "A job application tracker for scraping links, fit, analytics, reminders, and preparation tasks.",
+    problem: "Job applications involve more than saving a link: status, follow-ups, preparation, and role-specific tasks can all end up scattered.",
     solution:
-      "Built a standalone React frontend with an Express.js & MongoDB backend.",
-    impact: "Projected to increase follow-through by 20%.",
+      "I built a React frontend with an Express.js and MongoDB backend to scrape job links, track progress, show analytics and job fit, and manage reminders.",
+    impact: "An experiment in keeping the parts of a job search workflow in one place.",
     tech: ["React", "TypeScript", "Express.js", "MongoDB", "IndexedDB"],
     image: "/placeholder.svg",
     liveUrl: null,
     githubUrl: "https://github.com/TarunVuppala/job-tracker-portal",
     date: "2024",
     featured: false,
-    metrics: [
-      { value: "Offline", label: "first workflow" },
-      { value: "Live", label: "optimistic sync" },
-      { value: "∞", label: "applications" },
-    ],
     details: {
       results: [
-        "Prototype supports unlimited application entries in both online and offline modes",
-        "Local reminders queued in IndexedDB and sent to the server when reconnected",
-        "Optimistic UI updates ensure smooth interactions even when offline",
+        "Scraped job details from application links",
+        "Tracked status, reminders, and tasks related to a role",
+        "Explored analytics and job-fit information alongside applications",
       ],
       learnings:
-        "Leveraging MongoDB’s flexible schema alongside client-side caching delivers near real-time sync without heavy frameworks.",
+        "Working on this made me think about how many small decisions and follow-ups sit around a job application beyond the application itself.",
     },
     categories: ["Website", "Productivity","SaaS"],
   },
@@ -405,28 +390,28 @@ export const allProjects: Project[] = [
 
 export const codingStats = [
   {
-    text: "Built backend-heavy products where parsing, streaming, fallbacks, and UX all had to work together.",
+    text: "I am early in my career, with experience from internships, engineering teams, and projects of my own.",
   },
   {
-    text: "Comfortable taking a feature from backend logic and model behavior through to a shipped interface.",
+    text: "I learn by breaking problems down, thinking through trade-offs, and building something concrete.",
   },
   {
-    text: "Shipped end-to-end products across backend systems, model-driven tools, and frontend delivery.",
+    text: "I have learned a lot by taking projects from a first idea to something I could actually use.",
   },
   {
-    text: "Debugged real edge cases across async workflows, data sync, and production integration work.",
+    text: "I have spent time on data sync, model behavior, audio workflows, and the rough edges between them.",
   },
   {
-    text: "Delivered scoped project work with clear tradeoffs, maintainable handoff quality, and production awareness.",
+    text: "I care about clear handoffs and understanding what happens when the happy path ends.",
   },
   {
-    text: "Built products around what users and teammates actually need, not just what demos well.",
+    text: "I am still building my sense for system design, distributed systems, and production work.",
   },
   {
-    text: "Shipped multiple products and internal tools from first commit to usable release.",
+    text: "Most of what I know came from trying to build something and finding out where I was wrong.",
   },
   {
-    text: "Care about clean finishes, dependable behavior, and not leaving rough edges behind.",
+    text: "I try to leave projects easier to understand than I found them.",
   },
 ];
 
@@ -436,9 +421,7 @@ export const journeyExpanded = [
     title: "Software Developer Intern",
     company: "Unity Internet",
     achievements: [
-      "Used audio signal analysis, real-time scene switching, and overlap handling",
-      "Shipped cross-platform binaries adopted by 10+ podcast editors",
-      "Reduced manual release overhead by 60%",
+      "Worked on audio analysis, overlap handling, and cross-platform delivery",
     ],
   },
   {
@@ -446,67 +429,15 @@ export const journeyExpanded = [
     title: "Software Developer Intern",
     company: "Front Interactive Services",
     achievements: [
-      "Worked in an Agile Scrum team of six engineers across two-week sprints",
-      "Used TDD to reduce post-release defects by 30%",
-      "Improved system stability through disciplined delivery and testing",
+      "Worked in a six-engineer Scrum team and used TDD; post-release defects dropped by 30%",
     ],
   },
 ];
 
 export const skillsByDomain = [
   {
-    title: "Frontend Development",
+    title: "Backend",
     icon: Code,
-    skills: [
-      {
-        name: "React.js",
-        logo: getTechIcon("React.js"),
-      },
-      {
-        name: "Next.js",
-        logo: getTechIcon("Next.js"),
-      },
-      {
-        name: "TypeScript",
-        logo: getTechIcon("TypeScript"),
-      },
-      {
-        name: "JavaScript",
-        logo: getTechIcon("JavaScript"),
-      },
-      {
-        name: "HTML5",
-        logo: getTechIcon("HTML5"),
-      },
-      {
-        name: "CSS3",
-        logo: getTechIcon("CSS3"),
-      },
-      {
-        name: "Tailwind CSS",
-        logo: getTechIcon("Tailwind CSS"),
-      },
-      {
-        name: "ShadCN UI",
-        logo: getTechIcon("ShadCN UI"),
-      },
-      {
-        name: "Framer Motion",
-        logo: getTechIcon("Framer Motion"),
-      },
-      {
-        name: "GSAP",
-        logo: getTechIcon("GSAP"),
-      },
-      {
-        name: "Three.js",
-        logo: getTechIcon("Three.js"),
-      },
-    ],
-  },
-  {
-    title: "Backend, Data & APIs",
-    icon: Database,
     skills: [
       {
         name: "Node.js",
@@ -517,17 +448,27 @@ export const skillsByDomain = [
         logo: getTechIcon("Express.js"),
       },
       {
+        name: "REST APIs",
+        logo: getTechIcon("REST APIs"),
+      },
+      {
+        name: "WebSockets",
+        logo: getTechIcon("Socket.io"),
+      },
+      {
         name: "Java",
         logo: getTechIcon("Java"),
       },
       {
-        name: "Spring Boot",
-        logo: getTechIcon("Spring Boot"),
+        name: "Python",
+        logo: getTechIcon("Python"),
       },
-      {
-        name: "Go",
-        logo: getTechIcon("Go"),
-      },
+    ],
+  },
+  {
+    title: "Databases",
+    icon: Database,
+    skills: [
       {
         name: "MongoDB",
         logo: getTechIcon("MongoDB"),
@@ -541,103 +482,61 @@ export const skillsByDomain = [
         logo: getTechIcon("MySQL"),
       },
       {
-        name: "REST APIs",
-        logo: getTechIcon("REST APIs"),
-      },
-      {
-        name: "JWT",
-        logo: getTechIcon("JWT"),
-      },
-      {
-        name: "GraphQL",
-        logo: getTechIcon("GraphQL"),
-      },
-      {
-        name: "Authentication",
-        logo: getTechIcon("Authentication"),
-      },
-      {
-        name: "OAuth2",
-        logo: getTechIcon("Authentication"),
-      },
-      {
-        name: "Message Queues",
-        logo: getTechIcon("REST APIs"),
-      },
-      {
-        name: "Socket.io",
-        logo: getTechIcon("Socket.io"),
-      },
-      {
         name: "Redis",
         logo: getTechIcon("Redis"),
-      },
-      {
-        name: "AWS",
-        logo: getTechIcon("AWS"),
-      },
-      {
-        name: "Docker",
-        logo: getTechIcon("Docker"),
       },
     ],
   },
   {
-    title: "AI Engineering",
+    title: "Frontend",
+    icon: Code,
+    skills: [
+      {
+        name: "React",
+        logo: getTechIcon("React"),
+      },
+      {
+        name: "Next.js",
+        logo: getTechIcon("Next.js"),
+      },
+      {
+        name: "TypeScript",
+        logo: getTechIcon("TypeScript"),
+      },
+      {
+        name: "JavaScript",
+        logo: getTechIcon("JavaScript"),
+      },
+    ],
+  },
+  {
+    title: "AI",
     icon: Zap,
     skills: [
       {
-        name: "Python",
-        logo: getTechIcon("Python"),
-      },
-      {
-        name: "OpenAI",
-        logo: getTechIcon("OpenAI"),
-      },
-      {
-        name: "Flask",
-        logo: getTechIcon("Flask"),
-      },
-      {
-        name: "FastAPI",
-        logo: getTechIcon("FastAPI"),
-      },
-      {
-        name: "Hugging Face",
-        logo: getTechIcon("Hugging Face"),
-      },
-      {
-        name: "Ollama",
-        logo: getTechIcon("Ollama"),
-      },
-      {
-        name: "llama.cpp",
-        logo: getTechIcon("llama.cpp"),
-      },
-      {
-        name: "PyTorch",
-        logo: getTechIcon("PyTorch"),
-      },
-      {
-        name: "TensorFlow",
-        logo: getTechIcon("TensorFlow"),
-      },
-      {
-        name: "scikit-learn",
-        logo: getTechIcon("scikit-learn"),
+        name: "LLMs",
+        logo: "/icons/openai.svg",
       },
       {
         name: "RAG",
         logo: getTechIcon("RAG"),
       },
       {
-        name: "Vector Databases",
-        logo: getTechIcon("RAG"),
+        name: "llama.cpp",
+        logo: getTechIcon("llama.cpp"),
+      },
+      {
+        name: "Ollama",
+        logo: getTechIcon("Ollama"),
+      },
+      {
+        name: "PyTorch",
+        logo: getTechIcon("PyTorch"),
       },
     ],
   },
   {
-    title: "Developer Workflow",
+    title: "Tools",
     icon: Terminal,
     skills: [
       {
@@ -649,20 +548,12 @@ export const skillsByDomain = [
         logo: getTechIcon("GitHub"),
       },
       {
-        name: "VS Code",
-        logo: getTechIcon("VS Code"),
+        name: "Docker",
+        logo: getTechIcon("Docker"),
       },
       {
-        name: "Figma",
-        logo: getTechIcon("Figma"),
-      },
-      {
-        name: "FFmpeg",
-        logo: getTechIcon("FFmpeg"),
-      },
-      {
-        name: "Documentation",
-        logo: "/icons/documentation.svg",
+        name: "AWS",
+        logo: getTechIcon("AWS"),
       },
     ],
   },

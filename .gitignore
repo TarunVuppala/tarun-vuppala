@@ -6,6 +6,9 @@
 # next.js
 /.next/
 /out/
+/playwright-report/
+/.playwright-browsers/
+/.ui-audit/
 
 # production
 /build
@@ -35,3 +38,7 @@ next-env.d.ts
 
 .codex
 .claude
+.playwright-browsers
+/scripts
+!/scripts/
+!/scripts/inspect-localhost.mjs

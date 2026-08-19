@@ -3,12 +3,13 @@
 import type React from "react"
 
 import { useMemo, useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { X, Terminal, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { resumeFilePath, siteConfig, socialProfiles } from "@/lib/seo"
 import { allProjects, skillsByDomain } from "@/lib/data"
+import { whenMotion } from "@/lib/motion"
 
 interface DevConsoleProps {
     isOpen: boolean
@@ -31,6 +32,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     const paletteInputRef = useRef<HTMLInputElement>(null)
     const startedAtRef = useRef<number>(Date.now())
     const { theme, setTheme, systemTheme } = useTheme()
+    const reduceMotion = useReducedMotion()
     const historyStorageKey = "devConsoleHistory:v1"
     const historyLimit = 100
 
@@ -108,6 +110,17 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             inputRef.current.focus()
         }
     }, [isOpen])
+
+    useEffect(() => {
+        if (!isOpen) return
+
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onClose()
+        }
+
+        document.addEventListener("keydown", handleEscape)
+        return () => document.removeEventListener("keydown", handleEscape)
+    }, [isOpen, onClose])
 
     useEffect(() => {
         if (!isOpen) return
@@ -365,7 +378,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
         try {
             if (resolved === "hello") {
                 appendOutput([
-                    "Hello there! I'm Tarun, a backend and AI engineer who builds reliable products.",
+                    "Hello there! I'm Tarun, a software engineer interested in backend systems, real-time software, and AI.",
                 ])
                 setCurrentInput("")
                 return
@@ -374,8 +387,8 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
             if (resolved === "about") {
                 appendOutput([
                     "About:",
-                    "• Backend and AI engineer focused on clean architecture and thoughtful UX.",
-                    "• Backend-first problem solver building reliable systems and modern web apps.",
+                    "• Software engineer at the beginning of my career, with experience from teams and personal projects.",
+                    "• I learn by breaking problems down, thinking through constraints, and building something concrete.",
                 ])
                 setCurrentInput("")
                 return
@@ -647,9 +660,9 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
     return (
         <AnimatePresence>
             <motion.div
-                initial={{ opacity: 0 }}
+                initial={whenMotion(reduceMotion, { opacity: 0 }, { opacity: 1 })}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                exit={whenMotion(reduceMotion, { opacity: 0 }, { opacity: 1 })}
                 className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4"
                 onClick={onClose}
             >
@@ -657,10 +670,10 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                     role="dialog"
                     aria-modal="true"
                     aria-label="Developer console"
-                    initial={{ scale: 0.8, opacity: 0, y: 50 }}
+                    initial={whenMotion(reduceMotion, { scale: 0.8, opacity: 0, y: 50 }, { opacity: 1 })}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
-                    exit={{ scale: 0.8, opacity: 0, y: 50 }}
-                    transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                    exit={whenMotion(reduceMotion, { scale: 0.8, opacity: 0, y: 50 }, { opacity: 1 })}
+                    transition={whenMotion(reduceMotion, { type: "spring", bounce: 0.3, duration: 0.6 }, { duration: 0 })}
                     className="w-full max-w-4xl h-[72vh] relative overflow-hidden rounded-3xl bg-background text-foreground border border-border shadow-lg flex flex-col"
                     onClick={(e) => e.stopPropagation()}
                 >
@@ -704,9 +717,9 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                         {consoleOutput.map((line, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, x: -20 }}
+                                initial={whenMotion(reduceMotion, { opacity: 0, x: -20 }, { opacity: 1 })}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: index * 0.05 }}
+                                transition={whenMotion(reduceMotion, { delay: index * 0.05 }, { duration: 0 })}
                                 className={`flex items-start gap-2 ${line.startsWith(">")
                                     ? "text-cyan-400 font-semibold"
                                     : line.startsWith("Error:")
@@ -728,9 +741,9 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                     <AnimatePresence>
                         {isPaletteOpen && (
                             <motion.div
-                                initial={{ opacity: 0 }}
+                                initial={whenMotion(reduceMotion, { opacity: 0 }, { opacity: 1 })}
                                 animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
+                                exit={whenMotion(reduceMotion, { opacity: 0 }, { opacity: 1 })}
                                 className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center px-4 py-10"
                                 onClick={() => {
                                     setIsPaletteOpen(false)
@@ -738,10 +751,10 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                                 }}
                             >
                                 <motion.div
-                                    initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                                    initial={whenMotion(reduceMotion, { opacity: 0, y: 12, scale: 0.98 }, { opacity: 1 })}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 12, scale: 0.98 }}
-                                    transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                                    exit={whenMotion(reduceMotion, { opacity: 0, y: 12, scale: 0.98 }, { opacity: 1 })}
+                                    transition={whenMotion(reduceMotion, { type: "spring", bounce: 0.2, duration: 0.4 }, { duration: 0 })}
                                     className="w-full max-w-2xl rounded-2xl border border-white/10 bg-black/80 text-white shadow-2xl"
                                     onClick={(e) => e.stopPropagation()}
                                 >
@@ -752,7 +765,11 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                                             </span>
                                             <span>Fuzzy search commands + history</span>
                                         </div>
+                                        <label htmlFor="console-palette-query" className="sr-only">
+                                            Search commands
+                                        </label>
                                         <input
+                                            id="console-palette-query"
                                             ref={paletteInputRef}
                                             value={paletteQuery}
                                             onChange={(e) => setPaletteQuery(e.target.value)}
@@ -797,7 +814,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                                         {paletteItems.map((item, index) => (
                                             <button
                                                 key={item.id}
-                                                className={`flex w-full items-center justify-between gap-4 rounded-xl px-4 py-3 text-left text-sm transition ${index === paletteIndex
+                                                className={`flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl px-4 py-3 text-left text-sm transition ${index === paletteIndex
                                                     ? "bg-white/10 text-white"
                                                     : "text-white/70 hover:bg-white/5"
                                                     }`}
@@ -830,13 +847,17 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                         <div className="flex items-center space-x-3">
                             <div className="flex items-center space-x-2">
                                 <motion.div
-                                    animate={{ scale: [1, 1.2, 1] }}
-                                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                                    animate={whenMotion(reduceMotion, { scale: [1, 1.2, 1] }, { scale: 1 })}
+                                    transition={whenMotion(reduceMotion, { duration: 2, repeat: Number.POSITIVE_INFINITY }, { duration: 0 })}
                                     className="w-2 h-2 bg-green-400 rounded-full"
                                 />
                                 <span className="text-green-400 font-bold font-mono text-lg">{">"}</span>
                             </div>
+                            <label htmlFor="console-command" className="sr-only">
+                                Command
+                            </label>
                             <input
+                                id="console-command"
                                 ref={inputRef}
                                 type="text"
                                 value={currentInput}
@@ -847,12 +868,12 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                             />
                             {currentInput && (
                                 <motion.button
-                                    initial={{ scale: 0 }}
+                                    initial={whenMotion(reduceMotion, { scale: 0 }, { scale: 1 })}
                                     animate={{ scale: 1 }}
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.9 }}
+                                    whileHover={reduceMotion ? undefined : { scale: 1.1 }}
+                                    whileTap={reduceMotion ? undefined : { scale: 0.9 }}
                                     onClick={() => executeCommand(currentInput)}
-                                    className="p-2 rounded-lg bg-green-500/20 hover:bg-green-500/30 text-green-400 transition-all duration-200"
+                                    className="cursor-pointer rounded-lg bg-green-500/20 p-2 text-green-400 transition-all duration-200 hover:bg-green-500/30"
                                 >
                                     <Zap className="w-4 h-4" />
                                 </motion.button>
@@ -883,7 +904,7 @@ export default function DevConsole({ isOpen, onClose }: DevConsoleProps) {
                                         setCurrentInput(suggestion)
                                         inputRef.current?.focus()
                                     }}
-                                    className="rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1 text-xs text-foreground/70 transition hover:bg-foreground/10"
+                                    className="cursor-pointer rounded-full border border-foreground/10 bg-foreground/5 px-3 py-1 text-xs text-foreground/70 transition hover:bg-foreground/10"
                                 >
                                     {suggestion}
                                 </button>

@@ -287,16 +287,49 @@ a {
   animation-delay: 150ms;
 }
 
-.hero-copy {
-  animation: clip-in-y 640ms cubic-bezier(0.16, 1, 0.3, 1) 220ms both;
-}
-
 .hero-actions {
   animation: clip-in-y 640ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
 }
 
 .hero-portrait {
   animation: portrait-settle 900ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+
+@media (min-width: 1024px) and (max-height: 850px) {
+  .hero-title {
+    font-size: clamp(2.75rem, 5.2vw, 4.5rem);
+  }
+
+  .hero-portrait {
+    max-width: 18rem;
+  }
+
+  .hero-actions {
+    margin-top: 1.25rem;
+  }
+}
+
+@media (max-width: 22.5rem) {
+  .hero-portrait {
+    max-width: 6rem;
+  }
+
+  .hero-actions {
+    column-gap: 0.5rem;
+  }
+
+  .hero-actions > * {
+    min-width: 0;
+  }
+
+  .hero-actions > :nth-child(2) {
+    padding-inline: 0.5rem;
+  }
+
+  .hero-actions > :nth-child(3) {
+    padding-inline: 0.25rem;
+    font-size: 0.75rem;
+  }
 }
 
 .nav-link {
@@ -518,7 +551,6 @@ a {
 
   .hero-kicker,
   .hero-line,
-  .hero-copy,
   .hero-actions,
   .hero-portrait {
     animation: none;

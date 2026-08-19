@@ -22,21 +22,21 @@ export default function AboutSection() {
       <ContentContainer className="relative space-y-10">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(16rem,0.8fr)] lg:items-end">
           <div className="max-w-3xl">
-            <p className="section-kicker">A bit about how I work</p>
+            <p className="section-kicker">A little about how I work</p>
             <h2 className="mt-4 text-4xl font-black tracking-tighter text-stone-950 sm:text-5xl md:text-6xl dark:text-stone-50">
-              I like building systems
-              <span className="mt-1 block italic text-stone-500 dark:text-stone-400">that hold up in use.</span>
+              I like understanding the problem first.
+              <span className="mt-1 block italic text-stone-500 dark:text-stone-400">Then I decide how to build it.</span>
             </h2>
           </div>
 
           <blockquote className="max-w-sm border-l-2 border-sky-300 pl-4 text-lg leading-8 text-stone-800 dark:text-stone-200">
-            Fast iterations. Clear tradeoffs. Ship the boring parts so the hard parts can stay interesting.
+            I understand things better after I build them.
           </blockquote>
         </div>
 
         <div className="grid gap-6 border-y border-stone-950/10 py-6 sm:grid-cols-2 dark:border-white/10">
           {featuredStats.map((stat) => (
-            <p key={stat.text} className="text-sm leading-7 text-stone-700 dark:text-stone-300">
+            <p key={stat.text} className="text-sm leading-6 text-stone-700 dark:text-stone-300">
               {stat.text}
             </p>
           ))}

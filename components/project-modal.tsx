@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent } from "react"
 import { motion, useReducedMotion } from "framer-motion"
-import { ExternalLink, Github, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, ExternalLink, Github, X } from "lucide-react"
 import Link from "next/link"
 import ProjectPreviewPanel from "@/components/project-preview-panel"
 import { Button } from "@/components/ui/button"
@@ -12,13 +12,23 @@ import { easeOutExpo, whenMotion } from "@/lib/motion"
 type ProjectModalProps = {
   project: Project
   index: number
+  projects: Project[]
   onClose: () => void
+  onNavigate: (project: Project) => void
 }
 
-export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
+export function ProjectModal({ project, index, projects, onClose, onNavigate }: ProjectModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const onCloseRef = useRef(onClose)
   const reduceMotion = useReducedMotion()
+  const projectIndex = projects.findIndex((item) => item.id === project.id)
+  const previousProject = projectIndex > 0 ? projects[projectIndex - 1] : undefined
+  const nextProject = projectIndex >= 0 && projectIndex < projects.length - 1 ? projects[projectIndex + 1] : undefined
+
+  useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
 
   useEffect(() => {
     const previousActiveElement = document.activeElement as HTMLElement | null
@@ -27,7 +37,7 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
 
     const focusCloseButton = window.requestAnimationFrame(() => closeButtonRef.current?.focus())
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose()
+      if (event.key === "Escape") onCloseRef.current()
     }
 
     document.addEventListener("keydown", handleEscape)
@@ -37,7 +47,7 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
       document.body.style.overflow = previousOverflow
       previousActiveElement?.focus()
     }
-  }, [onClose])
+  }, [])
 
   const trapFocus = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "Tab" || !dialogRef.current) return
@@ -83,6 +93,32 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
           onKeyDown={trapFocus}
         >
           <Button
+            size="icon"
+            variant="outline"
+            onClick={() => previousProject && onNavigate(previousProject)}
+            disabled={!previousProject}
+            aria-label={previousProject ? `Previous project: ${previousProject.title}` : "No previous project"}
+            className="absolute left-2 top-1/2 z-20 h-11 w-11 -translate-y-1/2 rounded-full border-stone-950/10 bg-white/78 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-black/28 dark:text-white dark:hover:bg-white/10 sm:-left-14"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+
+          <span className="sr-only" aria-live="polite">
+            Project {projectIndex >= 0 ? projectIndex + 1 : 0} of {projects.length}
+          </span>
+
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => nextProject && onNavigate(nextProject)}
+            disabled={!nextProject}
+            aria-label={nextProject ? `Next project: ${nextProject.title}` : "No next project"}
+            className="absolute right-2 top-1/2 z-20 h-11 w-11 -translate-y-1/2 rounded-full border-stone-950/10 bg-white/78 text-stone-900 hover:bg-white dark:border-white/10 dark:bg-black/28 dark:text-white dark:hover:bg-white/10 sm:-right-14"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+
+          <Button
             ref={closeButtonRef}
             size="sm"
             variant="outline"
@@ -100,12 +136,12 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
           <div className="grid gap-4 border-t border-stone-950/10 px-5 pb-5 pt-5 dark:border-white/10 sm:px-6 sm:pb-6 sm:pt-6 lg:grid-cols-[0.88fr_1.12fr]">
             <div className="space-y-3">
               <div>
-                <p className="meta-label">Problem</p>
+                <p className="meta-label">Why I built it</p>
                 <p className="detail-copy mt-3">{project.problem}</p>
               </div>
 
               <div className="border-t border-stone-950/10 pt-4 dark:border-white/10">
-                <p className="meta-label">Built</p>
+                <p className="meta-label">What I worked on</p>
                 <p className="detail-copy mt-3">{project.solution}</p>
               </div>
 
@@ -135,7 +171,7 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
 
             <div className="space-y-4">
               <div>
-                <p className="meta-label">Highlights</p>
+                <p className="meta-label">What stands out</p>
                 <div className="mt-4 space-y-2.5">
                   {project.details.results.slice(0, 3).map((result) => (
                     <div key={`${project.id}-${result}`} className="flex items-start gap-3 text-sm leading-6 text-stone-700/82 dark:text-stone-300/80">
@@ -147,7 +183,7 @@ export function ProjectModal({ project, index, onClose }: ProjectModalProps) {
               </div>
 
               <div className="border-t border-stone-950/10 pt-4 dark:border-white/10">
-                <p className="meta-label">Takeaway</p>
+                <p className="meta-label">What I learned</p>
                 <p className="detail-copy mt-3 text-stone-800 dark:text-stone-200/90">{project.details.learnings}</p>
               </div>
             </div>

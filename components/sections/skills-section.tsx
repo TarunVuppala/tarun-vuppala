@@ -10,45 +10,62 @@ import { easeOutExpo, whenMotion } from "@/lib/motion"
 
 const skillByName = new Map(skillsByDomain.flatMap((domain) => domain.skills).map((skill) => [skill.name, skill]))
 
+type SkillCluster = {
+  title: string
+  skills?: string[]
+  concepts?: string[]
+}
+
 const WORKFLOW_AREAS = [
   {
-    title: "AI systems",
-    description: "Model integration, retrieval, and inference for useful product features.",
-    icon: skillsByDomain.find((domain) => domain.title === "AI Engineering")!.icon,
+    title: "Backend",
+    description: "Services, APIs, and real-time work I have used across projects.",
+    icon: skillsByDomain.find((domain) => domain.title === "Backend")!.icon,
     clusters: [
-      { title: "Model integration", skills: ["Python", "OpenAI", "Hugging Face", "Ollama"] },
-      { title: "Grounding & inference", skills: ["RAG", "Vector Databases", "llama.cpp", "Flask", "FastAPI"] },
-      { title: "Experimentation", skills: ["PyTorch", "TensorFlow", "scikit-learn"] },
+      { title: "Services", skills: ["Node.js", "Express.js", "REST APIs", "WebSockets"] },
+      { title: "Languages", skills: ["Java", "Python"] },
+      { title: "Engineering concerns", concepts: ["API design", "real-time communication", "concurrency", "latency"] },
     ],
   },
   {
-    title: "Product backbone",
-    description: "Services, data, and infrastructure for dependable production features.",
-    icon: skillsByDomain.find((domain) => domain.title === "Backend, Data & APIs")!.icon,
+    title: "Databases",
+    description: "Databases I have used while working on application data and sync.",
+    icon: skillsByDomain.find((domain) => domain.title === "Databases")!.icon,
     clusters: [
-      { title: "Services & contracts", skills: ["Node.js", "Express.js", "Java", "Spring Boot", "Go", "REST APIs", "GraphQL"] },
-      { title: "Data & performance", skills: ["PostgreSQL", "MySQL", "MongoDB", "Redis"] },
-      { title: "Media processing", skills: ["FFmpeg"] },
-      { title: "Security, real-time & deployment", skills: ["JWT", "OAuth2", "Authentication", "Socket.io", "Message Queues", "AWS", "Docker"] },
+      { title: "Primary stores", skills: ["MongoDB", "PostgreSQL", "MySQL"] },
+      { title: "Caching", skills: ["Redis"] },
+      { title: "Data work", concepts: ["data modeling", "query design", "caching", "consistency"] },
     ],
   },
   {
-    title: "Product interface",
-    description: "Clear, accessible experiences that make complex capabilities useful.",
-    icon: skillsByDomain.find((domain) => domain.title === "Frontend Development")!.icon,
+    title: "Frontend",
+    description: "Interfaces and application code I have worked with alongside the backend.",
+    icon: skillsByDomain.find((domain) => domain.title === "Frontend")!.icon,
     clusters: [
-      { title: "Application foundations", skills: ["React.js", "Next.js", "TypeScript", "JavaScript"] },
-      { title: "Interface craft", skills: ["HTML5", "CSS3", "Tailwind CSS", "ShadCN UI"] },
-      { title: "Interaction & motion", skills: ["Framer Motion", "GSAP", "Three.js"] },
+      { title: "Applications", skills: ["React", "Next.js"] },
+      { title: "Languages", skills: ["TypeScript", "JavaScript"] },
+      { title: "Interface concerns", concepts: ["component design", "responsive UI", "client state"] },
     ],
   },
   {
-    title: "Engineering workflow",
-    description: "A disciplined practice for collaboration, iteration, and maintainable delivery.",
-    icon: skillsByDomain.find((domain) => domain.title === "Developer Workflow")!.icon,
+    title: "AI",
+    description: "Tools I have used while exploring retrieval and local model inference.",
+    icon: skillsByDomain.find((domain) => domain.title === "AI")!.icon,
     clusters: [
-      { title: "Build & collaborate", skills: ["Git", "GitHub", "VS Code", "Documentation"] },
-      { title: "Product handoff", skills: ["Figma"] },
+      { title: "Models & retrieval", skills: ["LLMs", "RAG"] },
+      { title: "Local inference", skills: ["llama.cpp", "Ollama"] },
+      { title: "Experimentation", skills: ["PyTorch"] },
+      { title: "Practical constraints", concepts: ["model size", "memory usage", "response time", "privacy"] },
+    ],
+  },
+  {
+    title: "Tools",
+    description: "The tools I use to build, collaborate, and run projects.",
+    icon: skillsByDomain.find((domain) => domain.title === "Tools")!.icon,
+    clusters: [
+      { title: "Collaboration", skills: ["Git", "GitHub"] },
+      { title: "Runtime & deployment", skills: ["Docker", "AWS"] },
+      { title: "Working habits", concepts: ["version control", "debugging", "documentation", "deployment"] },
     ],
   },
 ]
@@ -84,15 +101,21 @@ export default function SkillsSection() {
   return (
     <section id="skills" className="relative py-12 sm:py-14" style={sectionScrollOffset}>
       <ContentContainer>
-        <div className="mb-10 grid gap-5 xl:grid-cols-[0.68fr_1.32fr] xl:items-end">
-          <div className="min-w-lg">
-            <p className="section-kicker">How I build</p>
+        <div className="mb-10 grid min-w-0 gap-5 xl:grid-cols-[0.68fr_1.32fr] xl:items-end">
+          <div className="min-w-0">
+            <p className="section-kicker">Tools and technologies</p>
             <h2 className="mt-4 text-4xl font-bold tracking-[-0.055em] text-foreground sm:text-5xl">
-              From AI capability to a shipped product.
+              What I&apos;ve been working with
             </h2>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-stone-700 dark:text-stone-300">
+              Tools and technologies I&apos;ve used across internships and personal projects.
+            </p>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-stone-500 dark:text-stone-400">
+              Currently exploring: system design, distributed systems, performance, and production engineering.
+            </p>
           </div>
 
-          <div className="space-y-3 ">
+          <div className="hidden min-w-0 space-y-3 sm:block">
             <div className="flex items-center justify-between px-4 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
               <span>
                 stack
@@ -157,25 +180,30 @@ export default function SkillsSection() {
                 </div>
 
                 <div className="space-y-3.5">
-                  {area.clusters.map((cluster) => (
+                  {area.clusters.map((cluster: SkillCluster) => (
                     <div key={cluster.title} className="grid gap-x-5 gap-y-1.5 sm:grid-cols-[150px_1fr] sm:items-start">
                       <span className="pt-0.5 text-[0.78rem] leading-relaxed text-muted-foreground">
                         {cluster.title}
                       </span>
                       <div className="flex flex-wrap gap-x-5 gap-y-2">
-                        {cluster.skills.map((skillName) => {
+                        {cluster.skills?.map((skillName) => {
                           const skill = skillByName.get(skillName)
                           if (!skill) return null
                           return (
-                            <span
-                              key={skill.name}
-                              className="inline-flex items-center gap-2 text-[0.9rem] text-foreground/85"
-                            >
+                            <span key={skill.name} className="inline-flex items-center gap-2 text-[0.9rem] text-foreground/85">
                               <SkillIcon logo={skill.logo} name={skill.name} />
                               {skill.name}
                             </span>
                           )
                         })}
+                        {cluster.concepts?.map((concept) => (
+                          <span
+                            key={concept}
+                            className="rounded-full border border-border/70 px-2.5 py-1 text-xs text-muted-foreground"
+                          >
+                            {concept}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   ))}

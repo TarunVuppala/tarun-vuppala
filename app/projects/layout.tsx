@@ -5,14 +5,14 @@ import { siteConfig } from "@/lib/seo"
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "A curated collection of projects showcasing backend systems, AI engineering, performance, and product delivery.",
+    "A collection of projects from internships, college, and experiments with backend systems, real-time software, and AI.",
   alternates: {
     canonical: "/projects",
   },
   openGraph: {
     title: `Projects | ${siteConfig.name}`,
     description:
-      "A curated collection of projects showcasing backend systems, AI engineering, performance, and product delivery.",
+      "A collection of projects from internships, college, and experiments with backend systems, real-time software, and AI.",
     url: "/projects",
     images: [
       {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: {
     title: `Projects | ${siteConfig.name}`,
     description:
-      "A curated collection of projects showcasing backend systems, AI engineering, performance, and product delivery.",
+      "Projects from internships, college, and experiments with backend systems, real-time software, and AI.",
     images: ["/projects/twitter-image"],
   },
 }
