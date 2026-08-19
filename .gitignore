@@ -28,6 +28,7 @@ yarn-error.log*
 
 # local verification / browser dumps
 .playwright-mcp/
+/captures/
 editorial-*.png
 home-*.png
 projects-*.png

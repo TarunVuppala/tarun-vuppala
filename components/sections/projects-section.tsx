@@ -3,13 +3,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { AnimatePresence, motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion"
 import { ArrowRight } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { usePageTransition } from "@/components/page-transition"
 import { Card, CardContent } from "@/components/ui/card"
 import ContentContainer from "@/components/layout/container"
 import { ProjectModal } from "@/components/project-modal"
 import ProjectPreviewPanel from "@/components/project-preview-panel"
+import { TextRoll } from "@/components/ui/skiper-ui/skiper58"
 import { allProjects } from "@/lib/data"
 import { progressSpring } from "@/lib/motion"
 import type { Project } from "@/types/project"
@@ -99,7 +99,7 @@ export default function ProjectsSection() {
   const viewportRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const router = useRouter()
+  const { transitionTo } = usePageTransition()
   const reduceMotion = useReducedMotion()
   const { scrollY } = useScroll()
   const sectionStart = useMotionValue(0)
@@ -182,9 +182,18 @@ export default function ProjectsSection() {
               <div>
                 <p className="section-kicker">Things I&apos;ve built</p>
                 <h2 className="mt-2 text-4xl font-black tracking-tighter text-stone-950 sm:text-5xl dark:text-stone-50">
-                  {activeIndex >= featuredProjects.length
-                    ? "Full archive"
-                    : featuredProjects[activeIndex]?.title}
+                  <TextRoll
+                    key={
+                      activeIndex >= featuredProjects.length
+                        ? "full-archive"
+                        : featuredProjects[activeIndex]?.id
+                    }
+                    className="whitespace-nowrap"
+                  >
+                    {activeIndex >= featuredProjects.length
+                      ? "Full archive"
+                      : featuredProjects[activeIndex]?.title ?? ""}
+                  </TextRoll>
                 </h2>
                 <p className="mt-3 max-w-xl text-sm leading-6 text-stone-700 dark:text-stone-300">
                   A mix of projects from internships, college, and experiments I started because I wanted to understand something better.
@@ -235,7 +244,7 @@ export default function ProjectsSection() {
                 <ArrowRight className="h-10 w-10 text-stone-500 dark:text-stone-400" aria-hidden="true" />
                 <h3 className="mt-6 text-3xl font-semibold tracking-tight text-stone-950 dark:text-stone-50">Full archive</h3>
                 <Button
-                  onClick={() => router.push("/projects")}
+                  onClick={() => transitionTo("/projects")}
                   className="mt-6 h-11 rounded-full bg-sky-300 px-6 text-slate-950 hover:bg-sky-200"
                 >
                   Browse all projects

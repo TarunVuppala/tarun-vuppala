@@ -1,7 +1,10 @@
+"use client"
+
 import Link from "next/link"
 import { Github, Linkedin, Twitter, Mail, ArrowUpRight, ArrowUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ContentContainer from "@/components/layout/container"
+import { usePageTransition } from "@/components/page-transition"
 import { siteConfig } from "@/lib/seo"
 import { footerLinks, socialLinks } from "@/lib/site"
 
@@ -14,6 +17,7 @@ const socialIcons = {
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const { transitionTo } = usePageTransition()
 
   return (
     <footer className="relative border-t border-stone-950/10 bg-transparent dark:border-white/10">
@@ -58,9 +62,14 @@ export default function Footer() {
             <p className="meta-label">Links</p>
             <div className="mt-3 flex flex-col gap-2 text-sm text-stone-700 dark:text-stone-300">
               {footerLinks.map((link) => (
-                <Link key={link.name} href={link.href} className="cursor-pointer transition-colors hover:text-stone-950 dark:hover:text-stone-100">
+                <button
+                  key={link.name}
+                  type="button"
+                  onClick={() => transitionTo(link.href)}
+                  className="cursor-pointer text-left transition-colors hover:text-stone-950 dark:hover:text-stone-100"
+                >
                   {link.name}
-                </Link>
+                </button>
               ))}
             </div>
           </div>

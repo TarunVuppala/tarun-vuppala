@@ -6,6 +6,8 @@ import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from "@/components/theme-provider"
 import SiteAtmosphere from "@/components/site-atmosphere"
 import PointerLight from "@/components/pointer-light"
+import { PageTransitionProvider } from "@/components/page-transition"
+import SitePreloader from "@/components/site-preloader"
 import SkipLink from "@/components/skip-link"
 import { getGeoMeta, getJsonLd, siteConfig, siteUrl } from "@/lib/seo"
 
@@ -100,14 +102,26 @@ export default function RootLayout({
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: jsonLd }}
         />
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.dataset.preloader="1"`,
+          }}
+        />
+        <noscript>
+          <style>{`html[data-preloader="1"] body::before{display:none}`}</style>
+        </noscript>
       </head>
       <body suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SkipLink />
-          <PointerLight />
-          <SiteAtmosphere />
-          {children}
-          <Analytics />
+          <PageTransitionProvider>
+            <SkipLink />
+            <SitePreloader />
+            <PointerLight />
+            <SiteAtmosphere />
+            {children}
+            <Analytics />
+          </PageTransitionProvider>
         </ThemeProvider>
       </body>
     </html>

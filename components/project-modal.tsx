@@ -1,11 +1,12 @@
 "use client"
 
-import { useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent } from "react"
+import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 import { ChevronLeft, ChevronRight, ExternalLink, Github, X } from "lucide-react"
 import Link from "next/link"
 import ProjectPreviewPanel from "@/components/project-preview-panel"
 import { Button } from "@/components/ui/button"
+import { Preloader_005 } from "@/components/ui/skiper-ui/skiper11"
 import type { Project } from "@/types/project"
 import { easeOutExpo, whenMotion } from "@/lib/motion"
 
@@ -22,6 +23,7 @@ export function ProjectModal({ project, index, projects, onClose, onNavigate }: 
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const onCloseRef = useRef(onClose)
   const reduceMotion = useReducedMotion()
+  const [showPixels, setShowPixels] = useState(reduceMotion !== true)
   const projectIndex = projects.findIndex((item) => item.id === project.id)
   const previousProject = projectIndex > 0 ? projects[projectIndex - 1] : undefined
   const nextProject = projectIndex >= 0 && projectIndex < projects.length - 1 ? projects[projectIndex + 1] : undefined
@@ -29,6 +31,11 @@ export function ProjectModal({ project, index, projects, onClose, onNavigate }: 
   useEffect(() => {
     onCloseRef.current = onClose
   }, [onClose])
+
+  useEffect(() => {
+    if (reduceMotion) return
+    setShowPixels(true)
+  }, [project.id, reduceMotion])
 
   useEffect(() => {
     const previousActiveElement = document.activeElement as HTMLElement | null
@@ -92,6 +99,13 @@ export function ProjectModal({ project, index, projects, onClose, onNavigate }: 
           onMouseDown={(event) => event.stopPropagation()}
           onKeyDown={trapFocus}
         >
+          {!reduceMotion && showPixels ? (
+            <Preloader_005
+              key={project.id}
+              className="rounded-[1.75rem]"
+              onComplete={() => setShowPixels(false)}
+            />
+          ) : null}
           <Button
             size="icon"
             variant="outline"

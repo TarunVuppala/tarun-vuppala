@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ExternalLink, Github } from "lucide-react"
 
 import TechIconStack from "@/components/ui/tech-icon-stack"
+import { TextRoll } from "@/components/ui/skiper-ui/skiper58"
 import type { Project } from "@/types/project"
 
 const PROJECT_ACCENTS = [
@@ -95,12 +96,14 @@ export default function ProjectPreviewPanel({
                 onClick={() => onSelect(project)}
                 title="View project details"
                 aria-label={`View ${project.title} project details`}
-                className={`cursor-pointer border-0 bg-transparent p-0 text-left underline decoration-stone-950/35 underline-offset-4 transition-colors hover:text-stone-700 dark:bg-transparent dark:decoration-white/35 dark:hover:text-white/80 ${BARE_TITLE_CLASS}`}
+                className={`cursor-pointer border-x-0 border-t-0 border-b border-stone-950/35 bg-transparent p-0 pb-0.5 text-left no-underline transition-colors hover:text-stone-700 dark:border-white/35 dark:bg-transparent dark:hover:text-white/80 ${BARE_TITLE_CLASS}`}
               >
-                {project.title}
+                <TextRoll className="whitespace-nowrap no-underline">{project.title}</TextRoll>
               </button>
             ) : (
-              <h3 className={BARE_TITLE_CLASS}>{project.title}</h3>
+              <h3 className={`${BARE_TITLE_CLASS} no-underline`}>
+                <TextRoll className="whitespace-nowrap no-underline">{project.title}</TextRoll>
+              </h3>
             )}
             <p className="mt-2 text-sm leading-6 text-stone-800/78 dark:text-white/68 sm:max-w-72">{project.subtitle}</p>
           </div>
@@ -155,12 +158,14 @@ export default function ProjectPreviewPanel({
                   onClick={() => onSelect(project)}
                   title="View project details"
                   aria-label={`View ${project.title} project details`}
-                  className={`cursor-pointer border-0 bg-transparent p-0 text-left font-black tracking-tighter text-stone-950 underline decoration-stone-950/35 underline-offset-4 transition-colors hover:text-stone-700 dark:bg-transparent dark:text-white dark:decoration-white/35 dark:hover:text-white ${compact ? "text-2xl" : "text-3xl"}`}
+                  className={`cursor-pointer border-x-0 border-t-0 border-b border-stone-950/35 bg-transparent p-0 pb-0.5 text-left font-black tracking-tighter text-stone-950 no-underline transition-colors hover:text-stone-700 dark:border-white/35 dark:bg-transparent dark:text-white dark:hover:text-white ${compact ? "text-2xl" : "text-3xl"}`}
                 >
-                  {project.title}
+                  <TextRoll className="whitespace-nowrap no-underline">{project.title}</TextRoll>
                 </button>
               ) : (
-                <h3 className={`font-black tracking-tighter text-stone-950 dark:text-white ${compact ? "text-2xl" : "text-3xl"}`}>{project.title}</h3>
+                <h3 className={`font-black tracking-tighter text-stone-950 no-underline dark:text-white ${compact ? "text-2xl" : "text-3xl"}`}>
+                  <TextRoll className="whitespace-nowrap no-underline">{project.title}</TextRoll>
+                </h3>
               )}
               {project.liveUrl && (
                 <Link

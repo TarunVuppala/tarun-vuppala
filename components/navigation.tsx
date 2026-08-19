@@ -2,11 +2,13 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
-import { usePathname, useRouter } from "next/navigation"
-import { Github, Linkedin, Twitter, Mail, Menu, X, Sun, Moon, Terminal } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { Github, Linkedin, Twitter, Mail, Menu, X, Terminal } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useTheme } from "next-themes"
 import DevConsole from "@/components/DevConsole"
+import { usePageTransition } from "@/components/page-transition"
+import { ThemeToggleButton2 } from "@/components/ui/skiper-ui/skiper4"
+import { useThemeToggle } from "@/components/ui/skiper-ui/skiper26"
 import Image from "next/image"
 import ContentContainer from "@/components/layout/container"
 import { navItems, socialLinks } from "@/lib/site"
@@ -19,15 +21,29 @@ const socialIcons = {
   email: Mail,
 }
 
+function NavThemeToggle() {
+  const { isDark, toggleTheme } = useThemeToggle({
+    variant: "rectangle",
+    start: "top-down",
+    blur: false,
+  })
+
+  return (
+    <ThemeToggleButton2
+      isDark={isDark}
+      onToggle={toggleTheme}
+      className="inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center bg-transparent p-0 text-foreground/70 hover:bg-transparent hover:text-foreground [&_svg]:h-4 [&_svg]:w-4"
+    />
+  )
+}
+
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [showConsole, setShowConsole] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
   const navRef = useRef<HTMLElement>(null)
   const pathname = usePathname()
-  const router = useRouter()
-  const { resolvedTheme, setTheme } = useTheme()
+  const { transitionTo } = usePageTransition()
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
@@ -36,10 +52,6 @@ export default function Navigation() {
     }
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  useEffect(() => {
-    setIsMounted(true)
   }, [])
 
   useEffect(() => {
@@ -58,7 +70,7 @@ export default function Navigation() {
     if (href.includes("#")) {
       const [path, hash] = href.split("#")
       if (path && path !== pathname) {
-        router.push(href)
+        transitionTo(href)
       } else if (hash) {
         const element = document.getElementById(hash)
         if (element) {
@@ -66,14 +78,9 @@ export default function Navigation() {
         }
       }
     } else {
-      router.push(href)
+      transitionTo(href)
     }
     setIsMobileMenuOpen(false)
-  }
-
-  const isDarkMode = isMounted ? resolvedTheme === "dark" : true
-  const toggleTheme = () => {
-    setTheme(isDarkMode ? "light" : "dark")
   }
 
   const isActive = (href: string) => {
@@ -125,17 +132,7 @@ export default function Navigation() {
                 </div>
 
                 <div className="hidden items-center gap-0.5 md:flex">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={toggleTheme}
-                    className="relative h-11 w-11 rounded-md p-0 text-foreground/70 hover:bg-transparent hover:text-foreground"
-                    title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-                    aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-                  >
-                    <Sun className={`h-4 w-4 transition-transform duration-200 ${isDarkMode ? "rotate-90 scale-0" : "rotate-0 scale-100"}`} aria-hidden="true" />
-                    <Moon className={`absolute h-4 w-4 transition-transform duration-200 ${isDarkMode ? "rotate-0 scale-100" : "-rotate-90 scale-0"}`} aria-hidden="true" />
-                  </Button>
+                  <NavThemeToggle />
                   <Button
                     variant="ghost"
                     size="sm"
@@ -167,17 +164,7 @@ export default function Navigation() {
                 </div>
 
                 <div className="flex items-center gap-1 md:hidden">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={toggleTheme}
-                    className="relative h-11 w-11 rounded-md p-0 text-foreground/70 hover:bg-transparent hover:text-foreground"
-                    title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-                    aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-                  >
-                    <Sun className={`h-4 w-4 transition-transform duration-200 ${isDarkMode ? "rotate-90 scale-0" : "rotate-0 scale-100"}`} aria-hidden="true" />
-                    <Moon className={`absolute h-4 w-4 transition-transform duration-200 ${isDarkMode ? "rotate-0 scale-100" : "-rotate-90 scale-0"}`} aria-hidden="true" />
-                  </Button>
+                  <NavThemeToggle />
                   <Button
                     variant="ghost"
                     size="sm"
