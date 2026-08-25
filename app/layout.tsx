@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import SiteAtmosphere from "@/components/site-atmosphere"
 import PointerLight from "@/components/pointer-light"
@@ -121,6 +122,7 @@ export default function RootLayout({
             <SiteAtmosphere />
             {children}
             <Analytics />
+            <SpeedInsights />
           </PageTransitionProvider>
         </ThemeProvider>
       </body>

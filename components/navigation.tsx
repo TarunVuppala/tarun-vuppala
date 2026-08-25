@@ -64,7 +64,7 @@ export default function Navigation() {
     updateNavHeight()
     window.addEventListener("resize", updateNavHeight)
     return () => window.removeEventListener("resize", updateNavHeight)
-  }, [isMobileMenuOpen])
+  }, [])
 
   const handleNavClick = (href: string) => {
     if (href.includes("#")) {

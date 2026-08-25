@@ -244,6 +244,7 @@ export const ThemeToggleButton2 = ({
             r={isDark ? 10 : 8}
           />
           <motion.g
+            initial={false}
             animate={{
               rotate: isDark ? -100 : 0,
               scale: isDark ? 0.5 : 1,

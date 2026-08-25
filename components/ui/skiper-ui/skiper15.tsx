@@ -46,7 +46,7 @@ export function PreLoader_006({
       <div className="w-[min(22rem,calc(100vw-2.5rem))] rounded-[1.35rem] border border-zinc-950/8 bg-white shadow-[0_18px_50px_-24px_rgba(0,0,0,0.28)] dark:border-white/10 dark:bg-zinc-900 dark:shadow-[0_18px_50px_-24px_rgba(0,0,0,0.65)]">
         <div className="flex items-center justify-between px-4 py-3">
           <p className="text-[0.68rem] font-medium uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">
-            Loader
+            Loading...
           </p>
           <span className="flex items-center gap-1" aria-hidden>
             <span className="size-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600" />
