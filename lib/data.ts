@@ -260,7 +260,7 @@ const projectCatalog: Project[] = [
     impact: "Used to present and sell tickets for one college TEDx event.",
     tech: ["Next.js", "MongoDB", "Tailwind", "Framer Motion", "Razorpay"],
     image: "/placeholder.svg",
-    liveUrl: "https://tedx.aceec.ac.in",
+    liveUrl: "https://tedxaceec.vercel.app",
     githubUrl: "https://github.com/tedxaceec/tedxaceec",
     date: "2026",
     featured: true,
